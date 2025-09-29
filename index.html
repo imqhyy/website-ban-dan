@@ -1,0 +1,1683 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <title>Index - NiceShop Bootstrap Template</title>
+  <meta name="description" content="">
+  <meta name="keywords" content="">
+
+  <!-- Favicons -->
+  <link href="assets/img/favicon.png" rel="icon">
+  <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com" rel="preconnect">
+  <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+
+  <!-- Vendor CSS Files -->
+  <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+  <link href="assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
+  <link href="assets/vendor/aos/aos.css" rel="stylesheet">
+  <link href="assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
+  <link href="assets/vendor/drift-zoom/drift-basic.css" rel="stylesheet">
+
+  <!-- Main CSS File -->
+  <link href="assets/css/main.css" rel="stylesheet">
+
+  <!-- =======================================================
+  * Template Name: NiceShop
+  * Template URL: https://bootstrapmade.com/niceshop-bootstrap-ecommerce-template/
+  * Updated: Aug 26 2025 with Bootstrap v5.3.7
+  * Author: BootstrapMade.com
+  * License: https://bootstrapmade.com/license/
+  ======================================================== -->
+</head>
+
+<body class="index-page">
+
+  <header id="header" class="header sticky-top">
+    <!-- Top Bar -->
+    <div class="top-bar py-2">
+      <div class="container-fluid container-xl">
+        <div class="row align-items-center">
+          <div class="col-lg-4 d-none d-lg-flex">
+            <div class="top-bar-item">
+              <i class="bi bi-telephone-fill me-2"></i>
+              <span>Need help? Call us: </span>
+              <a href="tel:+1234567890">+1 (234) 567-890</a>
+            </div>
+          </div>
+
+          <div class="col-lg-4 col-md-12 text-center">
+            <div class="announcement-slider swiper init-swiper">
+              <script type="application/json" class="swiper-config">
+                {
+                  "loop": true,
+                  "speed": 600,
+                  "autoplay": {
+                    "delay": 5000
+                  },
+                  "slidesPerView": 1,
+                  "direction": "vertical",
+                  "effect": "slide"
+                }
+              </script>
+              <div class="swiper-wrapper">
+                <div class="swiper-slide">🚚 Free shipping on orders over $50</div>
+                <div class="swiper-slide">💰 30 days money back guarantee.</div>
+                <div class="swiper-slide">🎁 20% off on your first order</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-4 d-none d-lg-block">
+            <div class="d-flex justify-content-end">
+              <div class="top-bar-item dropdown me-3">
+                <a href="#" class="dropdown-toggle" data-bs-toggle="dropdown">
+                  <i class="bi bi-translate me-2"></i>EN
+                </a>
+                <ul class="dropdown-menu">
+                  <li><a class="dropdown-item" href="#"><i class="bi bi-check2 me-2 selected-icon"></i>English</a></li>
+                  <li><a class="dropdown-item" href="#">Español</a></li>
+                  <li><a class="dropdown-item" href="#">Français</a></li>
+                  <li><a class="dropdown-item" href="#">Deutsch</a></li>
+                </ul>
+              </div>
+              <div class="top-bar-item dropdown">
+                <a href="#" class="dropdown-toggle" data-bs-toggle="dropdown">
+                  <i class="bi bi-currency-dollar me-2"></i>USD
+                </a>
+                <ul class="dropdown-menu">
+                  <li><a class="dropdown-item" href="#"><i class="bi bi-check2 me-2 selected-icon"></i>USD</a></li>
+                  <li><a class="dropdown-item" href="#">EUR</a></li>
+                  <li><a class="dropdown-item" href="#">GBP</a></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Main Header -->
+    <div class="main-header">
+      <div class="container-fluid container-xl">
+        <div class="d-flex py-3 align-items-center justify-content-between">
+
+          <!-- Logo -->
+          <a href="index.html" class="logo d-flex align-items-center">
+            <!-- Uncomment the line below if you also wish to use an image logo -->
+            <!-- <img src="assets/img/logo.webp" alt=""> -->
+            <h1 class="sitename">NiceShop</h1>
+          </a>
+
+          <!-- Search -->
+          <form class="search-form desktop-search-form">
+            <div class="input-group">
+              <input type="text" class="form-control" placeholder="Search for products">
+              <button class="btn" type="submit">
+                <i class="bi bi-search"></i>
+              </button>
+            </div>
+          </form>
+
+          <!-- Actions -->
+          <div class="header-actions d-flex align-items-center justify-content-end">
+
+            <!-- Mobile Search Toggle -->
+            <button class="header-action-btn mobile-search-toggle d-xl-none" type="button" data-bs-toggle="collapse" data-bs-target="#mobileSearch" aria-expanded="false" aria-controls="mobileSearch">
+              <i class="bi bi-search"></i>
+            </button>
+
+            <!-- Account -->
+            <div class="dropdown account-dropdown">
+              <button class="header-action-btn" data-bs-toggle="dropdown">
+                <i class="bi bi-person"></i>
+              </button>
+              <div class="dropdown-menu">
+                <div class="dropdown-header">
+                  <h6>Welcome to <span class="sitename">FashionStore</span></h6>
+                  <p class="mb-0">Access account &amp; manage orders</p>
+                </div>
+                <div class="dropdown-body">
+                  <a class="dropdown-item d-flex align-items-center" href="account.html">
+                    <i class="bi bi-person-circle me-2"></i>
+                    <span>My Profile</span>
+                  </a>
+                  <a class="dropdown-item d-flex align-items-center" href="account.html">
+                    <i class="bi bi-bag-check me-2"></i>
+                    <span>My Orders</span>
+                  </a>
+                  <a class="dropdown-item d-flex align-items-center" href="account.html">
+                    <i class="bi bi-heart me-2"></i>
+                    <span>My Wishlist</span>
+                  </a>
+                  <a class="dropdown-item d-flex align-items-center" href="account.html">
+                    <i class="bi bi-gear me-2"></i>
+                    <span>Settings</span>
+                  </a>
+                </div>
+                <div class="dropdown-footer">
+                  <a href="register.html" class="btn btn-primary w-100 mb-2">Sign In</a>
+                  <a href="login.html" class="btn btn-outline-primary w-100">Register</a>
+                </div>
+              </div>
+            </div>
+
+            <!-- Wishlist -->
+            <a href="account.html" class="header-action-btn d-none d-md-block">
+              <i class="bi bi-heart"></i>
+              <span class="badge">0</span>
+            </a>
+
+            <!-- Cart -->
+            <a href="cart.html" class="header-action-btn">
+              <i class="bi bi-cart3"></i>
+              <span class="badge">3</span>
+            </a>
+
+            <!-- Mobile Navigation Toggle -->
+            <i class="mobile-nav-toggle d-xl-none bi bi-list me-0"></i>
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Navigation -->
+    <div class="header-nav">
+      <div class="container-fluid container-xl position-relative">
+        <nav id="navmenu" class="navmenu">
+          <ul>
+            <li><a href="index.html" class="active">Home</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="category.html">Category</a></li>
+            <li><a href="product-details.html">Product Details</a></li>
+            <li><a href="cart.html">Cart</a></li>
+            <li><a href="checkout.html">Checkout</a></li>
+            <li class="dropdown"><a href="#"><span>Dropdown</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
+              <ul>
+                <li><a href="#">Dropdown 1</a></li>
+                <li class="dropdown"><a href="#"><span>Deep Dropdown</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
+                  <ul>
+                    <li><a href="#">Deep Dropdown 1</a></li>
+                    <li><a href="#">Deep Dropdown 2</a></li>
+                    <li><a href="#">Deep Dropdown 3</a></li>
+                    <li><a href="#">Deep Dropdown 4</a></li>
+                    <li><a href="#">Deep Dropdown 5</a></li>
+                  </ul>
+                </li>
+                <li><a href="#">Dropdown 2</a></li>
+                <li><a href="#">Dropdown 3</a></li>
+                <li><a href="#">Dropdown 4</a></li>
+              </ul>
+            </li>
+
+            <!-- Products Mega Menu 1 -->
+            <li class="products-megamenu-1"><a href="#"><span>Megamenu 1</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
+
+              <!-- Products Mega Menu 1 Mobile View -->
+              <ul class="mobile-megamenu">
+
+                <li><a href="#">Featured Products</a></li>
+                <li><a href="#">New Arrivals</a></li>
+                <li><a href="#">Sale Items</a></li>
+
+                <li class="dropdown"><a href="#"><span>Clothing</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
+                  <ul>
+                    <li><a href="#">Men's Wear</a></li>
+                    <li><a href="#">Women's Wear</a></li>
+                    <li><a href="#">Kids Collection</a></li>
+                    <li><a href="#">Sportswear</a></li>
+                    <li><a href="#">Accessories</a></li>
+                  </ul>
+                </li>
+
+                <li class="dropdown"><a href="#"><span>Electronics</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
+                  <ul>
+                    <li><a href="#">Smartphones</a></li>
+                    <li><a href="#">Laptops</a></li>
+                    <li><a href="#">Audio Devices</a></li>
+                    <li><a href="#">Smart Home</a></li>
+                    <li><a href="#">Accessories</a></li>
+                  </ul>
+                </li>
+
+                <li class="dropdown"><a href="#"><span>Home &amp; Living</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
+                  <ul>
+                    <li><a href="#">Furniture</a></li>
+                    <li><a href="#">Decor</a></li>
+                    <li><a href="#">Kitchen</a></li>
+                    <li><a href="#">Bedding</a></li>
+                    <li><a href="#">Lighting</a></li>
+                  </ul>
+                </li>
+
+                <li class="dropdown"><a href="#"><span>Beauty</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
+                  <ul>
+                    <li><a href="#">Skincare</a></li>
+                    <li><a href="#">Makeup</a></li>
+                    <li><a href="#">Haircare</a></li>
+                    <li><a href="#">Fragrances</a></li>
+                    <li><a href="#">Personal Care</a></li>
+                  </ul>
+                </li>
+
+              </ul><!-- End Products Mega Menu 1 Mobile View -->
+
+              <!-- Products Mega Menu 1 Desktop View -->
+              <div class="desktop-megamenu">
+
+                <div class="megamenu-tabs">
+                  <ul class="nav nav-tabs" id="productMegaMenuTabs" role="tablist">
+                    <li class="nav-item" role="presentation">
+                      <button class="nav-link active" id="featured-tab" data-bs-toggle="tab" data-bs-target="#featured-content-1862" type="button" aria-selected="true" role="tab">Featured</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                      <button class="nav-link" id="new-tab" data-bs-toggle="tab" data-bs-target="#new-content-1862" type="button" aria-selected="false" tabindex="-1" role="tab">New Arrivals</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                      <button class="nav-link" id="sale-tab" data-bs-toggle="tab" data-bs-target="#sale-content-1862" type="button" aria-selected="false" tabindex="-1" role="tab">Sale</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                      <button class="nav-link" id="category-tab" data-bs-toggle="tab" data-bs-target="#category-content-1862" type="button" aria-selected="false" tabindex="-1" role="tab">Categories</button>
+                    </li>
+                  </ul>
+                </div>
+
+                <!-- Tabs Content -->
+                <div class="megamenu-content tab-content">
+
+                  <!-- Featured Tab -->
+                  <div class="tab-pane fade show active" id="featured-content-1862" role="tabpanel" aria-labelledby="featured-tab">
+                    <div class="product-grid">
+                      <div class="product-card">
+                        <div class="product-image">
+                          <img src="assets/img/product/product-1.webp" alt="Featured Product" loading="lazy">
+                        </div>
+                        <div class="product-info">
+                          <h5>Premium Headphones</h5>
+                          <p class="price">$129.99</p>
+                          <a href="#" class="btn-view">View Product</a>
+                        </div>
+                      </div>
+                      <div class="product-card">
+                        <div class="product-image">
+                          <img src="assets/img/product/product-2.webp" alt="Featured Product" loading="lazy">
+                        </div>
+                        <div class="product-info">
+                          <h5>Smart Watch</h5>
+                          <p class="price">$199.99</p>
+                          <a href="#" class="btn-view">View Product</a>
+                        </div>
+                      </div>
+                      <div class="product-card">
+                        <div class="product-image">
+                          <img src="assets/img/product/product-3.webp" alt="Featured Product" loading="lazy">
+                        </div>
+                        <div class="product-info">
+                          <h5>Wireless Earbuds</h5>
+                          <p class="price">$89.99</p>
+                          <a href="#" class="btn-view">View Product</a>
+                        </div>
+                      </div>
+                      <div class="product-card">
+                        <div class="product-image">
+                          <img src="assets/img/product/product-4.webp" alt="Featured Product" loading="lazy">
+                        </div>
+                        <div class="product-info">
+                          <h5>Bluetooth Speaker</h5>
+                          <p class="price">$79.99</p>
+                          <a href="#" class="btn-view">View Product</a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- New Arrivals Tab -->
+                  <div class="tab-pane fade" id="new-content-1862" role="tabpanel" aria-labelledby="new-tab">
+                    <div class="product-grid">
+                      <div class="product-card">
+                        <div class="product-image">
+                          <img src="assets/img/product/product-5.webp" alt="New Arrival" loading="lazy">
+                          <span class="badge-new">New</span>
+                        </div>
+                        <div class="product-info">
+                          <h5>Fitness Tracker</h5>
+                          <p class="price">$69.99</p>
+                          <a href="#" class="btn-view">View Product</a>
+                        </div>
+                      </div>
+                      <div class="product-card">
+                        <div class="product-image">
+                          <img src="assets/img/product/product-6.webp" alt="New Arrival" loading="lazy">
+                          <span class="badge-new">New</span>
+                        </div>
+                        <div class="product-info">
+                          <h5>Wireless Charger</h5>
+                          <p class="price">$39.99</p>
+                          <a href="#" class="btn-view">View Product</a>
+                        </div>
+                      </div>
+                      <div class="product-card">
+                        <div class="product-image">
+                          <img src="assets/img/product/product-7.webp" alt="New Arrival" loading="lazy">
+                          <span class="badge-new">New</span>
+                        </div>
+                        <div class="product-info">
+                          <h5>Smart Bulb Set</h5>
+                          <p class="price">$49.99</p>
+                          <a href="#" class="btn-view">View Product</a>
+                        </div>
+                      </div>
+                      <div class="product-card">
+                        <div class="product-image">
+                          <img src="assets/img/product/product-8.webp" alt="New Arrival" loading="lazy">
+                          <span class="badge-new">New</span>
+                        </div>
+                        <div class="product-info">
+                          <h5>Portable Power Bank</h5>
+                          <p class="price">$59.99</p>
+                          <a href="#" class="btn-view">View Product</a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Sale Tab -->
+                  <div class="tab-pane fade" id="sale-content-1862" role="tabpanel" aria-labelledby="sale-tab">
+                    <div class="product-grid">
+                      <div class="product-card">
+                        <div class="product-image">
+                          <img src="assets/img/product/product-9.webp" alt="Sale Product" loading="lazy">
+                          <span class="badge-sale">-30%</span>
+                        </div>
+                        <div class="product-info">
+                          <h5>Wireless Keyboard</h5>
+                          <p class="price"><span class="original-price">$89.99</span> $62.99</p>
+                          <a href="#" class="btn-view">View Product</a>
+                        </div>
+                      </div>
+                      <div class="product-card">
+                        <div class="product-image">
+                          <img src="assets/img/product/product-10.webp" alt="Sale Product" loading="lazy">
+                          <span class="badge-sale">-25%</span>
+                        </div>
+                        <div class="product-info">
+                          <h5>Gaming Mouse</h5>
+                          <p class="price"><span class="original-price">$59.99</span> $44.99</p>
+                          <a href="#" class="btn-view">View Product</a>
+                        </div>
+                      </div>
+                      <div class="product-card">
+                        <div class="product-image">
+                          <img src="assets/img/product/product-11.webp" alt="Sale Product" loading="lazy">
+                          <span class="badge-sale">-40%</span>
+                        </div>
+                        <div class="product-info">
+                          <h5>Desk Lamp</h5>
+                          <p class="price"><span class="original-price">$49.99</span> $29.99</p>
+                          <a href="#" class="btn-view">View Product</a>
+                        </div>
+                      </div>
+                      <div class="product-card">
+                        <div class="product-image">
+                          <img src="assets/img/product/product-12.webp" alt="Sale Product" loading="lazy">
+                          <span class="badge-sale">-20%</span>
+                        </div>
+                        <div class="product-info">
+                          <h5>USB-C Hub</h5>
+                          <p class="price"><span class="original-price">$39.99</span> $31.99</p>
+                          <a href="#" class="btn-view">View Product</a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Categories Tab -->
+                  <div class="tab-pane fade" id="category-content-1862" role="tabpanel" aria-labelledby="category-tab">
+                    <div class="category-grid">
+                      <div class="category-column">
+                        <h4>Clothing</h4>
+                        <ul>
+                          <li><a href="#">Men's Wear</a></li>
+                          <li><a href="#">Women's Wear</a></li>
+                          <li><a href="#">Kids Collection</a></li>
+                          <li><a href="#">Sportswear</a></li>
+                          <li><a href="#">Accessories</a></li>
+                        </ul>
+                      </div>
+                      <div class="category-column">
+                        <h4>Electronics</h4>
+                        <ul>
+                          <li><a href="#">Smartphones</a></li>
+                          <li><a href="#">Laptops</a></li>
+                          <li><a href="#">Audio Devices</a></li>
+                          <li><a href="#">Smart Home</a></li>
+                          <li><a href="#">Accessories</a></li>
+                        </ul>
+                      </div>
+                      <div class="category-column">
+                        <h4>Home &amp; Living</h4>
+                        <ul>
+                          <li><a href="#">Furniture</a></li>
+                          <li><a href="#">Decor</a></li>
+                          <li><a href="#">Kitchen</a></li>
+                          <li><a href="#">Bedding</a></li>
+                          <li><a href="#">Lighting</a></li>
+                        </ul>
+                      </div>
+                      <div class="category-column">
+                        <h4>Beauty</h4>
+                        <ul>
+                          <li><a href="#">Skincare</a></li>
+                          <li><a href="#">Makeup</a></li>
+                          <li><a href="#">Haircare</a></li>
+                          <li><a href="#">Fragrances</a></li>
+                          <li><a href="#">Personal Care</a></li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+
+              </div><!-- End Products Mega Menu 1 Desktop View -->
+
+            </li><!-- End Products Mega Menu 1 -->
+            <!-- Products Mega Menu 2 -->
+            <li class="products-megamenu-2"><a href="#"><span>Megamenu 2</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
+
+              <!-- Products Mega Menu 2 Mobile View -->
+              <ul class="mobile-megamenu">
+
+                <li><a href="#">Women</a></li>
+                <li><a href="#">Men</a></li>
+                <li><a href="#">Kids'</a></li>
+
+                <li class="dropdown"><a href="#"><span>Clothing</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
+                  <ul>
+                    <li><a href="#">Shirts &amp; Tops</a></li>
+                    <li><a href="#">Coats &amp; Outerwear</a></li>
+                    <li><a href="#">Underwear</a></li>
+                    <li><a href="#">Sweatshirts</a></li>
+                    <li><a href="#">Dresses</a></li>
+                    <li><a href="#">Swimwear</a></li>
+                  </ul>
+                </li>
+
+                <li class="dropdown"><a href="#"><span>Shoes</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
+                  <ul>
+                    <li><a href="#">Boots</a></li>
+                    <li><a href="#">Sandals</a></li>
+                    <li><a href="#">Heels</a></li>
+                    <li><a href="#">Loafers</a></li>
+                    <li><a href="#">Slippers</a></li>
+                    <li><a href="#">Oxfords</a></li>
+                  </ul>
+                </li>
+
+                <li class="dropdown"><a href="#"><span>Accessories</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
+                  <ul>
+                    <li><a href="#">Handbags</a></li>
+                    <li><a href="#">Eyewear</a></li>
+                    <li><a href="#">Hats</a></li>
+                    <li><a href="#">Watches</a></li>
+                    <li><a href="#">Jewelry</a></li>
+                    <li><a href="#">Belts</a></li>
+                  </ul>
+                </li>
+
+                <li class="dropdown"><a href="#"><span>Specialty Sizes</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
+                  <ul>
+                    <li><a href="#">Plus Size</a></li>
+                    <li><a href="#">Petite</a></li>
+                    <li><a href="#">Wide Shoes</a></li>
+                    <li><a href="#">Narrow Shoes</a></li>
+                  </ul>
+                </li>
+
+              </ul><!-- End Products Mega Menu 2 Mobile View -->
+
+              <!-- Products Mega Menu 2 Desktop View -->
+              <div class="desktop-megamenu">
+
+                <div class="megamenu-tabs">
+                  <ul class="nav nav-tabs" role="tablist">
+                    <li class="nav-item" role="presentation">
+                      <button class="nav-link active" id="womens-tab" data-bs-toggle="tab" data-bs-target="#womens-content-1883" type="button" aria-selected="true" role="tab">WOMEN</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                      <button class="nav-link" id="mens-tab" data-bs-toggle="tab" data-bs-target="#mens-content-1883" type="button" aria-selected="false" tabindex="-1" role="tab">MEN</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                      <button class="nav-link" id="kids-tab" data-bs-toggle="tab" data-bs-target="#kids-content-1883" type="button" aria-selected="false" tabindex="-1" role="tab">KIDS</button>
+                    </li>
+                  </ul>
+                </div>
+
+                <!-- Tabs Content -->
+                <div class="megamenu-content tab-content">
+
+                  <!-- Women Tab -->
+                  <div class="tab-pane fade show active" id="womens-content-1883" role="tabpanel" aria-labelledby="womens-tab">
+                    <div class="category-layout">
+                      <div class="categories-section">
+                        <div class="category-headers">
+                          <h4>Clothing</h4>
+                          <h4>Shoes</h4>
+                          <h4>Accessories</h4>
+                          <h4>Specialty Sizes</h4>
+                        </div>
+
+                        <div class="category-links">
+                          <div class="link-row">
+                            <a href="#">Shirts &amp; Tops</a>
+                            <a href="#">Boots</a>
+                            <a href="#">Handbags</a>
+                            <a href="#">Plus Size</a>
+                          </div>
+                          <div class="link-row">
+                            <a href="#">Coats &amp; Outerwear</a>
+                            <a href="#">Sandals</a>
+                            <a href="#">Eyewear</a>
+                            <a href="#">Petite</a>
+                          </div>
+                          <div class="link-row">
+                            <a href="#">Underwear</a>
+                            <a href="#">Heels</a>
+                            <a href="#">Hats</a>
+                            <a href="#">Wide Shoes</a>
+                          </div>
+                          <div class="link-row">
+                            <a href="#">Sweatshirts</a>
+                            <a href="#">Loafers</a>
+                            <a href="#">Watches</a>
+                            <a href="#">Narrow Shoes</a>
+                          </div>
+                          <div class="link-row">
+                            <a href="#">Dresses</a>
+                            <a href="#">Slippers</a>
+                            <a href="#">Jewelry</a>
+                            <a href="#"></a>
+                          </div>
+                          <div class="link-row">
+                            <a href="#">Swimwear</a>
+                            <a href="#">Oxfords</a>
+                            <a href="#">Belts</a>
+                            <a href="#"></a>
+                          </div>
+                          <div class="link-row">
+                            <a href="#">View all</a>
+                            <a href="#">View all</a>
+                            <a href="#">View all</a>
+                            <a href="#"></a>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="featured-section">
+                        <div class="featured-image">
+                          <img src="assets/img/product/product-f-1.webp" alt="Women's Heels Collection">
+                          <div class="featured-content">
+                            <h3>Women's<br>Bags<br>Collection</h3>
+                            <a href="#" class="btn-shop">Shop now</a>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Men Tab -->
+                  <div class="tab-pane fade" id="mens-content-1883" role="tabpanel" aria-labelledby="mens-tab">
+                    <div class="category-layout">
+                      <div class="categories-section">
+                        <div class="category-headers">
+                          <h4>Clothing</h4>
+                          <h4>Shoes</h4>
+                          <h4>Accessories</h4>
+                          <h4>Specialty Sizes</h4>
+                        </div>
+
+                        <div class="category-links">
+                          <div class="link-row">
+                            <a href="#">Shirts &amp; Polos</a>
+                            <a href="#">Sneakers</a>
+                            <a href="#">Watches</a>
+                            <a href="#">Big &amp; Tall</a>
+                          </div>
+                          <div class="link-row">
+                            <a href="#">Jackets &amp; Coats</a>
+                            <a href="#">Boots</a>
+                            <a href="#">Belts</a>
+                            <a href="#">Slim Fit</a>
+                          </div>
+                          <div class="link-row">
+                            <a href="#">Underwear</a>
+                            <a href="#">Loafers</a>
+                            <a href="#">Ties</a>
+                            <a href="#">Wide Shoes</a>
+                          </div>
+                          <div class="link-row">
+                            <a href="#">Hoodies</a>
+                            <a href="#">Dress Shoes</a>
+                            <a href="#">Wallets</a>
+                            <a href="#">Extended Sizes</a>
+                          </div>
+                          <div class="link-row">
+                            <a href="#">Suits</a>
+                            <a href="#">Sandals</a>
+                            <a href="#">Sunglasses</a>
+                            <a href="#"></a>
+                          </div>
+                          <div class="link-row">
+                            <a href="#">Activewear</a>
+                            <a href="#">Slippers</a>
+                            <a href="#">Hats</a>
+                            <a href="#"></a>
+                          </div>
+                          <div class="link-row">
+                            <a href="#">View all</a>
+                            <a href="#">View all</a>
+                            <a href="#">View all</a>
+                            <a href="#"></a>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="featured-section">
+                        <div class="featured-image">
+                          <img src="assets/img/product/product-m-4.webp" alt="Men's Footwear Collection">
+                          <div class="featured-content">
+                            <h3>Men's<br>Footwear<br>Collection</h3>
+                            <a href="#" class="btn-shop">Shop now</a>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Kids Tab -->
+                  <div class="tab-pane fade" id="kids-content-1883" role="tabpanel" aria-labelledby="kids-tab">
+                    <div class="category-layout">
+                      <div class="categories-section">
+                        <div class="category-headers">
+                          <h4>Clothing</h4>
+                          <h4>Shoes</h4>
+                          <h4>Accessories</h4>
+                          <h4>By Age</h4>
+                        </div>
+
+                        <div class="category-links">
+                          <div class="link-row">
+                            <a href="#">T-shirts &amp; Tops</a>
+                            <a href="#">Sneakers</a>
+                            <a href="#">Backpacks</a>
+                            <a href="#">Babies (0-24 months)</a>
+                          </div>
+                          <div class="link-row">
+                            <a href="#">Outerwear</a>
+                            <a href="#">Boots</a>
+                            <a href="#">Hats &amp; Caps</a>
+                            <a href="#">Toddlers (2-4 years)</a>
+                          </div>
+                          <div class="link-row">
+                            <a href="#">Pajamas</a>
+                            <a href="#">Sandals</a>
+                            <a href="#">Socks</a>
+                            <a href="#">Kids (4-7 years)</a>
+                          </div>
+                          <div class="link-row">
+                            <a href="#">Sweatshirts</a>
+                            <a href="#">Slippers</a>
+                            <a href="#">Gloves</a>
+                            <a href="#">Older Kids (8-14 years)</a>
+                          </div>
+                          <div class="link-row">
+                            <a href="#">Dresses</a>
+                            <a href="#">School Shoes</a>
+                            <a href="#">Scarves</a>
+                            <a href="#"></a>
+                          </div>
+                          <div class="link-row">
+                            <a href="#">Swimwear</a>
+                            <a href="#">Sports Shoes</a>
+                            <a href="#">Hair Accessories</a>
+                            <a href="#"></a>
+                          </div>
+                          <div class="link-row">
+                            <a href="#">View all</a>
+                            <a href="#">View all</a>
+                            <a href="#">View all</a>
+                            <a href="#"></a>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="featured-section">
+                        <div class="featured-image">
+                          <img src="assets/img/product/product-9.webp" alt="Kids' New Arrivals">
+                          <div class="featured-content">
+                            <h3>Kids<br>New<br>Arrivals</h3>
+                            <a href="#" class="btn-shop">Shop now</a>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+
+              </div><!-- End Products Mega Menu 2 Desktop View -->
+
+            </li><!-- End Products Mega Menu 2 -->
+
+            <li><a href="contact.html">Contact</a></li>
+
+          </ul>
+        </nav>
+      </div>
+    </div>
+
+    <!-- Mobile Search Form -->
+    <div class="collapse" id="mobileSearch">
+      <div class="container">
+        <form class="search-form">
+          <div class="input-group">
+            <input type="text" class="form-control" placeholder="Search for products">
+            <button class="btn" type="submit">
+              <i class="bi bi-search"></i>
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+  </header>
+
+  <main class="main">
+
+    <!-- Hero Section -->
+    <section id="hero" class="hero section">
+
+      <div class="hero-container">
+        <div class="hero-content">
+          <div class="content-wrapper" data-aos="fade-up" data-aos-delay="100">
+            <h1 class="hero-title">Discover Amazing Products</h1>
+            <p class="hero-description">Explore our curated collection of premium items designed to enhance your lifestyle. From fashion to tech, find everything you need with exclusive deals and fast shipping.</p>
+            <div class="hero-actions" data-aos="fade-up" data-aos-delay="200">
+              <a href="#products" class="btn-primary">Shop Now</a>
+              <a href="#categories" class="btn-secondary">Browse Categories</a>
+            </div>
+            <div class="features-list" data-aos="fade-up" data-aos-delay="300">
+              <div class="feature-item">
+                <i class="bi bi-truck"></i>
+                <span>Free Shipping</span>
+              </div>
+              <div class="feature-item">
+                <i class="bi bi-award"></i>
+                <span>Quality Guarantee</span>
+              </div>
+              <div class="feature-item">
+                <i class="bi bi-headset"></i>
+                <span>24/7 Support</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="hero-visuals">
+          <div class="product-showcase" data-aos="fade-left" data-aos-delay="200">
+            <div class="product-card featured">
+              <img src="assets/img/product/product-2.webp" alt="Featured Product" class="img-fluid">
+              <div class="product-badge">Best Seller</div>
+              <div class="product-info">
+                <h4>Premium Wireless Headphones</h4>
+                <div class="price">
+                  <span class="sale-price">$299</span>
+                  <span class="original-price">$399</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="product-grid">
+              <div class="product-mini" data-aos="zoom-in" data-aos-delay="400">
+                <img src="assets/img/product/product-3.webp" alt="Product" class="img-fluid">
+                <span class="mini-price">$89</span>
+              </div>
+              <div class="product-mini" data-aos="zoom-in" data-aos-delay="500">
+                <img src="assets/img/product/product-5.webp" alt="Product" class="img-fluid">
+                <span class="mini-price">$149</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="floating-elements">
+            <div class="floating-icon cart" data-aos="fade-up" data-aos-delay="600">
+              <i class="bi bi-cart3"></i>
+              <span class="notification-dot">3</span>
+            </div>
+            <div class="floating-icon wishlist" data-aos="fade-up" data-aos-delay="700">
+              <i class="bi bi-heart"></i>
+            </div>
+            <div class="floating-icon search" data-aos="fade-up" data-aos-delay="800">
+              <i class="bi bi-search"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </section><!-- /Hero Section -->
+
+    <!-- Promo Cards Section -->
+    <section id="promo-cards" class="promo-cards section">
+      <div class="container" data-aos="fade-up" data-aos-delay="100">
+        <div class="row gy-4">
+
+          <div class="col-lg-6">
+            <div class="category-featured" data-aos="fade-right" data-aos-delay="200">
+              <div class="category-image">
+                <img src="assets/img/product/product-f-2.webp" alt="Women's Collection" class="img-fluid">
+              </div>
+              <div class="category-content">
+                <span class="category-tag">Trending Now</span>
+                <h2>New Summer Collection</h2>
+                <p>Discover our latest arrivals designed for the modern lifestyle. Elegant, comfortable, and sustainable fashion for every occasion.</p>
+                <a href="#" class="btn-shop">Explore Collection <i class="bi bi-arrow-right"></i></a>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-6">
+
+            <div class="row gy-4">
+
+              <div class="col-xl-6">
+                <div class="category-card cat-men" data-aos="fade-up" data-aos-delay="300">
+                  <div class="category-image">
+                    <img src="assets/img/product/product-m-5.webp" alt="Men's Fashion" class="img-fluid">
+                  </div>
+                  <div class="category-content">
+                    <h4>Men's Wear</h4>
+                    <p>242 products</p>
+                    <a href="#" class="card-link">Shop Now <i class="bi bi-arrow-right"></i></a>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-xl-6">
+                <div class="category-card cat-kids" data-aos="fade-up" data-aos-delay="400">
+                  <div class="category-image">
+                    <img src="assets/img/product/product-8.webp" alt="Kid's Fashion" class="img-fluid">
+                  </div>
+                  <div class="category-content">
+                    <h4>Kid's Fashion</h4>
+                    <p>185 products</p>
+                    <a href="#" class="card-link">Shop Now <i class="bi bi-arrow-right"></i></a>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-xl-6">
+                <div class="category-card cat-cosmetics" data-aos="fade-up" data-aos-delay="500">
+                  <div class="category-image">
+                    <img src="assets/img/product/product-3.webp" alt="Cosmetics" class="img-fluid">
+                  </div>
+                  <div class="category-content">
+                    <h4>Beauty Products</h4>
+                    <p>127 products</p>
+                    <a href="#" class="card-link">Shop Now <i class="bi bi-arrow-right"></i></a>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-xl-6">
+                <div class="category-card cat-accessories" data-aos="fade-up" data-aos-delay="600">
+                  <div class="category-image">
+                    <img src="assets/img/product/product-12.webp" alt="Accessories" class="img-fluid">
+                  </div>
+                  <div class="category-content">
+                    <h4>Accessories</h4>
+                    <p>308 products</p>
+                    <a href="#" class="card-link">Shop Now <i class="bi bi-arrow-right"></i></a>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </section><!-- /Promo Cards Section -->
+
+    <!-- Best Sellers Section -->
+    <section id="best-sellers" class="best-sellers section">
+
+      <!-- Section Title -->
+      <div class="container section-title" data-aos="fade-up">
+        <h2>Best Sellers</h2>
+        <p>Necessitatibus eius consequatur ex aliquid fuga eum quidem sint consectetur velit</p>
+      </div><!-- End Section Title -->
+
+      <div class="container" data-aos="fade-up" data-aos-delay="100">
+
+        <div class="row g-5">
+
+          <!-- Product 1 -->
+          <div class="col-lg-3 col-md-6">
+            <div class="product-item">
+              <div class="product-image">
+                <div class="product-badge">Limited</div>
+                <img src="assets/img/product/product-1.webp" alt="Product Image" class="img-fluid" loading="lazy">
+                <div class="product-actions">
+                  <button class="action-btn wishlist-btn">
+                    <i class="bi bi-heart"></i>
+                  </button>
+                  <button class="action-btn compare-btn">
+                    <i class="bi bi-arrow-left-right"></i>
+                  </button>
+                  <button class="action-btn quickview-btn">
+                    <i class="bi bi-zoom-in"></i>
+                  </button>
+                </div>
+                <button class="cart-btn">Select Options</button>
+              </div>
+              <div class="product-info">
+                <div class="product-category">Premium Collection</div>
+                <h4 class="product-name"><a href="product-details.html">Mauris blandit aliquet elit</a></h4>
+                <div class="product-rating">
+                  <div class="stars">
+                    <i class="bi bi-star-fill"></i>
+                    <i class="bi bi-star-fill"></i>
+                    <i class="bi bi-star-fill"></i>
+                    <i class="bi bi-star-fill"></i>
+                    <i class="bi bi-star"></i>
+                  </div>
+                  <span class="rating-count">(24)</span>
+                </div>
+                <div class="product-price">$189.00</div>
+                <div class="color-swatches">
+                  <span class="swatch active" style="background-color: #2563eb;"></span>
+                  <span class="swatch" style="background-color: #059669;"></span>
+                  <span class="swatch" style="background-color: #dc2626;"></span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- End Product 1 -->
+
+          <!-- Product 2 -->
+          <div class="col-lg-3 col-md-6">
+            <div class="product-item">
+              <div class="product-image">
+                <div class="product-badge sale-badge">25% Off</div>
+                <img src="assets/img/product/product-4.webp" alt="Product Image" class="img-fluid" loading="lazy">
+                <div class="product-actions">
+                  <button class="action-btn wishlist-btn">
+                    <i class="bi bi-heart"></i>
+                  </button>
+                  <button class="action-btn compare-btn">
+                    <i class="bi bi-arrow-left-right"></i>
+                  </button>
+                  <button class="action-btn quickview-btn">
+                    <i class="bi bi-zoom-in"></i>
+                  </button>
+                </div>
+                <button class="cart-btn">Add to Cart</button>
+              </div>
+              <div class="product-info">
+                <div class="product-category">Best Sellers</div>
+                <h4 class="product-name"><a href="product-details.html">Sed do eiusmod tempor incididunt</a></h4>
+                <div class="product-rating">
+                  <div class="stars">
+                    <i class="bi bi-star-fill"></i>
+                    <i class="bi bi-star-fill"></i>
+                    <i class="bi bi-star-fill"></i>
+                    <i class="bi bi-star-fill"></i>
+                    <i class="bi bi-star-half"></i>
+                  </div>
+                  <span class="rating-count">(38)</span>
+                </div>
+                <div class="product-price">
+                  <span class="old-price">$240.00</span>
+                  <span class="current-price">$180.00</span>
+                </div>
+                <div class="color-swatches">
+                  <span class="swatch active" style="background-color: #1f2937;"></span>
+                  <span class="swatch" style="background-color: #f59e0b;"></span>
+                  <span class="swatch" style="background-color: #8b5cf6;"></span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- End Product 2 -->
+
+          <!-- Product 3 -->
+          <div class="col-lg-3 col-md-6">
+            <div class="product-item">
+              <div class="product-image">
+                <img src="assets/img/product/product-7.webp" alt="Product Image" class="img-fluid" loading="lazy">
+                <div class="product-actions">
+                  <button class="action-btn wishlist-btn">
+                    <i class="bi bi-heart"></i>
+                  </button>
+                  <button class="action-btn compare-btn">
+                    <i class="bi bi-arrow-left-right"></i>
+                  </button>
+                  <button class="action-btn quickview-btn">
+                    <i class="bi bi-zoom-in"></i>
+                  </button>
+                </div>
+                <button class="cart-btn">Add to Cart</button>
+              </div>
+              <div class="product-info">
+                <div class="product-category">New Arrivals</div>
+                <h4 class="product-name"><a href="product-details.html">Lorem ipsum dolor sit amet consectetur</a></h4>
+                <div class="product-rating">
+                  <div class="stars">
+                    <i class="bi bi-star-fill"></i>
+                    <i class="bi bi-star-fill"></i>
+                    <i class="bi bi-star-fill"></i>
+                    <i class="bi bi-star"></i>
+                    <i class="bi bi-star"></i>
+                  </div>
+                  <span class="rating-count">(12)</span>
+                </div>
+                <div class="product-price">$95.00</div>
+                <div class="color-swatches">
+                  <span class="swatch active" style="background-color: #ef4444;"></span>
+                  <span class="swatch" style="background-color: #06b6d4;"></span>
+                  <span class="swatch" style="background-color: #10b981;"></span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- End Product 3 -->
+
+          <!-- Product 4 -->
+          <div class="col-lg-3 col-md-6">
+            <div class="product-item">
+              <div class="product-image">
+                <div class="product-badge trending-badge">Trending</div>
+                <img src="assets/img/product/product-10.webp" alt="Product Image" class="img-fluid" loading="lazy">
+                <div class="product-actions">
+                  <button class="action-btn wishlist-btn active">
+                    <i class="bi bi-heart-fill"></i>
+                  </button>
+                  <button class="action-btn compare-btn">
+                    <i class="bi bi-arrow-left-right"></i>
+                  </button>
+                  <button class="action-btn quickview-btn">
+                    <i class="bi bi-zoom-in"></i>
+                  </button>
+                </div>
+                <button class="cart-btn">Add to Cart</button>
+              </div>
+              <div class="product-info">
+                <div class="product-category">Designer Series</div>
+                <h4 class="product-name"><a href="product-details.html">Ut enim ad minim veniam quis</a></h4>
+                <div class="product-rating">
+                  <div class="stars">
+                    <i class="bi bi-star-fill"></i>
+                    <i class="bi bi-star-fill"></i>
+                    <i class="bi bi-star-fill"></i>
+                    <i class="bi bi-star-fill"></i>
+                    <i class="bi bi-star-fill"></i>
+                  </div>
+                  <span class="rating-count">(56)</span>
+                </div>
+                <div class="product-price">$165.00</div>
+                <div class="color-swatches">
+                  <span class="swatch" style="background-color: #64748b;"></span>
+                  <span class="swatch active" style="background-color: #7c3aed;"></span>
+                  <span class="swatch" style="background-color: #f59e0b;"></span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- End Product 4 -->
+
+        </div>
+
+      </div>
+
+    </section><!-- /Best Sellers Section -->
+
+    <!-- Cards Section -->
+    <section id="cards" class="cards section">
+
+      <div class="container" data-aos="fade-up" data-aos-delay="100">
+
+        <div class="row gy-4">
+          <div class="col-lg-4 col-md-6 mb-5 mb-md-0" data-aos="fade-up" data-aos-delay="200">
+            <div class="product-category">
+              <h3 class="category-title">
+                <i class="bi bi-fire"></i> Trending Now
+              </h3>
+              <div class="product-list">
+                <div class="product-card">
+                  <div class="product-image">
+                    <img src="assets/img/product/product-1.webp" alt="Premium Leather Tote" class="img-fluid">
+                    <div class="product-badges">
+                      <span class="badge-new">New</span>
+                    </div>
+                  </div>
+                  <div class="product-info">
+                    <h4 class="product-name">Premium Leather Tote</h4>
+                    <div class="product-rating">
+                      <i class="bi bi-star-fill"></i>
+                      <i class="bi bi-star-fill"></i>
+                      <i class="bi bi-star-fill"></i>
+                      <i class="bi bi-star-fill"></i>
+                      <i class="bi bi-star-half"></i>
+                      <span>(24)</span>
+                    </div>
+                    <div class="product-price">
+                      <span class="current-price">$87.50</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="product-card">
+                  <div class="product-image">
+                    <img src="assets/img/product/product-3.webp" alt="Statement Earrings" class="img-fluid">
+                  </div>
+                  <div class="product-info">
+                    <h4 class="product-name">Statement Earrings</h4>
+                    <div class="product-rating">
+                      <i class="bi bi-star-fill"></i>
+                      <i class="bi bi-star-fill"></i>
+                      <i class="bi bi-star-fill"></i>
+                      <i class="bi bi-star-fill"></i>
+                      <i class="bi bi-star-fill"></i>
+                      <span>(41)</span>
+                    </div>
+                    <div class="product-price">
+                      <span class="current-price">$39.99</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="product-card">
+                  <div class="product-image">
+                    <img src="assets/img/product/product-5.webp" alt="Organic Cotton Shirt" class="img-fluid">
+                  </div>
+                  <div class="product-info">
+                    <h4 class="product-name">Organic Cotton Shirt</h4>
+                    <div class="product-rating">
+                      <i class="bi bi-star-fill"></i>
+                      <i class="bi bi-star-fill"></i>
+                      <i class="bi bi-star-fill"></i>
+                      <i class="bi bi-star-fill"></i>
+                      <i class="bi bi-star"></i>
+                      <span>(18)</span>
+                    </div>
+                    <div class="product-price">
+                      <span class="current-price">$45.00</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-4 col-md-6 mb-5 mb-md-0" data-aos="fade-up" data-aos-delay="300">
+            <div class="product-category">
+              <h3 class="category-title">
+                <i class="bi bi-award"></i> Best Sellers
+              </h3>
+              <div class="product-list">
+                <div class="product-card">
+                  <div class="product-image">
+                    <img src="assets/img/product/product-2.webp" alt="Slim Fit Denim" class="img-fluid">
+                    <div class="product-badges">
+                      <span class="badge-sale">-15%</span>
+                    </div>
+                  </div>
+                  <div class="product-info">
+                    <h4 class="product-name">Slim Fit Denim</h4>
+                    <div class="product-rating">
+                      <i class="bi bi-star-fill"></i>
+                      <i class="bi bi-star-fill"></i>
+                      <i class="bi bi-star-fill"></i>
+                      <i class="bi bi-star-fill"></i>
+                      <i class="bi bi-star-fill"></i>
+                      <span>(87)</span>
+                    </div>
+                    <div class="product-price">
+                      <span class="current-price">$68.00</span>
+                      <span class="old-price">$80.00</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="product-card">
+                  <div class="product-image">
+                    <img src="assets/img/product/product-6.webp" alt="Designer Handbag" class="img-fluid">
+                  </div>
+                  <div class="product-info">
+                    <h4 class="product-name">Designer Handbag</h4>
+                    <div class="product-rating">
+                      <i class="bi bi-star-fill"></i>
+                      <i class="bi bi-star-fill"></i>
+                      <i class="bi bi-star-fill"></i>
+                      <i class="bi bi-star-fill"></i>
+                      <i class="bi bi-star-half"></i>
+                      <span>(56)</span>
+                    </div>
+                    <div class="product-price">
+                      <span class="current-price">$129.99</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="product-card">
+                  <div class="product-image">
+                    <img src="assets/img/product/product-8.webp" alt="Leather Crossbody" class="img-fluid">
+                    <div class="product-badges">
+                      <span class="badge-hot">Hot</span>
+                    </div>
+                  </div>
+                  <div class="product-info">
+                    <h4 class="product-name">Leather Crossbody</h4>
+                    <div class="product-rating">
+                      <i class="bi bi-star-fill"></i>
+                      <i class="bi bi-star-fill"></i>
+                      <i class="bi bi-star-fill"></i>
+                      <i class="bi bi-star-fill"></i>
+                      <i class="bi bi-star-fill"></i>
+                      <span>(112)</span>
+                    </div>
+                    <div class="product-price">
+                      <span class="current-price">$95.50</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-4 col-md-6 mb-5 mb-md-0" data-aos="fade-up" data-aos-delay="400">
+            <div class="product-category">
+              <h3 class="category-title">
+                <i class="bi bi-star"></i> Featured Items
+              </h3>
+              <div class="product-list">
+                <div class="product-card">
+                  <div class="product-image">
+                    <img src="assets/img/product/product-7.webp" alt="Pleated Midi Skirt" class="img-fluid">
+                  </div>
+                  <div class="product-info">
+                    <h4 class="product-name">Pleated Midi Skirt</h4>
+                    <div class="product-rating">
+                      <i class="bi bi-star-fill"></i>
+                      <i class="bi bi-star-fill"></i>
+                      <i class="bi bi-star-fill"></i>
+                      <i class="bi bi-star-fill"></i>
+                      <i class="bi bi-star"></i>
+                      <span>(32)</span>
+                    </div>
+                    <div class="product-price">
+                      <span class="current-price">$75.00</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="product-card">
+                  <div class="product-image">
+                    <img src="assets/img/product/product-4.webp" alt="Geometric Earrings" class="img-fluid">
+                    <div class="product-badges">
+                      <span class="badge-limited">Limited</span>
+                    </div>
+                  </div>
+                  <div class="product-info">
+                    <h4 class="product-name">Geometric Earrings</h4>
+                    <div class="product-rating">
+                      <i class="bi bi-star-fill"></i>
+                      <i class="bi bi-star-fill"></i>
+                      <i class="bi bi-star-fill"></i>
+                      <i class="bi bi-star-fill"></i>
+                      <i class="bi bi-star-half"></i>
+                      <span>(47)</span>
+                    </div>
+                    <div class="product-price">
+                      <span class="current-price">$42.99</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="product-card">
+                  <div class="product-image">
+                    <img src="assets/img/product/product-9.webp" alt="Structured Satchel" class="img-fluid">
+                  </div>
+                  <div class="product-info">
+                    <h4 class="product-name">Structured Satchel</h4>
+                    <div class="product-rating">
+                      <i class="bi bi-star-fill"></i>
+                      <i class="bi bi-star-fill"></i>
+                      <i class="bi bi-star-fill"></i>
+                      <i class="bi bi-star-fill"></i>
+                      <i class="bi bi-star-fill"></i>
+                      <span>(64)</span>
+                    </div>
+                    <div class="product-price">
+                      <span class="current-price">$89.99</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </section><!-- /Cards Section -->
+
+    <!-- Call To Action Section -->
+    <section id="call-to-action" class="call-to-action section">
+
+      <div class="container" data-aos="fade-up" data-aos-delay="100">
+
+        <div class="row">
+          <div class="col-lg-8 mx-auto">
+            <div class="main-content text-center" data-aos="zoom-in" data-aos-delay="200">
+              <div class="offer-badge" data-aos="fade-down" data-aos-delay="250">
+                <span class="limited-time">Limited Time</span>
+                <span class="offer-text">50% OFF</span>
+              </div>
+
+              <h2 data-aos="fade-up" data-aos-delay="300">Exclusive Flash Sale</h2>
+
+              <p class="subtitle" data-aos="fade-up" data-aos-delay="350">Don't miss out on our biggest sale of the year. Premium quality products at unbeatable prices for the next 48 hours only.</p>
+
+              <div class="countdown-wrapper" data-aos="fade-up" data-aos-delay="400">
+                <div class="countdown d-flex justify-content-center" data-count="2025/12/31">
+                  <div>
+                    <h3 class="count-days"></h3>
+                    <h4>Days</h4>
+                  </div>
+                  <div>
+                    <h3 class="count-hours"></h3>
+                    <h4>Hours</h4>
+                  </div>
+                  <div>
+                    <h3 class="count-minutes"></h3>
+                    <h4>Minutes</h4>
+                  </div>
+                  <div>
+                    <h3 class="count-seconds"></h3>
+                    <h4>Seconds</h4>
+                  </div>
+                </div>
+              </div>
+
+              <div class="action-buttons" data-aos="fade-up" data-aos-delay="450">
+                <a href="#" class="btn-shop-now">Shop Now</a>
+                <a href="#" class="btn-view-deals">View All Deals</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row featured-products-row" data-aos="fade-up" data-aos-delay="500">
+          <div class="col-lg-3 col-md-6" data-aos="zoom-in" data-aos-delay="100">
+            <div class="product-showcase">
+              <div class="product-image">
+                <img src="assets/img/product/product-5.webp" alt="Featured Product" class="img-fluid">
+                <div class="discount-badge">-45%</div>
+              </div>
+              <div class="product-details">
+                <h6>Premium Wireless Headphones</h6>
+                <div class="price-section">
+                  <span class="original-price">$129</span>
+                  <span class="sale-price">$71</span>
+                </div>
+                <div class="rating-stars">
+                  <i class="bi bi-star-fill"></i>
+                  <i class="bi bi-star-fill"></i>
+                  <i class="bi bi-star-fill"></i>
+                  <i class="bi bi-star-fill"></i>
+                  <i class="bi bi-star-fill"></i>
+                  <span class="rating-count">(324)</span>
+                </div>
+              </div>
+            </div>
+          </div><!-- End Product Showcase -->
+
+          <div class="col-lg-3 col-md-6" data-aos="zoom-in" data-aos-delay="150">
+            <div class="product-showcase">
+              <div class="product-image">
+                <img src="assets/img/product/product-7.webp" alt="Featured Product" class="img-fluid">
+                <div class="discount-badge">-60%</div>
+              </div>
+              <div class="product-details">
+                <h6>Smart Fitness Tracker</h6>
+                <div class="price-section">
+                  <span class="original-price">$89</span>
+                  <span class="sale-price">$36</span>
+                </div>
+                <div class="rating-stars">
+                  <i class="bi bi-star-fill"></i>
+                  <i class="bi bi-star-fill"></i>
+                  <i class="bi bi-star-fill"></i>
+                  <i class="bi bi-star-fill"></i>
+                  <i class="bi bi-star-half"></i>
+                  <span class="rating-count">(198)</span>
+                </div>
+              </div>
+            </div>
+          </div><!-- End Product Showcase -->
+
+          <div class="col-lg-3 col-md-6" data-aos="zoom-in" data-aos-delay="200">
+            <div class="product-showcase">
+              <div class="product-image">
+                <img src="assets/img/product/product-11.webp" alt="Featured Product" class="img-fluid">
+                <div class="discount-badge">-35%</div>
+              </div>
+              <div class="product-details">
+                <h6>Luxury Travel Backpack</h6>
+                <div class="price-section">
+                  <span class="original-price">$159</span>
+                  <span class="sale-price">$103</span>
+                </div>
+                <div class="rating-stars">
+                  <i class="bi bi-star-fill"></i>
+                  <i class="bi bi-star-fill"></i>
+                  <i class="bi bi-star-fill"></i>
+                  <i class="bi bi-star-fill"></i>
+                  <i class="bi bi-star-fill"></i>
+                  <span class="rating-count">(267)</span>
+                </div>
+              </div>
+            </div>
+          </div><!-- End Product Showcase -->
+
+          <div class="col-lg-3 col-md-6" data-aos="zoom-in" data-aos-delay="250">
+            <div class="product-showcase">
+              <div class="product-image">
+                <img src="assets/img/product/product-1.webp" alt="Featured Product" class="img-fluid">
+                <div class="discount-badge">-55%</div>
+              </div>
+              <div class="product-details">
+                <h6>Artisan Coffee Mug Set</h6>
+                <div class="price-section">
+                  <span class="original-price">$75</span>
+                  <span class="sale-price">$34</span>
+                </div>
+                <div class="rating-stars">
+                  <i class="bi bi-star-fill"></i>
+                  <i class="bi bi-star-fill"></i>
+                  <i class="bi bi-star-fill"></i>
+                  <i class="bi bi-star-fill"></i>
+                  <i class="bi bi-star"></i>
+                  <span class="rating-count">(142)</span>
+                </div>
+              </div>
+            </div>
+          </div><!-- End Product Showcase -->
+        </div>
+
+      </div>
+
+    </section><!-- /Call To Action Section -->
+
+  </main>
+
+  <footer id="footer" class="footer dark-background">
+    <div class="footer-main">
+      <div class="container">
+        <div class="row gy-4">
+          <div class="col-lg-4 col-md-6">
+            <div class="footer-widget footer-about">
+              <a href="index.html" class="logo">
+                <span class="sitename">NiceShop</span>
+              </a>
+              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam in nibh vehicula, facilisis magna ut, consectetur lorem. Proin eget tortor risus.</p>
+
+              <div class="social-links mt-4">
+                <h5>Connect With Us</h5>
+                <div class="social-icons">
+                  <a href="#" aria-label="Facebook"><i class="bi bi-facebook"></i></a>
+                  <a href="#" aria-label="Instagram"><i class="bi bi-instagram"></i></a>
+                  <a href="#" aria-label="Twitter"><i class="bi bi-twitter-x"></i></a>
+                  <a href="#" aria-label="TikTok"><i class="bi bi-tiktok"></i></a>
+                  <a href="#" aria-label="Pinterest"><i class="bi bi-pinterest"></i></a>
+                  <a href="#" aria-label="YouTube"><i class="bi bi-youtube"></i></a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-2 col-md-6 col-sm-6">
+            <div class="footer-widget">
+              <h4>Shop</h4>
+              <ul class="footer-links">
+                <li><a href="category.html">New Arrivals</a></li>
+                <li><a href="category.html">Bestsellers</a></li>
+                <li><a href="category.html">Women's Clothing</a></li>
+                <li><a href="category.html">Men's Clothing</a></li>
+                <li><a href="category.html">Accessories</a></li>
+                <li><a href="category.html">Sale</a></li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="col-lg-2 col-md-6 col-sm-6">
+            <div class="footer-widget">
+              <h4>Support</h4>
+              <ul class="footer-links">
+                <li><a href="support.html">Help Center</a></li>
+                <li><a href="account.html">Order Status</a></li>
+                <li><a href="shiping-info.html">Shipping Info</a></li>
+                <li><a href="return-policy.html">Returns &amp; Exchanges</a></li>
+                <li><a href="#">Size Guide</a></li>
+                <li><a href="contact.html">Contact Us</a></li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="col-lg-4 col-md-6">
+            <div class="footer-widget">
+              <h4>Contact Information</h4>
+              <div class="footer-contact">
+                <div class="contact-item">
+                  <i class="bi bi-geo-alt"></i>
+                  <span>123 Fashion Street, New York, NY 10001</span>
+                </div>
+                <div class="contact-item">
+                  <i class="bi bi-telephone"></i>
+                  <span>+1 (555) 123-4567</span>
+                </div>
+                <div class="contact-item">
+                  <i class="bi bi-envelope"></i>
+                  <span>hello@example.com</span>
+                </div>
+                <div class="contact-item">
+                  <i class="bi bi-clock"></i>
+                  <span>Monday-Friday: 9am-6pm<br>Saturday: 10am-4pm<br>Sunday: Closed</span>
+                </div>
+              </div>
+
+              <div class="app-buttons mt-4">
+                <a href="#" class="app-btn">
+                  <i class="bi bi-apple"></i>
+                  <span>App Store</span>
+                </a>
+                <a href="#" class="app-btn">
+                  <i class="bi bi-google-play"></i>
+                  <span>Google Play</span>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <div class="container">
+        <div class="row gy-3 align-items-center">
+          <div class="col-lg-6 col-md-12">
+            <div class="copyright">
+              <p>© <span>Copyright</span> <strong class="sitename">NiceShop</strong>. All Rights Reserved.</p>
+            </div>
+            <div class="credits mt-1">
+              <!-- All the links in the footer should remain intact. -->
+              <!-- You can delete the links only if you've purchased the pro version. -->
+              <!-- Licensing information: https://bootstrapmade.com/license/ -->
+              <!-- Purchase the pro version with working PHP/AJAX contact form: [buy-url] -->
+              Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
+            </div>
+          </div>
+
+          <div class="col-lg-6 col-md-12">
+            <div class="d-flex flex-wrap justify-content-lg-end justify-content-center align-items-center gap-4">
+              <div class="payment-methods">
+                <div class="payment-icons">
+                  <i class="bi bi-credit-card" aria-label="Credit Card"></i>
+                  <i class="bi bi-paypal" aria-label="PayPal"></i>
+                  <i class="bi bi-apple" aria-label="Apple Pay"></i>
+                  <i class="bi bi-google" aria-label="Google Pay"></i>
+                  <i class="bi bi-shop" aria-label="Shop Pay"></i>
+                  <i class="bi bi-cash" aria-label="Cash on Delivery"></i>
+                </div>
+              </div>
+
+              <div class="legal-links">
+                <a href="tos.html">Terms</a>
+                <a href="privacy.html">Privacy</a>
+                <a href="tos.html">Cookies</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scroll Top -->
+  <a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+
+  <!-- Preloader -->
+  <div id="preloader"></div>
+
+  <!-- Vendor JS Files -->
+  <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="assets/vendor/php-email-form/validate.js"></script>
+  <script src="assets/vendor/swiper/swiper-bundle.min.js"></script>
+  <script src="assets/vendor/aos/aos.js"></script>
+  <script src="assets/vendor/glightbox/js/glightbox.min.js"></script>
+  <script src="assets/vendor/drift-zoom/Drift.min.js"></script>
+  <script src="assets/vendor/purecounter/purecounter_vanilla.js"></script>
+
+  <!-- Main JS File -->
+  <script src="assets/js/main.js"></script>
+
+</body>
+
+</html>
