@@ -560,6 +560,8 @@ h6 {
     display: flex;
     list-style: none;
     align-items: center;
+    display: flex;
+    justify-content: space-around;
   }
 
   .navmenu li {
