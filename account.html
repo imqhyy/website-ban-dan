@@ -1386,6 +1386,34 @@
   <!-- Main JS File -->
   <script src="assets/js/main.js"></script>
 
+
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // 1. Lấy mã hash (ví dụ: #wishlist) từ URL
+        let hash = window.location.hash;
+
+        // 2. Kiểm tra nếu có hash và hash không rỗng
+        if (hash) {
+            // 3. Tìm link điều hướng (tab) tương ứng với hash đó
+            // Ví dụ: tìm thẻ <a> có href="#wishlist" và thuộc tính data-bs-toggle="tab"
+            let triggerEl = document.querySelector('a[href="' + hash + '"][data-bs-toggle="tab"]');
+            
+            // 4. Nếu tìm thấy link điều hướng
+            if (triggerEl) {
+                // Đảm bảo rằng bạn đã định nghĩa 'bootstrap' (tức là đã tải Bootstrap JS)
+                if (typeof bootstrap !== 'undefined' && bootstrap.Tab) {
+                    // Sử dụng Bootstrap Tab API để kích hoạt tab đó
+                    let tab = new bootstrap.Tab(triggerEl);
+                    tab.show();
+                } else {
+                    // Cách dự phòng: Nếu không có Bootstrap API, dùng .click()
+                    triggerEl.click();
+                }
+            }
+        }
+    });
+  </script>
 </body>
 
 </html>
