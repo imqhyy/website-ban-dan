@@ -120,26 +120,26 @@
                   <p class="mb-0">Truy cập tài khoản &amp; quản lý đơn hàng</p>
                 </div>
                 <div class="dropdown-body">
-                  <a class="dropdown-item d-flex align-items-center" href="account.html">
+                  <a class="dropdown-item d-flex align-items-center" href="account.html#">
                     <i class="bi bi-person-circle me-2"></i>
                     <span>Hồ sơ của tôi</span>
                   </a>
-                  <a class="dropdown-item d-flex align-items-center" href="account.html">
+                  <a class="dropdown-item d-flex align-items-center" href="account.html#orders">
                     <i class="bi bi-bag-check me-2"></i>
                     <span>Đơn hàng của tôi</span>
                   </a>
-                  <a class="dropdown-item d-flex align-items-center" href="account.html">
+                  <a class="dropdown-item d-flex align-items-center" href="account.html#wishlist">
                     <i class="bi bi-heart me-2"></i>
                     <span>Danh sách mong muốn</span>
                   </a>
-                  <a class="dropdown-item d-flex align-items-center" href="account.html">
+                  <a class="dropdown-item d-flex align-items-center" href="account.html#settings">
                     <i class="bi bi-gear me-2"></i>
                     <span>Cài đặt</span>
                   </a>
                 </div>
                 <div class="dropdown-footer">
-                  <a href="register.html" class="btn btn-primary w-100 mb-2">Đăng nhập</a>
-                  <a href="login.html" class="btn btn-outline-primary w-100">Đăng ký</a>
+                  <a href="login.html" class="btn btn-primary w-100 mb-2">Đăng nhập</a>
+                  <a href="register.html" class="btn btn-outline-primary w-100">Đăng ký</a>
                 </div>
               </div>
             </div>
@@ -1386,6 +1386,34 @@
   <!-- Main JS File -->
   <script src="assets/js/main.js"></script>
 
+
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // 1. Lấy mã hash (ví dụ: #wishlist) từ URL
+        let hash = window.location.hash;
+
+        // 2. Kiểm tra nếu có hash và hash không rỗng
+        if (hash) {
+            // 3. Tìm link điều hướng (tab) tương ứng với hash đó
+            // Ví dụ: tìm thẻ <a> có href="#wishlist" và thuộc tính data-bs-toggle="tab"
+            let triggerEl = document.querySelector('a[href="' + hash + '"][data-bs-toggle="tab"]');
+            
+            // 4. Nếu tìm thấy link điều hướng
+            if (triggerEl) {
+                // Đảm bảo rằng bạn đã định nghĩa 'bootstrap' (tức là đã tải Bootstrap JS)
+                if (typeof bootstrap !== 'undefined' && bootstrap.Tab) {
+                    // Sử dụng Bootstrap Tab API để kích hoạt tab đó
+                    let tab = new bootstrap.Tab(triggerEl);
+                    tab.show();
+                } else {
+                    // Cách dự phòng: Nếu không có Bootstrap API, dùng .click()
+                    triggerEl.click();
+                }
+            }
+        }
+    });
+  </script>
 </body>
 
 </html>
