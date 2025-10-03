@@ -1970,7 +1970,7 @@ section,
 }
 
 .hero .hero-content .hero-actions .btn-primary {
-  background: linear-gradient(135deg, var(--accent-color) 0%, color-mix(in srgb, var(--accent-color), #000 20%) 100%);
+  background: linear-gradient(135deg, var(--accent-color) 0%, color-mix(in srgb, var(--accent-color), #0062ff 80%) 100%);
   color: var(--contrast-color);
   border: none;
   box-shadow: 0 8px 25px color-mix(in srgb, var(--accent-color), transparent 70%);
@@ -1982,17 +1982,21 @@ section,
 }
 
 .hero .hero-content .hero-actions .btn-secondary {
-  background: transparent;
-  color: var(--heading-color);
-  border: 2px solid color-mix(in srgb, var(--heading-color), transparent 80%);
+  background: linear-gradient(
+    135deg,
+    var(--heading-color) 0%,
+    color-mix(in srgb, var(--heading-color), #ffa600 80%) 100%
+  );
+  color: var(--contrast-color);
+  border: none;
+  box-shadow: 0 8px 25px color-mix(in srgb, var(--heading-color), transparent 70%);
 }
 
 .hero .hero-content .hero-actions .btn-secondary:hover {
-  background: var(--accent-color);
-  border-color: var(--accent-color);
-  color: var(--contrast-color);
   transform: translateY(-3px);
+  box-shadow: 0 12px 35px color-mix(in srgb, var(--heading-color), transparent 60%);
 }
+
 
 .hero .hero-content .features-list {
   display: flex;
@@ -2146,7 +2150,7 @@ section,
 }
 
 .hero .hero-visuals .product-showcase .product-grid .product-mini .mini-price {
-  font-size: 0.9rem;
+  font-size: 0.8rem;
   font-weight: 600;
   color: var(--accent-color);
 }
