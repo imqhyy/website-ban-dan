@@ -958,21 +958,21 @@
   });
 
   // lệnh này dùng để khi bấm vào wishlist trên sidebar nó sẽ chuyển sang trang account và mở tab wishlist, nhưng do lệnh này đã được viết trong account r nên vô hiệu hóa nó ở đây
-  // document.addEventListener('DOMContentLoaded', function() {
-  //   // Lấy hash từ URL (ví dụ: #wishlist)
-  //   let hash = window.location.hash;
+  document.addEventListener('DOMContentLoaded', function() {
+    // Lấy hash từ URL (ví dụ: #wishlist)
+    let hash = window.location.hash;
 
-  //   // Kiểm tra nếu có hash và hash không rỗng
-  //   if (hash) {
-  //       // Tìm link điều hướng tương ứng với hash đó
-  //       let triggerEl = document.querySelector('a[href="' + hash + '"][data-bs-toggle="tab"]');
+    // Kiểm tra nếu có hash và hash không rỗng
+    if (hash) {
+        // Tìm link điều hướng tương ứng với hash đó
+        let triggerEl = document.querySelector('a[href="' + hash + '"][data-bs-toggle="tab"]');
         
-  //       // Kiểm tra nếu tìm thấy link và kích hoạt tab đó
-  //       if (triggerEl) {
-  //           // Sử dụng API của Bootstrap (đối với Bootstrap 5+)
-  //           let tab = new bootstrap.Tab(triggerEl);
-  //           tab.show();
-  //       }
-  //   }
-  // });
+        // Kiểm tra nếu tìm thấy link và kích hoạt tab đó
+        if (triggerEl) {
+            // Sử dụng API của Bootstrap (đối với Bootstrap 5+)
+            let tab = new bootstrap.Tab(triggerEl);
+            tab.show();
+        }
+    }
+  });
 })();
