@@ -1,6 +1,5 @@
-Thanks for downloading this template!
-
-Template Name: Guitar Xì Gòn
-Template URL: https://bootstrapmade.com/niceshop-bootstrap-ecommerce-template/
-Author: BootstrapMade.com
-License: https://bootstrapmade.com/license/
+DCT124C4
+Website bán đàn
+3124411104 Đặng Quốc Huy
+3124411266 Trương Xuân Tâm
+3124411199 Trần Lê Hồng Nhân
