@@ -29,11 +29,7 @@ document.addEventListener('DOMContentLoaded', function() {
     } else {
         // --- NẾU CHƯA ĐĂNG NHẬP ---
         
-<<<<<<< HEAD
-        // Tạo lại 2 nút Đăng nhập và Đăng ký y như code gốc
-=======
         // Tạo lại 2 nút Đăng nhập và Đăng ký
->>>>>>> main
         userSessionDiv.innerHTML = `
             <a href="login.html" class="btn btn-primary w-100 mb-2">Đăng nhập</a>
             <a href="register.html" class="btn btn-outline-primary w-100">Đăng ký</a>
