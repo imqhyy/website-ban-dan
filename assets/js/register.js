@@ -79,6 +79,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 htmlContainer: 'my-swal-html-container',
                 confirmButton: 'my-swal-confirm-button'
             }
+            
         }).then((result) => {
             // Sau khi người dùng bấm OK, mới chuyển trang
             if (result.isConfirmed) {

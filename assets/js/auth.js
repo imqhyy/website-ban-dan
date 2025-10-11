@@ -25,7 +25,7 @@ document.addEventListener('DOMContentLoaded', function() {
         // --- NẾU ĐÃ ĐĂNG NHẬP ---
         const currentUser = JSON.parse(currentUserJSON);
 
-        // Tạo HTML có lời chào và nút Đăng xuất (với class của anh)
+        // Tạo HTML có lời chào và nút Đăng xuất
         userSessionDiv.innerHTML = `
             <p class="text-center mb-2 welcome-text">Xin chào, <strong>${currentUser.fullName}</strong></p>
             <a href="#" id="logout-btn" class="btn btn-danger w-100">Đăng xuất</a>
