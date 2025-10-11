@@ -1,4 +1,4 @@
-<<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -245,19 +245,19 @@
                   <p>Đăng nhập tài khoản của bạn</p>
                 </div>
 
-                <form class="auth-form-content">
+                <form class="auth-form-content" id="login-form">
                   <div class="input-group mb-3">
                     <span class="input-icon">
                       <i class="bi bi-envelope"></i>
                     </span>
-                    <input type="email" class="form-control" placeholder="Địa chỉ Email" required="" autocomplete="email">
+                    <input type="email" class="form-control" placeholder="Địa chỉ Email" required="" autocomplete="email" id="email">
                   </div>
 
                   <div class="input-group mb-3">
                     <span class="input-icon">
                       <i class="bi bi-lock"></i>
                     </span>
-                    <input type="password" class="form-control" placeholder="Mật khẩu" required="" autocomplete="current-password">
+                    <input type="password" class="form-control" placeholder="Mật khẩu" required="" autocomplete="current-password" id="password">
                     <span class="password-toggle">
                       <i class="bi bi-eye"></i>
                     </span>
@@ -287,7 +287,7 @@
 
                   <div class="switch-form">
                     <span>Bạn chưa có tài khoản?</span>
-                    <button type="button" class="switch-btn" data-target="register">Tạo tài khoản</button>
+                    <a href="register.html" class="switch-btn">Tạo tài khoản</a>
                   </div>
                 </form>
               </div>
@@ -512,7 +512,7 @@
 
   <!-- Main JS File -->
   <script src="assets/js/main.js"></script>
-
+  <script src="assets/js/login.js"></script>
 </body>
 
 </html>

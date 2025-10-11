@@ -5,6 +5,19 @@
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
   <title>Giỏ hàng - Guitar Xì Gòn</title>
+  <script>
+        // Lấy thông tin người dùng từ sessionStorage
+        const currentUser = sessionStorage.getItem('currentUser');
+
+        // Kiểm tra xem có người dùng đăng nhập không (nếu currentUser là null hoặc rỗng)
+        if (!currentUser) {
+            // Nếu không có, tức là chưa đăng nhập
+            alert('Vui lòng đăng nhập để xem giỏ hàng!');
+            
+            // Lập tức chuyển hướng người dùng về trang đăng nhập
+            window.location.href = 'login.html';
+        }
+    </script>
   <meta name="description" content="">
   <meta name="keywords" content="">
 
@@ -137,9 +150,7 @@
                     <span>Cài đặt</span>
                   </a>
                 </div>
-                <div class="dropdown-footer">
-                  <a href="login.html" class="btn btn-primary w-100 mb-2">Đăng nhập</a>
-                  <a href="register.html" class="btn btn-outline-primary w-100">Đăng ký</a>
+                <div class="dropdown-footer" id="user-session">
                 </div>
               </div>
             </div>
@@ -621,7 +632,7 @@
 
   <!-- Main JS File -->
   <script src="assets/js/main.js"></script>
-
+  <script src="assets/js/auth.js"></script>
 </body>
 
 </html>
