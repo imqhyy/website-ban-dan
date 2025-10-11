@@ -5,19 +5,13 @@
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
   <title>Giỏ hàng - Guitar Xì Gòn</title>
-  <script>
-        // Lấy thông tin người dùng từ sessionStorage
-        const currentUser = sessionStorage.getItem('currentUser');
-
-        // Kiểm tra xem có người dùng đăng nhập không (nếu currentUser là null hoặc rỗng)
-        if (!currentUser) {
-            // Nếu không có, tức là chưa đăng nhập
-            alert('Vui lòng đăng nhập để xem giỏ hàng!');
-            
-            // Lập tức chuyển hướng người dùng về trang đăng nhập
-            window.location.href = 'login.html';
-        }
-    </script>
+  <head>
+    <meta charset="UTF-8">
+    <title>Giỏ hàng</title>
+    
+    <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="assets/css/main.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <meta name="description" content="">
   <meta name="keywords" content="">
 
@@ -50,7 +44,7 @@
   ======================================================== -->
 </head>
 
-<body class="cart-page">
+<body class="page-loading">
 
   <header id="header" class="header sticky-top">
     <!-- Top Bar -->
@@ -630,10 +624,37 @@
   <script src="assets/vendor/drift-zoom/Drift.min.js"></script>
   <script src="assets/vendor/purecounter/purecounter_vanilla.js"></script>
 
-  <!-- Main JS File -->
-  <script src="assets/js/main.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-  <script src="assets/js/auth.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="assets/js/main.js"></script> 
+<script src="assets/js/auth.js"></script>
+
+<script>
+    const currentUser = sessionStorage.getItem('currentUser');
+
+    if (currentUser) {
+        // Nếu đã đăng nhập, tìm đến thẻ BODY và GỠ class 'page-loading' đi để HIỆN LẠI trang
+        document.body.classList.remove('page-loading');
+    } else {
+        // Nếu chưa đăng nhập, hiện thông báo và chuyển hướng (phần này của anh đã đúng)
+        Swal.fire({
+            icon: 'warning',
+            title: 'Yêu cầu đăng nhập',
+            text: 'Bạn cần đăng nhập để có thể xem giỏ hàng.',
+            confirmButtonText: 'Đến trang đăng nhập',
+            allowOutsideClick: false,
+            customClass: {
+                popup: 'my-swal-popup',
+                title: 'my-swal-title',
+                htmlContainer: 'my-swal-html-container',
+                confirmButton: 'my-swal-confirm-button'
+            }
+        }).then(() => {
+            window.location.href = 'login.html';
+        });
+    }
+</script>
+
 </body>
+</html>
 
 </html>
