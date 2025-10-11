@@ -1078,7 +1078,7 @@ h6 {
   .navmenu .products-megamenu-1 {
     /* Hide Desktop Mega Menu 1 in Mobile */
   }
-
+S
   .navmenu .products-megamenu-1 .desktop-megamenu {
     display: none;
   }
@@ -2685,6 +2685,7 @@ section,
   display: -webkit-box;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 2;
+  line-clamp: 2;
 }
 
 .best-sellers .product-name a {
@@ -12635,18 +12636,49 @@ section,
   color: var(--default-color); /* Dùng màu chữ mặc định */
 }
 
-/* Tùy chỉnh cho nút "Xác nhận" (OK, Yes) */
 .my-swal-confirm-button {
-  background-color: var(--accent-color) !important; /* Lấy màu nhấn làm màu nền */
-  color: var(--contrast-color) !important; /* Màu chữ tương phản */
-  border-radius: 50px !important; /* Bo tròn nút giống template */
-  font-weight: 500 !important;
-  padding: 0.6rem 1.8rem !important;
-  transition: background-color 0.3s ease !important;
+    /* --- Style cơ bản giống hệt nút Đăng ký --- */
+    background: linear-gradient(135deg, var(--accent-color), color-mix(in srgb, var(--accent-color), var(--heading-color) 30%)) !important;
+    color: var(--contrast-color) !important;
+    border-radius: 12px !important;
+    font-weight: 600 !important;
+    font-size: 1.1rem !important;
+    height: 56px !important;
+    padding: 0 24px !important;
+    border: none !important;
+
+    /* --- Các thuộc tính quan trọng để tạo hiệu ứng --- */
+    position: relative !important; /* Bắt buộc phải có để chứa vệt sáng */
+    overflow: hidden !important;  /* Ẩn vệt sáng khi nó ở ngoài nút */
+    transition: all 0.3s ease !important;
 }
+
+/* Tạo vệt sáng (ban đầu ẩn bên trái) */
+.my-swal-confirm-button::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -100%; /* Đặt vệt sáng ẩn hẳn về bên trái */
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(33, 170, 244, 0.2), transparent);
+    transition: all 0.6s ease !important;
+}
+
+/* HIỆU ỨNG KHI DI CHUỘT VÀO (HOVER) */
 .my-swal-confirm-button:hover {
-  background-color: color-mix(in srgb, var(--accent-color), #000 15%) !important; /* Hiệu ứng hover затемнення */
+    /* 1. Nút nhích lên */
+    transform: translateY(-3px);
+    
+    /* 2. Có bóng đổ */
+    box-shadow: 0 10px 20px color-mix(in srgb, var(--accent-color), transparent 85%);
 }
+/* 3. Vệt sáng chạy qua khi hover */
+.my-swal-confirm-button:hover::before {
+    left: 100%; /* Di chuyển vệt sáng từ trái qua phải */
+}
+
+/* ... (các class .my-swal-cancel-button và icon giữ nguyên) ... */
 
 /* Tùy chỉnh cho nút "Hủy" (Cancel) */
 .my-swal-cancel-button {
@@ -12680,4 +12712,9 @@ section,
 .swal2-icon.swal2-warning {
   border-color: #f59e0b !important;
   color: #f59e0b !important;
+}
+
+.page-loading .main,
+.page-loading .footer {
+  visibility: hidden;
 }

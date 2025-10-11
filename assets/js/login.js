@@ -1,9 +1,8 @@
-// THAY ĐỔI 1: Thêm "khuôn mẫu" Toast đã được đồng bộ style
 const Toast = Swal.mixin({
     toast: true,
     position: 'top-end',
     showConfirmButton: false,
-    timer: 3000,
+    timer: 1600,
     timerProgressBar: true,
     customClass: {
         popup: 'my-swal-popup'
@@ -41,12 +40,30 @@ document.addEventListener('DOMContentLoaded', function() {
 
         } else {
             // NẾU KHÔNG TÌM THẤY (ĐĂNG NHẬP THẤT BẠI)
-
-            // THAY ĐỔI 3: Thay thế alert() bằng Toast báo lỗi
             Toast.fire({
                 icon: 'error',
                 title: 'Email hoặc mật khẩu không đúng!'
             });
+        }
+    });
+
+    // 1. Lấy các phần tử cần thiết
+    const passwordInput = document.getElementById('password');
+    const toggleButton = document.querySelector('.password-toggle');
+    const eyeIcon = toggleButton.querySelector('i'); //
+    toggleButton.addEventListener('click', function() {
+        // 3. Kiểm tra loại của ô input hiện tại
+        if (passwordInput.type === 'password') {
+            // Nếu đang là 'password', chuyển sang 'text' để xem
+            passwordInput.type = 'text';
+
+            // Đổi icon từ con mắt mở sang con mắt gạch chéo
+            eyeIcon.classList.remove('bi-eye');
+            eyeIcon.classList.add('bi-eye-slash');
+        } else {
+            passwordInput.type = 'password';
+            eyeIcon.classList.remove('bi-eye-slash');
+            eyeIcon.classList.add('bi-eye');
         }
     });
 });

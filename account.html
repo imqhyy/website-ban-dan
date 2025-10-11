@@ -37,7 +37,7 @@
   ======================================================== -->
 </head>
 
-<body class="account-page">
+<body class="account-page page-loading">
 
   <header id="header" class="header sticky-top">
     <!-- Top Bar -->
@@ -247,13 +247,13 @@
               <!-- User Info -->
               <div class="user-info" data-aos="fade-right">
                 <div class="user-avatar">
-                  <img src="assets/img/person/person-f-1.webp" alt="Profile" loading="lazy">
+                  <img src="assets\img\person\images.jpg" alt="Profile" loading="lazy">
                   <span class="status-badge"><i class="bi bi-shield-check"></i></span>
                 </div>
-                <h4>Sarah Anderson</h4>
+                <h4 id="user-display-name">Sarah Anderson</h4>
                 <div class="user-status">
                   <i class="bi bi-award"></i>
-                  <span>Premium Member</span>
+                  <span>Thành viên phá phách</span>
                 </div>
               </div>
 
@@ -263,51 +263,51 @@
                   <li class="nav-item">
                     <a class="nav-link active" data-bs-toggle="tab" href="#orders">
                       <i class="bi bi-box-seam"></i>
-                      <span>My Orders</span>
+                      <span>Đơn hàng của tôi</span>
                       <span class="badge">3</span>
                     </a>
                   </li>
                   <li class="nav-item">
                     <a class="nav-link" data-bs-toggle="tab" href="#wishlist">
                       <i class="bi bi-heart"></i>
-                      <span>Wishlist</span>
+                      <span>Danh sách mong muốn</span>
                       <span class="badge">12</span>
                     </a>
                   </li>
                   <li class="nav-item">
                     <a class="nav-link" data-bs-toggle="tab" href="#wallet">
                       <i class="bi bi-wallet2"></i>
-                      <span>Payment Methods</span>
+                      <span>Phương thức thanh toán</span>
                     </a>
                   </li>
                   <li class="nav-item">
                     <a class="nav-link" data-bs-toggle="tab" href="#reviews">
                       <i class="bi bi-star"></i>
-                      <span>My Reviews</span>
+                      <span>Đánh giá của tôi</span>
                     </a>
                   </li>
                   <li class="nav-item">
                     <a class="nav-link" data-bs-toggle="tab" href="#addresses">
                       <i class="bi bi-geo-alt"></i>
-                      <span>Addresses</span>
+                      <span>Địa chỉ</span>
                     </a>
                   </li>
                   <li class="nav-item">
                     <a class="nav-link" data-bs-toggle="tab" href="#settings">
                       <i class="bi bi-gear"></i>
-                      <span>Account Settings</span>
+                      <span>Cài đặt</span>
                     </a>
                   </li>
                 </ul>
 
                 <div class="menu-footer">
-                  <a href="#" class="help-link">
+                  <a href="support.html" class="help-link">
                     <i class="bi bi-question-circle"></i>
-                    <span>Help Center</span>
+                    <span>Trung tâm hỗ trợ</span>
                   </a>
                   <a href="#" class="logout-link">
                     <i class="bi bi-box-arrow-right"></i>
-                    <span>Log Out</span>
+                    <span>Đăng xuất</span>
                   </a>
                 </div>
               </nav>
@@ -321,23 +321,23 @@
                 <!-- Orders Tab -->
                 <div class="tab-pane fade show active" id="orders">
                   <div class="section-header" data-aos="fade-up">
-                    <h2>My Orders</h2>
+                    <h2>Đơn hàng của tôi</h2>
                     <div class="header-actions">
                       <div class="search-box">
                         <i class="bi bi-search"></i>
-                        <input type="text" placeholder="Search orders...">
+                        <input type="text" placeholder="Tìm kiếm đơn hàng...">
                       </div>
                       <div class="dropdown">
                         <button class="filter-btn" data-bs-toggle="dropdown">
                           <i class="bi bi-funnel"></i>
-                          <span>Filter</span>
+                          <span>Lọc</span>
                         </button>
                         <ul class="dropdown-menu">
-                          <li><a class="dropdown-item" href="#">All Orders</a></li>
-                          <li><a class="dropdown-item" href="#">Processing</a></li>
-                          <li><a class="dropdown-item" href="#">Shipped</a></li>
-                          <li><a class="dropdown-item" href="#">Delivered</a></li>
-                          <li><a class="dropdown-item" href="#">Cancelled</a></li>
+                          <li><a class="dropdown-item" href="#">Tất cả đơn hàng</a></li>
+                          <li><a class="dropdown-item" href="#">Đang xử lý</a></li>
+                          <li><a class="dropdown-item" href="#">Đã giao</a></li>
+                          <li><a class="dropdown-item" href="#">Đã nhận</a></li>
+                          <li><a class="dropdown-item" href="#">Đã huỷ</a></li>
                         </ul>
                       </div>
                     </div>
@@ -361,22 +361,22 @@
                         </div>
                         <div class="order-info">
                           <div class="info-row">
-                            <span>Status</span>
-                            <span class="status processing">Processing</span>
+                            <span>Trạng thái</span>
+                            <span class="status processing">Đang xử lý</span>
                           </div>
                           <div class="info-row">
-                            <span>Items</span>
-                            <span>3 items</span>
+                            <span>Số lượng</span>
+                            <span>3</span>
                           </div>
                           <div class="info-row">
-                            <span>Total</span>
-                            <span class="price">$789.99</span>
+                            <span>Tổng số tiền</span>
+                            <span class="price">100 000 VND</span>
                           </div>
                         </div>
                       </div>
                       <div class="order-footer">
-                        <button type="button" class="btn-track" data-bs-toggle="collapse" data-bs-target="#tracking1" aria-expanded="false">Track Order</button>
-                        <button type="button" class="btn-details" data-bs-toggle="collapse" data-bs-target="#details1" aria-expanded="false">View Details</button>
+                        <button type="button" class="btn-track" data-bs-toggle="collapse" data-bs-target="#tracking1" aria-expanded="false">Theo dõi đơn hàng</button>
+                        <button type="button" class="btn-details" data-bs-toggle="collapse" data-bs-target="#details1" aria-expanded="false">Xem chi tiết</button>
                       </div>
 
                       <!-- Order Tracking -->
@@ -499,7 +499,7 @@
                             <h5>Price Details</h5>
                             <div class="price-breakdown">
                               <div class="price-row">
-                                <span>Subtotal</span>
+                                <span>Subtdotal</span>
                                 <span>$1,929.93</span>
                               </div>
                               <div class="price-row">
@@ -510,8 +510,8 @@
                                 <span>Tax</span>
                                 <span>$159.98</span>
                               </div>
-                              <div class="price-row total">
-                                <span>Total</span>
+                              <div class="price-row tdtal">
+                                <span>Tổng số tiền</span>
                                 <span>$2,105.90</span>
                               </div>
                             </div>
@@ -545,21 +545,21 @@
                         <div class="order-info">
                           <div class="info-row">
                             <span>Status</span>
-                            <span class="status shipped">Shipped</span>
+                            <span class="status shipped">Đã giao</span>
                           </div>
                           <div class="info-row">
-                            <span>Items</span>
-                            <span>2 items</span>
+                            <span>Số lượng</span>
+                            <span>2</span>
                           </div>
                           <div class="info-row">
-                            <span>Total</span>
+                            <span>Tổng số tiền</span>
                             <span class="price">$459.99</span>
                           </div>
                         </div>
                       </div>
                       <div class="order-footer">
-                        <button type="button" class="btn-track" data-bs-toggle="collapse" data-bs-target="#tracking2" aria-expanded="false">Track Order</button>
-                        <button type="button" class="btn-details" data-bs-toggle="collapse" data-bs-target="#details2" aria-expanded="false">View Details</button>
+                        <button type="button" class="btn-track" data-bs-toggle="collapse" data-bs-target="#tracking2" aria-expanded="false">Theo dõi đơn hàng</button>
+                        <button type="button" class="btn-details" data-bs-toggle="collapse" data-bs-target="#details2" aria-expanded="false">Xem chi tiết</button>
                       </div>
 
                       <!-- Order Tracking -->
@@ -797,9 +797,9 @@
                 <!-- Wishlist Tab -->
                 <div class="tab-pane fade" id="wishlist">
                   <div class="section-header" data-aos="fade-up">
-                    <h2>My Wishlist</h2>
+                    <h2>Danh sách mong muốn</h2>
                     <div class="header-actions">
-                      <button type="button" class="btn-add-all">Add All to Cart</button>
+                      <button type="button" class="btn-add-all">Thêm tất cả vào giỏ hàng</button>
                     </div>
                   </div>
 
@@ -829,7 +829,7 @@
                             <span class="original">$99.99</span>
                           </div>
                         </div>
-                        <button type="button" class="btn-add-cart">Add to Cart</button>
+                        <button type="button" class="btn-add-cart">Thêm vào giỏ hàng</button>
                       </div>
                     </div>
 
@@ -856,7 +856,7 @@
                             <span class="current">$149.99</span>
                           </div>
                         </div>
-                        <button type="button" class="btn-add-cart">Add to Cart</button>
+                        <button type="button" class="btn-add-cart">Thêm vào giỏ hàng</button>
                       </div>
                     </div>
 
@@ -884,7 +884,7 @@
                             <span class="current">$199.99</span>
                           </div>
                         </div>
-                        <button type="button" class="btn-notify">Notify When Available</button>
+                        <button type="button" class="btn-notify">Nhận thông báo khi có hàng</button>
                       </div>
                     </div>
                   </div>
@@ -1101,51 +1101,47 @@
                 <!-- Settings Tab -->
                 <div class="tab-pane fade" id="settings">
                   <div class="section-header" data-aos="fade-up">
-                    <h2>Account Settings</h2>
+                    <h2>Cài đặt tài khoản</h2>
                   </div>
 
                   <div class="settings-content">
                     <!-- Personal Information -->
                     <div class="settings-section" data-aos="fade-up">
-                      <h3>Personal Information</h3>
-                      <form class="php-email-form settings-form">
+                      <h3>Thông tin cá nhân</h3>
+                      <form class="settings-form" id="account-settings-form">
                         <div class="row g-3">
                           <div class="col-md-6">
-                            <label for="firstName" class="form-label">First Name</label>
-                            <input type="text" class="form-control" id="firstName" value="Sarah" required="">
+                            <label for="firstName" class="form-label">Họ</label>
+                            <input type="text" class="form-control" id="firstName" required="">
                           </div>
                           <div class="col-md-6">
-                            <label for="lastName" class="form-label">Last Name</label>
-                            <input type="text" class="form-control" id="lastName" value="Anderson" required="">
+                            <label for="lastName" class="form-label">Tên</label>
+                            <input type="text" class="form-control" id="lastName" required="">
                           </div>
                           <div class="col-md-6">
                             <label for="email" class="form-label">Email</label>
-                            <input type="email" class="form-control" id="email" value="sarah@example.com" required="">
+                            <input type="text" class="form-control" id="email" required="">
                           </div>
                           <div class="col-md-6">
-                            <label for="phone" class="form-label">Phone</label>
-                            <input type="tel" class="form-control" id="phone" value="+1 (555) 123-4567">
+                            <label for="phone" class="form-label">Số điện thoại</label>
+                            <input type="tel" class="form-control" id="phone" required="">
                           </div>
                         </div>
 
                         <div class="form-buttons">
-                          <button type="submit" class="btn-save">Save Changes</button>
+                          <button type="submit" class="btn-save">Lưu thay đổi</button>
                         </div>
-
-                        <div class="loading">Loading</div>
-                        <div class="error-message"></div>
-                        <div class="sent-message">Your changes have been saved successfully!</div>
                       </form>
                     </div>
 
                     <!-- Email Preferences -->
                     <div class="settings-section" data-aos="fade-up" data-aos-delay="100">
-                      <h3>Email Preferences</h3>
+                      <h3>Nhận thông báo</h3>
                       <div class="preferences-list">
                         <div class="preference-item">
                           <div class="preference-info">
-                            <h4>Order Updates</h4>
-                            <p>Receive notifications about your order status</p>
+                            <h4>Cập nhật đơn hàng</h4>
+                            <p>Nhận thông báo về đơn hàng của bạn qua email</p>
                           </div>
                           <div class="form-check form-switch">
                             <input class="form-check-input" type="checkbox" id="orderUpdates" checked="">
@@ -1154,8 +1150,8 @@
 
                         <div class="preference-item">
                           <div class="preference-info">
-                            <h4>Promotions</h4>
-                            <p>Receive emails about new promotions and deals</p>
+                            <h4>Khuyến mãi</h4>
+                            <p>Nhận email về các chương trình khuyến mãi và ưu đãi mới</p>
                           </div>
                           <div class="form-check form-switch">
                             <input class="form-check-input" type="checkbox" id="promotions">
@@ -1164,8 +1160,8 @@
 
                         <div class="preference-item">
                           <div class="preference-info">
-                            <h4>Newsletter</h4>
-                            <p>Subscribe to our weekly newsletter</p>
+                            <h4>Bản tin</h4>
+                            <p>Đăng ký nhận bản tin hàng tuần của chúng tôi</p>
                           </div>
                           <div class="form-check form-switch">
                             <input class="form-check-input" type="checkbox" id="newsletter" checked="">
@@ -1176,38 +1172,34 @@
 
                     <!-- Security Settings -->
                     <div class="settings-section" data-aos="fade-up" data-aos-delay="200">
-                      <h3>Security</h3>
-                      <form class="php-email-form settings-form">
+                      <h3>Bảo mật</h3>
+                      <form class="settings-form" id="password-update-form">
                         <div class="row g-3">
                           <div class="col-md-12">
-                            <label for="currentPassword" class="form-label">Current Password</label>
+                            <label for="currentPassword" class="form-label">Mật khẩu hiện tại</label>
                             <input type="password" class="form-control" id="currentPassword" required="">
                           </div>
                           <div class="col-md-6">
-                            <label for="newPassword" class="form-label">New Password</label>
+                            <label for="newPassword" class="form-label">Mật khẩu mới</label>
                             <input type="password" class="form-control" id="newPassword" required="">
                           </div>
                           <div class="col-md-6">
-                            <label for="confirmPassword" class="form-label">Confirm Password</label>
+                            <label for="confirmPassword" class="form-label">Xác nhận mật khẩu mới</label>
                             <input type="password" class="form-control" id="confirmPassword" required="">
                           </div>
                         </div>
 
                         <div class="form-buttons">
-                          <button type="submit" class="btn-save">Update Password</button>
+                          <button type="submit" class="btn-save">Cập nhật mật khẩu</button>
                         </div>
-
-                        <div class="loading">Loading</div>
-                        <div class="error-message"></div>
-                        <div class="sent-message">Your password has been updated successfully!</div>
                       </form>
                     </div>
 
                     <!-- Delete Account -->
                     <div class="settings-section danger-zone" data-aos="fade-up" data-aos-delay="300">
-                      <h3>Delete Account</h3>
+                      <h3>Xoá tài khoản</h3>
                       <div class="danger-zone-content">
-                        <p>Once you delete your account, there is no going back. Please be certain.</p>
+                        <p>Một khi bạn đã xóa tài khoản, bạn sẽ không thể quay lại được nữa. Hãy lưu ý kỹ!!.</p>
                         <button type="button" class="btn-danger">Delete Account</button>
                       </div>
                     </div>
@@ -1358,6 +1350,6 @@
   <script src="assets/js/main.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <script src="assets/js/auth.js"></script>
+  <script src="assets/js/account.js"></script>
 </body>
-
 </html>
