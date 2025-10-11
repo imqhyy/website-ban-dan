@@ -12612,3 +12612,72 @@ section,
     justify-content: center;
   }
 }
+/* ======================================================= */
+/* CUSTOM SWEETALERT2 STYLING FOR NICESHOP THEME      */
+/* ======================================================= */
+
+/* Tùy chỉnh chung cho hộp thoại (popup) */
+.my-swal-popup {
+  font-family: var(--default-font); /* Dùng font chữ mặc định của web */
+  background-color: var(--surface-color); /* Dùng màu nền của các card */
+  border-radius: 16px; /* Bo góc cho mềm mại */
+}
+
+/* Tùy chỉnh cho tiêu đề */
+.my-swal-title {
+  font-family: var(--heading-font); /* Dùng font chữ cho tiêu đề */
+  color: var(--heading-color); /* Dùng màu chữ của tiêu đề */
+  font-weight: 600;
+}
+
+/* Tùy chỉnh cho nội dung text */
+.my-swal-html-container {
+  color: var(--default-color); /* Dùng màu chữ mặc định */
+}
+
+/* Tùy chỉnh cho nút "Xác nhận" (OK, Yes) */
+.my-swal-confirm-button {
+  background-color: var(--accent-color) !important; /* Lấy màu nhấn làm màu nền */
+  color: var(--contrast-color) !important; /* Màu chữ tương phản */
+  border-radius: 50px !important; /* Bo tròn nút giống template */
+  font-weight: 500 !important;
+  padding: 0.6rem 1.8rem !important;
+  transition: background-color 0.3s ease !important;
+}
+.my-swal-confirm-button:hover {
+  background-color: color-mix(in srgb, var(--accent-color), #000 15%) !important; /* Hiệu ứng hover затемнення */
+}
+
+/* Tùy chỉnh cho nút "Hủy" (Cancel) */
+.my-swal-cancel-button {
+  background-color: transparent !important;
+  color: var(--accent-color) !important;
+  border: 1px solid var(--accent-color) !important;
+  border-radius: 50px !important;
+  font-weight: 500 !important;
+  padding: 0.6rem 1.8rem !important;
+  transition: all 0.3s ease !important;
+}
+.my-swal-cancel-button:hover {
+  background-color: var(--accent-color) !important;
+  color: var(--contrast-color) !important;
+}
+
+/* Tùy chỉnh màu cho các icon */
+.swal2-icon.swal2-success .swal2-success-ring {
+  border-color: #059652 !important; /* Màu xanh lá từ class .sent-message */
+}
+.swal2-icon.swal2-success .swal2-success-line-tip,
+.swal2-icon.swal2-success .swal2-success-line-long {
+  background-color: #059652 !important;
+}
+
+.swal2-icon.swal2-error {
+  border-color: #df1529 !important; /* Màu đỏ từ class .error-message */
+  color: #df1529 !important;
+}
+
+.swal2-icon.swal2-warning {
+  border-color: #f59e0b !important;
+  color: #f59e0b !important;
+}
