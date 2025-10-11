@@ -1,56 +1,89 @@
+// THAY ĐỔI 1: Thêm customClass vào "khuôn mẫu" Toast
+const Toast = Swal.mixin({
+    toast: true,
+    position: 'top-end',
+    showConfirmButton: false,
+    timer: 3000,
+    timerProgressBar: true,
+    // Báo cho Toast dùng style popup mà đã thêm trong CSS
+    customClass: {
+        popup: 'my-swal-popup'
+    },
+    didOpen: (toast) => {
+        toast.onmouseenter = Swal.stopTimer;
+        toast.onmouseleave = Swal.resumeTimer;
+    }
+});
+
 // Chờ cho toàn bộ nội dung trang được tải xong
 document.addEventListener('DOMContentLoaded', function() {
-    // Lấy form đăng ký bằng id mà anh vừa thêm vào
     const registerForm = document.getElementById('register-form');
 
-    // Lắng nghe sự kiện khi người dùng nhấn nút "Tạo tài khoản"
     registerForm.addEventListener('submit', function(event) {
-        // Ngăn chặn form gửi đi theo cách mặc định
         event.preventDefault();
 
-        // Lấy giá trị từ các ô input trong form của anh
         const fullName = document.getElementById('Họ và Tên').value;
         const email = document.getElementById('email').value;
         const password = document.getElementById('password').value;
-        const confirmPassword = document.getElementById('confirmPassword').value; // Sửa id cho đúng với HTML của anh
+        const confirmPassword = document.getElementById('confirmPassword').value;
 
         // --- VALIDATION (Kiểm tra dữ liệu) ---
-        // 1. Kiểm tra mật khẩu có khớp không
         if (password !== confirmPassword) {
-            alert('Mật khẩu xác nhận không khớp!');
-            return; // Dừng hàm
+            // Không cần sửa ở đây, vì nó đã tự động dùng style từ "khuôn mẫu" Toast
+            Toast.fire({
+                icon: 'error',
+                title: 'Mật khẩu xác nhận không khớp!'
+            });
+            return;
         }
 
-        // 2. Kiểm tra các trường có bị bỏ trống không (dù đã có required)
         if (!fullName || !email || !password) {
-            alert('Vui lòng điền đầy đủ thông tin bắt buộc.');
+            Toast.fire({
+                icon: 'error',
+                title: 'Vui lòng điền đầy đủ thông tin!'
+            });
             return;
         }
 
         // --- LƯU TRỮ VÀO LOCALSTORAGE ---
-        // 3. Lấy danh sách người dùng đã có từ localStorage
         let users = JSON.parse(localStorage.getItem('users')) || [];
 
-        // 4. Kiểm tra xem email đã tồn tại chưa (dùng email làm định danh chính)
         const userExists = users.some(user => user.email === email);
         if (userExists) {
-            alert('Email này đã được sử dụng để đăng ký!');
+            Toast.fire({
+                icon: 'error',
+                title: 'Email này đã được sử dụng!'
+            });
             return;
         }
 
-        // 5. Nếu mọi thứ ổn, tạo một đối tượng người dùng mới
         const newUser = {
             fullName: fullName,
             email: email,
-            password: password 
+            password: password
         };
         users.push(newUser);
 
-        // 6. Lưu lại mảng users mới vào localStorage
         localStorage.setItem('users', JSON.stringify(users));
 
-        // 7. Thông báo thành công và chuyển hướng người dùng
-        alert('Đăng ký thành công! Bạn sẽ được chuyển đến trang đăng nhập.');
-        window.location.href = 'login.html'; // Chuyển sang trang đăng nhập
+        // THAY ĐỔI 2: Thêm customClass vào Modal báo thành công
+        Swal.fire({
+            icon: 'success',
+            title: 'Đăng ký thành công!',
+            text: 'Bạn sẽ được chuyển đến trang đăng nhập ngay bây giờ.',
+            confirmButtonText: 'OK',
+            // Báo cho Modal này dùng bộ style đã thêm trong CSS
+            customClass: {
+                popup: 'my-swal-popup',
+                title: 'my-swal-title',
+                htmlContainer: 'my-swal-html-container',
+                confirmButton: 'my-swal-confirm-button'
+            }
+        }).then((result) => {
+            // Sau khi người dùng bấm OK, mới chuyển trang
+            if (result.isConfirmed) {
+                window.location.href = 'login.html';
+            }
+        });
     });
 });

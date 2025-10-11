@@ -1,3 +1,19 @@
+// THAY ĐỔI 1: Thêm "khuôn mẫu" Toast đã được đồng bộ style ở đầu file
+const Toast = Swal.mixin({
+    toast: true,
+    position: 'top-end',
+    showConfirmButton: false,
+    timer: 2000, // Cho thời gian ngắn lại một chút
+    timerProgressBar: true,
+    customClass: {
+        popup: 'my-swal-popup'
+    },
+    didOpen: (toast) => {
+        toast.onmouseenter = Swal.stopTimer;
+        toast.onmouseleave = Swal.resumeTimer;
+    }
+});
+
 document.addEventListener('DOMContentLoaded', function() {
     
     // Tìm đến thẻ div có id="user-session"
@@ -10,26 +26,34 @@ document.addEventListener('DOMContentLoaded', function() {
         // --- NẾU ĐÃ ĐĂNG NHẬP ---
         const currentUser = JSON.parse(currentUserJSON);
 
-        // Tạo HTML có lời chào và nút Đăng xuất
-        //  thêm 1 class "welcome-text" để có thể chỉnh style nếu muốn
+        // Tạo HTML có lời chào và nút Đăng xuất (với class của anh)
         userSessionDiv.innerHTML = `
             <p class="text-center mb-2 welcome-text">Xin chào, <strong>${currentUser.fullName}</strong></p>
-            <a href="#" id="logout-btn" class="btn btn-outline-primary w-100">Đăng xuất</a>
+            <a href="#" id="logout-btn" class="btn btn-danger w-100">Đăng xuất</a>
         `;
 
         // Gắn sự kiện click cho nút Đăng xuất
         const logoutBtn = document.getElementById('logout-btn');
         logoutBtn.addEventListener('click', function(event) {
             event.preventDefault(); 
+            
+            // Xóa thông tin người dùng khỏi sessionStorage
             sessionStorage.removeItem('currentUser');
-            alert('Bạn đã đăng xuất thành công!');
-            window.location.href = 'index.html';
+            
+            // THAY ĐỔI 2: Thay thế alert() bằng Toast và xử lý chuyển trang
+            Toast.fire({
+                icon: 'success',
+                title: 'Đăng xuất thành công!'
+            }).then(() => {
+                // Sau khi toast biến mất, mới tải lại trang
+                window.location.href = 'index.html';
+            });
         });
 
     } else {
         // --- NẾU CHƯA ĐĂNG NHẬP ---
         
-        // Tạo lại 2 nút Đăng nhập và Đăng ký
+        // Tạo lại 2 nút Đăng nhập và Đăng ký y như code gốc của anh
         userSessionDiv.innerHTML = `
             <a href="login.html" class="btn btn-primary w-100 mb-2">Đăng nhập</a>
             <a href="register.html" class="btn btn-outline-primary w-100">Đăng ký</a>
