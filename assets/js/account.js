@@ -64,7 +64,11 @@
             phoneInput.value = currentUser.phone || '';
         }
         }
-
+         const orderBadge = document.querySelector('a[href="#orders"] .badge');
+         if (orderBadge) {
+        const orderCount = currentUser.orders ? currentUser.orders.length : 0;
+        orderBadge.textContent = orderCount;
+    }
         // --- XỬ LÝ LƯU THÔNG TIN CÁ NHÂN ---
         if (settingsForm) {
             settingsForm.addEventListener('submit', function(event) {
@@ -124,6 +128,66 @@
                 });
             });
         }
+        const ordersGrid = document.querySelector('#orders .orders-grid');
+if (ordersGrid) {
+    ordersGrid.innerHTML = ''; // Xóa các đơn hàng mẫu
+
+    if (currentUser.orders && currentUser.orders.length > 0) {
+        // .reverse() để hiển thị đơn hàng mới nhất lên đầu
+        currentUser.orders.reverse().forEach(order => {
+            const totalItems = order.items.reduce((sum, item) => sum + item.quantity, 0);
+
+            // Tạo một chuỗi HTML chứa danh sách sản phẩm (ảnh + tên)
+            let productItemsHTML = '';
+            order.items.forEach(item => {
+                productItemsHTML += `
+                    <div style="display: flex; align-items: center; margin-bottom: 10px; font-size: 14px;">
+                        <img src="${item.image}" alt="${item.name}" style="width: 40px; height: 40px; border-radius: 4px; margin-right: 10px; object-fit: cover;">
+                        <span style="flex: 1;">${item.name}</span>
+                    </div>
+                `;
+            });
+
+            // Dựng lại toàn bộ card đơn hàng với thông tin chi tiết
+            const orderCardHTML = `
+                <div class="order-card">
+                    <div class="order-header">
+                        <div class="order-id">
+                            <span class="label">Mã đơn hàng:</span>
+                            <span class="value">#${order.orderId}</span>
+                        </div>
+                        <div class="order-date">${order.date}</div>
+                    </div>
+                    <div class="order-content">
+                        <div class="product-list-summary" style="padding-bottom: 15px; margin-bottom: 15px; border-bottom: 1px dashed #e0e0e0;">
+                            ${productItemsHTML}
+                        </div>
+                        <div class="order-info">
+                            <div class="info-row">
+                                <span>Trạng thái</span>
+                                <span class="status delivered">Đã hoàn thành</span>
+                            </div>
+                            <div class="info-row">
+                                <span>Tổng số lượng</span>
+                                <span>${totalItems} sản phẩm</span>
+                            </div>
+                            <div class="info-row">
+                                <span>Tổng cộng</span>
+                                <span class="price">${order.total.toLocaleString('vi-VN')} VNĐ</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="order-footer">
+                        <button type="button" class="btn-details">Xem chi tiết</button>
+                    </div>
+                </div>
+            `;
+            ordersGrid.innerHTML += orderCardHTML;
+        });
+    } else {
+        ordersGrid.innerHTML = '<p class="text-center p-5">Bạn chưa có đơn hàng nào.</p>';
+    }
+}
     });
 
 } 
