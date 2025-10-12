@@ -12,9 +12,25 @@ const Toast = Swal.mixin({
         toast.onmouseleave = Swal.resumeTimer;
     }
 });
-
-document.addEventListener('DOMContentLoaded', function() {
+function updateCartIcon() {
+    // Lấy giỏ hàng từ localStorage
+    let cart = JSON.parse(localStorage.getItem('cart')) || [];
     
+    // Tính tổng số lượng sản phẩm
+    const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+    
+    // Tìm đến tất cả các badge của giỏ hàng (có thể có ở cả bản mobile và desktop)
+    const cartBadges = document.querySelectorAll('.header-actions .bi-cart3 + .badge');
+    
+    // Cập nhật số lượng cho từng badge tìm thấy
+    cartBadges.forEach(badge => {
+        if (badge) {
+            badge.textContent = totalItems;
+        }
+    });
+}
+document.addEventListener('DOMContentLoaded', function() {
+    updateCartIcon();
     // Tìm đến thẻ div có id="user-session"
     const userSessionDiv = document.getElementById('user-session');
 
