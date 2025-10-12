@@ -87,7 +87,7 @@ document.addEventListener('DOMContentLoaded', function() {
             title: 'Đặt hàng thành công!',
             text: 'Cảm ơn bạn đã mua hàng tại Guitar Xì Gòn.',
             confirmButtonText: 'Xem xác nhận đơn hàng',
-            customClass: { /* ... custom classes của anh ... */ }
+            customClass: {  }
         }).then(() => {
             const newOrder = {
                 orderId: `ORD-${Date.now()}`,
