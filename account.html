@@ -39,7 +39,7 @@
 
 <body class="account-page page-loading">
 
-  <header id="header" class="header sticky-top">
+ <header id="header" class="header sticky-top">
     <!-- Top Bar -->
     <div class="top-bar py-2">
       <div class="container-fluid container-xl">
@@ -141,13 +141,6 @@
                 </div>
               </div>
             </div>
-
-            <!-- Wishlist -->
-            <a href="account.html" class="header-action-btn d-none d-md-block">
-              <i class="bi bi-heart"></i>
-              <span class="badge">0</span>
-            </a>
-
             <!-- Cart -->
             <a href="cart.html" class="header-action-btn">
               <i class="bi bi-cart3"></i>
@@ -267,13 +260,13 @@
                       <span class="badge">3</span>
                     </a>
                   </li>
-                  <li class="nav-item">
+                  <!-- <li class="nav-item">
                     <a class="nav-link" data-bs-toggle="tab" href="#wishlist">
                       <i class="bi bi-heart"></i>
                       <span>Danh sách mong muốn</span>
                       <span class="badge">12</span>
                     </a>
-                  </li>
+                  </li> -->
                   <li class="nav-item">
                     <a class="nav-link" data-bs-toggle="tab" href="#wallet">
                       <i class="bi bi-wallet2"></i>
@@ -793,111 +786,14 @@
                     </button>
                   </div>
                 </div>
-
-                <!-- Wishlist Tab -->
-                <div class="tab-pane fade" id="wishlist">
-                  <div class="section-header" data-aos="fade-up">
-                    <h2>Danh sách mong muốn</h2>
-                    <div class="header-actions">
-                      <button type="button" class="btn-add-all">Thêm tất cả vào giỏ hàng</button>
-                    </div>
-                  </div>
-
-                  <div class="wishlist-grid">
-                    <!-- Wishlist Item 1 -->
-                    <div class="wishlist-card" data-aos="fade-up" data-aos-delay="100">
-                      <div class="wishlist-image">
-                        <img src="assets/img/product/product-1.webp" alt="Product" loading="lazy">
-                        <button class="btn-remove" type="button" aria-label="Remove from wishlist">
-                          <i class="bi bi-trash"></i>
-                        </button>
-                        <div class="sale-badge">-20%</div>
-                      </div>
-                      <div class="wishlist-content">
-                        <h4>Lorem ipsum dolor sit amet</h4>
-                        <div class="product-meta">
-                          <div class="rating">
-                            <i class="bi bi-star-fill"></i>
-                            <i class="bi bi-star-fill"></i>
-                            <i class="bi bi-star-fill"></i>
-                            <i class="bi bi-star-fill"></i>
-                            <i class="bi bi-star-half"></i>
-                            <span>(4.5)</span>
-                          </div>
-                          <div class="price">
-                            <span class="current">$79.99</span>
-                            <span class="original">$99.99</span>
-                          </div>
-                        </div>
-                        <button type="button" class="btn-add-cart">Thêm vào giỏ hàng</button>
-                      </div>
-                    </div>
-
-                    <!-- Wishlist Item 2 -->
-                    <div class="wishlist-card" data-aos="fade-up" data-aos-delay="200">
-                      <div class="wishlist-image">
-                        <img src="assets/img/product/product-2.webp" alt="Product" loading="lazy">
-                        <button class="btn-remove" type="button" aria-label="Remove from wishlist">
-                          <i class="bi bi-trash"></i>
-                        </button>
-                      </div>
-                      <div class="wishlist-content">
-                        <h4>Consectetur adipiscing elit</h4>
-                        <div class="product-meta">
-                          <div class="rating">
-                            <i class="bi bi-star-fill"></i>
-                            <i class="bi bi-star-fill"></i>
-                            <i class="bi bi-star-fill"></i>
-                            <i class="bi bi-star-fill"></i>
-                            <i class="bi bi-star"></i>
-                            <span>(4.0)</span>
-                          </div>
-                          <div class="price">
-                            <span class="current">$149.99</span>
-                          </div>
-                        </div>
-                        <button type="button" class="btn-add-cart">Thêm vào giỏ hàng</button>
-                      </div>
-                    </div>
-
-                    <!-- Wishlist Item 3 -->
-                    <div class="wishlist-card" data-aos="fade-up" data-aos-delay="300">
-                      <div class="wishlist-image">
-                        <img src="assets/img/product/product-3.webp" alt="Product" loading="lazy">
-                        <button class="btn-remove" type="button" aria-label="Remove from wishlist">
-                          <i class="bi bi-trash"></i>
-                        </button>
-                        <div class="out-of-stock-badge">Out of Stock</div>
-                      </div>
-                      <div class="wishlist-content">
-                        <h4>Sed do eiusmod tempor</h4>
-                        <div class="product-meta">
-                          <div class="rating">
-                            <i class="bi bi-star-fill"></i>
-                            <i class="bi bi-star-fill"></i>
-                            <i class="bi bi-star-fill"></i>
-                            <i class="bi bi-star-fill"></i>
-                            <i class="bi bi-star-fill"></i>
-                            <span>(5.0)</span>
-                          </div>
-                          <div class="price">
-                            <span class="current">$199.99</span>
-                          </div>
-                        </div>
-                        <button type="button" class="btn-notify">Nhận thông báo khi có hàng</button>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
                 <!-- Payment Methods Tab -->
                 <div class="tab-pane fade" id="wallet">
                   <div class="section-header" data-aos="fade-up">
-                    <h2>Payment Methods</h2>
+                    <h2>Phương thức thanh toán</h2>
                     <div class="header-actions">
                       <button type="button" class="btn-add-new">
                         <i class="bi bi-plus-lg"></i>
-                        Add New Card
+                        Thêm thẻ mới
                       </button>
                     </div>
                   </div>
@@ -908,7 +804,7 @@
                       <div class="card-header">
                         <i class="bi bi-credit-card"></i>
                         <div class="card-badges">
-                          <span class="default-badge">Default</span>
+                          <span class="default-badge">Mặc định</span>
                           <span class="card-type">Visa</span>
                         </div>
                       </div>
@@ -921,11 +817,11 @@
                       <div class="card-actions">
                         <button type="button" class="btn-edit">
                           <i class="bi bi-pencil"></i>
-                          Edit
+                          Chỉnh sửa
                         </button>
                         <button type="button" class="btn-remove">
                           <i class="bi bi-trash"></i>
-                          Remove
+                          Xoá
                         </button>
                       </div>
                     </div>
@@ -947,13 +843,13 @@
                       <div class="card-actions">
                         <button type="button" class="btn-edit">
                           <i class="bi bi-pencil"></i>
-                          Edit
+                          Chỉnh sửa
                         </button>
                         <button type="button" class="btn-remove">
                           <i class="bi bi-trash"></i>
-                          Remove
+                          Xoá
                         </button>
-                        <button type="button" class="btn-make-default">Make Default</button>
+                        <button type="button" class="btn-make-default">Đặt làm mặc định</button>
                       </div>
                     </div>
                   </div>
@@ -962,13 +858,9 @@
                 <!-- Reviews Tab -->
                 <div class="tab-pane fade" id="reviews">
                   <div class="section-header" data-aos="fade-up">
-                    <h2>My Reviews</h2>
+                    <h2>Đánh giá của tôi</h2>
                     <div class="header-actions">
-                      <div class="dropdown">
-                        <button class="filter-btn" data-bs-toggle="dropdown">
-                          <i class="bi bi-funnel"></i>
-                          <span>Sort by: Recent</span>
-                        </button>
+                      <div class="dropdown">    
                         <ul class="dropdown-menu">
                           <li><a class="dropdown-item" href="#">Recent</a></li>
                           <li><a class="dropdown-item" href="#">Highest Rating</a></li>
@@ -982,9 +874,9 @@
                     <!-- Review Card 1 -->
                     <div class="review-card" data-aos="fade-up" data-aos-delay="100">
                       <div class="review-header">
-                        <img src="assets/img/product/product-1.webp" alt="Product" class="product-image" loading="lazy">
+                        <img src="assets/img/product/guitar/classic/yamaha/dan-guitar-classic-yamaha-gc42s-gc-gcx-series/a.jpg" alt="Product" class="product-image" loading="lazy">
                         <div class="review-meta">
-                          <h4>Lorem ipsum dolor sit amet</h4>
+                          <h4>Yamaha GC42S</h4>
                           <div class="rating">
                             <i class="bi bi-star-fill"></i>
                             <i class="bi bi-star-fill"></i>
@@ -993,24 +885,24 @@
                             <i class="bi bi-star-fill"></i>
                             <span>(5.0)</span>
                           </div>
-                          <div class="review-date">Reviewed on Feb 15, 2025</div>
+                          <div class="review-date">15/08/2025</div>
                         </div>
                       </div>
                       <div class="review-content">
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                        <p>Tôi không thể kiềm được cảm xúc của mình khi nhận cây đàn này từ Guitar Xì Gòn, tôi đã đập nó như chưa từng được đập, 1 em đàn chất lượng, đàn thế này thì tón khán giả lắm!</p>
                       </div>
                       <div class="review-footer">
-                        <button type="button" class="btn-edit">Edit Review</button>
-                        <button type="button" class="btn-delete">Delete</button>
+                        <button type="button" class="btn-edit">Sửa đánh giá</button>
+                        <button type="button" class="btn-delete">Xoá</button>
                       </div>
                     </div>
 
                     <!-- Review Card 2 -->
                     <div class="review-card" data-aos="fade-up" data-aos-delay="200">
                       <div class="review-header">
-                        <img src="assets/img/product/product-2.webp" alt="Product" class="product-image" loading="lazy">
+                        <img src="assets\img\product\guitar\acoustic\taylor\taylor-110e\1.jpg" alt="Product" class="product-image" loading="lazy">
                         <div class="review-meta">
-                          <h4>Consectetur adipiscing elit</h4>
+                          <h4>Taylor 110CE</h4>
                           <div class="rating">
                             <i class="bi bi-star-fill"></i>
                             <i class="bi bi-star-fill"></i>
@@ -1019,15 +911,15 @@
                             <i class="bi bi-star"></i>
                             <span>(4.0)</span>
                           </div>
-                          <div class="review-date">Reviewed on Feb 10, 2025</div>
+                          <div class="review-date">03/01/2024</div>
                         </div>
                       </div>
                       <div class="review-content">
-                        <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+                        <p>Trước đây tôi cứ tự trách bản thân là 1 người nghèo, cô đơn, nhưng sau khi mua em đàn này thì cuộc sống của tôi đã nâng lên bậc, vừa nghèo, cô đơn nhưng có nhạc nền:)</p>
                       </div>
                       <div class="review-footer">
-                        <button type="button" class="btn-edit">Edit Review</button>
-                        <button type="button" class="btn-delete">Delete</button>
+                        <button type="button" class="btn-edit">Sửa đánh giá</button>
+                        <button type="button" class="btn-delete">Xoá</button>
                       </div>
                     </div>
                   </div>

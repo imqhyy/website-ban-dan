@@ -49,7 +49,8 @@ document.addEventListener('DOMContentLoaded', function() {
             fullName: fullName,
             email: email,
             password: password,
-            phone: phone // Thêm SĐT vào đây
+            phone: phone, // Thêm SĐT vào đây
+            orders: []
         };
         users.push(newUser);
 

@@ -278,42 +278,25 @@
           <div class="col-lg-5" data-aos="fade-left" data-aos-delay="200">
             <div class="product-details">
               <div class="product-badge-container">
-                <span class="badge-category">Audio Equipment</span>
-                <div class="rating-group">
-                  <div class="stars">
-                    <i class="bi bi-star-fill"></i>
-                    <i class="bi bi-star-fill"></i>
-                    <i class="bi bi-star-fill"></i>
-                    <i class="bi bi-star-fill"></i>
-                    <i class="bi bi-star-half"></i>
-                  </div>
-                  <span class="review-text">(127 reviews)</span>
-                </div>
+                <span class="badge-category" id="product-category"></span>
+                <div class="rating-group" id="product-rating-container"></div>
               </div>
 
-              <h1 class="product-name">Mauris tempus cursus magna vel scelerisque nisl consectetur</h1>
+              <h1 class="product-name" id="product-name"></h1>
 
               <div class="pricing-section">
-                <div class="price-display">
-                  <span class="sale-price">$189.99</span>
-                  <span class="regular-price">$239.99</span>
-                </div>
-                <div class="savings-info">
-                  <span class="save-amount">Save $50.00</span>
-                  <span class="discount-percent">(21% off)</span>
-                </div>
+                <div class="price-display" id="product-price-container"></div>
+                <div class="savings-info" id="product-savings-container"></div>
               </div>
 
-              <div class="product-description">
-                <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.</p>
-              </div>
+              <div class="product-description"><p id="product-description"></p></div>
 
               <div class="availability-status">
                 <div class="stock-indicator">
                   <i class="bi bi-check-circle-fill"></i>
-                  <span class="stock-text">Available</span>
+                  <span class="stock-text" id="product-stock-status"></span>
                 </div>
-                <div class="quantity-left">Only 18 items remaining</div>
+                <div class="quantity-left" id="product-stock-quantity"></div>
               </div>
 
               <!-- Product Variants -->
@@ -347,7 +330,7 @@
                       <button class="quantity-btn decrease" type="button">
                         <i class="bi bi-dash"></i>
                       </button>
-                      <input type="number" class="quantity-input" value="1" min="1" max="18">
+                      <input type="number" class="quantity-input" id="quantity-input" value="1" min="1">
                       <button class="quantity-btn increase" type="button">
                         <i class="bi bi-plus"></i>
                       </button>
@@ -356,18 +339,18 @@
                 </div>
 
                 <div class="action-buttons">
-                  <button class="btn primary-action">
+                  <button class="btn primary-action" id="add-to-cart-btn">
                     <i class="bi bi-bag-plus"></i>
-                    Add to Cart
+                        Thêm vào giỏ hàng
                   </button>
-                  <button class="btn secondary-action">
+                  <button class="btn secondary-action" id="buy-now-btn">
                     <i class="bi bi-lightning"></i>
-                    Buy Now
+                         Mua ngay
                   </button>
-                  <button class="btn icon-action" title="Add to Wishlist">
+                  <button class="btn icon-action" id="add-to-wishlist-btn" title="Thêm vào danh sách mong muốn">
                     <i class="bi bi-heart"></i>
                   </button>
-                </div>
+              </div>
               </div>
 
               <!-- Benefits List -->
@@ -862,6 +845,8 @@
   <script src="assets/js/main.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <script src="assets/js/auth.js"></script>
+  <script src="assets/js/products.js"></script>
+  <script src="assets/js/product-details.js"></script
 </body>
 
 </html>
