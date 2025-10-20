@@ -27,6 +27,7 @@
 
   <!-- Main CSS File -->
   <link href="assets/css/main.css" rel="stylesheet">
+  <link href="assets/css/admin.css" rel="stylesheet">
 
   <!-- =======================================================
   * Template Name: NiceShop
@@ -146,7 +147,35 @@
       </div>
     </div><!-- End Page Title -->
 
+    <div><!-- Thông tin khách hàng -->
+      <!--Khách hàng 1-->
+      <div class="customer-card">
+        <div class="customer-avatar-container">
+          <img src="assets/img/person/person-f-1.webp" class="customer-avatar" atl="avatar khách hàng">
+        </div>
+        <div class="customer-info">
+          <p class="customer-name">Nguyễn Văn A</p>
+          <p class="customer-phone">0343659139</p>
+        </div>
+        <div class="customer-actions">
+          <button class="action-btn reset-btn">Reset Mật khẩu</button>
+          <button class="action-btn lock-btn">Khóa Tài khoản</button>
+          <a href="#customerDetailModal" class="action-btn detail-btn">Chi tiết</a>
+        </div>
+      </div>
+      <!-- Pop-up chi tiết -->
+      <div id="customerDetailModal" class="modal">
+        <div class="modal-content">
+          <span class="close-button">&times;</span>
+          <h2>Chi tiết Khách hàng</h2>
+          <p><strong>Tên: </strong> <span id="modalName"></span></p>
+          <p><strong>SĐT: </strong> <span id="modalPhone"></span></p>
+          <p>...</p> 
+        </div>
+      </div>
 
+
+    </div><!-- End Thông tin khách hàng -->
 
 
 
@@ -290,6 +319,7 @@
   <script src="assets/js/main.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <script src="assets/js/login.js"></script>
+  <script src="assets/js/admin.js"></script>
 </body>
 
 </html>
