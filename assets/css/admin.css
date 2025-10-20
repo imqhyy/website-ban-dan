@@ -1,0 +1,173 @@
+.customer-card {
+    /* Tạo hình chữ nhật */
+    width: 90%; /* Chiếm phần lớn chiều rộng trang */
+    height: 100px; /* Chiều cao cố định */
+    
+    /* Thiết lập bố cục nằm ngang */
+    display: flex;
+    justify-content: flex-start;
+    gap: 40px;
+    align-items: center; /* Căn giữa theo chiều dọc */
+    
+    /* Thiết kế thẩm mỹ */
+    border: 1px solid #ddd; /* Khung viền mỏng */
+    border-radius: 8px; /* Bo góc nhẹ */
+    padding: 15px;
+    margin: 20px auto; /* Căn giữa và tạo khoảng cách */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Tạo bóng đổ nhẹ */
+    background-color: #fff; /* Màu nền trắng */
+}
+.customer-avatar-container {
+    /* Kích thước khung */
+    width: 70px;
+    height: 70px;
+    
+    /* Tạo hình tròn */
+    border-radius: 50%; 
+    
+    /* Đảm bảo ảnh không bị tràn ra ngoài */
+    overflow: hidden; 
+    
+    /* Thêm border ngoài (tùy chọn) */
+    border: 2px solid #3498db; 
+    
+    /* Khoảng cách với tên */
+    margin-right: 15px;
+}
+
+.customer-avatar {
+    /* Đảm bảo ảnh lấp đầy khung tròn */
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Quan trọng: Cắt ảnh để vừa vặn mà không bị méo */
+}
+.customer-info {
+    /* Đảm bảo chiếm không gian còn lại (nếu dùng flexbox) */
+    flex-grow: 1;
+}
+
+.customer-name {
+    margin: 0; /* Xóa margin mặc định của thẻ <p> */
+    font-size: 18px;
+    font-weight: bold;
+    color: #333;
+    
+}
+.customer-phone {
+    /* Xóa margin mặc định để dính sát hơn với tên */
+    margin: 0px;
+    /* Định dạng font */
+    font-size: 14px; /* Nhỏ hơn tên (18px) */
+    color: #666; /* Màu xám nhạt hơn */
+    font-weight: normal; 
+    
+}
+.customer-actions {
+    /* Đẩy toàn bộ khối này sang sát lề phải của .customer-card */
+    margin-left: auto;
+    
+    /* Thiết lập cho các nút bên trong nằm ngang */
+    display: flex;
+    gap: 10px; /* Khoảng cách giữa các nút */
+    align-items: center; 
+}
+/* ... (Thêm styling cho các nút) ... */
+.action-btn {
+    padding: 8px 12px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    text-decoration: none; /* Dùng cho thẻ <a> (Chi tiết) */
+    color: white; 
+}
+
+.reset-btn {
+    background-color: #f39c12; /* Màu vàng cam */
+}
+
+.lock-btn {
+    background-color: #e74c3c; /* Màu đỏ (Nguy hiểm) */
+}
+
+.detail-btn {
+    background-color: #3498db; /* Màu xanh dương (Thông tin) */
+}
+
+/* 1. Thiết lập Modal mặc định (toàn màn hình, ẩn) */
+.modal {
+    display: none; /* Ẩn Modal theo mặc định */
+    position: fixed; /* Cố định vị trí, không cuộn theo trang */
+    z-index: 1000; /* Đặt lớp trên cùng, cao hơn mọi thứ */
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto; /* Cho phép cuộn nếu nội dung dài */
+    background-color: rgba(0, 0, 0, 0.4); /* Nền mờ đen 40% */
+}
+
+/* 2. Thiết kế Hộp Nội dung (Hình chữ nhật Pop-up) */
+.modal-content-admin {
+    background-color: #fefefe;
+    margin: 10% auto; /* Đặt ở giữa màn hình (trên/dưới 10%, trái/phải tự động) */
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%; /* Chiều rộng hình chữ nhật */
+    max-width: 600px; /* Giới hạn kích thước tối đa */
+    border-radius: 8px;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+
+}
+.customer-info-details-container {
+    display: flex;
+    align-items:center;
+
+}
+
+.customer-avatar-details-container {
+    /* Kích thước khung */
+    min-width: 200px;
+    height: 200px;
+    
+    /* Tạo hình tròn */
+    border-radius: 50%; 
+    
+    /* Đảm bảo ảnh không bị tràn ra ngoài */
+    overflow: hidden; 
+    
+    /* Thêm border ngoài (tùy chọn) */
+    border: 2px solid #3498db; 
+    
+    /* Khoảng cách với tên */
+    margin-right: 15px;
+}
+
+.customer-avatar-details {
+    /* Đảm bảo ảnh lấp đầy khung tròn */
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Quan trọng: Cắt ảnh để vừa vặn mà không bị méo */
+}
+
+.customer-info-details {
+    margin: 2px;
+}
+
+/* 3. Thiết kế nút Đóng */
+.close-button {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+    
+    
+}
+
+.close-button:hover,
+.close-button:focus {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+}
