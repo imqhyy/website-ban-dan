@@ -96,7 +96,7 @@
 
 /* 1. Thiết lập Modal mặc định (toàn màn hình, ẩn) */
 .modal {
-    display: inline; /* Ẩn Modal theo mặc định */
+    display: none; /* Ẩn Modal theo mặc định */
     position: fixed; /* Cố định vị trí, không cuộn theo trang */
     z-index: 1000; /* Đặt lớp trên cùng, cao hơn mọi thứ */
     left: 0;
