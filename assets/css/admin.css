@@ -119,6 +119,40 @@
     box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
 
 }
+.customer-info-details-container {
+    display: flex;
+    align-items:center;
+
+}
+
+.customer-avatar-details-container {
+    /* Kích thước khung */
+    width: 200px;
+    height: 200px;
+    
+    /* Tạo hình tròn */
+    border-radius: 50%; 
+    
+    /* Đảm bảo ảnh không bị tràn ra ngoài */
+    overflow: hidden; 
+    
+    /* Thêm border ngoài (tùy chọn) */
+    border: 2px solid #3498db; 
+    
+    /* Khoảng cách với tên */
+    margin-right: 15px;
+}
+
+.customer-avatar-details {
+    /* Đảm bảo ảnh lấp đầy khung tròn */
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Quan trọng: Cắt ảnh để vừa vặn mà không bị méo */
+}
+
+.customer-info-details {
+    margin: 2px;
+}
 
 /* 3. Thiết kế nút Đóng */
 .close-button {
