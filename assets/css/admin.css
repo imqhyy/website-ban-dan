@@ -127,7 +127,7 @@
 
 .customer-avatar-details-container {
     /* Kích thước khung */
-    width: 200px;
+    min-width: 200px;
     height: 200px;
     
     /* Tạo hình tròn */
