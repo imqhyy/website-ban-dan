@@ -96,7 +96,7 @@
 
 /* 1. Thiết lập Modal mặc định (toàn màn hình, ẩn) */
 .modal {
-    display: none; /* Ẩn Modal theo mặc định */
+    display: inline; /* Ẩn Modal theo mặc định */
     position: fixed; /* Cố định vị trí, không cuộn theo trang */
     z-index: 1000; /* Đặt lớp trên cùng, cao hơn mọi thứ */
     left: 0;
@@ -108,7 +108,7 @@
 }
 
 /* 2. Thiết kế Hộp Nội dung (Hình chữ nhật Pop-up) */
-.modal-content {
+.modal-content-admin {
     background-color: #fefefe;
     margin: 10% auto; /* Đặt ở giữa màn hình (trên/dưới 10%, trái/phải tự động) */
     padding: 20px;
@@ -117,19 +117,17 @@
     max-width: 600px; /* Giới hạn kích thước tối đa */
     border-radius: 8px;
     box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
-    position: relative;
+
 }
 
 /* 3. Thiết kế nút Đóng */
 .close-button {
     color: #aaa;
-    
+    float: right;
     font-size: 28px;
     font-weight: bold;
     cursor: pointer;
-    position: absolute; 
-    top: 5px; /* Điều chỉnh khoảng cách từ trên xuống */
-    right: 15px; /* Điều chỉnh khoảng cách từ phải sang */
+    
     
 }
 
