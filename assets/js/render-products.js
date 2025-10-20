@@ -1,31 +1,20 @@
-document.addEventListener('DOMContentLoaded', function() {
-    
+document.addEventListener('DOMContentLoaded', function () {
+
     const productContainer = document.getElementById('product-list-container');
 
     if (typeof products !== 'undefined' && productContainer) {
-        
-        let allProductsHTML = ''; 
 
+        let allProductsHTML = '';
         products.forEach(product => {
-            
-            // --- XỬ LÝ GIÁ VÀ KHUYẾN MÃI ---
+
+            // ... (code xử lý giá, % giảm giá) ...
             let priceHTML = '';
             let badgeHTML = '';
-
-            // Nếu có giá gốc (tức là đang giảm giá)
             if (product.originalPrice) {
-                // Hiển thị cả giá mới và giá gốc
-                priceHTML = `
-                    ${product.price.toLocaleString('vi-VN')} VND
-                    <span class="original-price">${product.originalPrice.toLocaleString('vi-VN')} VND</span>
-                `;
-                
-                // Tính toán % giảm giá
+                priceHTML = `${product.price.toLocaleString('vi-VN')} VND <span class="original-price">${product.originalPrice.toLocaleString('vi-VN')} VND</span>`;
                 const discountPercent = Math.round(((product.originalPrice - product.price) / product.originalPrice) * 100);
                 badgeHTML = `<div class="product-badge sale">-${discountPercent}%</div>`;
-
             } else {
-                // Nếu không có giá gốc, chỉ hiển thị giá bán
                 priceHTML = `${product.price.toLocaleString('vi-VN')} VND`;
             }
 
@@ -34,14 +23,14 @@ document.addEventListener('DOMContentLoaded', function() {
                 <div class="col-6 col-xl-4">
                     <div class="product-card" data-aos="zoom-in">
                         <div class="product-image">
-                            <a href="product-details.html?id=${product.id}">
+                            <a href="product-details.html">
                                 <img src="${product.image}" class="main-image img-fluid" alt="${product.name}">
                                 <img src="${product.hoverImage}" class="hover-image img-fluid" alt="${product.name}">
                             </a>
                             <div class="product-overlay">
                                 <div class="product-actions">
-                                    <button type="button" class="action-btn" data-bs-toggle="tooltip" title="Xem nhanh"><i class="bi bi-eye"></i></button>
-                                    <button type="button" class="action-btn" data-bs-toggle="tooltip" title="Thêm vào giỏ hàng"><i class="bi bi-cart-plus"></i></button>
+                                    <button type="button" class="action-btn" title="Xem nhanh"><i class="bi bi-eye"></i></button>
+                                    <button type="button" class="action-btn" title="Thêm vào giỏ hàng"><i class="bi bi-cart-plus"></i></button>
                                 </div>
                             </div>
                             ${badgeHTML} 
@@ -49,7 +38,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         <div class="product-details">
                             <div class="product-category">${product.category}</div>
                             <h4 class="product-title">
-                                <a href="product-details.html?id=${product.id}">${product.name}</a>
+                                <a href="product-details.html">${product.name}</a>
                             </h4>
                             <div class="product-meta">
                                 <div class="product-price">
@@ -64,10 +53,8 @@ document.addEventListener('DOMContentLoaded', function() {
                     </div>
                 </div>
             `;
-            
-            allProductsHTML += productHTML; 
+            allProductsHTML += productHTML;
         });
-
         productContainer.innerHTML = allProductsHTML;
     }
 });

@@ -4,13 +4,13 @@ const products = [
         category: 'Acoustic',
         name: 'Saga A1 DE PRO',
         price: 2000000,
-        originalPrice: null,
+        originalPrice: 2500000,
         image: 'assets/img/product/guitar/acoustic/saga/saga-a1-de-pro/dan-guitar-acoustic-saga-a1-de-pro--1000x1000.jpg',
         hoverImage: 'assets/img/product/guitar/acoustic/saga/saga-a1-de-pro/dan-guitar-acoustic-saga-a1-de-pro-5-1000x1000.jpg',
         description: 'Saga A1 DE PRO là một cây đàn acoustic tuyệt vời cho người mới bắt đầu, với âm thanh cân bằng và giá cả phải chăng.',
         rating: 4.8,
         reviews: 42,
-        stock: 15 
+        stock: 15
     },
     {
         id: 2,
@@ -38,7 +38,7 @@ const products = [
         reviews: 56,
         stock: 8
     },
-     {
+    {
         id: 4,
         category: 'Classic',
         name: 'Ba đờn C100',
@@ -78,7 +78,7 @@ const products = [
         stock: 10
     },
     {
-        id:7,
+        id: 7,
         category: 'Acoustic',
         name: 'Yamaha LS36 ARE',
         price: 8200000,
@@ -91,7 +91,7 @@ const products = [
         stock: 7
     },
     {
-        id:8,
+        id: 8,
         category: 'Acoustic',
         name: 'Saga SS 8CE',
         price: 6500000,
