@@ -2,7 +2,7 @@ const Toast = Swal.mixin({
     toast: true,
     position: 'top-end',
     showConfirmButton: false,
-    timer: 1600,
+    timer: 1000,
     timerProgressBar: true,
     customClass: { popup: 'my-swal-popup' },
     didOpen: (toast) => {
@@ -11,10 +11,21 @@ const Toast = Swal.mixin({
     }
 });
 
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     const registerForm = document.getElementById('register-form');
+    const emailInput = document.getElementById('email');
+    if (emailInput) {
+        emailInput.addEventListener('blur', function () {
+            const emailValue = emailInput.value;
 
-    registerForm.addEventListener('submit', function(event) {
+            // Nếu người dùng có nhập gì đó VÀ không chứa ký tự @
+            if (emailValue.length > 0 && !emailValue.includes('@')) {
+                // Tự động thêm đuôi @gmail.com
+                emailInput.value = emailValue + '@gmail.com';
+            }
+        });
+    }
+    registerForm.addEventListener('submit', function (event) {
         event.preventDefault();
 
         // Lấy giá trị từ các ô input

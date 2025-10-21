@@ -645,14 +645,14 @@ h6 {
 
   .navmenu .dropdown .dropdown ul {
     top: 0;
-    left: -90%;
+    left: 100%;
     visibility: hidden;
   }
 
   .navmenu .dropdown .dropdown:hover>ul {
     opacity: 1;
     top: 0;
-    left: -100%;
+    left: 100%;
     visibility: visible;
   }
 }
