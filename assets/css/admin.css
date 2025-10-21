@@ -302,6 +302,11 @@
         .data-table tr:nth-child(even) {
             background-color: #f2f2f2;
         }
+
+        .function-button-container {
+            display: flex;
+            justify-content: space-evenly;
+        }
         .data-table button {
             padding: 8px 12px;
             margin-right: 5px;
@@ -309,15 +314,9 @@
             border-radius: 4px;
             cursor: pointer;
             color: white;
+            background-color: transparent;
         }
-        .edit-btn { background-color: #ffc107; } /* Vàng */
-        .edit-btn:hover { background-color: #e0a800; }
-        .delete-btn { background-color: #dc3545; } /* Đỏ */
-        .delete-btn:hover { background-color: #c82333; }
-        .hide-btn { background-color: #6e6e6e; } /* Đỏ */
-        .hide-btn:hover { background-color: #535353; }
-        .manage-brands-btn { background-color: #17a2b8; } /* Xanh ngọc */
-        .manage-brands-btn:hover { background-color: #138496; }
+        
 
         .data-table .action-icon-btn {
             /* Đảm bảo nút nhỏ gọn */
@@ -331,7 +330,29 @@
             font-size: 14px; /* Điều chỉnh kích thước icon */
         }
 
-        .function-button-container {
-            display: flex;
-            justify-content: space-evenly;
+        .button-icon {
+            /* Đảm bảo ảnh lấp đầy nút mà không bị tràn */
+            width: 100%; 
+            height: 100%;
+            object-fit: contain; /* Giữ tỷ lệ ảnh */
+            vertical-align: middle; /* Loại bỏ khoảng trắng không mong muốn */
+
+            /* Thêm Transition để chuyển động mượt mà */
+            transition: transform 0.2s ease-in-out;
         }
+
+        .action-icon-btn {
+            background-size: 70%;
+            background-repeat: no-repeat;
+            background-position: center;
+            
+        }
+        /* Hiệu ứng khi di chuột qua */
+        .action-icon-btn:hover .button-icon {
+            /* Phóng to icon lên 1.2 lần (20%) */
+            transform: scale(1.2); 
+        }
+        
+        
+
+        
