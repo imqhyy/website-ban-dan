@@ -1,3 +1,73 @@
+
+/* Search box */
+.search-container {
+    /* 1. Kích hoạt Flexbox */
+    display: flex;
+    /* 2. Căn giữa các mục con theo chiều ngang */
+    justify-content: center;
+    /* 3. Thêm khoảng cách phía trên và dưới */
+    margin: 20px 0;
+    width: 100%; /* Đảm bảo nó chiếm toàn bộ chiều rộng để căn giữa được */
+    
+}
+
+
+#search-input {
+    /* Thiết lập kích thước */
+    width: 400px; /* Tùy chỉnh chiều rộng */
+    padding: 10px 15px;
+    /* Thiết kế */
+    border: 2px solid #ccc;
+    border-right: none; /* Loại bỏ đường viền bên phải để nối với nút */
+    border-radius: 25px 0 0 25px; /* Bo tròn góc trái */
+    font-size: 16px;
+    transition: border-color 0.5s; /* Hiệu ứng khi focus */
+}
+
+#search-input:focus {
+    border-color: #5f5f5f; /* Đổi màu khi đang nhập */
+    outline: none; /* Loại bỏ viền focus mặc định của trình duyệt */
+}
+
+#search-button {
+    padding: 10px 20px;
+    /* Thiết kế nút */
+    background-color: #444444; /* Màu xanh nổi bật */
+    color: white;
+    border: none;
+    border-radius: 0 25px 25px 0; /* Bo tròn góc phải */
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s;
+}
+
+#search-button:hover {
+    background-color: #252223; /* Đổi màu khi rê chuột */
+}
+
+/* Sort container */
+.sort-container {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+#sort-button {
+    padding: 10px 20px;
+    background-color: #444444; /* Chọn một màu khác biệt, ví dụ màu cam */
+    color: white;
+    border: none;
+    border-radius: 25px; /* Bo tròn tương tự */
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s;
+}
+
+#sort-button:hover {
+    background-color: #252223; /* Đổi màu khi rê chuột */
+}
+
+/* Khách hàng */
 .customer-card {
     /* Tạo hình chữ nhật */
     width: 90%; /* Chiếm phần lớn chiều rộng trang */
@@ -19,7 +89,7 @@
 }
 .customer-avatar-container {
     /* Kích thước khung */
-    width: 70px;
+    min-width: 70px;
     height: 70px;
     
     /* Tạo hình tròn */
@@ -65,7 +135,6 @@
 .customer-actions {
     /* Đẩy toàn bộ khối này sang sát lề phải của .customer-card */
     margin-left: auto;
-    
     /* Thiết lập cho các nút bên trong nằm ngang */
     display: flex;
     gap: 10px; /* Khoảng cách giữa các nút */
@@ -128,6 +197,7 @@
 .customer-avatar-details-container {
     /* Kích thước khung */
     min-width: 200px;
+    
     height: 200px;
     
     /* Tạo hình tròn */
