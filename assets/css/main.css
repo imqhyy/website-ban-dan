@@ -4882,7 +4882,7 @@ section,
 .category-pagination li a.active {
   background-color: var(--accent-color);
   color: var(--contrast-color);
-  transform: translateY(-2px);
+  transform: translateY(0px);
   box-shadow: 0 4px 8px color-mix(in srgb, var(--accent-color), transparent 70%);
 }
 
