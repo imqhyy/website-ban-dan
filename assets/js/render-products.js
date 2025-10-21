@@ -1,12 +1,12 @@
-document.addEventListener('DOMContentLoaded', function () {
-
+document.addEventListener('DOMContentLoaded', function() {
+    
     const productContainer = document.getElementById('product-list-container');
 
     if (typeof products !== 'undefined' && productContainer) {
-
-        let allProductsHTML = '';
+        
+        let allProductsHTML = ''; 
         products.forEach(product => {
-
+            
             // ... (code xử lý giá, % giảm giá) ...
             let priceHTML = '';
             let badgeHTML = '';
@@ -53,7 +53,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     </div>
                 </div>
             `;
-            allProductsHTML += productHTML;
+            allProductsHTML += productHTML; 
         });
         productContainer.innerHTML = allProductsHTML;
     }

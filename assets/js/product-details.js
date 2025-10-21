@@ -63,15 +63,15 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 });
 
-// Hàm update icon giỏ hàng (phải có trong file auth.js hoặc ở đây)
-function updateCartIcon() {
-    let cart = JSON.parse(localStorage.getItem('cart')) || [];
-    const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
-    const cartBadges = document.querySelectorAll('.cart-item-count-badge');
-    cartBadges.forEach(badge => {
-        if (badge) {
-            badge.textContent = totalItems;
-        }
-    });
-}
-setTimeout(updateCartIcon, 200);
+// // Hàm update icon giỏ hàng (phải có trong file auth.js hoặc ở đây)
+// function updateCartIcon() {
+//     let cart = JSON.parse(localStorage.getItem('cart')) || [];
+//     const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+//     const cartBadges = document.querySelectorAll('.cart-item-count-badge');
+//     cartBadges.forEach(badge => {
+//         if (badge) {
+//             badge.textContent = totalItems;
+//         }
+//     });
+// }
+// setTimeout(updateCartIcon, 200);

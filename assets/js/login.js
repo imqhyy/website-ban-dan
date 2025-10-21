@@ -2,7 +2,7 @@ const Toast = Swal.mixin({
     toast: true,
     position: 'top-end',
     showConfirmButton: false,
-    timer: 1600,
+    timer: 1000,
     timerProgressBar: true,
     customClass: {
         popup: 'my-swal-popup'
@@ -12,10 +12,18 @@ const Toast = Swal.mixin({
         toast.onmouseleave = Swal.resumeTimer;
     }
 });
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     const loginForm = document.getElementById('login-form');
-
-    loginForm.addEventListener('submit', function(event) {
+    const emailInput = document.getElementById('email');
+    if (emailInput) {
+        emailInput.addEventListener('blur', function () {
+            const emailValue = emailInput.value;
+            if (emailValue.length > 0 && !emailValue.includes('@')) {
+                emailInput.value = emailValue + '@gmail.com';
+            }
+        });
+    }
+    loginForm.addEventListener('submit', function (event) {
         event.preventDefault();
 
         const email = document.getElementById('email').value;
@@ -27,7 +35,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         if (validUser) {
             // NẾU TÌM THẤY (ĐĂNG NHẬP THÀNH CÔNG)
-            
+
             // THAY ĐỔI 2: Thay thế alert() bằng Toast báo thành công
             Toast.fire({
                 icon: 'success',
@@ -51,7 +59,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const passwordInput = document.getElementById('password');
     const toggleButton = document.querySelector('.password-toggle');
     const eyeIcon = toggleButton.querySelector('i'); //
-    toggleButton.addEventListener('click', function() {
+    toggleButton.addEventListener('click', function () {
         // 3. Kiểm tra loại của ô input hiện tại
         if (passwordInput.type === 'password') {
             // Nếu đang là 'password', chuyển sang 'text' để xem

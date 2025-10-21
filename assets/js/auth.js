@@ -2,7 +2,7 @@ const Toast = Swal.mixin({
     toast: true,
     position: 'top-end',
     showConfirmButton: false,
-    timer: 1600,
+    timer: 1300,
     timerProgressBar: true,
     customClass: {
         popup: 'my-swal-popup'
@@ -15,13 +15,13 @@ const Toast = Swal.mixin({
 function updateCartIcon() {
     // Lấy giỏ hàng từ localStorage
     let cart = JSON.parse(localStorage.getItem('cart')) || [];
-    
+
     // Tính tổng số lượng sản phẩm
     const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
-    
+
     // Tìm đến tất cả các badge của giỏ hàng (có thể có ở cả bản mobile và desktop)
     const cartBadges = document.querySelectorAll('.header-actions .bi-cart3 + .badge');
-    
+
     // Cập nhật số lượng cho từng badge tìm thấy
     cartBadges.forEach(badge => {
         if (badge) {
@@ -29,7 +29,7 @@ function updateCartIcon() {
         }
     });
 }
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     updateCartIcon();
     // Tìm đến thẻ div có id="user-session"
     const userSessionDiv = document.getElementById('user-session');
@@ -49,12 +49,14 @@ document.addEventListener('DOMContentLoaded', function() {
 
         // Gắn sự kiện click cho nút Đăng xuất
         const logoutBtn = document.getElementById('logout-btn');
-        logoutBtn.addEventListener('click', function(event) {
-            event.preventDefault(); 
-            
+        logoutBtn.addEventListener('click', function (event) {
+            event.preventDefault();
+
             // Xóa thông tin người dùng khỏi sessionStorage
             sessionStorage.removeItem('currentUser');
-            
+            localStorage.removeItem('cart');
+            updateCartIcon();
+
             // THAY ĐỔI 2: Thay thế alert() bằng Toast và xử lý chuyển trang
             Toast.fire({
                 icon: 'success',
@@ -67,7 +69,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     } else {
         // --- NẾU CHƯA ĐĂNG NHẬP ---
-        
+
         // Tạo lại 2 nút Đăng nhập và Đăng ký
         userSessionDiv.innerHTML = `
             <a href="login.html" class="btn btn-primary w-100 mb-2">Đăng nhập</a>

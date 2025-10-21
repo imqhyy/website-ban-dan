@@ -3,7 +3,7 @@
         toast: true,
         position: 'top-end',
         showConfirmButton: false,
-        timer: 1600,
+        timer: 1300,
         timerProgressBar: true,
         customClass: { popup: 'my-swal-popup' },
         didOpen: (toast) => {
@@ -11,11 +11,38 @@
             toast.onmouseleave = Swal.resumeTimer;
         }
     });
+    const sampleOrders = [
+        {
+            orderId: "DEMO-001",
+            date: "10/10/2025",
+            total: 85000000,
+            items: [
+                {
+                    image: "assets/img/product/guitar/acoustic/taylor/taylor-a12e/dan-guitar-acoustic-taylor-academy-12e-grand-concert-wbag-.jpg",
+                    name: "Taylor A12E",
+                    quantity: 1,
+                    price: 85000000
+                }
+            ]
+        },
+        {
+            orderId: "DEMO-002",
+            date: "05/10/2025",
+            total: 2000000,
+            items: [
+                {
+                    image: "assets/img/product/guitar/acoustic/saga/saga-cl65/dan-guitar-acoustic-saga-cl65-.jpg",
+                    name: "Saga CL65",
+                    quantity: 1,
+                    price: 2000000
+                }
+            ]
+        }
+    ];
+    document.addEventListener('DOMContentLoaded', function () {
 
-    document.addEventListener('DOMContentLoaded', function() {
-        
         const currentUserJSON = sessionStorage.getItem('currentUser');
-        
+
         // --- BẢO VỆ TRANG ---
         if (!currentUserJSON) {
             Swal.fire({
@@ -33,7 +60,7 @@
             }).then(() => {
                 window.location.href = 'login.html';
             });
-            return; 
+            return;
         }
         document.body.classList.remove('page-loading');
 
@@ -52,7 +79,6 @@
         // --- HIỂN THỊ THÔNG TIN NGƯỜI DÙNG ---
         if (currentUser) {
             if (userDisplayName) userDisplayName.textContent = currentUser.fullName;
-            
             const nameParts = currentUser.fullName.split(' ');
             const firstName = nameParts.shift();
             const lastName = nameParts.join(' ');
@@ -61,17 +87,17 @@
             if (lastNameInput) lastNameInput.value = lastName;
             if (emailInput) emailInput.value = currentUser.email;
             if (phoneInput) {
-            phoneInput.value = currentUser.phone || '';
+                phoneInput.value = currentUser.phone || '';
+            }
         }
+        const orderBadge = document.querySelector('a[href="#orders"] .badge');
+        if (orderBadge) {
+            const orderCount = currentUser.orders ? currentUser.orders.length : 0;
+            orderBadge.textContent = orderCount;
         }
-         const orderBadge = document.querySelector('a[href="#orders"] .badge');
-         if (orderBadge) {
-        const orderCount = currentUser.orders ? currentUser.orders.length : 0;
-        orderBadge.textContent = orderCount;
-    }
         // --- XỬ LÝ LƯU THÔNG TIN CÁ NHÂN ---
         if (settingsForm) {
-            settingsForm.addEventListener('submit', function(event) {
+            settingsForm.addEventListener('submit', function (event) {
                 event.preventDefault();
                 const newFirstName = firstNameInput.value;
                 const newLastName = lastNameInput.value;
@@ -83,10 +109,10 @@
                 if (userIndex !== -1) {
                     allUsers[userIndex].fullName = newFullName;
                     allUsers[userIndex].email = newEmail;
-                    allUsers[userIndex].phone = newPhone; 
+                    allUsers[userIndex].phone = newPhone;
                     localStorage.setItem('users', JSON.stringify(allUsers));
                 }
-                const updatedCurrentUser = { ...currentUser, fullName: newFullName, email: newEmail,phone: newPhone };
+                const updatedCurrentUser = { ...currentUser, fullName: newFullName, email: newEmail, phone: newPhone };
                 sessionStorage.setItem('currentUser', JSON.stringify(updatedCurrentUser));
                 if (userDisplayName) userDisplayName.textContent = newFullName;
                 Toast.fire({ icon: 'success', title: 'Cập nhật thông tin thành công!' });
@@ -95,7 +121,7 @@
 
         // --- XỬ LÝ ĐỔI MẬT KHẨU ---
         if (passwordUpdateForm) {
-            passwordUpdateForm.addEventListener('submit', function(event) {
+            passwordUpdateForm.addEventListener('submit', function (event) {
                 event.preventDefault();
                 const currentPassword = document.getElementById('currentPassword').value;
                 const newPassword = document.getElementById('newPassword').value;
@@ -115,47 +141,57 @@
                 }
             });
         }
-        
+
         // --- XỬ LÝ NÚT ĐĂNG XUẤT ---
         if (logoutLink) {
-            logoutLink.addEventListener('click', function(event) {
+            logoutLink.addEventListener('click', function (event) {
                 event.preventDefault();
                 // ... (toàn bộ code xử lý đăng xuất giữ nguyên)
                 sessionStorage.removeItem('currentUser');
+                localStorage.removeItem('cart');
+                updateCartIcon();
                 Toast.fire({ icon: 'success', title: 'Đăng xuất thành công!' })
-                .then(() => {
-                    window.location.href = 'index.html';
-                });
+                    .then(() => {
+                        window.location.href = 'index.html';
+                    });
             });
         }
         const ordersGrid = document.querySelector('#orders .orders-grid');
-if (ordersGrid) {
-    ordersGrid.innerHTML = ''; // Xóa các đơn hàng mẫu
+        if (ordersGrid) {
+            ordersGrid.innerHTML = ''; // Xóa nội dung cũ
 
-    if (currentUser.orders && currentUser.orders.length > 0) {
-        // .reverse() để hiển thị đơn hàng mới nhất lên đầu
-        currentUser.orders.reverse().forEach(order => {
-            const totalItems = order.items.reduce((sum, item) => sum + item.quantity, 0);
+            // 1. Lấy đơn hàng thật của người dùng (nếu chưa có, là mảng rỗng)
+            const realOrders = currentUser.orders || [];
 
-            // Tạo một chuỗi HTML chứa danh sách sản phẩm (ảnh + tên)
-            let productItemsHTML = '';
-            order.items.forEach(item => {
-                productItemsHTML += `
+            // 2. Kết hợp đơn hàng thật và đơn hàng mẫu
+            const allOrdersToShow = realOrders.concat(sampleOrders);
+
+            // 3. Cập nhật số lượng trên BADGE
+            const orderBadge = document.querySelector('a[href="#orders"] .badge');
+            if (orderBadge) {
+                orderBadge.textContent = allOrdersToShow.length; // Hiển thị tổng số đơn (thật + mẫu)
+            }
+
+            // 4. Kiểm tra xem có đơn hàng nào để hiển thị không
+            if (allOrdersToShow.length > 0) {
+                // Sắp xếp lại (đơn hàng mới nhất sẽ lên đầu)
+                allOrdersToShow.reverse().forEach(order => {
+                    const totalItems = order.items.reduce((sum, item) => sum + item.quantity, 0);
+                    let productItemsHTML = '';
+                    order.items.forEach(item => {
+                        productItemsHTML += `
                     <div style="display: flex; align-items: center; margin-bottom: 10px; font-size: 14px;">
                         <img src="${item.image}" alt="${item.name}" style="width: 40px; height: 40px; border-radius: 4px; margin-right: 10px; object-fit: cover;">
                         <span style="flex: 1;">${item.name}</span>
+                        <span style="color: #888; margin-left: 10px;">SL: ${item.quantity}</span>
                     </div>
                 `;
-            });
+                    });
 
-            // Dựng lại toàn bộ card đơn hàng với thông tin chi tiết
-            const orderCardHTML = `
+                    const orderCardHTML = `
                 <div class="order-card">
                     <div class="order-header">
-                        <div class="order-id">
-                            <span class="label">Mã đơn hàng:</span>
-                            <span class="value">#${order.orderId}</span>
-                        </div>
+                        <div class="order-id"><span class="label">Mã đơn hàng:</span> <span class="value">#${order.orderId}</span></div>
                         <div class="order-date">${order.date}</div>
                     </div>
                     <div class="order-content">
@@ -163,31 +199,20 @@ if (ordersGrid) {
                             ${productItemsHTML}
                         </div>
                         <div class="order-info">
-                            <div class="info-row">
-                                <span>Trạng thái</span>
-                                <span class="status delivered">Đã hoàn thành</span>
-                            </div>
-                            <div class="info-row">
-                                <span>Tổng số lượng</span>
-                                <span>${totalItems} sản phẩm</span>
-                            </div>
-                            <div class="info-row">
-                                <span>Tổng cộng</span>
-                                <span class="price">${order.total.toLocaleString('vi-VN')} VNĐ</span>
-                            </div>
+                            <div class="info-row"><span>Trạng thái</span><span class="status delivered">Đã hoàn thành</span></div>
+                            <div class="info-row"><span>Tổng số lượng</span><span>${totalItems} sản phẩm</span></div>
+                            <div class="info-row"><span>Tổng cộng</span><span class="price">${order.total.toLocaleString('vi-VN')} VNĐ</span></div>
                         </div>
                     </div>
-                    <div class="order-footer">
-                        <button type="button" class="btn-details">Xem chi tiết</button>
-                    </div>
+                    <div class="order-footer"><button type="button" class="btn-details">Xem chi tiết</button></div>
                 </div>
             `;
-            ordersGrid.innerHTML += orderCardHTML;
-        });
-    } else {
-        ordersGrid.innerHTML = '<p class="text-center p-5">Bạn chưa có đơn hàng nào.</p>';
-    }
-}
+                    ordersGrid.innerHTML += orderCardHTML;
+                });
+            } else {
+                // Nếu cả đơn thật và đơn mẫu đều không có (trường hợp này gần như không xảy ra)
+                ordersGrid.innerHTML = '<p class="text-center p-5">Bạn chưa có đơn hàng nào.</p>';
+            }
+        }   
     });
-
-} 
+}

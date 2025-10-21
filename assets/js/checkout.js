@@ -1,5 +1,5 @@
-document.addEventListener('DOMContentLoaded', function() {
-    
+document.addEventListener('DOMContentLoaded', function () {
+
     // --- BẢO VỆ TRANG & KIỂM TRA DỮ LIỆU ---
     const currentUser = JSON.parse(sessionStorage.getItem('currentUser'));
     const cart = JSON.parse(localStorage.getItem('cart')) || [];
@@ -21,13 +21,13 @@ document.addEventListener('DOMContentLoaded', function() {
     const emailInput = document.getElementById('email');
     const phoneInput = document.getElementById('phone');
     const addressInput = document.getElementById('address');
-    
+
     const summaryItemsContainer = document.getElementById('order-summary-items');
     const itemCountElement = document.getElementById('item-count');
     const orderSubtotalElement = document.getElementById('order-subtotal');
     const orderTotalElement = document.getElementById('order-total');
     const placeOrderBtnPrice = document.getElementById('place-order-btn-price');
-    
+
     const checkoutForm = document.getElementById('checkout-form');
 
     // --- ĐIỀN THÔNG TIN CÓ SẴN CỦA NGƯỜI DÙNG ---
@@ -40,7 +40,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // --- HIỂN THỊ TÓM TẮT ĐƠN HÀNG ---
     let total = 0;
     let totalItems = 0;
-    summaryItemsContainer.innerHTML = ''; 
+    summaryItemsContainer.innerHTML = '';
     cart.forEach(item => {
         const itemTotal = item.price * item.quantity;
         total += itemTotal;
@@ -61,7 +61,7 @@ document.addEventListener('DOMContentLoaded', function() {
         `;
         summaryItemsContainer.innerHTML += itemHTML;
     });
-    
+
     itemCountElement.textContent = `${totalItems} sản phẩm`;
     const formattedTotal = `${total.toLocaleString('vi-VN')} VNĐ`;
     orderSubtotalElement.textContent = formattedTotal;
@@ -69,25 +69,20 @@ document.addEventListener('DOMContentLoaded', function() {
     placeOrderBtnPrice.textContent = formattedTotal;
 
     // --- XỬ LÝ SỰ KIỆN ĐẶT HÀNG ---
-    checkoutForm.addEventListener('submit', function(event) {
-    event.preventDefault();
+    checkoutForm.addEventListener('submit', function (event) {
+        event.preventDefault();
 
-    // Lấy thông tin từ form
-    const fullName = document.getElementById('first-name').value + ' ' + document.getElementById('last-name').value;
-    const phone = document.getElementById('phone').value;
-    const address = document.getElementById('address').value;
-
-    if (!firstNameInput.value || !lastNameInput.value || !phoneInput.value || !addressInput.value) {
-            Toast.fire({ icon: 'error', title: 'Vui lòng điền đầy đủ thông tin giao hàng!' });
-            return;
-        }
+        // Lấy thông tin từ form
+        const fullName = document.getElementById('first-name').value + ' ' + document.getElementById('last-name').value;
+        const phone = document.getElementById('phone').value;
+        const address = document.getElementById('address').value;
 
         Swal.fire({
             icon: 'success',
             title: 'Đặt hàng thành công!',
             text: 'Cảm ơn bạn đã mua hàng tại Guitar Xì Gòn.',
             confirmButtonText: 'Xem xác nhận đơn hàng',
-            customClass: {  }
+            customClass: {}
         }).then(() => {
             const newOrder = {
                 orderId: `ORD-${Date.now()}`,
@@ -101,7 +96,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     address: addressInput.value
                 }
             };
-            
+
             let allUsers = JSON.parse(localStorage.getItem('users')) || [];
             const userIndex = allUsers.findIndex(user => user.email === currentUser.email);
 
