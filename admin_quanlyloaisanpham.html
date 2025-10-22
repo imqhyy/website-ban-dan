@@ -27,6 +27,7 @@
 
   <!-- Main CSS File -->
   <link href="assets/css/main.css" rel="stylesheet">
+  <link href="assets/css/admin.css" rel="stylesheet">
 
   <!-- =======================================================
   * Template Name: NiceShop
@@ -147,7 +148,50 @@
     </div><!-- End Page Title -->
 
 
+    <div class="container-manage-category-products">
 
+        <h2 style="margin: 20px 0px;">Thêm Loại Sản Phẩm Mới</h2>
+        <div class="add-form-category-products">
+            <input type="text" id="newCategoryName" placeholder="Tên Loại Sản Phẩm (ví dụ: Guitar Acoustic)">
+            <input type="text" id="newCategoryDescription" placeholder="Mô tả (Tùy chọn)">
+            <button onclick="addNewCategory()">Thêm mới</button>
+        </div>
+        <h2>Danh Sách Loại Sản Phẩm</h2>
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th style="width: 5%;">ID</th>
+                    <th style="width: 30%;">Tên Loại</th>
+                    <th style="width: 40%;">Mô tả</th>
+                    <th style="width: 25%;">Chức năng</th>
+                </tr>
+            </thead>
+            <tbody id="categoryList">
+                <tr>
+                    <td>1</td>
+                    <td>Guitar Acoustic</td>
+                    <td>Dòng guitar thùng sử dụng dây kim loại.</td>
+                    <td class="function-button-container">
+                        <button class="edit-btn action-icon-btn" title="Sửa"><img src="assets/img/iconbutton/pencil.png" class="button-icon" alt="Sửa"></button>
+                        <button class="delete-btn action-icon-btn" title="Xoá"><img src="assets/img/iconbutton/trash.png" class="button-icon" alt="Xoá"></button>
+                        <button class="hide-btn action-icon-btn" title="Ẩn"><img src="assets/img/iconbutton/eye.png" class="button-icon" alt="Ẩn"></button>
+                        <button class="manage-brands-btn action-icon-btn" title="Quản lý thương hiệu"><img src="assets/img/iconbutton/settings-sliders.png" class="button-icon" alt="Quản lý thương hiệu"></button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>Guitar Classic</td>
+                    <td>Dòng guitar thùng sử dụng dây nylon.</td>
+                    <td class="function-button-container">
+                        <button class="edit-btn action-icon-btn" title="Sửa"><img src="assets/img/iconbutton/pencil.png" class="button-icon" alt="Sửa"></button>
+                        <button class="delete-btn action-icon-btn" title="Xoá"><img src="assets/img/iconbutton/trash.png" class="button-icon" alt="Xoá"></button>
+                        <button class="hide-btn action-icon-btn" title="Ẩn"><img src="assets/img/iconbutton/eye.png" class="button-icon" alt="Ẩn"></button>
+                        <button class="manage-brands-btn action-icon-btn" title="Quản lý thương hiệu"><img src="assets/img/iconbutton/settings-sliders.png" class="button-icon" alt="Quản lý thương hiệu"></button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 
 
 

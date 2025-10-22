@@ -1,3 +1,73 @@
+
+/* Search box */
+.search-container {
+    /* 1. Kích hoạt Flexbox */
+    display: flex;
+    /* 2. Căn giữa các mục con theo chiều ngang */
+    justify-content: center;
+    /* 3. Thêm khoảng cách phía trên và dưới */
+    margin: 20px 0;
+    width: 100%; /* Đảm bảo nó chiếm toàn bộ chiều rộng để căn giữa được */
+    
+}
+
+
+#search-input {
+    /* Thiết lập kích thước */
+    width: 400px; /* Tùy chỉnh chiều rộng */
+    padding: 10px 15px;
+    /* Thiết kế */
+    border: 2px solid #ccc;
+    border-right: none; /* Loại bỏ đường viền bên phải để nối với nút */
+    border-radius: 25px 0 0 25px; /* Bo tròn góc trái */
+    font-size: 16px;
+    transition: border-color 0.5s; /* Hiệu ứng khi focus */
+}
+
+#search-input:focus {
+    border-color: #5f5f5f; /* Đổi màu khi đang nhập */
+    outline: none; /* Loại bỏ viền focus mặc định của trình duyệt */
+}
+
+#search-button {
+    padding: 10px 20px;
+    /* Thiết kế nút */
+    background-color: #444444; /* Màu xanh nổi bật */
+    color: white;
+    border: none;
+    border-radius: 0 25px 25px 0; /* Bo tròn góc phải */
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s;
+}
+
+#search-button:hover {
+    background-color: #252223; /* Đổi màu khi rê chuột */
+}
+
+/* Sort container */
+.sort-container {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+#sort-button {
+    padding: 10px 20px;
+    background-color: #444444; /* Chọn một màu khác biệt, ví dụ màu cam */
+    color: white;
+    border: none;
+    border-radius: 25px; /* Bo tròn tương tự */
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s;
+}
+
+#sort-button:hover {
+    background-color: #252223; /* Đổi màu khi rê chuột */
+}
+
+                                    /* QUẢN LÝ KHÁCH HÀNG */
 .customer-card {
     /* Tạo hình chữ nhật */
     width: 90%; /* Chiếm phần lớn chiều rộng trang */
@@ -19,7 +89,7 @@
 }
 .customer-avatar-container {
     /* Kích thước khung */
-    width: 70px;
+    min-width: 70px;
     height: 70px;
     
     /* Tạo hình tròn */
@@ -65,7 +135,6 @@
 .customer-actions {
     /* Đẩy toàn bộ khối này sang sát lề phải của .customer-card */
     margin-left: auto;
-    
     /* Thiết lập cho các nút bên trong nằm ngang */
     display: flex;
     gap: 10px; /* Khoảng cách giữa các nút */
@@ -128,6 +197,7 @@
 .customer-avatar-details-container {
     /* Kích thước khung */
     min-width: 200px;
+    
     height: 200px;
     
     /* Tạo hình tròn */
@@ -171,3 +241,118 @@
     text-decoration: none;
     cursor: pointer;
 }
+
+                                /* QUẢN LÝ LOẠI SẢN PHẨM */
+
+
+        .container-manage-category-products {
+            width: 90%;
+            
+            margin: auto;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        /* --- Phần Thêm mới --- */
+        .add-form-category-products {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            background-color: #f9f9f9;
+        }
+        .add-form-category-products input[type="text"] {
+            flex-grow: 1;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        .add-form-category-products button {
+            background-color: #28a745;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .add-form-category-products button:hover {
+            background-color: #218838;
+        }
+
+        /* --- Phần Bảng Danh sách --- */
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        .data-table th, .data-table td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+        .data-table th {
+            background-color: #3d4042;
+            color: white;
+            font-weight: bold;
+        }
+        .data-table tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        .function-button-container {
+            display: flex;
+            justify-content: space-evenly;
+        }
+        .data-table button {
+            padding: 8px 12px;
+            margin-right: 5px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            color: white;
+            background-color: transparent;
+        }
+        
+
+        .data-table .action-icon-btn {
+            /* Đảm bảo nút nhỏ gọn */
+            width: 34px; 
+            height: 34px;
+            padding: 0; /* Loại bỏ padding mặc định */
+            display: inline-flex; /* Sử dụng Flexbox để căn giữa biểu tượng */
+            align-items: center;
+            justify-content: center;
+            border-radius: 4px; /* Làm nút vuông vắn, bạn có thể dùng 50% để làm tròn */
+            font-size: 14px; /* Điều chỉnh kích thước icon */
+        }
+
+        .button-icon {
+            /* Đảm bảo ảnh lấp đầy nút mà không bị tràn */
+            width: 100%; 
+            height: 100%;
+            object-fit: contain; /* Giữ tỷ lệ ảnh */
+            vertical-align: middle; /* Loại bỏ khoảng trắng không mong muốn */
+
+            /* Thêm Transition để chuyển động mượt mà */
+            transition: transform 0.2s ease-in-out;
+        }
+
+        .action-icon-btn {
+            background-size: 70%;
+            background-repeat: no-repeat;
+            background-position: center;
+            
+        }
+        /* Hiệu ứng khi di chuột qua */
+        .action-icon-btn:hover .button-icon {
+            /* Phóng to icon lên 1.2 lần (20%) */
+            transform: scale(1.2); 
+        }
+        
+        
+
+        
