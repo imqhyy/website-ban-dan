@@ -1,3 +1,6 @@
+
+
+                                    /*DÀNH CHO QUẢN LÝ KHÁCH HÀNG*/
 // Lấy các phần tử
 var modal = document.getElementById("DetailModal");
 var closeButton = document.querySelector(".close-button");
@@ -75,7 +78,6 @@ function showBrandList(nameCategory) {
     const brands = brandData[nameCategory];
     // 3. Xóa nội dung cũ trong UL
     brandsUlList.innerHTML = '';
-    
 
 
     if (brands && brands.length > 0) {
@@ -105,6 +107,18 @@ manageButtons.forEach(button => {
         const categoryName = categoryTd.textContent.trim();
         var name = categoryName;
         showBrandList(name);
+    });
+});
+
+
+
+
+                                    /*DÀNH CHO QUẢN LÝ NHẬP SẢN PHẨM */
+
+document.querySelectorAll('.create-import-btn').forEach(button => {
+    button.addEventListener('click', function(event) {
+        event.preventDefault(); // Ngăn hành động chuyển trang mặc định của thẻ <a>
+        modal.style.display = "block";
     });
 });
 

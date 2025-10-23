@@ -371,6 +371,7 @@
     height: 33px;
 }
 
+
 #addBrandBtn {
     border: 1px solid black;
     border-radius: 25px;
@@ -386,4 +387,34 @@
 
 #newBrandName {
     padding: 7px;
+    margin-right: 5px;
+}
+
+
+
+
+                                /*Dành CHO QUẢN LÝ NHẬP SẢN PHẨM*/
+.container-manage-import-products {
+    width: 90%;  
+    margin: auto;
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.create-import-btn {
+    border: none;
+    background-color: #28a745;
+    font-size: 15px;
+    color: white;
+    padding: 10px;
+    width: 150px;
+    height: 50px;
+    border-radius: 25px;
+    transition: 0.3s;
+}
+
+.create-import-btn:hover {
+    background-color: #218838;
 }
