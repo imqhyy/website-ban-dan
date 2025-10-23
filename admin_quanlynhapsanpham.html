@@ -27,6 +27,7 @@
 
   <!-- Main CSS File -->
   <link href="assets/css/main.css" rel="stylesheet">
+  <link href="assets/css/admin.css" rel="stylesheet">
 
   <!-- =======================================================
   * Template Name: NiceShop
@@ -147,6 +148,204 @@
     </div><!-- End Page Title -->
 
 
+
+
+
+    <!-- Container phiếu nhập và nơi nhập phiếu -->
+    <div class="container-manage-import-products">
+      <h2 style="margin: 20px 0px;">Thêm Phiếu Nhập Mới</h2>
+      <button class="create-import-btn">Tạo Phiếu Nhập</button>
+      
+      <!-- Phiếu Nhập Mới -->
+      <div id="DetailModal" class="modal">
+        <div class="modal-content-admin">
+          <span class="close-button">&times;</span>
+          <h2>Thông tin phiếu nhập</h2>
+          <div>
+            <input type="text">
+          </div>
+        </div>
+      </div>
+
+
+      <hr style="border: 1px solid black;">
+      <!-- Danh sách phiếu nhập -->
+      <h2>Danh Sách Phiếu Nhập Sản Phẩm</h2>
+        <!-- Search -->
+      <form action="" class="search-container" method="get"><!-- Search box -->
+        <input type="text" id="search-input" placeholder="Tìm kiếm ngày nhập VD: 1/1/2025" name="search">
+        <button id="search-button">
+          <i class="fa fa-search"></i> Tìm kiếm          
+        </button> 
+      </form><!-- End Search box -->
+
+      <div class="sort-container"> <!-- Sort-container -->
+        <button id="sort-button" onclick="sortCustomers('asc')">
+                Mới nhất
+        </button>
+        <button id="sort-button" onclick="sortCustomers('dsc')">
+                Cũ nhất
+        </button>
+      </div>
+
+      <!-- Phiếu nhập thứ nhất -->
+      <hr>
+      <h3>Ngày nhập: 23/10/2025</h3>
+      <h3>Mã phiếu: 1234</h3>
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th style="width: 40%;">Sản phẩm</th>
+            <th style="width:10%">Loại</th>
+            <th style="width: 10%;">Số lượng</th>
+            <th style="width: 20%;">Đơn giá</th>
+          </tr>
+        </thead>
+        <tbody id="categoryList">
+          <tr>
+            <td>Taloy A12E</td>
+            <td>Acoustic</td>
+            <td>2</td>
+            <td>85.000.000 VND</td>
+          </tr>
+          <tr>
+            <td>Ba Đờn</td>
+            <td>Classic</td>
+            <td>5</td>
+            <td>5.000.000 VND</td>
+          </tr>
+          <tr>
+            <td>Enya EGA X0 PRO SP1</td>
+            <td>Acoustic</td>
+            <td>1</td>
+            <td>11.300.000 VND</td>
+          </tr>
+        </tbody>
+        <tfoot>
+          <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <th>Tổng: 217.600.000 VND</th>
+          </tr>
+        </tfoot>
+      </table>
+
+      <!-- Phiếu nhập thứ hai -->
+      <hr>
+      <h3>Ngày nhập: 10/10/2025</h3>
+      <h3>Mã phiếu: 1233</h3>
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th style="width: 40%;">Sản phẩm</th>
+            <th style="width:10%">Loại</th>
+            <th style="width: 10%;">Số lượng</th>
+            <th style="width: 20%;">Đơn giá</th>
+          </tr>
+        </thead>
+        <tbody id="categoryList">
+          <tr>
+            <td>Saga CL65</td>
+            <td>Acoustic</td>
+            <td>10</td>
+            <td>2.000.000 VND</td>
+          </tr>
+          <tr>
+            <td>Ba Đờn</td>
+            <td>Classic</td>
+            <td>3</td>
+            <td>5.000.000 VND</td>
+          </tr>
+          <tr>
+            <td>Yamaha LS36 ARE</td>
+            <td>Acoustic</td>
+            <td>7</td>
+            <td>6.500.000 VND</td>
+          </tr>
+        </tbody>
+        <tfoot>
+          <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <th>Tổng: 80.500.000 VND</th>
+          </tr>
+        </tfoot>
+      </table>
+      
+      <!-- Phiếu nhập thứ ba -->
+      <hr>
+      <h3>Ngày nhập: 12/6/2025</h3>
+      <h3>Mã phiếu: 1232</h3>
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th style="width: 40%;">Sản phẩm</th>
+            <th style="width:10%">Loại</th>
+            <th style="width: 10%;">Số lượng</th>
+            <th style="width: 20%;">Đơn giá</th>
+          </tr>
+        </thead>
+        <tbody id="categoryList">
+          <tr>
+            <td>Saga SS 8CE</td>
+            <td>Acoustic</td>
+            <td>1</td>
+            <td>6.500.000 VND</td>
+          </tr>
+          <tr>
+            <td>Ba Đờn</td>
+            <td>Classic</td>
+            <td>3</td>
+            <td>5.000.000 VND</td>
+          </tr>
+          <tr>
+            <td>Enya EGA X0 PRO SP1</td>
+            <td>Acoustic</td>
+            <td>1</td>
+            <td>11.300.000 VND</td>
+          </tr>
+        </tbody>
+        <tfoot>
+          <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <th>Tổng: 32.800.000 VND</th>
+          </tr>
+        </tfoot>
+      </table>
+
+
+
+
+
+
+    </div>
+    <!-- Category Pagination Section -->
+		<section id="category-pagination" class="category-pagination section">
+			<div class="container">
+				<nav class="d-flex justify-content-center" aria-label="Page navigation">
+					<ul>
+						<li> <a href="#" aria-label="Previous page"> <i class="bi bi-arrow-left"></i>
+						        <span class="d-none d-sm-inline">Previous</span>
+						      </a> </li>
+						<li><a href="#" class="active">1</a></li>
+						<li><a href="#">2</a></li>
+						<li><a href="#">3</a></li>
+						<li class="ellipsis">...</li>
+						<li><a href="#">8</a></li>
+						<li><a href="#">9</a></li>
+						<li><a href="#">10</a></li>
+						<li> <a href="#" aria-label="Next page"> 
+                  <span class="d-none d-sm-inline">Next</span>
+							    <i class="bi bi-arrow-right"></i>
+									</a> </li>
+					</ul>
+				</nav>
+			</div>
+	  </section><!-- /Category Pagination Section -->
 
 
 
@@ -290,6 +489,7 @@
   <script src="assets/js/main.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <script src="assets/js/login.js"></script>
+  <script src="assets/js/admin.js"></script>
 </body>
 
 </html>
