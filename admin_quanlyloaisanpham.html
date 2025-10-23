@@ -150,12 +150,12 @@
 
     <div class="container-manage-category-products">
 
-        <h2 style="margin: 20px 0px;">Thêm Loại Sản Phẩm Mới</h2>
-        <div class="add-form-category-products">
-            <input type="text" id="newCategoryName" placeholder="Tên Loại Sản Phẩm (ví dụ: Guitar Acoustic)">
-            <input type="text" id="newCategoryDescription" placeholder="Mô tả (Tùy chọn)">
-            <button onclick="addNewCategory()">Thêm mới</button>
-        </div>
+      <h2 style="margin: 20px 0px;">Thêm Loại Sản Phẩm Mới</h2>
+      <div class="add-form-category-products">
+        <input type="text" id="newCategoryName" placeholder="Tên Loại Sản Phẩm (ví dụ: Guitar Acoustic)"> 
+        <input type="text" id="newCategoryDescription" placeholder="Mô tả (Tùy chọn)">
+        <button onclick="addNewCategory()">Thêm mới</button>
+      </div>
         <h2>Danh Sách Loại Sản Phẩm</h2>
         <table class="data-table">
             <thead>
@@ -169,7 +169,7 @@
             <tbody id="categoryList">
                 <tr>
                     <td>1</td>
-                    <td>Guitar Acoustic</td>
+                    <td class="manage-name-category">Guitar Acoustic</td>
                     <td>Dòng guitar thùng sử dụng dây kim loại.</td>
                     <td class="function-button-container">
                         <button class="edit-btn action-icon-btn" title="Sửa"><img src="assets/img/iconbutton/pencil.png" class="button-icon" alt="Sửa"></button>
@@ -180,7 +180,7 @@
                 </tr>
                 <tr>
                     <td>2</td>
-                    <td>Guitar Classic</td>
+                    <td class="manage-name-category">Guitar Classic</td>
                     <td>Dòng guitar thùng sử dụng dây nylon.</td>
                     <td class="function-button-container">
                         <button class="edit-btn action-icon-btn" title="Sửa"><img src="assets/img/iconbutton/pencil.png" class="button-icon" alt="Sửa"></button>
@@ -190,10 +190,34 @@
                     </td>
                 </tr>
             </tbody>
-        </table>
+          </table>
+
+
+
+    <!-- Pop-up -->
+    <div id="DetailModal" class="modal">
+      <div class="modal-content-admin">
+        <span class="close-button">&times;</span>
+          <h1 id="modalCategory"></h1>
+        <div id="brandList">
+          <h3>Danh sách thương hiệu hiện có:</h3>
+          <ul id="brandsUlList">
+          </ul>
+        </div>
+
+      <hr>
+
+      <div id="addBrandForm">
+        <h3>Thêm Thương hiệu mới:</h3>
+          <input type="text" id="newBrandName" placeholder="Tên thương hiệu">
+          <button id="addBrandBtn">Thêm</button>
+      </div>
+      <p id="message"></p>
+           
+
+      </div>
+
     </div>
-
-
 
 
 
@@ -334,6 +358,7 @@
   <script src="assets/js/main.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <script src="assets/js/login.js"></script>
+  <script src="assets/js/admin.js"></script>
 </body>
 
 </html>

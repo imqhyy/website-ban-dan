@@ -1,3 +1,6 @@
+                        
+                        /*DÀNH CHO TRANG QUẢN LÝ KHÁCH HÀNG*/
+
 
 /* Search box */
 .search-container {
@@ -352,7 +355,23 @@
             /* Phóng to icon lên 1.2 lần (20%) */
             transform: scale(1.2); 
         }
-        
-        
 
-        
+
+
+        .category-list {
+            border: 1px solid black;
+            border-radius: 25px;
+            height: 33px;
+        }
+
+#newBrandName {
+    border: 1px solid black;
+    border-radius: 25px;
+    height: 33px;
+}
+
+#addBrandBtn {
+    border: 1px solid black;
+    border-radius: 25px;
+    height: 33px;
+}
