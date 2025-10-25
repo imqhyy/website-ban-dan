@@ -156,13 +156,32 @@
       <h2 style="margin: 20px 0px;">Thêm Phiếu Nhập Mới</h2>
       <button class="create-import-btn">Tạo Phiếu Nhập</button>
       
-      <!-- Phiếu Nhập Mới -->
+      <!-- Pop-up Phiếu Nhập Mới -->
       <div id="DetailModal" class="modal">
         <div class="modal-content-admin">
           <span class="close-button">&times;</span>
           <h2>Thông tin phiếu nhập</h2>
           <div>
-            <input type="text">
+            <label>Ngày nhập:</label>
+            <input type="date">
+            <label>Mã phiếu:</label>
+            <input type="text" placeholder="Nhập mã phiếu">
+            <br>
+            <!-- Điền thông tin sản phẩm -->
+            <label>Tên sản phẩm:</label>
+            <input type="text" placeholder="Nhập tên sản phẩm">
+            <br>
+            <label for="manage-product-types">Loại sản phẩm:</label>
+            <select id="manage-product-type">
+              <option value="Guitar Classic">Classic</option>
+              <option value="Guitar Acoustic">Acoustic</option>
+            </select>
+            <label for="manage-product-brands">Thương hiệu</label>
+            <select id="manage-product-brands">
+              <!-- Điền bằng JS -->
+            </select>
+            <label>Số Lượng:</label>
+            <input type="text" style="width: 40px;">
           </div>
         </div>
       </div>
