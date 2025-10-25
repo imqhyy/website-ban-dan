@@ -115,31 +115,110 @@ manageButtons.forEach(button => {
 
                                     /*DÀNH CHO QUẢN LÝ NHẬP SẢN PHẨM */
 
-function updateBrands() {
-    // Lấy giá trị loại sản phẩm đang được chọn (ví dụ: 'Classic' hoặc 'Acoustic')
-    const selectedType = document.getElementById('manage-product-type').value;
-            
-    // Lấy danh sách thương hiệu tương ứng
-    const brands = brandData[selectedType];
 
-    // Xóa tất cả các tùy chọn cũ trong select Thương hiệu
-    document.getElementById('manage-product-brands').innerHTML = '';
-    // Lặp qua danh sách thương hiệu và thêm vào thẻ select
+
+
+function updateBrandsForProduct(typeSelect) { // khi chọn loại acoustic hay classic thì các brand cũng thay đổi
+    // 1. Lấy giá trị loại sản phẩm đang được chọn
+    const selectedType = typeSelect.value;
+            
+    // 2. Lấy thẻ select Thương hiệu tương ứng (là phần tử cùng cấp trong div cha)
+    //    Chúng ta tìm kiếm thẻ select có class 'manage-product-brands' bên trong thẻ DIV cha của typeSelect.
+    const productContainer = typeSelect.closest('.product-fields-template'); 
+    if (!productContainer) return; // Bảo vệ nếu không tìm thấy container
+
+    const brandSelect = productContainer.querySelector('.manage-product-brands');
+    if (!brandSelect) return; // Bảo vệ nếu không tìm thấy select Thương hiệu
+
+    // 3. Lấy danh sách thương hiệu tương ứng
+    const brands = brandData[selectedType] || []; // Thêm || [] để tránh lỗi nếu không tìm thấy loại
+
+    // 4. Xóa tất cả các tùy chọn cũ trong select Thương hiệu
+    brandSelect.innerHTML = '';
+
+    // 5. Lặp qua danh sách thương hiệu và thêm vào thẻ select
     brands.forEach(brand => {
         const option = document.createElement('option');
-        option.value = brand; // Giá trị option (dùng để gửi đi)
-        option.textContent = brand; // Nội dung hiển thị
-        document.getElementById('manage-product-brands').appendChild(option);
+        option.value = brand;
+        option.textContent = brand;
+        brandSelect.appendChild(option);
     });
 }
 
-document.querySelectorAll('.create-import-btn').forEach(button => {
-    button.addEventListener('click', function(event) {
-        event.preventDefault(); // Ngăn hành động chuyển trang mặc định của thẻ <a>
-        // Thiết lập sự kiện: Khi giá trị của Loại sản phẩm thay đổi, gọi hàm updateBrands
-        document.getElementById('manage-product-type').addEventListener('change', updateBrands);
-        updateBrands();
-        modal.style.display = "block";
+document.addEventListener('DOMContentLoaded', function() {
+    // 1. Gán sự kiện 'change' cho tất cả các select Loại sản phẩm hiện có
+    //    (Áp dụng cho sản phẩm mặc định ban đầu)
+    document.querySelectorAll('.manage-product-type').forEach(selectElement => { //khi thay đổi lựa chọn phân loại sẽ kích hoạt hàm thay đổi brand
+        selectElement.addEventListener('change', function() {
+            updateBrandsForProduct(this); // 'this' là select Loại sản phẩm vừa thay đổi
+        });
+        // Gọi hàm để thiết lập Thương hiệu ban đầu cho sản phẩm mặc định
+        updateBrandsForProduct(selectElement); 
     });
-});
 
+    
+    document.querySelectorAll('.create-import-btn').forEach(button => { //hiện popup khi click vào nút thêm phiếu nhập
+        button.addEventListener('click', function(event) {
+            event.preventDefault(); 
+            // KHÔNG cần thiết lập lại sự kiện 'change' ở đây nữa
+            modal.style.display = "block";
+        });
+    });
+
+    const initialProductTemplate = document.getElementsByClassName('product-fields-template')[0];
+    const initialRemoveBtn = initialProductTemplate.querySelector('.remove-product-btn');
+    if (initialRemoveBtn) {
+        // Ẩn nút xóa trên sản phẩm đầu tiên để đảm bảo luôn có ít nhất 1 sản phẩm
+        initialRemoveBtn.style.display = 'none'; 
+    }
+
+
+    // 3. Xử lý nút THÊM SẢN PHẨM (Đảm bảo code này vẫn chạy sau khi bạn sửa HTML/JS thêm sản phẩm)
+    const addProductButton = document.getElementById('add-product-fields-template'); // ID của nút "Thêm sản phẩm"
+    const importFormContainer = document.getElementById('import-form-container');
+    const productTemplate = document.getElementsByClassName('product-fields-template')[0];
+    const actionButtonConatainer = document.getElementById('manage-add-and-save-container');
+    if (addProductButton && actionButtonConatainer) {
+        addProductButton.addEventListener('click', function() {
+            const newProductFields = productTemplate.cloneNode(true);
+            
+            // ... (Phần xóa giá trị và thêm HR như code trước) ...
+            
+            // Xóa giá trị input và reset select
+            newProductFields.querySelectorAll('input, select').forEach(element => {
+                if (element.tagName === 'SELECT') {
+                    element.selectedIndex = 0;
+                } else {
+                    element.value = '';
+                }
+            });
+
+            // 1. HIỆN NÚT XÓA TRÊN BẢN SAO
+            const newRemoveBtn = newProductFields.querySelector('.remove-product-btn');
+            if (newRemoveBtn) {
+                newRemoveBtn.style.display = 'block'; // Đảm bảo nút này hiển thị
+                
+                // 2. GÁN SỰ KIỆN XÓA CHO NÚT MỚI
+                newRemoveBtn.addEventListener('click', function() {
+                    // Xóa phần tử cha của nút (chính là .product-fields-template)
+                    newProductFields.remove(); 
+                });
+            }
+            
+            // Thêm HR để phân cách sản phẩm
+            const separator = document.createElement('hr');
+            newProductFields.insertBefore(separator, newProductFields.firstChild);
+            
+            // CHỖ QUAN TRỌNG: Gán sự kiện 'change' cho select Loại sản phẩm MỚI
+            const newTypeSelect = newProductFields.querySelector('.manage-product-type');
+            newTypeSelect.addEventListener('change', function() {
+                updateBrandsForProduct(this);
+            });
+
+            // Gọi hàm cập nhật Thương hiệu cho sản phẩm mới (dựa trên giá trị mặc định)
+            updateBrandsForProduct(newTypeSelect);
+
+            importFormContainer.insertBefore(newProductFields, actionButtonConatainer);
+        });
+    }
+});
