@@ -161,27 +161,45 @@
         <div class="modal-content-admin">
           <span class="close-button">&times;</span>
           <h2>Thông tin phiếu nhập</h2>
-          <div>
-            <label>Ngày nhập:</label>
-            <input type="date">
-            <label>Mã phiếu:</label>
-            <input type="text" placeholder="Nhập mã phiếu">
+          <div id="import-form-container">
+            <div class="header-fields-row-manage-import">
+              <div class="input-info-manage-import">
+                <label>Ngày nhập:</label>
+                <input type="date">
+              </div>
+              <div class="input-info-manage-import">
+                <label>Mã phiếu:</label>
+                <input type="text" placeholder="Nhập mã phiếu">
+              </div>
+              
+              
+            </div>
             <br>
             <!-- Điền thông tin sản phẩm -->
-            <label>Tên sản phẩm:</label>
-            <input type="text" placeholder="Nhập tên sản phẩm">
-            <br>
-            <label for="manage-product-types">Loại sản phẩm:</label>
-            <select id="manage-product-type">
-              <option value="Guitar Classic">Classic</option>
-              <option value="Guitar Acoustic">Acoustic</option>
-            </select>
-            <label for="manage-product-brands">Thương hiệu</label>
-            <select id="manage-product-brands">
-              <!-- Điền bằng JS -->
-            </select>
-            <label>Số Lượng:</label>
-            <input type="text" style="width: 40px;">
+            <div class="product-fields-template">
+              <label>Tên sản phẩm:</label>
+              <input type="text" placeholder="Nhập tên sản phẩm">
+              <br>
+              <label for="manage-product-types">Loại sản phẩm:</label>
+              <select class="manage-product-type">
+                <option value="Guitar Classic">Classic</option>
+                <option value="Guitar Acoustic">Acoustic</option>
+              </select>
+              <label for="manage-product-brands">Thương hiệu:</label>
+              <select class="manage-product-brands">
+                <!-- Điền bằng JS -->
+              </select>
+              <label>Số Lượng:</label>
+              <input type="text" style="width: 40px;">
+              <br>
+              <button type="button" class="remove-product-btn">Xóa sản phẩm</button>
+              <br>
+            </div>
+            <div id="manage-add-and-save-container">
+              <button id="add-product-fields-template">Thêm sản phẩm</button>
+              <button id="save-import-product">Lưu</button>
+            </div>
+            
           </div>
         </div>
       </div>
