@@ -70,15 +70,13 @@ const brandData = {
 };
 
 const brandsUlList = document.getElementById("brandsUlList"); // Dùng ID mới của UL
-const categorySelect = modal.querySelector('.category-list');
 
 function showBrandList(nameCategory) {
-    document.getElementById("modalCategory").innerText = nameCategory;
+    
     // 2. Lấy danh sách thương hiệu dựa trên tên loại sản phẩm
     const brands = brandData[nameCategory];
     // 3. Xóa nội dung cũ trong UL
     brandsUlList.innerHTML = '';
-
 
     if (brands && brands.length > 0) {
         // 5. Thêm các thương hiệu mới vào UL
@@ -93,7 +91,7 @@ function showBrandList(nameCategory) {
         li.textContent = `Chưa có thương hiệu nào cho loại ${nameCategory}.`;
         brandsUlList.appendChild(li);
     }
-    modal.style.display = "block";
+    
 }
 
 
@@ -106,7 +104,9 @@ manageButtons.forEach(button => {
         const categoryTd = row.querySelector('.manage-name-category');
         const categoryName = categoryTd.textContent.trim();
         var name = categoryName;
+        document.getElementById("modalCategory").innerText = name;
         showBrandList(name);
+        modal.style.display = "block";
     });
 });
 
@@ -115,9 +115,30 @@ manageButtons.forEach(button => {
 
                                     /*DÀNH CHO QUẢN LÝ NHẬP SẢN PHẨM */
 
+function updateBrands() {
+    // Lấy giá trị loại sản phẩm đang được chọn (ví dụ: 'Classic' hoặc 'Acoustic')
+    const selectedType = document.getElementById('manage-product-type').value;
+            
+    // Lấy danh sách thương hiệu tương ứng
+    const brands = brandData[selectedType];
+
+    // Xóa tất cả các tùy chọn cũ trong select Thương hiệu
+    document.getElementById('manage-product-brands').innerHTML = '';
+    // Lặp qua danh sách thương hiệu và thêm vào thẻ select
+    brands.forEach(brand => {
+        const option = document.createElement('option');
+        option.value = brand; // Giá trị option (dùng để gửi đi)
+        option.textContent = brand; // Nội dung hiển thị
+        document.getElementById('manage-product-brands').appendChild(option);
+    });
+}
+
 document.querySelectorAll('.create-import-btn').forEach(button => {
     button.addEventListener('click', function(event) {
         event.preventDefault(); // Ngăn hành động chuyển trang mặc định của thẻ <a>
+        // Thiết lập sự kiện: Khi giá trị của Loại sản phẩm thay đổi, gọi hàm updateBrands
+        document.getElementById('manage-product-type').addEventListener('change', updateBrands);
+        updateBrands();
         modal.style.display = "block";
     });
 });
