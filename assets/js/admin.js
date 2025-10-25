@@ -205,9 +205,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 });
             }
             
-            // Thêm HR để phân cách sản phẩm
-            const separator = document.createElement('hr');
-            newProductFields.insertBefore(separator, newProductFields.firstChild);
             
             // CHỖ QUAN TRỌNG: Gán sự kiện 'change' cho select Loại sản phẩm MỚI
             const newTypeSelect = newProductFields.querySelector('.manage-product-type');

@@ -428,17 +428,17 @@
     justify-content: space-between; /* Đẩy hai nhóm ra hai bên */
     align-items: flex-start; /* Căn chỉnh các mục theo chiều dọc */
     margin-bottom: 20px;
+    
 }
 #import-form-container .header-fields-row-manage-import .input-info-manage-import {
     display: flex; /* Kích hoạt Flexbox cho từng nhóm label + input */
     flex-grow: 1;
+    align-items:baseline;
 }
 
 /* Định nghĩa chiều rộng cố định cho label ở hàng trên cùng */
 #import-form-container .input-info-manage-import label {
     font-weight: 600;
-    margin-top: 10px;
-    margin-bottom: 5px;
     width: auto;
 }
 #import-form-container label {
@@ -447,7 +447,7 @@
 
 #import-form-container input {
     padding: 10px 15px;
-    margin-bottom: 15px;
+    margin-bottom: 0px;
     margin-left: 10px;
     border: 1px solid #ccc;
     border-radius: 25px; /* Áp dụng bo tròn 25px cho đồng bộ */
@@ -465,8 +465,9 @@
 
 #import-form-container select {
     padding: 10px 15px;
-    margin-bottom: 15px;
     border: 1px solid #ccc;
+    margin-top: 10px;
+    margin-bottom: 10px;
     border-radius: 25px; /* Áp dụng bo tròn 25px cho đồng bộ */
     transition: border-color 0.3s, box-shadow 0.3s;
     width: 125px; /* Tăng chiều rộng input */
@@ -495,7 +496,7 @@
 .product-fields-template {
     border: 1px dashed #28a745; /* Đường viền mờ màu xanh lá */
     padding: 20px 15px 5px 15px;
-    margin-top: 20px;
+    margin-bottom: 15px;
     border-radius: 10px;
     background-color: #f0fff0; /* Nền trắng xanh nhạt (rất nhạt) */
 }
@@ -579,7 +580,7 @@
 #manage-add-and-save-container {
     display: flex;
     justify-content: space-between; /* Căn giữa hai nút trong form */
-    margin-top: 30px; /* Khoảng cách lớn hơn với khối sản phẩm phía trên */
+    margin-top: 20px; /* Khoảng cách lớn hơn với khối sản phẩm phía trên */
 }
 
 /* ---------------------------------------------------- */
