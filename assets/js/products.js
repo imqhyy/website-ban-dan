@@ -9,6 +9,7 @@ const products = [
         hoverImage: 'assets/img/product/guitar/acoustic/saga/saga-a1-de-pro/3.jpg',
         rating: 4.8,
         reviews: 42,
+        stock: 12
     },
     {
         id: 2,
@@ -20,6 +21,7 @@ const products = [
         hoverImage: 'assets/img/product/guitar/acoustic/taylor/taylor-a12e/dan-guitar-acoustic-taylor-academy-12e-grand-concert-wbag-6-1000x1000.jpg',
         rating: 4.6,
         reviews: 28,
+        stock: 32
     },
     {
         id: 3,
@@ -31,6 +33,7 @@ const products = [
         hoverImage: 'assets/img/product/guitar/acoustic/saga/saga-cl65/dan-guitar-acoustic-saga-cl65-4-1536x1536.jpg',
         rating: 4.9,
         reviews: 56,
+        stock: 45
     },
     {
         id: 4,
@@ -42,6 +45,7 @@ const products = [
         hoverImage: 'assets/img/product/guitar/classic/badon/dan-guitar-classic-ba-don-c100/dan-guitar-classic-ba-don-c100-9.jpg',
         rating: 4.7,
         reviews: 35,
+        stock: 3
     },
     {
         id: 5,
@@ -53,6 +57,7 @@ const products = [
         hoverImage: 'assets/img/product/guitar/classic/yamaha/dan-guitar-classic-yamaha-cgs102aii-school-series/dan-guitar-classic-yamaha-cgs102aii-school-series-3-1536x1536.jpg',
         rating: 4.5,
         reviews: 23,
+        stock: 11
     },
     {
         id: 6,
@@ -64,6 +69,7 @@ const products = [
         hoverImage: 'assets/img/product/guitar/acoustic/enya/enya-ega-x1-pro-sp1/dan-guitar-acoustic-enya-ega-x1-pro-sp1-acousticplus-smart-guitar-9-1000x1000.jpg',
         rating: 4.8,
         reviews: 30,
+        stock: 36
     },
     {
         id: 7,
@@ -75,6 +81,7 @@ const products = [
         hoverImage: 'assets/img/product/guitar/acoustic/yamaha/yamaha-ls36-are/dan-guitar-acoustic-yamaha-ls36-are-ls-series-3-1536x1536.jpg',
         rating: 4.9,
         reviews: 40,
+        stock: 15
     },
     {
         id: 8,
@@ -86,5 +93,6 @@ const products = [
         hoverImage: 'assets/img/product/guitar/acoustic/saga/saga-ss-8ce/dan-guitar-acoustic-saga-ss-8ce-4-1536x1536.jpg',
         rating: 4.6,
         reviews: 22,
+        stock: 51
     },
 ];
