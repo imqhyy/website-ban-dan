@@ -317,5 +317,27 @@
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <script src="assets/js/loginadm.js"></script>
 </body>
+<!-- Xử lý nếu đăng nhập tạo local storage-->
+<script>
+  document.getElementById('login-form').addEventListener('submit', function(event) {
+    event.preventDefault(); // Ngăn form submit mặc định
 
+    // 1. **Thực hiện kiểm tra logic đăng nhập ở đây**
+    // (Ví dụ: kiểm tra username/password hoặc gọi API server)
+
+    let isSuccess = true; // Giả sử đăng nhập thành công
+
+    if (isSuccess) {
+    // 2. **THÊM DÒNG CODE NÀY VÀO ĐÂY:**
+    localStorage.setItem('admin_isLoggedIn', 'true');
+
+    // 3. **Chuyển hướng đến trang chính**
+    setTimeout(function() {
+        window.location.href = 'admin.html';
+    }, 1000);
+    } else {
+        alert('Tên đăng nhập hoặc mật khẩu không đúng.');
+    }
+  });
+</script>
 </html>

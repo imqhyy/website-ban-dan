@@ -62,10 +62,10 @@ const brandData = {
         "Yamaha"
     ],
     "Guitar Acoustic": [
+        "Saga",
+        "Taylor",
         "Enya",
-        "Yamaha",
-        "Everest",
-        "Taylor"
+        "Yamaha"
     ]
     // Thêm các loại khác nếu cần
 };

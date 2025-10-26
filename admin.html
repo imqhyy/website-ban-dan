@@ -7,7 +7,12 @@
   <title>Admin - Guitar Xì Gòn</title>
   <meta name="description" content="">
   <meta name="keywords" content="">
-
+  <!--Kiểm tra xem đã đăng nhập chưa-->
+  <script>
+        if (localStorage.getItem('admin_isLoggedIn') !== 'true') {
+            window.location.href = 'admin_login.html';
+        }
+  </script>
   <!-- Favicons -->
   <link href="assets/img/favicon.png" rel="icon">
   <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
@@ -82,7 +87,7 @@
                   </a>
                 </div>
                 <div class="dropdown-footer">
-                  <a href="admin_login.html" class="btn btn-outline-primary w-100">Đăng xuất</a>
+                  <a href="admin_login.html" class="btn btn-outline-primary w-100" id="admin-logout-button">Đăng xuất</a>
                 </div>
               </div>
             </div>
@@ -291,5 +296,26 @@
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <script src="assets/js/login.js"></script>
 </body>
+<!-- Xử lý nếu đăng xuát xoá local storage -->
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // Toàn bộ code bên trong sẽ chỉ chạy sau khi DOM đã được tải hoàn toàn
+    
+    // 1. Lấy ra phần tử nút Đăng xuất
+    const logoutButton = document.getElementById('admin-logout-button');
 
+    // 2. Thêm trình lắng nghe sự kiện khi nhấp chuột
+    if (logoutButton) { // Thêm kiểm tra an toàn
+        logoutButton.addEventListener('click', function(event) {
+            event.preventDefault(); // Ngăn hành vi mặc định của liên kết/nút
+
+            // 3. XÓA TRẠNG THÁI ĐĂNG NHẬP KHỎI LOCALSTORAGE
+            localStorage.removeItem('admin_isLoggedIn');
+                
+            // 4. CHUYỂN HƯỚNG người dùng về trang đăng nhập
+            window.location.href = 'admin_login.html';
+        });
+    }
+  });
+</script>
 </html>

@@ -7,6 +7,12 @@
   <title>Quản lý tồn kho - Guitar Xì Gòn</title>
   <meta name="description" content="">
   <meta name="keywords" content="">
+  <!--Kiểm tra xem đã đăng nhập chưa-->
+  <script>
+        if (localStorage.getItem('admin_isLoggedIn') !== 'true') {
+            window.location.href = 'admin_login.html';
+        }
+  </script>
 
   <!-- Favicons -->
   <link href="assets/img/favicon.png" rel="icon">
@@ -27,6 +33,7 @@
 
   <!-- Main CSS File -->
   <link href="assets/css/main.css" rel="stylesheet">
+  <link href="assets/css/admin.css" rel="stylesheet">
 
   <!-- =======================================================
   * Template Name: NiceShop
@@ -107,7 +114,6 @@
             <li><a href="admin_quanlyloaisanpham.html">Quản lý loại sản phẩm</a></li>
             <li><a href="admin_danhmucsanpham.html">Quản lý danh mục sản phẩm</a></li>
             <li><a href="admin_quanlynhapsanpham.html">Quản lý nhập sản phẩm</a></li>
-            <li><a href="admin_quanlygiaban.html">Quản lý giá bán</a></li>
             <li><a href="admin_quanlydonhang.html">Quản lý đơn hàng</a></li>
             <li><a href="admin_quanlytonkho.html">Quản lý tồn kho</a></li>
           </ul>
@@ -146,7 +152,179 @@
       </div>
     </div><!-- End Page Title -->
 
+    <div class="container-manage-import-products">
+      <form action="" class="search-container" method="get"><!-- Search box -->
+        <input type="text" id="search-input" placeholder="Tra cứu số lượng sản phẩm" name="search">
+        <button id="search-button">
+            <i class="fa fa-search"></i> Tìm kiếm          
+        </button> 
+      </form><!-- End Search box -->
 
+      <div class="sort-container"> <!-- Sort-container -->
+        <div class="sort-by-date-container">
+          <label>Từ ngày:<input type="date" class="input-sort-date"></label>
+        
+          <label>Đến ngày:<input type="date" class="input-sort-date"></label>
+        </div>
+        <div class="sort-by-order-status">
+          <label>Tình trạng:</label>
+          <span class="status-button">Còn hàng</span>
+          <span class="status-button">Hết hàng</span>
+        </div>
+      </div>
+      <hr>
+
+
+      <div class="card-body">
+          <div class="table-responsive">
+            <table class="table table-hover data-table">
+              <thead>
+                <tr>
+                  <th scope="col" style="width: 10%;">Hình ảnh</th>
+                  <th scope="col">Tên sản phẩm</th>
+                  <th scope="col">Loại</th>
+                  <th scope="col">Giá Vốn</th>
+                  <th scope="col">% Lợi nhuận</th>
+                  <th scope="col">Giá bán</th>
+                  <th scope="col">Tồn kho</th>
+                  <th scope="col">Hành động</th>
+                </tr>
+              </thead>
+              <tbody id="product-list-container">
+                <tr>
+                  <td><img
+                      src="assets/img/product/guitar/acoustic/saga/saga-a1-de-pro/dan-guitar-acoustic-saga-a1-de-pro--1000x1000.jpg"
+                      alt="Saga A1 DE PRO" style="width: 70px; height: auto;"></td>
+                  <td>Saga A1 DE PRO</td>
+                  <td>Acoustic</td>
+                  <td><span class="font-weight-bold">2.000.000 VND</span></td>
+                  <td>20%</td>
+                  <td><span class="font-weight-bold">2.400.000 VND</span></td>
+                  <td>12</td>
+                  <td class="action-cell">
+                    <button class="nutsua action-btn-common" data-cost-price="2000000"
+                      data-profit-margin="20">Sửa</button>
+                    <button class="nutxoa action-btn-common">Xóa</button>
+                  </td>
+                </tr>
+                <tr>
+                  <td><img
+                      src="assets/img/product/guitar/acoustic/taylor/taylor-a12e/dan-guitar-acoustic-taylor-academy-12e-grand-concert-wbag-.jpg"
+                      alt="Taylor A12E" style="width: 70px; height: auto;"></td>
+                  <td>Taylor A12E</td>
+                  <td>Acoustic</td>
+                  <td><span class="font-weight-bold">70.000.000 VND</span></td>
+                  <td>21.43%</td>
+                  <td><span class="font-weight-bold">85.000.000 VND</span></td>
+                  <td>32</td>
+                  <td>
+                    <button class="nutsua action-btn-common" data-cost-price="70000000"
+                      data-profit-margin="21.43">Sửa</button>
+                    <button class="nutxoa action-btn-common">Xóa</button>
+                  </td>
+                </tr>
+                <tr>
+                  <td><img src="assets/img/product/guitar/acoustic/saga/saga-cl65/dan-guitar-acoustic-saga-cl65-.jpg"
+                      alt="Saga CL65" style="width: 70px; height: auto;"></td>
+                  <td>Saga CL65</td>
+                  <td>Acoustic</td>
+                  <td><span class="font-weight-bold">2.000.000 VND</span></td>
+                  <td>20%</td>
+                  <td><span class="font-weight-bold">2.400.000 VND</span></td>
+                  <td>45</td>
+                  <td>
+                    <button class="nutsua action-btn-common" data-cost-price="2000000"
+                      data-profit-margin="20">Sửa</button>
+                    <button class="nutxoa action-btn-common">Xóa</button>
+                  </td>
+                </tr>
+                <tr>
+                  <td><img
+                      src="assets/img/product/guitar/classic/badon/dan-guitar-classic-ba-don-c100/dan-guitar-classic-ba-don-c100-.jpg"
+                      alt="Ba đờn C100" style="width: 70px; height: auto;"></td>
+                  <td>Ba đờn C100</td>
+                  <td>Classic</td>
+                  <td><span class="font-weight-bold">4.000.000 VND</span></td>
+                  <td>25%</td>
+                  <td><span class="font-weight-bold">5.000.000 VND</span></td>
+                  <td>3</td>
+                  <td>
+                    <button class="nutsua action-btn-common" data-cost-price="4000000"
+                      data-profit-margin="25">Sửa</button>
+                    <button class="nutxoa action-btn-common">Xóa</button>
+                  </td>
+                </tr>
+                <tr>
+                  <td><img
+                      src="assets/img/product/guitar/classic/yamaha/dan-guitar-classic-yamaha-cgs102aii-school-series/dan-guitar-classic-yamaha-cgs102aii-school-series-.jpg"
+                      alt="Yamaha CGS102AII" style="width: 70px; height: auto;"></td>
+                  <td>Yamaha CGS102AII</td>
+                  <td>Classic</td>
+                  <td><span class="font-weight-bold">5.600.000 VND</span></td>
+                  <td>25%</td>
+                  <td><span class="font-weight-bold">7.000.000 VND</span></td>
+                  <td>11</td>
+                  <td>
+                    <button class="nutsua action-btn-common" data-cost-price="5600000"
+                      data-profit-margin="25">Sửa</button>
+                    <button class="nutxoa action-btn-common">Xóa</button>
+                  </td>
+                </tr>
+                <tr>
+                  <td><img
+                      src="assets/img/product/guitar/acoustic/enya/enya-ega-x1-pro-sp1/dan-guitar-acoustic-enya-ega-x1-pro-sp1-acousticplus-smart-guitar-3-1000x1000.jpg"
+                      alt="Enya EGA X0 PRO SP1" style="width: 70px; height: auto;"></td>
+                  <td>Enya EGA X0 PRO SP1</td>
+                  <td>Acoustic</td>
+                  <td><span class="font-weight-bold">9.416.667 VND</span></td>
+                  <td>20%</td>
+                  <td><span class="font-weight-bold">11.300.000 VND</span></td>
+                  <td>36</td>
+                  <td>
+                    <button class="nutsua action-btn-common" data-cost-price="9416667"
+                      data-profit-margin="20">Sửa</button>
+                    <button class="nutxoa action-btn-common">Xóa</button>
+                  </td>
+                </tr>
+                <tr>
+                  <td><img src="assets/img/product/guitar/acoustic/yamaha/yamaha-ls36-are/1.jpg" alt="Yamaha LS36 ARE"
+                      style="width: 70px; height: auto;"></td>
+                  <td>Yamaha LS36 ARE</td>
+                  <td>Acoustic</td>
+                  <td><span class="font-weight-bold">6.560.000 VND</span></td>
+                  <td>25%</td>
+                  <td><span class="font-weight-bold">8.200.000 VND</span></td>
+                  <td>15</td>
+                  <td>
+                    <button class="nutsua action-btn-common" data-cost-price="6560000"
+                      data-profit-margin="25">Sửa</button>
+                    <button class="nutxoa action-btn-common">Xóa</button>
+                  </td>
+                </tr>
+                <tr>
+                  <td><img
+                      src="assets/img/product/guitar/acoustic/saga/saga-ss-8ce/dan-guitar-acoustic-saga-ss-8ce-.jpg"
+                      alt="Saga SS 8CE" style="width: 70px; height: auto;"></td>
+                  <td>Saga SS 8CE</td>
+                  <td>Acoustic</td>
+                  <td><span class="font-weight-bold">5.416.667 VND</span></td>
+                  <td>20%</td>
+                  <td><span class="font-weight-bold">6.500.000 VND</span></td>
+                  <td>51</td>
+                  <td>
+                    <button class="nutsua action-btn-common" data-cost-price="5416667"
+                      data-profit-margin="20">Sửa</button>
+                    <button class="nutxoa action-btn-common">Xóa</button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    
 
 
 
@@ -288,8 +466,30 @@
 
   <!-- Main JS File -->
   <script src="assets/js/main.js"></script>
+  <script src="assets/js/admin.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <script src="assets/js/login.js"></script>
 </body>
+<!-- Xử lý nếu đăng xuát xoá local storage -->
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // Toàn bộ code bên trong sẽ chỉ chạy sau khi DOM đã được tải hoàn toàn
+    
+    // 1. Lấy ra phần tử nút Đăng xuất
+    const logoutButton = document.getElementById('admin-logout-button');
 
+    // 2. Thêm trình lắng nghe sự kiện khi nhấp chuột
+    if (logoutButton) { // Thêm kiểm tra an toàn
+        logoutButton.addEventListener('click', function(event) {
+            event.preventDefault(); // Ngăn hành vi mặc định của liên kết/nút
+
+            // 3. XÓA TRẠNG THÁI ĐĂNG NHẬP KHỎI LOCALSTORAGE
+            localStorage.removeItem('admin_isLoggedIn');
+                
+            // 4. CHUYỂN HƯỚNG người dùng về trang đăng nhập
+            window.location.href = 'admin_login.html';
+        });
+    }
+  });
+</script>
 </html>

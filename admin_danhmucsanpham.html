@@ -7,6 +7,12 @@
   <title>Quản lý danh mục sản phẩm - Guitar Xì Gòn</title>
   <meta name="description" content="">
   <meta name="keywords" content="">
+  <!--Kiểm tra xem đã đăng nhập chưa-->
+  <script>
+        if (localStorage.getItem('admin_isLoggedIn') !== 'true') {
+            window.location.href = 'admin_login.html';
+        }
+  </script>
 
   <link href="assets/img/favicon.png" rel="icon">
   <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
@@ -25,7 +31,9 @@
   <link href="assets/vendor/drift-zoom/drift-basic.css" rel="stylesheet">
 
   <link href="assets/css/main.css" rel="stylesheet">
+  <link href="assets/css/admin.css" rel="stylesheet">
   <link href="assets/css/danhmucsanpham.css" rel="stylesheet">
+
 
 </head>
 
@@ -68,7 +76,7 @@
                   </a>
                 </div>
                 <div class="dropdown-footer">
-                  <a href="admin_login.html" class="btn btn-outline-primary w-100">Đăng xuất</a>
+                  <a href="admin_login.html" class="btn btn-outline-primary w-100" id="admin-logout-button">Đăng xuất</a>
                 </div>
               </div>
             </div>
@@ -91,7 +99,6 @@
             <li><a href="admin_quanlyloaisanpham.html">Quản lý loại sản phẩm</a></li>
             <li><a href="admin_danhmucsanpham.html">Quản lý danh mục sản phẩm</a></li>
             <li><a href="admin_quanlynhapsanpham.html">Quản lý nhập sản phẩm</a></li>
-            <li><a href="admin_quanlygiaban.html">Quản lý giá bán</a></li>
             <li><a href="admin_quanlydonhang.html">Quản lý đơn hàng</a></li>
             <li><a href="admin_quanlytonkho.html">Quản lý tồn kho</a></li>
           </ul>
@@ -130,7 +137,7 @@
     <div class="container-manage-import-products">
       <div class="card">
         <div class="card-header">
-          <h4>Thêm / Sửa Sản Phẩm</h4>
+          <h4>Thêm</h4>
         </div>
         <div class="card-body p-4">
           <form id="product-form" class="row g-3">
@@ -200,11 +207,35 @@
           </form>
         </div>
       </div>
+      <form action="" class="search-container" method="get"><!-- Search box -->
+        <input type="text" id="search-input" placeholder="Tra cứu sản phẩm" name="search">
+        <button id="search-button">
+            <i class="fa fa-search"></i> Tìm kiếm          
+        </button> 
+      </form><!-- End Search box -->
 
       <div class="card">
         <div class="card-header">
           <h4>Danh sách sản phẩm hiện có</h4>
         </div>
+        <div class="sort-danhmucsanpham-container" style="display: flex; padding: 20px; gap: 20px">
+          <div class="col-md-3" style="width: 150px;">
+              <label for="sort-product-category" class="form-label">Loại sản phẩm</label>
+              <select id="sort-product-category" class="form-select">
+                <option value="">-- Chọn loại --</option>
+                <option value="Acoustic">Acoustic</option>
+                <option value="Classic">Classic</option>
+              </select>
+            </div>
+
+            <div class="col-md-3" style="width: 200px;">
+              <label for="sort-product-brand" class="form-label">Thương hiệu</label>
+              <select id="sort-product-brand" class="form-select">
+                <option value="">-- Chọn thương hiệu --</option>
+              </select>
+            </div>
+        </div>
+            
         <div class="card-body">
           <div class="table-responsive">
             <table class="table table-hover data-table">
@@ -504,7 +535,7 @@
   <script src="assets/vendor/glightbox/js/glightbox.min.js"></script>
   <script src="assets/vendor/drift-zoom/Drift.min.js"></script>
   <script src="assets/vendor/purecounter/purecounter_vanilla.js"></script>
-
+  <script src="assets/js/admin_login.js"></script>
   <script src="assets/js/main.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <!-- <script src="assets/js/products.js"></script>
@@ -671,6 +702,59 @@
           });
         }
       });
+    }
+
+    //update brand cho sort
+    const sortcategorySelect = document.getElementById('sort-product-category');
+    const sortbrandSelect = document.getElementById('sort-product-brand');
+    function updatesortBrandOptions(category) {
+      const brands = brandsData[category] || [];
+      sortbrandSelect.innerHTML = '<option value="">-- Chọn thương hiệu --</option>';
+
+      brands.forEach(brand => {
+        const option = document.createElement('option');
+        option.value = brand;
+        option.textContent = brand;
+        sortbrandSelect.appendChild(option);
+      });
+
+      sortbrandSelect.disabled = brands.length === 0;
+    }
+
+    if (sortcategorySelect) {
+      sortcategorySelect.addEventListener('change', function () {
+        const selectedCategory = sortcategorySelect.value;
+        updatesortBrandOptions(selectedCategory);
+      });
+    }
+
+    updatesortBrandOptions(sortcategorySelect ? sortcategorySelect.value : '');
+  });
+
+  
+
+</script>
+
+
+<!-- Xử lý nếu đăng xuát xoá local storage -->
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // Toàn bộ code bên trong sẽ chỉ chạy sau khi DOM đã được tải hoàn toàn
+    
+    // 1. Lấy ra phần tử nút Đăng xuất
+    const logoutButton = document.getElementById('admin-logout-button');
+
+    // 2. Thêm trình lắng nghe sự kiện khi nhấp chuột
+    if (logoutButton) { // Thêm kiểm tra an toàn
+        logoutButton.addEventListener('click', function(event) {
+            event.preventDefault(); // Ngăn hành vi mặc định của liên kết/nút
+
+            // 3. XÓA TRẠNG THÁI ĐĂNG NHẬP KHỎI LOCALSTORAGE
+            localStorage.removeItem('admin_isLoggedIn');
+                
+            // 4. CHUYỂN HƯỚNG người dùng về trang đăng nhập
+            window.location.href = 'admin_login.html';
+        });
     }
   });
 </script>
