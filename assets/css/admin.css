@@ -53,6 +53,7 @@
     display: flex;
     justify-content: center;
     gap: 20px;
+    align-items: baseline;
 }
 
 #sort-button {
@@ -147,7 +148,7 @@
 .action-btn {
     padding: 8px 12px;
     border: none;
-    border-radius: 4px;
+    border-radius: 25px;
     cursor: pointer;
     font-size: 14px;
     text-decoration: none; /* Dùng cho thẻ <a> (Chi tiết) */
@@ -155,15 +156,24 @@
 }
 
 .reset-btn {
+    background-color: #faaf38; /* Màu vàng cam */
+}
+.reset-btn:hover {
     background-color: #f39c12; /* Màu vàng cam */
 }
 
 .lock-btn {
     background-color: #e74c3c; /* Màu đỏ (Nguy hiểm) */
 }
+.lock-btn:hover {
+    background-color: #e33623; /* Màu đỏ (Nguy hiểm) */
+}
 
 .detail-btn {
     background-color: #3498db; /* Màu xanh dương (Thông tin) */
+}
+.detail-btn:hover {
+    background-color: #1d8dd8; /* Màu xanh dương (Thông tin) */
 }
 
 /* 1. Thiết lập Modal mặc định (toàn màn hình, ẩn) */
@@ -631,8 +641,135 @@
 
                                     /*DÀNH CHO QUẢN LÝ ĐƠN HÀNG*/
 
+.manage-order-container {
+    border: 1px solid #ddd;
+    padding: 20px;
+    border-radius: 25px;
+    box-shadow: 0 0 8px rgba(99, 101, 100, 0.4);
+    margin-bottom: 20px;
+    
+}
+
 .info-and-status-order {
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
+}
+
+.sort-by-date-container .input-sort-date {
+    padding: 10px 15px;
+    margin-bottom: 0px;
+    margin-left: 10px;
+    border: 1px solid #ccc;
+    border-radius: 25px; /* Áp dụng bo tròn 25px cho đồng bộ */
+    transition: border-color 0.3s, box-shadow 0.3s;
+    width: 200px; /* Tăng chiều rộng input */
+    box-sizing: border-box; /* Quan trọng để padding không làm tăng chiều rộng tổng thể */
+}
+
+.sort-by-date-container .input-sort-date:focus {
+    border-color: #2d322e;
+    box-shadow: 0 0 8px rgba(99, 101, 100, 0.4);
+    outline: none;
+}
+
+.status-button {
+    background-color: #444444; /* Chọn một màu khác biệt, ví dụ màu cam */
+    color: white;
+    padding: 10px 15px;
+    margin-bottom: 0px;
+    margin-left: 10px;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    border-radius: 25px; /* Áp dụng bo tròn 25px cho đồng bộ */
+    transition: border-color 0.3s;
+}
+
+.status-button:hover {
+    background-color: #252223;
+}
+
+.status-block {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    position: relative;
+}
+.status-select-container {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid black;
+    border: 1px solid #ccc;
+    border-radius: 15px;
+    padding: 5px;
+    width: 60%;
+    position: absolute;
+    top: 25px;
+    
+    
+}
+.status-select-button {
+    text-align: center;
+    cursor: pointer;
+}
+
+.status-select-button:hover {
+    color: black;
+    font-weight: 700;
+}
+
+/* ẨN MẶC ĐỊNH CHO SELECT LIST */
+.hidden {
+    display: none;
+}
+
+/* DÀNH CHO QUẢN LÝ ĐƠN HÀNG */
+/* ... (các style khác) ... */
+
+/* Style mới cho trạng thái đơn hàng hiện tại trong dropdown */
+.status-select-button.current-status {
+    /* Tô đậm */
+    font-weight: 700 !important; 
+    /* Đổi màu nền nhẹ để nổi bật hơn */
+    background-color: #e0f7fa; 
+    /* Hoặc đổi màu chữ */
+    color: #007bff; 
+    /* Thêm padding nhẹ */
+    padding: 2px 5px;
+    border-radius: 5px;
+}
+
+/* Đảm bảo hover vẫn hoạt động nhưng không làm mất style đậm */
+.status-select-button:hover {
+    color: black;
+    font-weight: 700; /* Giữ style hover của bạn */
+}
+
+#close-detail-order-container {
+    display: flex;
+    justify-content: flex-end; /* Căn giữa hai nút trong form */
+    margin-top: 20px; /* Khoảng cách lớn hơn với khối sản phẩm phía trên */
+}
+
+
+#close-detail-order-container button {
+    padding: 10px 25px;
+    border: none;
+    border-radius: 25px; /* Bo tròn tương tự các nút khác của bạn */
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 16px;
+    transition: background-color 0.3s, transform 0.1s;
+    /* Màu xám/đen (Màu trung tính, đồng bộ với màu #444444 bạn hay dùng) */
+    background-color: #444444; 
+    color: white;
+    box-shadow: 0 4px 6px rgba(68, 68, 68, 0.3);
+}
+
+
+
+#close-detail-order-container button:hover {
+    background-color: #252223;
+    transform: translateY(-1px);
 }

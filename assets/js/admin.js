@@ -5,6 +5,7 @@
 var modal = document.getElementById("DetailModal");
 var closeButton = document.querySelector(".close-button");
 
+
 // Hàm hiển thị Modal và điền dữ liệu (Cần được gọi khi bấm nút)
 function showCustomerDetails(name, phone, img) {
     // 1. Điền dữ liệu vào Modal
@@ -223,4 +224,3 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
 
-                                    //DÀNH CHO QUẢN LÝ ĐƠN HÀNG
