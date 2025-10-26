@@ -4,22 +4,19 @@
 <head>
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
-  <title>Danh mục sản phẩm - Guitar Xì Gòn</title>
+  <title>Quản lý danh mục sản phẩm - Guitar Xì Gòn</title>
   <meta name="description" content="">
   <meta name="keywords" content="">
 
-  <!-- Favicons -->
   <link href="assets/img/favicon.png" rel="icon">
   <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
 
-  <!-- Fonts -->
   <link href="https://fonts.googleapis.com" rel="preconnect">
   <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
   <link
     href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
     rel="stylesheet">
 
-  <!-- Vendor CSS Files -->
   <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
   <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
   <link href="assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
@@ -27,16 +24,9 @@
   <link href="assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
   <link href="assets/vendor/drift-zoom/drift-basic.css" rel="stylesheet">
 
-  <!-- Main CSS File -->
   <link href="assets/css/main.css" rel="stylesheet">
+  <link href="assets/css/danhmucsanpham.css" rel="stylesheet">
 
-  <!-- =======================================================
-  * Template Name: NiceShop
-  * Template URL: https://bootstrapmade.com/niceshop-bootstrap-ecommerce-template/
-  * Updated: Aug 26 2025 with Bootstrap v5.3.7
-  * Author: BootstrapMade.com
-  * License: https://bootstrapmade.com/license/
-  ======================================================== -->
 </head>
 
 <body class="login-page">
@@ -44,27 +34,20 @@
   <header id="header" class="header sticky-top">
 
 
-    <!-- Main Header -->
     <div class="main-header">
       <div class="container-fluid container-xl">
         <div class="d-flex py-3 align-items-center justify-content-between">
 
-          <!-- Logo -->
           <a href="index.html" class="logo d-flex align-items-center">
-            <!-- Uncomment the line below if you also wish to use an image logo -->
-            <!-- <img src="assets/img/logo.webp" alt=""> -->
             <h1 class="sitename">Guitar Xì Gòn</h1>
           </a>
-          <!-- Actions -->
           <div class="header-actions d-flex align-items-center justify-content-end">
 
-            <!-- Mobile Search Toggle -->
             <button class="header-action-btn mobile-search-toggle d-xl-none" type="button" data-bs-toggle="collapse"
               data-bs-target="#mobileSearch" aria-expanded="false" aria-controls="mobileSearch">
               <i class="bi bi-search"></i>
             </button>
 
-            <!-- Account -->
             <div class="dropdown account-dropdown">
               <button class="header-action-btn" data-bs-toggle="dropdown">
                 <i class="bi bi-person"></i>
@@ -90,7 +73,6 @@
               </div>
             </div>
 
-            <!-- Mobile Navigation Toggle -->
             <i class="mobile-nav-toggle d-xl-none bi bi-list me-0"></i>
 
           </div>
@@ -101,14 +83,13 @@
     </div>
     </div>
 
-    <!-- Navigation -->
     <div class="header-nav">
       <div class="container-fluid container-xl position-relative">
         <nav id="navmenu" class="navmenu">
           <ul>
             <li><a href="admin_quanlykhachhang.html">Quản lý khách hàng</a></li>
             <li><a href="admin_quanlyloaisanpham.html">Quản lý loại sản phẩm</a></li>
-            <li><a href="admin_danhmucsanpham">Quản lý danh mục sản phẩm</a></li>
+            <li><a href="admin_danhmucsanpham.html">Quản lý danh mục sản phẩm</a></li>
             <li><a href="admin_quanlynhapsanpham.html">Quản lý nhập sản phẩm</a></li>
             <li><a href="admin_quanlygiaban.html">Quản lý giá bán</a></li>
             <li><a href="admin_quanlydonhang.html">Quản lý đơn hàng</a></li>
@@ -118,7 +99,6 @@
       </div>
     </div>
 
-    <!-- Mobile Search Form -->
     <div class="collapse" id="mobileSearch">
       <div class="container">
         <form class="search-form">
@@ -136,29 +116,267 @@
 
   <main class="main">
 
-    <!-- Page Title -->
     <div class="page-title light-background">
       <div class="container d-lg-flex justify-content-between align-items-center">
-        <h1 class="mb-2 mb-lg-0">Danh mục sản phẩm</h1>
+        <h1 class="mb-2 mb-lg-0">Quản lý danh mục sản phẩm</h1>
         <nav class="breadcrumbs">
           <ol>
             <li><a href="admin.html">Trang chủ</a></li>
-            <li class="current">Danh mục sản phẩm</li>
+            <li class="current">Quản lý danh mục sản phẩm</li>
           </ol>
         </nav>
       </div>
-    </div><!-- End Page Title -->
+    </div>
+    <div class="container-manage-import-products">
+      <div class="card">
+        <div class="card-header">
+          <h4>Thêm / Sửa Sản Phẩm</h4>
+        </div>
+        <div class="card-body p-4">
+          <form id="product-form" class="row g-3">
+
+            <input type="hidden" id="product-id">
+
+            <div class="col-md-3">
+              <label for="product-name" class="form-label">Tên sản phẩm</label>
+              <input type="text" class="form-control" id="product-name" placeholder="Saga A1 DE PRO">
+            </div>
+            <div class="col-md-3">
+              <label for="product-code" class="form-label">Mã sản phẩm</label>
+              <input type="text" class="form-control" id="product-code" placeholder="SAGA-A1">
+            </div>
+            <div class="col-md-6">
+              <label for="product-image" class="form-label">Đường dẫn hình ảnh</label>
+              <input type="text" class="form-control" id="product-image" placeholder="assets/img/product/...">
+            </div>
+            <div class="col-md-3 mb-3">
+              <label for="costPrice" class="form-label">Giá Vốn (VNĐ)</label>
+              <input type="text" class="form-control" id="costPrice" placeholder="2.000.000" min="0">
+            </div>
+
+            <div class="col-md-2 mb-3">
+              <label for="profitMargin" class="form-label">% Lợi nhuận</label>
+              <input type="number" class="form-control" id="profitMargin" placeholder="20" min="0" max="100">
+            </div>
+
+            <div class="col-md-3 mb-3">
+              <label for="sellingPrice" class="form-label">Giá Bán (VNĐ)</label>
+              <input type="text" class="form-control" id="sellingPrice" readonly placeholder="2.400.000">
+            </div>
+            <div class="col-md-3">
+              <label for="product-stock" class="form-label">Tồn kho</label>
+              <input type="number" class="form-control" id="product-stock" placeholder="15">
+            </div>
+            <div class="col-md-3">
+              <label for="product-category" class="form-label">Loại sản phẩm</label>
+              <select id="product-category" class="form-select">
+                <option value="">-- Chọn loại --</option>
+                <option value="Acoustic">Acoustic</option>
+                <option value="Classic">Classic</option>
+              </select>
+            </div>
+
+            <div class="col-md-3">
+              <label for="product-brand" class="form-label">Thương hiệu</label>
+              <select id="product-brand" class="form-select">
+                <option value="">-- Chọn thương hiệu --</option>
+              </select>
+            </div>
 
 
 
 
 
+            <div class="col-12">
+              <label for="product-description" class="form-label">Mô tả</label>
+              <textarea class="form-control" id="product-description" rows="3"
+                placeholder="Mô tả chi tiết sản phẩm..."></textarea>
+            </div>
+
+            <div class="col-12 text-end">
+              <button type="submit" id="addProductBtn" class="custom-btn btn-add-product me-3">Thêm sản phẩm</button>
+              <button type="reset" class="custom-btn btn-save-product">Reset</button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <h4>Danh sách sản phẩm hiện có</h4>
+        </div>
+        <div class="card-body">
+          <div class="table-responsive">
+            <table class="table table-hover data-table">
+              <thead>
+                <tr>
+                  <th scope="col" style="width: 10%;">Hình ảnh</th>
+                  <th scope="col">Tên sản phẩm</th>
+                  <th scope="col">Loại</th>
+                  <th scope="col">Giá Vốn</th>
+                  <th scope="col">% Lợi nhuận</th>
+                  <th scope="col">Giá bán</th>
+                  <th scope="col">Tồn kho</th>
+                  <th scope="col">Hành động</th>
+                </tr>
+              </thead>
+              <tbody id="product-list-container">
+                <tr>
+                  <td><img
+                      src="assets/img/product/guitar/acoustic/saga/saga-a1-de-pro/dan-guitar-acoustic-saga-a1-de-pro--1000x1000.jpg"
+                      alt="Saga A1 DE PRO" style="width: 70px; height: auto;"></td>
+                  <td>Saga A1 DE PRO</td>
+                  <td>Acoustic</td>
+                  <td><span class="font-weight-bold">2.000.000 VND</span></td>
+                  <td>20%</td>
+                  <td><span class="font-weight-bold">2.400.000 VND</span></td>
+                  <td>12</td>
+                  <td class="action-cell">
+                    <button class="nutsua action-btn-common" data-cost-price="2000000"
+                      data-profit-margin="20">Sửa</button>
+                    <button class="nutxoa action-btn-common">Xóa</button>
+                  </td>
+                </tr>
+                <tr>
+                  <td><img
+                      src="assets/img/product/guitar/acoustic/taylor/taylor-a12e/dan-guitar-acoustic-taylor-academy-12e-grand-concert-wbag-.jpg"
+                      alt="Taylor A12E" style="width: 70px; height: auto;"></td>
+                  <td>Taylor A12E</td>
+                  <td>Acoustic</td>
+                  <td><span class="font-weight-bold">70.000.000 VND</span></td>
+                  <td>21.43%</td>
+                  <td><span class="font-weight-bold">85.000.000 VND</span></td>
+                  <td>32</td>
+                  <td>
+                    <button class="nutsua action-btn-common" data-cost-price="70000000"
+                      data-profit-margin="21.43">Sửa</button>
+                    <button class="nutxoa action-btn-common">Xóa</button>
+                  </td>
+                </tr>
+                <tr>
+                  <td><img src="assets/img/product/guitar/acoustic/saga/saga-cl65/dan-guitar-acoustic-saga-cl65-.jpg"
+                      alt="Saga CL65" style="width: 70px; height: auto;"></td>
+                  <td>Saga CL65</td>
+                  <td>Acoustic</td>
+                  <td><span class="font-weight-bold">2.000.000 VND</span></td>
+                  <td>20%</td>
+                  <td><span class="font-weight-bold">2.400.000 VND</span></td>
+                  <td>45</td>
+                  <td>
+                    <button class="nutsua action-btn-common" data-cost-price="2000000"
+                      data-profit-margin="20">Sửa</button>
+                    <button class="nutxoa action-btn-common">Xóa</button>
+                  </td>
+                </tr>
+                <tr>
+                  <td><img
+                      src="assets/img/product/guitar/classic/badon/dan-guitar-classic-ba-don-c100/dan-guitar-classic-ba-don-c100-.jpg"
+                      alt="Ba đờn C100" style="width: 70px; height: auto;"></td>
+                  <td>Ba đờn C100</td>
+                  <td>Classic</td>
+                  <td><span class="font-weight-bold">4.000.000 VND</span></td>
+                  <td>25%</td>
+                  <td><span class="font-weight-bold">5.000.000 VND</span></td>
+                  <td>3</td>
+                  <td>
+                    <button class="nutsua action-btn-common" data-cost-price="4000000"
+                      data-profit-margin="25">Sửa</button>
+                    <button class="nutxoa action-btn-common">Xóa</button>
+                  </td>
+                </tr>
+                <tr>
+                  <td><img
+                      src="assets/img/product/guitar/classic/yamaha/dan-guitar-classic-yamaha-cgs102aii-school-series/dan-guitar-classic-yamaha-cgs102aii-school-series-.jpg"
+                      alt="Yamaha CGS102AII" style="width: 70px; height: auto;"></td>
+                  <td>Yamaha CGS102AII</td>
+                  <td>Classic</td>
+                  <td><span class="font-weight-bold">5.600.000 VND</span></td>
+                  <td>25%</td>
+                  <td><span class="font-weight-bold">7.000.000 VND</span></td>
+                  <td>11</td>
+                  <td>
+                    <button class="nutsua action-btn-common" data-cost-price="5600000"
+                      data-profit-margin="25">Sửa</button>
+                    <button class="nutxoa action-btn-common">Xóa</button>
+                  </td>
+                </tr>
+                <tr>
+                  <td><img
+                      src="assets/img/product/guitar/acoustic/enya/enya-ega-x1-pro-sp1/dan-guitar-acoustic-enya-ega-x1-pro-sp1-acousticplus-smart-guitar-3-1000x1000.jpg"
+                      alt="Enya EGA X0 PRO SP1" style="width: 70px; height: auto;"></td>
+                  <td>Enya EGA X0 PRO SP1</td>
+                  <td>Acoustic</td>
+                  <td><span class="font-weight-bold">9.416.667 VND</span></td>
+                  <td>20%</td>
+                  <td><span class="font-weight-bold">11.300.000 VND</span></td>
+                  <td>36</td>
+                  <td>
+                    <button class="nutsua action-btn-common" data-cost-price="9416667"
+                      data-profit-margin="20">Sửa</button>
+                    <button class="nutxoa action-btn-common">Xóa</button>
+                  </td>
+                </tr>
+                <tr>
+                  <td><img src="assets/img/product/guitar/acoustic/yamaha/yamaha-ls36-are/1.jpg" alt="Yamaha LS36 ARE"
+                      style="width: 70px; height: auto;"></td>
+                  <td>Yamaha LS36 ARE</td>
+                  <td>Acoustic</td>
+                  <td><span class="font-weight-bold">6.560.000 VND</span></td>
+                  <td>25%</td>
+                  <td><span class="font-weight-bold">8.200.000 VND</span></td>
+                  <td>15</td>
+                  <td>
+                    <button class="nutsua action-btn-common" data-cost-price="6560000"
+                      data-profit-margin="25">Sửa</button>
+                    <button class="nutxoa action-btn-common">Xóa</button>
+                  </td>
+                </tr>
+                <tr>
+                  <td><img
+                      src="assets/img/product/guitar/acoustic/saga/saga-ss-8ce/dan-guitar-acoustic-saga-ss-8ce-.jpg"
+                      alt="Saga SS 8CE" style="width: 70px; height: auto;"></td>
+                  <td>Saga SS 8CE</td>
+                  <td>Acoustic</td>
+                  <td><span class="font-weight-bold">5.416.667 VND</span></td>
+                  <td>20%</td>
+                  <td><span class="font-weight-bold">6.500.000 VND</span></td>
+                  <td>51</td>
+                  <td>
+                    <button class="nutsua action-btn-common" data-cost-price="5416667"
+                      data-profit-margin="20">Sửa</button>
+                    <button class="nutxoa action-btn-common">Xóa</button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
 
 
-
-
+    </div>
+    <section id="category-pagination" class="category-pagination section">
+      <div class="container">
+        <nav class="d-flex justify-content-center" aria-label="Page navigation">
+          <ul>
+            <li> <a href="#" aria-label="Previous page"> <i class="bi bi-arrow-left"></i>
+                <span class="d-none d-sm-inline">Trước</span>
+              </a> </li>
+            <li><a href="#" class="active">1</a></li>
+            <li><a href="#">2</a></li>
+            <li><a href="#">3</a></li>
+            <li class="ellipsis">...</li>
+            <li><a href="#">8</a></li>
+            <li><a href="#">9</a></li>
+            <li><a href="#">10</a></li>
+            <li> <a href="#" aria-label="Next page"> <span class="d-none d-sm-inline">Sau</span>
+                <i class="bi bi-arrow-right"></i>
+              </a> </li>
+          </ul>
+        </nav>
+      </div>
+    </section><!-- /Category Pagination Section -->
   </main>
-
   <footer id="footer" class="footer dark-background">
     <div class="footer-main">
       <div class="container">
@@ -274,14 +492,11 @@
     </div>
   </footer>
 
-  <!-- Scroll Top -->
   <a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center"><i
       class="bi bi-arrow-up-short"></i></a>
 
-  <!-- Preloader -->
   <div id="preloader"></div>
 
-  <!-- Vendor JS Files -->
   <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
   <script src="assets/vendor/php-email-form/validate.js"></script>
   <script src="assets/vendor/swiper/swiper-bundle.min.js"></script>
@@ -290,10 +505,174 @@
   <script src="assets/vendor/drift-zoom/Drift.min.js"></script>
   <script src="assets/vendor/purecounter/purecounter_vanilla.js"></script>
 
-  <!-- Main JS File -->
   <script src="assets/js/main.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <!-- <script src="assets/js/products.js"></script>
+  <script src="assets/js/danhmucsp.js"></script> -->
   <script src="assets/js/login.js"></script>
 </body>
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const addForm = document.getElementById('product-form');
+    if (addForm) {
+      addForm.addEventListener('submit', function (event) {
+        event.preventDefault();
+        Toast.fire({
+          icon: 'success',
+          title: 'Thêm sản phẩm thành công!'
+        });
+        addForm.reset();
+      });
+    }
+    const categorySelect = document.getElementById('product-category');
+    const brandSelect = document.getElementById('product-brand');
+
+    const brandsData = {
+      'Acoustic': ['Enya', 'Yamaha', 'Everest', 'Taylor', 'Saga'],
+      'Classic': ['Ba đờn', 'Yamaha'],
+      '': []
+    };
+
+    function updateBrandOptions(category) {
+      const brands = brandsData[category] || [];
+      brandSelect.innerHTML = '<option value="">-- Chọn thương hiệu --</option>';
+
+      brands.forEach(brand => {
+        const option = document.createElement('option');
+        option.value = brand;
+        option.textContent = brand;
+        brandSelect.appendChild(option);
+      });
+
+      brandSelect.disabled = brands.length === 0;
+    }
+
+    if (categorySelect) {
+      categorySelect.addEventListener('change', function () {
+        const selectedCategory = categorySelect.value;
+        updateBrandOptions(selectedCategory);
+      });
+    }
+
+    updateBrandOptions(categorySelect ? categorySelect.value : '');
+
+    const costPriceInput = document.getElementById('costPrice');
+    const profitMarginInput = document.getElementById('profitMargin');
+    const sellingPriceInput = document.getElementById('sellingPrice');
+
+    function calculateSellingPrice() {
+      const costPrice = parseFloat(costPriceInput.value) || 0;
+      const profitMargin = parseFloat(profitMarginInput.value) || 0;
+
+      if (costPrice <= 0 || profitMargin < 0) {
+        sellingPriceInput.value = '';
+        return;
+      }
+
+      const finalProfitMargin = Math.min(Math.max(profitMargin, 0), 1000);
+      const sellingPrice = costPrice * (1 + finalProfitMargin / 100);
+
+      // ĐỊNH DẠNG GIÁ BÁN CHO FORM THÊM
+      sellingPriceInput.value = Math.round(sellingPrice).toLocaleString('vi-VN');
+    }
+
+    if (costPriceInput) {
+      costPriceInput.addEventListener('input', calculateSellingPrice);
+    }
+    if (profitMarginInput) {
+      profitMarginInput.addEventListener('input', calculateSellingPrice);
+    }
+
+    const listContainer = document.getElementById('product-list-container');
+    if (listContainer) {
+      listContainer.addEventListener('click', function (event) {
+        const target = event.target;
+        if (target.classList.contains('nutxoa')) {
+          Swal.fire({
+            title: 'Bạn có chắc chắn?',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Vâng, xóa nó!',
+            cancelButtonText: 'Hủy'
+          }).then((result) => {
+            if (result.isConfirmed) {
+              Toast.fire({ icon: 'success', title: 'Đã xóa!' });
+            }
+          });
+        }
+        if (target.classList.contains('nutsua')) {
+
+          // LẤY GIÁ TRỊ SỐ THÔ CHO INPUTS TYPE="NUMBER"
+          const name = target.dataset.name || 'Saga A1 DE PRO';
+          const category = target.dataset.category || 'Acoustic';
+          const costPriceRaw = target.dataset.costPrice || '2000000';
+          const profitMargin = target.dataset.profitMargin || '20';
+          const stock = target.dataset.stock || '12';
+
+          const productCode = 'SAGA-A1';
+          const imagePath = 'assets/img/product/...';
+
+          const formHTML = `
+                        <form id="swal-edit-form" class="row g-3" style="text-align: left;">
+                            <div class="col-14 mb-3">
+                                <label class="form-label fw-bold">Tên sản phẩm</label>
+                                <input type="text" class="form-control" value="${name}">
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label fw-bold">Mã sản phẩm</label>
+                                <input type="text" class="form-control" value="${productCode}">
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label fw-bold">Đường dẫn ảnh</label>
+                                <input type="text" class="form-control" value="${imagePath}">
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label class="form-label fw-bold">Giá Vốn (VNĐ)</label>
+                                <input type="number" class="form-control" value="${costPriceRaw}">
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label class="form-label fw-bold">% Lợi nhuận</label>
+                                <input type="number" class="form-control" value="${profitMargin}">
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label class="form-label fw-bold">Loại</label>
+                                <select class="form-select">
+                                    <option value="Acoustic" ${category === 'Acoustic' ? 'selected' : ''}>Acoustic</option>
+                                    <option value="Classic" ${category === 'Classic' ? 'selected' : ''}>Classic</option>
+                                </select>
+                            </div>
+                            
+                            <div class="col-12">
+                                <label class="form-label fw-bold">Tồn kho</label>
+                                <input type="number" class="form-control" value="${stock}">
+                            </div>
+                        </form>
+                    `;
+
+          Swal.fire({
+            title: `Sửa sản phẩm: ${name}`,
+            html: formHTML,
+            // icon: 'info',
+            showCancelButton: true,
+            confirmButtonText: 'Lưu thay đổi',
+            cancelButtonText: 'Hủy',
+            focusConfirm: false,
+            customClass: {
+              confirmButton: 'swal-green-btn',
+              cancelButton: 'swal-dark-btn'
+            },
+            preConfirm: () => {
+              return true;
+            }
+          }).then((result) => {
+            if (result.isConfirmed) {
+              Toast.fire({ icon: 'success', title: 'Đã lưu thay đổi!' });
+            }
+          });
+        }
+      });
+    }
+  });
+</script>
 
 </html>

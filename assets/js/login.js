@@ -79,7 +79,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
             // 5. Đăng nhập bằng tài khoản Test User
             Toast.fire({
-                icon: 'info',
+                icon: 'success',
                 title: 'Đăng nhập thành công!'
             }).then(() => {
                 sessionStorage.setItem('currentUser', JSON.stringify(testUserAccount));
