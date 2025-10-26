@@ -626,3 +626,13 @@
     background-color: #252223;
     transform: translateY(-1px);
 }
+
+
+
+                                    /*DÀNH CHO QUẢN LÝ ĐƠN HÀNG*/
+
+.info-and-status-order {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}

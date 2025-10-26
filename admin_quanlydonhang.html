@@ -27,6 +27,7 @@
 
   <!-- Main CSS File -->
   <link href="assets/css/main.css" rel="stylesheet">
+  <link href="assets/css/admin.css" rel="stylesheet">
 
   <!-- =======================================================
   * Template Name: NiceShop
@@ -146,6 +147,48 @@
       </div>
     </div><!-- End Page Title -->
 
+    
+    <div class="container-manage-import-products">
+      <form action="" class="search-container" method="get"><!-- Search box -->
+        <input type="text" id="search-input" placeholder="Tra cứu mã đơn hàng" name="search">
+        <button id="search-button">
+            <i class="fa fa-search"></i> Tìm kiếm          
+        </button> 
+      </form><!-- End Search box -->
+
+      <div class="sort-container"> <!-- Sort-container -->
+        <div class="sort-by-date-container">
+          <label>Từ ngày:<input type="date"></label>
+        
+          <label>Đến ngày:<input type="date"></label>
+        </div>
+        <div class="sort-by-order-status">
+          <label>Tình trạng:</label>
+          <button type="button">Mới đặt</button>
+          <button type="button">Đã xử lý</button>
+          <button type="button">Đã giao</button>
+          <button type="button">Đã huỷ</button>
+        </div>
+      </div>
+      <!-- Đơn hàng thứ 1 -->
+      <div class="manage-order-container">
+        <div class="info-and-status-order">
+          <div class="info-order">
+            <p>Mã đơn hàng: <b>1234</b></p>
+            <p>Ngày đặt hàng: <b>26/10/2025</b></p>
+            <p>Tổng tiền: <b>3.000.000VND</b></p>
+          </div>
+          <div>
+            <p>Trạng thái: <b>Đã giao</b></p>
+          </div>
+          
+        </div>
+        
+        
+        
+        <button type="button">Chi tiết</button>
+      </div>
+    </div>
 
 
 
@@ -290,6 +333,7 @@
   <script src="assets/js/main.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <script src="assets/js/login.js"></script>
+  <script src="assets/js/admin.js"></script>
 </body>
 
 </html>
