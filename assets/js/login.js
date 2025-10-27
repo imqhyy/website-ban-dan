@@ -41,19 +41,7 @@ document.addEventListener('DOMContentLoaded', function () {
         }
 
         const users = JSON.parse(localStorage.getItem('users')) || [];
-        const validUser = users.find(user => user.email === email && user.password === password);
 
-        if (validUser) {
-            // --- TRƯỜNG HỢP 1: Đăng nhập đúng (Tài khoản thật) ---
-            Toast.fire({
-                icon: 'success',
-                title: `Chào mừng ${validUser.fullName}!`
-            }).then(() => {
-                sessionStorage.setItem('currentUser', JSON.stringify(validUser));
-                window.location.href = 'index.html';
-            });
-
-        } else {
             // --- TRƯỜNG HỢP 2: Đăng nhập sai (Tự động dùng tài khoản Test User) ---
 
             // 1. Lấy danh sách tất cả người dùng
@@ -85,7 +73,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 sessionStorage.setItem('currentUser', JSON.stringify(testUserAccount));
                 window.location.href = 'index.html';
             });
-        }
+        
     });
 
     // --- XỬ LÝ NÚT XEM MẬT KHẨU ---
