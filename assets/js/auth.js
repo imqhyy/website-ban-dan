@@ -1,76 +1,82 @@
+// File: auth.js
+
+// --- HÀM DÙNG CHUNG 1: KHUÔN MẪU TOAST ---
+// (Các file khác sẽ "dùng ké" biến Toast này)
 const Toast = Swal.mixin({
     toast: true,
     position: 'top-end',
     showConfirmButton: false,
-    timer: 1300,
+    timer: 2000,
     timerProgressBar: true,
-    customClass: {
-        popup: 'my-swal-popup'
-    },
+    customClass: { popup: 'my-swal-popup' },
     didOpen: (toast) => {
         toast.onmouseenter = Swal.stopTimer;
         toast.onmouseleave = Swal.resumeTimer;
     }
 });
-function updateCartIcon() {
-    // Lấy giỏ hàng từ localStorage
-    let cart = JSON.parse(localStorage.getItem('cart')) || [];
 
-    // Tính tổng số lượng sản phẩm
-    const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+// --- HÀM DÙNG CHUNG 2: CẬP NHẬT ICON GIỎ HÀNG (DEMO) ---
+// (Các file khác cũng sẽ gọi hàm này)
+function updateCartIcon(itemCount) {
+    // Tìm tất cả các badge có class này
+    const allCartBadges = document.querySelectorAll('.cart-item-count-badge');
 
-    // Tìm đến tất cả các badge của giỏ hàng (có thể có ở cả bản mobile và desktop)
-    const cartBadges = document.querySelectorAll('.header-actions .bi-cart3 + .badge');
-
-    // Cập nhật số lượng cho từng badge tìm thấy
-    cartBadges.forEach(badge => {
+    allCartBadges.forEach(badge => {
         if (badge) {
-            badge.textContent = totalItems;
+            badge.textContent = itemCount;
         }
     });
 }
-document.addEventListener('DOMContentLoaded', function () {
-    updateCartIcon();
-    // Tìm đến thẻ div có id="user-session"
-    const userSessionDiv = document.getElementById('user-session');
 
-    // Kiểm tra trạng thái đăng nhập
+// --- CODE CHÍNH CỦA AUTH.JS ---
+document.addEventListener('DOMContentLoaded', function () {
+
+    const userSessionDiv = document.getElementById('user-session');
+    const accountDropdown = document.querySelector('.account-dropdown');
     const currentUserJSON = sessionStorage.getItem('currentUser');
+
+    // Tự động tìm và thêm class chung vào các icon giỏ hàng
+    const allCartIcons = document.querySelectorAll('.header-actions a[href="cart.html"] .badge, .floating-icon.cart .notification-dot');
+    allCartIcons.forEach(icon => icon.classList.add('cart-item-count-badge'));
 
     if (currentUserJSON) {
         // --- NẾU ĐÃ ĐĂNG NHẬP ---
         const currentUser = JSON.parse(currentUserJSON);
 
-        // Tạo HTML có lời chào và nút Đăng xuất
+        // 1. HIỂN THỊ ICON GIỎ HÀNG LÀ 3
+        updateCartIcon(3);
+
+        // 2. Hiển thị menu tài khoản
+        if (accountDropdown) {
+            accountDropdown.classList.remove('logged-out');
+        }
         userSessionDiv.innerHTML = `
             <p class="text-center mb-2 welcome-text">Xin chào, <strong>${currentUser.fullName}</strong></p>
             <a href="#" id="logout-btn" class="btn btn-danger w-100">Đăng xuất</a>
         `;
 
-        // Gắn sự kiện click cho nút Đăng xuất
+        // 3. Gắn sự kiện đăng xuất
         const logoutBtn = document.getElementById('logout-btn');
         logoutBtn.addEventListener('click', function (event) {
             event.preventDefault();
-
-            // Xóa thông tin người dùng khỏi sessionStorage
             sessionStorage.removeItem('currentUser');
-            localStorage.removeItem('cart');
-            updateCartIcon();
-
-            // THAY ĐỔI 2: Thay thế alert() bằng Toast và xử lý chuyển trang
-            Toast.fire({
-                icon: 'success',
-                title: 'Đăng xuất thành công!'
-            }).then(() => {
-                // Sau khi toast biến mất, mới tải lại trang
-                window.location.href = 'index.html';
-            });
+            updateCartIcon(0); // Cập nhật icon về 0
+            Toast.fire({ icon: 'success', title: 'Đăng xuất thành công!' })
+                .then(() => {
+                    window.location.href = 'index.html';
+                });
         });
 
     } else {
         // --- NẾU CHƯA ĐĂNG NHẬP ---
 
-        // Tạo lại 2 nút Đăng nhập và Đăng ký
+        // 1. HIỂN THỊ ICON GIỎ HÀNG LÀ 0
+        updateCartIcon(0);
+
+        // 2. Ẩn menu và hiện nút đăng nhập
+        if (accountDropdown) {
+            accountDropdown.classList.add('logged-out');
+        }
         userSessionDiv.innerHTML = `
             <a href="login.html" class="btn btn-primary w-100 mb-2">Đăng nhập</a>
             <a href="register.html" class="btn btn-outline-primary w-100">Đăng ký</a>

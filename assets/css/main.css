@@ -12718,3 +12718,24 @@ section,
 .page-loading .footer {
   visibility: hidden;
 }
+/* Custom CSS cho SweetAlert2 - Blur nền */
+/* SweetAlert2 thường tự làm mờ, nhưng nếu cần, thêm cái này */
+.swal2-backdrop-show {
+  backdrop-filter: blur(5px);
+  /* Giá trị blur tùy chỉnh */
+  -webkit-backdrop-filter: blur(5px);
+  /* Hỗ trợ trình duyệt WebKit */
+}
+
+/* Tùy chỉnh nút trong SweetAlert2 */
+.swal2-actions .swal2-confirm {
+  background-color: #032e54 !important;
+  /* Màu xám cho nút xác nhận */
+  border: none !important;
+}
+
+.swal2-actions .swal2-cancel {
+  background-color: #272e2e !important;
+  /* Màu xanh cho nút Tiếp tục mua sắm */
+  border: none !important;
+}

@@ -1,17 +1,13 @@
+// Thay thế toàn bộ file assets/js/checkout.js
+
 document.addEventListener('DOMContentLoaded', function () {
 
-    // --- BẢO VỆ TRANG & KIỂM TRA DỮ LIỆU ---
+    // --- BẢO VỆ TRANG ---
     const currentUser = JSON.parse(sessionStorage.getItem('currentUser'));
-    const cart = JSON.parse(localStorage.getItem('cart')) || [];
+    // KHÔNG KIỂM TRA GIỎ HÀNG THẬT NỮA
 
     if (!currentUser) {
-        alert('Bạn cần đăng nhập để thanh toán!');
-        window.location.href = 'login.html';
-        return;
-    }
-    if (cart.length === 0) {
-        alert('Giỏ hàng của bạn đang trống, không thể thanh toán!');
-        window.location.href = 'index.html';
+        Swal.fire({ icon: 'warning', title: 'Yêu cầu đăng nhập', text: 'Bạn cần đăng nhập để thanh toán!' }).then(() => { window.location.href = 'login.html'; });
         return;
     }
 
@@ -21,35 +17,39 @@ document.addEventListener('DOMContentLoaded', function () {
     const emailInput = document.getElementById('email');
     const phoneInput = document.getElementById('phone');
     const addressInput = document.getElementById('address');
-
     const summaryItemsContainer = document.getElementById('order-summary-items');
     const itemCountElement = document.getElementById('item-count');
     const orderSubtotalElement = document.getElementById('order-subtotal');
     const orderTotalElement = document.getElementById('order-total');
     const placeOrderBtnPrice = document.getElementById('place-order-btn-price');
-
     const checkoutForm = document.getElementById('checkout-form');
 
     // --- ĐIỀN THÔNG TIN CÓ SẴN CỦA NGƯỜI DÙNG ---
-    const nameParts = currentUser.fullName.split(' ');
-    firstNameInput.value = nameParts.shift();
-    lastNameInput.value = nameParts.join(' ');
+    if (currentUser.fullName) {
+        const nameParts = currentUser.fullName.split(' ');
+        firstNameInput.value = nameParts.shift();
+        lastNameInput.value = nameParts.join(' ');
+    }
     emailInput.value = currentUser.email || '';
     phoneInput.value = currentUser.phone || '';
 
-    // --- HIỂN THỊ TÓM TẮT ĐƠN HÀNG ---
+    // --- HIỂN THỊ TÓM TẮT ĐƠN HÀNG (DEMO) ---
+    const demoCart = [
+        { name: "Saga A1 DE PRO", quantity: 1, price: 2000000, image: "assets/img/product/guitar/acoustic/saga/saga-a1-de-pro/dan-guitar-acoustic-saga-a1-de-pro--1000x1000.jpg" },
+        { name: "Ba đờn C100", quantity: 1, price: 5000000, image: "assets/img/product/guitar/classic/badon/dan-guitar-classic-ba-don-c100/dan-guitar-classic-ba-don-c100-.jpg" },
+        { name: "Taylor A12E", quantity: 1, price: 85000000, image: "assets/img/product/guitar/acoustic/taylor/taylor-a12e/dan-guitar-acoustic-taylor-academy-12e-grand-concert-wbag-.jpg" }
+    ];
+
     let total = 0;
     let totalItems = 0;
     summaryItemsContainer.innerHTML = '';
-    cart.forEach(item => {
+    demoCart.forEach(item => {
         const itemTotal = item.price * item.quantity;
         total += itemTotal;
         totalItems += item.quantity;
         const itemHTML = `
             <div class="order-item">
-                <div class="order-item-image">
-                    <img src="${item.image}" alt="${item.name}" class="img-fluid">
-                </div>
+                <div class="order-item-image"><img src="${item.image}" alt="${item.name}" class="img-fluid"></div>
                 <div class="order-item-details">
                     <h4>${item.name}</h4>
                     <div class="order-item-price">
@@ -57,8 +57,7 @@ document.addEventListener('DOMContentLoaded', function () {
                         <span class="price">${item.price.toLocaleString('vi-VN')} VNĐ</span>
                     </div>
                 </div>
-            </div>
-        `;
+            </div>`;
         summaryItemsContainer.innerHTML += itemHTML;
     });
 
@@ -68,49 +67,37 @@ document.addEventListener('DOMContentLoaded', function () {
     orderTotalElement.textContent = formattedTotal;
     placeOrderBtnPrice.textContent = formattedTotal;
 
-    // --- XỬ LÝ SỰ KIỆN ĐẶT HÀNG ---
+    // --- XỬ LÝ SỰ KIỆN ĐẶT HÀNG (DEMO) ---
     checkoutForm.addEventListener('submit', function (event) {
         event.preventDefault();
 
-        // Lấy thông tin từ form
-        const fullName = document.getElementById('first-name').value + ' ' + document.getElementById('last-name').value;
-        const phone = document.getElementById('phone').value;
-        const address = document.getElementById('address').value;
+        // --- BẮT ĐẦU SỬA ĐỔI TỪ ĐÂY ---
 
         Swal.fire({
             icon: 'success',
             title: 'Đặt hàng thành công!',
-            text: 'Cảm ơn bạn đã mua hàng tại Guitar Xì Gòn.',
+            text: 'Cảm ơn bạn đã mua hàng.',
+
+            // Cài đặt cho nền mờ (blur)
+            backdrop: true, // Bật nền mờ
+            allowOutsideClick: false, // Không cho bấm ra ngoài
+
+            // Cài đặt 2 nút bấm
+            showCancelButton: true, // <-- DÒNG NÀY SẼ THÊM NÚT THỨ 2
             confirmButtonText: 'Xem xác nhận đơn hàng',
-            customClass: {}
-        }).then(() => {
-            const newOrder = {
-                orderId: `ORD-${Date.now()}`,
-                items: cart,
-                total: total, // Bây giờ biến total đã hợp lệ
-                date: new Date().toLocaleDateString('vi-VN'),
-                paymentMethod: document.querySelector('input[name="payment-method"]:checked').value,
-                shippingInfo: {
-                    name: firstNameInput.value + ' ' + lastNameInput.value,
-                    phone: phoneInput.value,
-                    address: addressInput.value
-                }
-            };
+            cancelButtonText: 'Tiếp tục mua sắm'
 
-            let allUsers = JSON.parse(localStorage.getItem('users')) || [];
-            const userIndex = allUsers.findIndex(user => user.email === currentUser.email);
-
-            if (userIndex !== -1) {
-                if (!allUsers[userIndex].orders) allUsers[userIndex].orders = [];
-                allUsers[userIndex].orders.push(newOrder);
-                localStorage.setItem('users', JSON.stringify(allUsers));
-                currentUser.orders = allUsers[userIndex].orders;
-                sessionStorage.setItem('currentUser', JSON.stringify(currentUser));
+        }).then((result) => {
+            // Xử lý logic sau khi bấm nút
+            if (result.isConfirmed) {
+                // Nếu bấm nút "Xem xác nhận đơn hàng"
+                window.location.href = 'order-confirmation.html';
+            } else if (result.dismiss === Swal.DismissReason.cancel) {
+                // Nếu bấm nút "Tiếp tục mua sắm"
+                window.location.href = 'index.html'; // Chuyển về trang chủ
             }
-
-            localStorage.setItem('lastOrder', JSON.stringify(newOrder));
-            localStorage.removeItem('cart');
-            window.location.href = 'order-confirmation.html';
         });
+
+        // --- KẾT THÚC SỬA ĐỔI ---
     });
 });
