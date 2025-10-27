@@ -321,135 +321,136 @@
   /**
    * Price range slider implementation for price filtering.
    */
-  function priceRangeWidget() {
-    // Get all price range widgets on the page
-    const priceRangeWidgets = document.querySelectorAll('.price-range-container');
+  // hàm này nếu chạy cùng priceRangeSliders sẽ gây ra lỗi định dạng khi nhập input
+  // function priceRangeWidget() {
+  //   // Get all price range widgets on the page
+  //   const priceRangeWidgets = document.querySelectorAll('.price-range-container');
 
-    priceRangeWidgets.forEach(widget => {
-      const minRange = widget.querySelector('.min-range');
-      const maxRange = widget.querySelector('.max-range');
-      const sliderProgress = widget.querySelector('.slider-progress');
-      const minPriceDisplay = widget.querySelector('.current-range .min-price');
-      const maxPriceDisplay = widget.querySelector('.current-range .max-price');
-      const minPriceInput = widget.querySelector('.min-price-input');
-      const maxPriceInput = widget.querySelector('.max-price-input');
-      const applyButton = widget.querySelector('.filter-actions .btn-primary');
+  //   priceRangeWidgets.forEach(widget => {
+  //     const minRange = widget.querySelector('.min-range');
+  //     const maxRange = widget.querySelector('.max-range');
+  //     const sliderProgress = widget.querySelector('.slider-progress');
+  //     const minPriceDisplay = widget.querySelector('.current-range .min-price');
+  //     const maxPriceDisplay = widget.querySelector('.current-range .max-price');
+  //     const minPriceInput = widget.querySelector('.min-price-input');
+  //     const maxPriceInput = widget.querySelector('.max-price-input');
+  //     const applyButton = widget.querySelector('.filter-actions .btn-primary');
 
-      if (!minRange || !maxRange || !sliderProgress || !minPriceDisplay || !maxPriceDisplay || !minPriceInput || !maxPriceInput) return;
+  //     if (!minRange || !maxRange || !sliderProgress || !minPriceDisplay || !maxPriceDisplay || !minPriceInput || !maxPriceInput) return;
 
-      // Slider configuration
-      const sliderMin = parseInt(minRange.min);
-      const sliderMax = parseInt(minRange.max);
-      const step = parseInt(minRange.step) || 1;
+  //     // Slider configuration
+  //     const sliderMin = parseInt(minRange.min);
+  //     const sliderMax = parseInt(minRange.max);
+  //     const step = parseInt(minRange.step) || 1;
 
-      // Initialize with default values
-      let minValue = parseInt(minRange.value);
-      let maxValue = parseInt(maxRange.value);
+  //     // Initialize with default values
+  //     let minValue = parseInt(minRange.value);
+  //     let maxValue = parseInt(maxRange.value);
 
-      // Set initial values
-      updateSliderProgress();
-      updateDisplays();
+  //     // Set initial values
+  //     updateSliderProgress();
+  //     updateDisplays();
 
-      // Min range input event
-      minRange.addEventListener('input', function () {
-        minValue = parseInt(this.value);
+  //     // Min range input event
+  //     minRange.addEventListener('input', function () {
+  //       minValue = parseInt(this.value);
 
-        // Ensure min doesn't exceed max
-        if (minValue > maxValue) {
-          minValue = maxValue;
-          this.value = minValue;
-        }
+  //       // Ensure min doesn't exceed max
+  //       if (minValue > maxValue) {
+  //         minValue = maxValue;
+  //         this.value = minValue;
+  //       }
 
-        // Update min price input and display
-        minPriceInput.value = minValue;
-        updateDisplays();
-        updateSliderProgress();
-      });
+  //       // Update min price input and display
+  //       minPriceInput.value = minValue;
+  //       updateDisplays();
+  //       updateSliderProgress();
+  //     });
 
-      // Max range input event
-      maxRange.addEventListener('input', function () {
-        maxValue = parseInt(this.value);
+  //     // Max range input event
+  //     maxRange.addEventListener('input', function () {
+  //       maxValue = parseInt(this.value);
 
-        // Ensure max isn't less than min
-        if (maxValue < minValue) {
-          maxValue = minValue;
-          this.value = maxValue;
-        }
+  //       // Ensure max isn't less than min
+  //       if (maxValue < minValue) {
+  //         maxValue = minValue;
+  //         this.value = maxValue;
+  //       }
 
-        // Update max price input and display
-        maxPriceInput.value = maxValue;
-        updateDisplays();
-        updateSliderProgress();
-      });
+  //       // Update max price input and display
+  //       maxPriceInput.value = maxValue;
+  //       updateDisplays();
+  //       updateSliderProgress();
+  //     });
 
-      // Min price input change
-      minPriceInput.addEventListener('change', function () {
-        let value = parseInt(this.value) || sliderMin;
+  //     // Min price input change
+  //     minPriceInput.addEventListener('change', function () {
+  //       let value = parseInt(this.value) || sliderMin;
 
-        // Ensure value is within range
-        value = Math.max(sliderMin, Math.min(sliderMax, value));
+  //       // Ensure value is within range
+  //       value = Math.max(sliderMin, Math.min(sliderMax, value));
 
-        // Ensure min doesn't exceed max
-        if (value > maxValue) {
-          value = maxValue;
-        }
+  //       // Ensure min doesn't exceed max
+  //       if (value > maxValue) {
+  //         value = maxValue;
+  //       }
 
-        // Update min value and range input
-        minValue = value;
-        this.value = value;
-        minRange.value = value;
-        updateDisplays();
-        updateSliderProgress();
-      });
+  //       // Update min value and range input
+  //       minValue = value;
+  //       this.value = value;
+  //       minRange.value = value;
+  //       updateDisplays();
+  //       updateSliderProgress();
+  //     });
 
-      // Max price input change
-      maxPriceInput.addEventListener('change', function () {
-        let value = parseInt(this.value) || sliderMax;
+  //     // Max price input change
+  //     maxPriceInput.addEventListener('change', function () {
+  //       let value = parseInt(this.value) || sliderMax;
 
-        // Ensure value is within range
-        value = Math.max(sliderMin, Math.min(sliderMax, value));
+  //       // Ensure value is within range
+  //       value = Math.max(sliderMin, Math.min(sliderMax, value));
 
-        // Ensure max isn't less than min
-        if (value < minValue) {
-          value = minValue;
-        }
+  //       // Ensure max isn't less than min
+  //       if (value < minValue) {
+  //         value = minValue;
+  //       }
 
-        // Update max value and range input
-        maxValue = value;
-        this.value = value;
-        maxRange.value = value;
-        updateDisplays();
-        updateSliderProgress();
-      });
+  //       // Update max value and range input
+  //       maxValue = value;
+  //       this.value = value;
+  //       maxRange.value = value;
+  //       updateDisplays();
+  //       updateSliderProgress();
+  //     });
 
-      // Apply button click
-      if (applyButton) {
-        applyButton.addEventListener('click', function () {
-          // This would typically trigger a form submission or AJAX request
-          console.log(`Applying price filter: ${minValue}VND - ${maxValue}VND`);
+  //     // Apply button click
+  //     if (applyButton) {
+  //       applyButton.addEventListener('click', function () {
+  //         // This would typically trigger a form submission or AJAX request
+  //         console.log(`Applying price filter: ${minValue}VND - ${maxValue}VND`);
 
-          // Here you would typically add code to filter products or redirect to a filtered URL
-        });
-      }
+  //         // Here you would typically add code to filter products or redirect to a filtered URL
+  //       });
+  //     }
 
-      // Helper function to update the slider progress bar
-      function updateSliderProgress() {
-        const range = sliderMax - sliderMin;
-        const minPercent = ((minValue - sliderMin) / range) * 100;
-        const maxPercent = ((maxValue - sliderMin) / range) * 100;
+  //     // Helper function to update the slider progress bar
+  //     function updateSliderProgress() {
+  //       const range = sliderMax - sliderMin;
+  //       const minPercent = ((minValue - sliderMin) / range) * 100;
+  //       const maxPercent = ((maxValue - sliderMin) / range) * 100;
 
-        sliderProgress.style.left = `${minPercent}%`;
-        sliderProgress.style.width = `${maxPercent - minPercent}%`;
-      }
+  //       sliderProgress.style.left = `${minPercent}%`;
+  //       sliderProgress.style.width = `${maxPercent - minPercent}%`;
+  //     }
 
-      // Helper function to update price displays
-      function updateDisplays() {
-        minPriceDisplay.textContent = `${minValue}VND`;
-        maxPriceDisplay.textContent = `${maxValue}VND`;
-      }
-    });
-  }
-  priceRangeWidget();
+  //     // Helper function to update price displays
+  //     function updateDisplays() {
+  //       minPriceDisplay.textContent = `${minValue}VND`;
+  //       maxPriceDisplay.textContent = `${maxValue}VND`;
+  //     }
+  //   });
+  // }
+  // priceRangeWidget();
 
   /**
    * Ecommerce Checkout Section
@@ -1004,7 +1005,7 @@ const priceRangeSlider = () => {
       // Chuyển đổi giá trị sang số, phòng trường hợp nó là chuỗi
       const numberValue = parseInt(value, 10);
       // Dùng Intl.NumberFormat để thêm dấu chấm
-      return new Intl.NumberFormat('vi-VN').format(numberValue) + ' VNĐ';
+      return new Intl.NumberFormat('vi-VN').format(numberValue) + ' VND';
     }
 
     // Cập nhật hiển thị ban đầu khi tải trang
