@@ -57,25 +57,26 @@ document.addEventListener('DOMContentLoaded', function () {
 
     const currentUserJSON = sessionStorage.getItem('currentUser');
 
-    // --- BẢO VỆ TRANG ---
-    if (!currentUserJSON) {
+    if (currentUserJSON) {
+        document.body.classList.remove('page-loading');
+    } else {
         Swal.fire({
             icon: 'warning',
             title: 'Yêu cầu đăng nhập',
-            text: 'Bạn cần đăng nhập để truy cập trang này.',
+            text: 'Bạn cần đăng nhập để có thể xem hồ sơ.',
             confirmButtonText: 'Đến trang đăng nhập',
             allowOutsideClick: false,
-            customClass: { /* ... custom classes của anh ... */ }
+            customClass: {
+                container: 'blurred-login-alert', // Thêm class container riêng cho alert này
+                popup: 'my-swal-popup',
+                title: 'my-swal-title',
+                htmlContainer: 'my-swal-html-container',
+                confirmButton: 'my-swal-confirm-button'
+            }
         }).then(() => {
             window.location.href = 'login.html';
         });
-        return; // Dừng lại nếu chưa đăng nhập
     }
-
-    // SỬA LỖI 2: GỠ CLASS 'page-loading' NGAY SAU KHI XÁC NHẬN ĐÃ ĐĂNG NHẬP
-    // Dòng này phải nằm ở đây để đảm bảo trang luôn hiện ra
-    document.body.classList.remove('page-loading');
-
     const currentUser = JSON.parse(currentUserJSON);
 
     // --- Lấy các phần tử HTML ---
