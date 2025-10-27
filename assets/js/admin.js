@@ -181,6 +181,7 @@ if(editButtons) {
 
                                     /*DÀNH CHO QUẢN LÝ NHẬP SẢN PHẨM */
 
+
 // Dữ liệu mẫu tên sản phẩm (Bạn cần phải tùy chỉnh dữ liệu này)
 const productNamesData = {
     "Guitar Classic": {
@@ -258,6 +259,105 @@ function updateBrandsForProduct(typeSelect) { // khi chọn loại acoustic hay 
     updateProductDatalist(productContainer);
 }
 
+//Hàm xử lý tiền tệ khi nhập đơn giá (KHÔNG ĐỔI)
+function formatCurrency(value) {
+    // 1. Loại bỏ tất cả ký tự không phải số (trừ dấu chấm để tránh bị lỗi khi nhập liệu)
+    const rawNumber = value.toString().replace(/[^0-9]/g, ''); 
+    
+    // Nếu số lượng chữ số dưới 4, không định dạng dấu chấm
+    if (rawNumber.length < 4) {
+        return rawNumber; 
+    }
+
+    // 2. Định dạng số với dấu chấm là dấu phân cách hàng nghìn (ví dụ: 12.345.678)
+    // RegExp: Tìm tất cả vị trí có 3 chữ số đứng sau, không phải ở đầu chuỗi và không có thêm chữ số nào sau nó.
+    const formatted = rawNumber.replace(/\B(?=(\d{3})+(?!\d))/g, "."); 
+    
+    // 3. Thêm đơn vị VND
+    return formatted + " VND";
+}
+
+// HÀM MỚI: Gán sự kiện định dạng tiền tệ (Sử dụng BLUR và ENTER)
+function attachPriceFormatter(inputElement) {
+    if (!inputElement) return;
+
+    // --- Định nghĩa hàm xử lý định dạng chung ---
+    const handleFormatting = function() {
+        // Lấy giá trị hiện tại, loại bỏ tất cả ký tự không phải số
+        const currentValue = this.value.replace(/[^0-9]/g, '');
+        
+        // Chỉ định dạng nếu có giá trị
+        if (currentValue) {
+            // Gán lại giá trị đã được định dạng (có dấu chấm và VND)
+            this.value = formatCurrency(currentValue);
+        } else {
+            // Nếu người dùng xóa sạch, giữ lại ô trống
+            this.value = '';
+        }
+    };
+    
+    // --- Định nghĩa hàm xử lý khi nhấn phím ---
+    const handleKeydown = function(event) {
+        // Kiểm tra xem phím Enter (key code 13) có được nhấn không
+        if (event.key === 'Enter') {
+            event.preventDefault(); // Ngăn trình duyệt gửi form hoặc hành động mặc định
+            handleFormatting.call(this); // Gọi hàm định dạng
+            this.blur(); // Tự động di chuyển khỏi ô nhập
+        }
+    };
+
+    // 1. Gán sự kiện BLUR (Click ra ngoài)
+    inputElement.addEventListener('blur', handleFormatting);
+
+    // 2. Gán sự kiện KEYDOWN (Nhấn Enter)
+    inputElement.addEventListener('keydown', handleKeydown);
+    
+    // QUAN TRỌNG: Gán sự kiện FOCUS để dọn dẹp định dạng khi BẮT ĐẦU nhập lại
+    inputElement.addEventListener('focus', function() {
+        // Khi người dùng click vào ô, loại bỏ ' VND' và dấu chấm để họ nhập số thuần
+        this.value = this.value.replace(/[^0-9]/g, '');
+    });
+}
+
+// HÀM MỚI: Đặt lại toàn bộ form phiếu nhập về trạng thái ban đầu
+function resetImportForm() {
+    const importFormContainer = document.getElementById('import-form-container');
+    if (!importFormContainer) return;
+
+    // 1. Reset các trường Header (Ngày nhập, Mã phiếu)
+    const headerInputs = importFormContainer.querySelectorAll('.header-fields-row-manage-import input');
+    headerInputs.forEach(input => {
+        input.value = '';
+    });
+
+    // 2. Chỉ giữ lại 1 sản phẩm duy nhất và reset nó
+    const allProductFields = importFormContainer.querySelectorAll('.product-fields-template');
+    
+    // Giữ lại phần tử đầu tiên (sản phẩm mặc định)
+    const initialProductFields = allProductFields[0];
+    
+    // Xóa tất cả các phần tử sản phẩm thừa (từ phần tử thứ 2 trở đi)
+    for (let i = 1; i < allProductFields.length; i++) {
+        allProductFields[i].remove();
+    }
+    
+    // 3. Reset các trường của sản phẩm còn lại (sản phẩm đầu tiên)
+    initialProductFields.querySelectorAll('input, select').forEach(element => {
+        if (element.tagName === 'SELECT') {
+            element.selectedIndex = 0; // Đặt lại về option đầu tiên
+        } else {
+            element.value = ''; // Xóa giá trị input
+        }
+    });
+
+    // 4. Cập nhật lại danh sách Thương hiệu (và Datalist) cho sản phẩm đầu tiên
+    const typeSelect = initialProductFields.querySelector('.manage-product-type');
+    if (typeSelect) {
+        updateBrandsForProduct(typeSelect);
+    }
+}
+
+
 document.addEventListener('DOMContentLoaded', function() {
     // 1. Gán sự kiện 'change' cho tất cả các select Loại sản phẩm hiện có
     //    (Áp dụng cho sản phẩm mặc định ban đầu)
@@ -277,13 +377,19 @@ document.addEventListener('DOMContentLoaded', function() {
             updateProductDatalist(productContainer);
         });
     });
-// ...
+
+    // === GÁN SỰ KIỆN FORMAT CHO CÁC Ô ĐƠN GIÁ BAN ĐẦU ===
+    document.querySelectorAll('.unit-price-input').forEach(input => {
+        attachPriceFormatter(input);
+    });
+    // ===================================================
 
     
     document.querySelectorAll('.create-import-btn').forEach(button => { //hiện popup khi click vào nút thêm phiếu nhập
         button.addEventListener('click', function(event) {
             event.preventDefault(); 
-            // KHÔNG cần thiết lập lại sự kiện 'change' ở đây nữa
+            // <<< THÊM: Reset form trước khi mở modal >>>
+            resetImportForm();
             modal.style.display = "block";
         });
     });
@@ -301,6 +407,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const importFormContainer = document.getElementById('import-form-container');
     const productTemplate = document.getElementsByClassName('product-fields-template')[0];
     const actionButtonConatainer = document.getElementById('manage-add-and-save-container');
+    
     if (addProductButton && actionButtonConatainer) {
         addProductButton.addEventListener('click', function() {
             const newProductFields = productTemplate.cloneNode(true);
@@ -335,12 +442,17 @@ document.addEventListener('DOMContentLoaded', function() {
                 updateBrandsForProduct(this);
             });
 
-            // THAY ĐỔI MỚI: Gán sự kiện 'change' cho select Thương hiệu MỚI
+            // Gán sự kiện 'change' cho select Thương hiệu MỚI
             const newBrandSelect = newProductFields.querySelector('.manage-product-brands');
             newBrandSelect.addEventListener('change', function() {
                 const productContainer = this.closest('.product-fields-template');
                 updateProductDatalist(productContainer);
             });
+            
+            // THAY ĐỔI MỚI: Gán sự kiện format cho ô Đơn giá MỚI
+            const newPriceInput = newProductFields.querySelector('.unit-price-input');
+            attachPriceFormatter(newPriceInput);
+
 
             // Gọi hàm cập nhật Thương hiệu cho sản phẩm mới (dựa trên giá trị mặc định)
             updateBrandsForProduct(newTypeSelect);
@@ -348,32 +460,28 @@ document.addEventListener('DOMContentLoaded', function() {
             importFormContainer.insertBefore(newProductFields, actionButtonConatainer);
         });
     }
-});
 
-const button_saveimportproduct = document.getElementById('save-import-product');
-if(button_saveimportproduct) {
-    button_saveimportproduct.addEventListener('click', function(event) {
-        event.preventDefault(); // Ngăn hành động mặc định (nếu có)
-        
-        // 1. Đóng Modal
-        modal.style.display = "none";
-        
-        // 2. Hiện thông báo (Sử dụng SweetAlert2 nếu đã được tích hợp, nếu không dùng alert() mặc định)
-        // Cách 1: Dùng alert() mặc định của trình duyệt
-        // alert("Phiếu nhập đã được lưu thành công!");
-        
-        // Cách 2: Dùng SweetAlert2 (Đã thấy thư viện được load trong HTML)
-        Swal.fire({
-            icon: 'success',
-            title: 'Thành công!',
-            text: 'Phiếu nhập đã được lưu thành công.',
-            confirmButtonText: 'Đóng'
+    const button_saveimportproduct = document.getElementById('save-import-product');
+    if(button_saveimportproduct) {
+        button_saveimportproduct.addEventListener('click', function(event) {
+            event.preventDefault(); // Ngăn hành động mặc định (nếu có)
+            
+            // 1. Đóng Modal
+            modal.style.display = "none";
+            
+            // <<< THÊM: Reset form trước khi mở modal >>>
+            resetImportForm();
+            
+            // 2. Hiện thông báo (Sử dụng SweetAlert2 nếu đã được tích hợp, nếu không dùng alert() mặc định)
+            Swal.fire({
+                icon: 'success',
+                title: 'Thành công!',
+                text: 'Phiếu nhập đã được lưu thành công.',
+                confirmButtonText: 'Đóng'
+            });
+            
+            // NOTE: Thêm code xử lý lưu dữ liệu (gọi API, lưu LocalStorage,...) tại đây
         });
-        
-        // NOTE: Thêm code xử lý lưu dữ liệu (gọi API, lưu LocalStorage,...) tại đây
-    });
-}
+    }
 
-
-
-
+});
