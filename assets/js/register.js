@@ -36,28 +36,28 @@ document.addEventListener('DOMContentLoaded', function () {
         const phone = document.getElementById('phone').value; // Lấy thêm SĐT
 
         // --- VALIDATION (Kiểm tra dữ liệu) ---
-        if (password !== confirmPassword) {
-            Toast.fire({ icon: 'error', title: 'Mật khẩu xác nhận không khớp!' });
-            return;
-        }
+        // if (password !== confirmPassword) {
+        //     Toast.fire({ icon: 'error', title: 'Mật khẩu xác nhận không khớp!' });
+        //     return;
+        // }
 
-        if (!fullName || !email || !password) {
-            Toast.fire({ icon: 'error', title: 'Vui lòng điền đầy đủ thông tin bắt buộc!' });
-            return;
-        }
+        // if (!fullName || !email || !password) {
+        //     Toast.fire({ icon: 'error', title: 'Vui lòng điền đầy đủ thông tin bắt buộc!' });
+        //     return;
+        // }
 
         // --- LƯU TRỮ VÀO LOCALSTORAGE ---
         let users = JSON.parse(localStorage.getItem('users')) || [];
 
         const userExists = users.some(user => user.email === email);
-        if (userExists) {
-            Toast.fire({ icon: 'error', title: 'Email này đã được sử dụng!' });
-            return;
-        }
+        // if (userExists) {
+        //     Toast.fire({ icon: 'error', title: 'Email này đã được sử dụng!' });
+        //     return;
+        // }
 
         // Tạo một đối tượng người dùng mới, có thêm SĐT
         const newUser = {
-            fullName: fullName,
+            fullName: "Test User",
             email: email,
             password: password,
             phone: phone, // Thêm SĐT vào đây
