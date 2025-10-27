@@ -3026,6 +3026,8 @@ section,
   color: #9e9e9e;
   text-decoration: line-through;
   font-size: 0.8rem;
+  position: relative;
+  top: 0px;
 }
 
 @media (max-width: 991px) {
@@ -4776,8 +4778,11 @@ section,
   font-size: 1.125rem;
   color: var(--accent-color);
   display: flex;
-  gap: 0.5rem;
-  align-items: center;
+  flex-direction: column;
+  align-items: flex-start;
+  /*căn trái*/
+  gap: 0.2rem;
+  /*khoảng cách giữa 2 cái giá*/
 }
 
 .category-product-list .product-price .original-price {
