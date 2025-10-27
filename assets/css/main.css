@@ -12749,3 +12749,9 @@ section,
 .page-loading .footer {
   visibility: hidden;
 }
+.blurred-login-alert {
+  background-color: rgba(0, 0, 0, 0.4) !important;
+  backdrop-filter: blur(50px) !important;
+  -webkit-backdrop-filter: blur(6px) !important;
+  transition: backdrop-filter 0.3s ease, background-color 0.3s ease;
+}

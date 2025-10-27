@@ -9,9 +9,9 @@
   <meta name="keywords" content="">
   <!--Kiểm tra xem đã đăng nhập chưa-->
   <script>
-        if (localStorage.getItem('admin_isLoggedIn') !== 'true') {
-            window.location.href = 'admin_login.html';
-        }
+    if (localStorage.getItem('admin_isLoggedIn') !== 'true') {
+      window.location.href = 'admin_login.html';
+    }
   </script>
 
   <link href="assets/img/favicon.png" rel="icon">
@@ -76,7 +76,8 @@
                   </a>
                 </div>
                 <div class="dropdown-footer">
-                  <a href="admin_login.html" class="btn btn-outline-primary w-100" id="admin-logout-button">Đăng xuất</a>
+                  <a href="admin_login.html" class="btn btn-outline-primary w-100" id="admin-logout-button">Đăng
+                    xuất</a>
                 </div>
               </div>
             </div>
@@ -135,12 +136,16 @@
       </div>
     </div>
     <div class="container-manage-import-products">
-      <div class="card">
-        <div class="card-header">
-          <h4>Thêm</h4>
+      <div class="card custom-add-card shadow-sm border-0">
+        <div class="card-header bg-white border-0 pb-0">
+          <h4 class="fw-semibold text-dark mb-0">Thêm sản phẩm</h4>
         </div>
-        <div class="card-body p-4">
-          <form id="product-form" class="row g-3">
+        <div class="card-body pt-3">
+          <button id="open-add-product" class="btn btn-primary d-flex align-items-center gap-2">
+            <i class="bi bi-plus-circle"></i>
+            <span>Thêm sản phẩm</span>
+          </button>
+          <!-- <form id="product-form" class="row g-3">
 
             <input type="hidden" id="product-id">
 
@@ -157,7 +162,7 @@
               <input type="text" class="form-control" id="product-image" placeholder="assets/img/product/...">
             </div>
             <div class="col-md-3 mb-3">
-              <label for="costPrice" class="form-label">Giá Vốn (VNĐ)</label>
+              <label for="costPrice" class="form-label">Giá Vốn (VND)</label>
               <input type="text" class="form-control" id="costPrice" placeholder="2.000.000" min="0">
             </div>
 
@@ -167,13 +172,10 @@
             </div>
 
             <div class="col-md-3 mb-3">
-              <label for="sellingPrice" class="form-label">Giá Bán (VNĐ)</label>
+              <label for="sellingPrice" class="form-label">Giá Bán (VND)</label>
               <input type="text" class="form-control" id="sellingPrice" readonly placeholder="2.400.000">
             </div>
-            <div class="col-md-3">
-              <label for="product-stock" class="form-label">Tồn kho</label>
-              <input type="number" class="form-control" id="product-stock" placeholder="15">
-            </div>
+            
             <div class="col-md-3">
               <label for="product-category" class="form-label">Loại sản phẩm</label>
               <select id="product-category" class="form-select">
@@ -189,11 +191,6 @@
                 <option value="">-- Chọn thương hiệu --</option>
               </select>
             </div>
-
-
-
-
-
             <div class="col-12">
               <label for="product-description" class="form-label">Mô tả</label>
               <textarea class="form-control" id="product-description" rows="3"
@@ -204,38 +201,45 @@
               <button type="submit" id="addProductBtn" class="custom-btn btn-add-product me-3">Thêm sản phẩm</button>
               <button type="reset" class="custom-btn btn-save-product">Reset</button>
             </div>
-          </form>
+          </form> -->
         </div>
+
       </div>
+
+
+      <!-- Thanh tìm kiếm -->
       <form action="" class="search-container" method="get"><!-- Search box -->
         <input type="text" id="search-input" placeholder="Tra cứu sản phẩm" name="search">
         <button id="search-button">
-            <i class="fa fa-search"></i> Tìm kiếm          
-        </button> 
-      </form><!-- End Search box -->
+          <i class="fa fa-search"></i> Tìm kiếm
+        </button>
+      </form>
 
+      <!-- Bộ lọc -->
       <div class="card">
         <div class="card-header">
           <h4>Danh sách sản phẩm hiện có</h4>
         </div>
         <div class="sort-danhmucsanpham-container" style="display: flex; padding: 20px; gap: 20px">
           <div class="col-md-3" style="width: 150px;">
-              <label for="sort-product-category" class="form-label">Loại sản phẩm</label>
-              <select id="sort-product-category" class="form-select">
-                <option value="">-- Chọn loại --</option>
-                <option value="Acoustic">Acoustic</option>
-                <option value="Classic">Classic</option>
-              </select>
-            </div>
+            <label for="sort-product-category" class="form-label">Loại sản phẩm</label>
+            <select id="sort-product-category" class="form-select">
+              <option value="">-- Chọn loại --</option>
+              <option value="Acoustic">Acoustic</option>
+              <option value="Classic">Classic</option>
+            </select>
+          </div>
 
-            <div class="col-md-3" style="width: 200px;">
-              <label for="sort-product-brand" class="form-label">Thương hiệu</label>
-              <select id="sort-product-brand" class="form-select">
-                <option value="">-- Chọn thương hiệu --</option>
-              </select>
-            </div>
+          <div class="col-md-3" style="width: 200px;">
+            <label for="sort-product-brand" class="form-label">Thương hiệu</label>
+            <select id="sort-product-brand" class="form-select">
+              <option value="">-- Chọn thương hiệu --</option>
+            </select>
+          </div>
         </div>
-            
+
+
+        <!--Chỗ này là cái bảng -->
         <div class="card-body">
           <div class="table-responsive">
             <table class="table table-hover data-table">
@@ -247,7 +251,6 @@
                   <th scope="col">Giá Vốn</th>
                   <th scope="col">% Lợi nhuận</th>
                   <th scope="col">Giá bán</th>
-                  <th scope="col">Tồn kho</th>
                   <th scope="col">Hành động</th>
                 </tr>
               </thead>
@@ -261,7 +264,7 @@
                   <td><span class="font-weight-bold">2.000.000 VND</span></td>
                   <td>20%</td>
                   <td><span class="font-weight-bold">2.400.000 VND</span></td>
-                  <td>12</td>
+
                   <td class="action-cell">
                     <button class="nutsua action-btn-common" data-cost-price="2000000"
                       data-profit-margin="20">Sửa</button>
@@ -277,7 +280,7 @@
                   <td><span class="font-weight-bold">70.000.000 VND</span></td>
                   <td>21.43%</td>
                   <td><span class="font-weight-bold">85.000.000 VND</span></td>
-                  <td>32</td>
+
                   <td>
                     <button class="nutsua action-btn-common" data-cost-price="70000000"
                       data-profit-margin="21.43">Sửa</button>
@@ -292,7 +295,7 @@
                   <td><span class="font-weight-bold">2.000.000 VND</span></td>
                   <td>20%</td>
                   <td><span class="font-weight-bold">2.400.000 VND</span></td>
-                  <td>45</td>
+
                   <td>
                     <button class="nutsua action-btn-common" data-cost-price="2000000"
                       data-profit-margin="20">Sửa</button>
@@ -308,7 +311,7 @@
                   <td><span class="font-weight-bold">4.000.000 VND</span></td>
                   <td>25%</td>
                   <td><span class="font-weight-bold">5.000.000 VND</span></td>
-                  <td>3</td>
+
                   <td>
                     <button class="nutsua action-btn-common" data-cost-price="4000000"
                       data-profit-margin="25">Sửa</button>
@@ -324,7 +327,7 @@
                   <td><span class="font-weight-bold">5.600.000 VND</span></td>
                   <td>25%</td>
                   <td><span class="font-weight-bold">7.000.000 VND</span></td>
-                  <td>11</td>
+
                   <td>
                     <button class="nutsua action-btn-common" data-cost-price="5600000"
                       data-profit-margin="25">Sửa</button>
@@ -340,7 +343,7 @@
                   <td><span class="font-weight-bold">9.416.667 VND</span></td>
                   <td>20%</td>
                   <td><span class="font-weight-bold">11.300.000 VND</span></td>
-                  <td>36</td>
+
                   <td>
                     <button class="nutsua action-btn-common" data-cost-price="9416667"
                       data-profit-margin="20">Sửa</button>
@@ -355,7 +358,7 @@
                   <td><span class="font-weight-bold">6.560.000 VND</span></td>
                   <td>25%</td>
                   <td><span class="font-weight-bold">8.200.000 VND</span></td>
-                  <td>15</td>
+
                   <td>
                     <button class="nutsua action-btn-common" data-cost-price="6560000"
                       data-profit-margin="25">Sửa</button>
@@ -371,7 +374,7 @@
                   <td><span class="font-weight-bold">5.416.667 VND</span></td>
                   <td>20%</td>
                   <td><span class="font-weight-bold">6.500.000 VND</span></td>
-                  <td>51</td>
+
                   <td>
                     <button class="nutsua action-btn-common" data-cost-price="5416667"
                       data-profit-margin="20">Sửa</button>
@@ -658,7 +661,7 @@
                                 <input type="text" class="form-control" value="${imagePath}">
                             </div>
                             <div class="col-md-4 mb-3">
-                                <label class="form-label fw-bold">Giá Vốn (VNĐ)</label>
+                                <label class="form-label fw-bold">Giá Vốn (VND)</label>
                                 <input type="number" class="form-control" value="${costPriceRaw}">
                             </div>
                             <div class="col-md-4 mb-3">
@@ -673,10 +676,7 @@
                                 </select>
                             </div>
                             
-                            <div class="col-12">
-                                <label class="form-label fw-bold">Tồn kho</label>
-                                <input type="number" class="form-control" value="${stock}">
-                            </div>
+                            
                         </form>
                     `;
 
@@ -730,33 +730,162 @@
 
     updatesortBrandOptions(sortcategorySelect ? sortcategorySelect.value : '');
   });
+  // aaa
+  document.addEventListener('DOMContentLoaded', function () {
+    const addButton = document.getElementById('open-add-product');
 
-  
+    const brandsData = {
+      'Acoustic': ['Enya', 'Yamaha', 'Everest', 'Taylor', 'Saga'],
+      'Classic': ['Ba đờn', 'Yamaha'],
+      '': []
+    };
+
+    if (addButton) {
+      addButton.addEventListener('click', function () {
+        const popupHTML = `
+        <form id="product-form" class="row g-3" style="text-align: left;">
+          <div class="col-md-6 mb-3">
+            <label class="form-label fw-bold">Tên sản phẩm</label>
+            <input id="product-name" type="text" class="form-control" placeholder="VD: Saga A1 DE PRO">
+          </div>
+          <div class="col-md-6 mb-3">
+            <label class="form-label fw-bold">Mã sản phẩm</label>
+            <input id="product-code" type="text" class="form-control" placeholder="VD: SAGA-A1">
+          </div>
+
+          <div class="col-md-6 mb-3">
+            <label class="form-label fw-bold">Đường dẫn hình ảnh</label>
+            <input id="product-image" type="text" class="form-control" placeholder="VD: assets/img/product/...">
+          </div>
+
+          <div class="col-md-6 mb-3">
+            <label class="form-label fw-bold">Danh mục</label>
+            <select id="product-category" class="form-select">
+              <option value="">-- Chọn loại --</option>
+              <option value="Acoustic">Acoustic</option>
+              <option value="Classic">Classic</option>
+            </select>
+          </div>
+
+          <div class="col-md-6 mb-3">
+            <label class="form-label fw-bold">Thương hiệu</label>
+            <select id="product-brand" class="form-select" disabled>
+              <option value="">-- Chọn thương hiệu --</option>
+            </select>
+          </div>
+
+          <div class="col-md-6 mb-3">
+            <label class="form-label fw-bold">Giá vốn (VND)</label>
+            <input id="costPrice" type="number" class="form-control" placeholder="VD: 2.000.000" min="0">
+          </div>
+
+          <div class="col-md-6 mb-3">
+            <label class="form-label fw-bold">% Lợi nhuận</label>
+            <input id="profitMargin" type="number" class="form-control" placeholder="VD: 20" min="0" max="100">
+          </div>
+
+          <div class="col-md-6 mb-3">
+            <label class="form-label fw-bold">Giá bán (VND)</label>
+            <input id="sellingPrice" type="text" class="form-control" readonly placeholder="Tự động tính...">
+          </div>
+
+          <div class="col-12 mb-3">
+            <label class="form-label fw-bold">Mô tả</label>
+            <textarea id="product-description" class="form-control" rows="3" placeholder="Mô tả chi tiết sản phẩm..."></textarea>
+          </div>
+        </form>
+      `;
+
+        Swal.fire({
+          title: 'Thêm sản phẩm mới',
+          html: popupHTML,
+          width: 800, // làm popup rộng ra
+          showCancelButton: true,
+          confirmButtonText: 'Thêm',
+          cancelButtonText: 'Hủy',
+          customClass: {
+            popup: 'my-swal-popup',
+            confirmButton: 'my-swal-confirm-button'
+          },
+          didOpen: () => {
+            const categorySelect = document.getElementById('product-category');
+            const brandSelect = document.getElementById('product-brand');
+            const costPriceInput = document.getElementById('costPrice');
+            const profitMarginInput = document.getElementById('profitMargin');
+            const sellingPriceInput = document.getElementById('sellingPrice');
+
+            function updateBrandOptions(category) {
+              const brands = brandsData[category] || [];
+              brandSelect.innerHTML = '<option value="">-- Chọn thương hiệu --</option>';
+              brands.forEach(brand => {
+                const option = document.createElement('option');
+                option.value = brand;
+                option.textContent = brand;
+                brandSelect.appendChild(option);
+              });
+              brandSelect.disabled = brands.length === 0;
+            }
+
+            function calculateSellingPrice() {
+              const costPrice = parseFloat(costPriceInput.value) || 0;
+              const profitMargin = parseFloat(profitMarginInput.value) || 0;
+
+              if (costPrice <= 0 || profitMargin < 0) {
+                sellingPriceInput.value = '';
+                return;
+              }
+
+              const finalProfitMargin = Math.min(Math.max(profitMargin, 0), 1000);
+              const sellingPrice = costPrice * (1 + finalProfitMargin / 100);
+              sellingPriceInput.value = Math.round(sellingPrice).toLocaleString('vi-VN');
+            }
+
+            categorySelect.addEventListener('change', () => updateBrandOptions(categorySelect.value));
+            costPriceInput.addEventListener('input', calculateSellingPrice);
+            profitMarginInput.addEventListener('input', calculateSellingPrice);
+          },
+          preConfirm: () => {
+            const name = document.getElementById('product-name').value.trim();
+
+            return true;
+          }
+        }).then((result) => {
+          if (result.isConfirmed) {
+            Toast.fire({
+              icon: 'success',
+              title: 'Thêm sản phẩm thành công!'
+            });
+          }
+        });
+      });
+    }
+  });
 
 </script>
 
 
 <!-- Xử lý nếu đăng xuát xoá local storage -->
 <script>
-  document.addEventListener('DOMContentLoaded', function() {
+  document.addEventListener('DOMContentLoaded', function () {
     // Toàn bộ code bên trong sẽ chỉ chạy sau khi DOM đã được tải hoàn toàn
-    
+
     // 1. Lấy ra phần tử nút Đăng xuất
     const logoutButton = document.getElementById('admin-logout-button');
 
     // 2. Thêm trình lắng nghe sự kiện khi nhấp chuột
     if (logoutButton) { // Thêm kiểm tra an toàn
-        logoutButton.addEventListener('click', function(event) {
-            event.preventDefault(); // Ngăn hành vi mặc định của liên kết/nút
+      logoutButton.addEventListener('click', function (event) {
+        event.preventDefault(); // Ngăn hành vi mặc định của liên kết/nút
 
-            // 3. XÓA TRẠNG THÁI ĐĂNG NHẬP KHỎI LOCALSTORAGE
-            localStorage.removeItem('admin_isLoggedIn');
-                
-            // 4. CHUYỂN HƯỚNG người dùng về trang đăng nhập
-            window.location.href = 'admin_login.html';
-        });
+        // 3. XÓA TRẠNG THÁI ĐĂNG NHẬP KHỎI LOCALSTORAGE
+        localStorage.removeItem('admin_isLoggedIn');
+
+        // 4. CHUYỂN HƯỚNG người dùng về trang đăng nhập
+        window.location.href = 'admin_login.html';
+      });
     }
   });
+
 </script>
 
 </html>
