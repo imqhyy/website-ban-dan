@@ -167,7 +167,8 @@
         <thead>
           <tr>
             <th style="width: 5%;">ID</th>
-            <th style="width: 30%;">Tên Loại</th>
+            <th style="width: 17%;">Tên Loại</th>
+            <th sytle="width: 13%;">% Lợi nhuận</th>
             <th style="width: 40%;">Mô tả</th>
             <th style="width: 25%;">Chức năng</th>
           </tr>
@@ -176,6 +177,7 @@
           <tr>
             <td>1</td>
             <td class="manage-name-category">Guitar Acoustic</td>
+            <td>25%</td>
             <td>Dòng guitar thùng sử dụng dây kim loại.</td>
             <td class="function-button-container">
               <button class="edit-btn action-icon-btn" title="Sửa"><img src="assets/img/iconbutton/pencil.png" class="button-icon" alt="Sửa"></button>
@@ -187,6 +189,7 @@
           <tr>
             <td>2</td>
             <td class="manage-name-category">Guitar Classic</td>
+            <td>30%</td>
             <td>Dòng guitar thùng sử dụng dây nylon.</td>
             <td class="function-button-container">
               <button class="edit-btn action-icon-btn" title="Sửa"><img src="assets/img/iconbutton/pencil.png" class="button-icon" alt="Sửa"></button>
@@ -197,8 +200,28 @@
           </tr>
         </tbody>
       </table>
+      <!-- Pop up chỉnh sửa phân loại -->
+      <div id="edit-info-category" class="modal">
+        <div class="modal-content-admin">
+          <span class="close-button-for-edit-info-category">&times;</span>
+          <h1>Chỉnh sửa phân loại: </h1>
+          <h3>Tên loại: <input id="input-edit-namecategory" type="text" value=""></h3>
+          
+          <hr>
+          <h3>% Lợi nhuận: <input id="input-edit-profitcategory" type="number" min="0" max="100" style="width: 70px;"></h3>
+          
+          <hr>
+          <h3>Mô tả</h3>
+          <textarea id="mo_ta" name="product_description" rows="4" cols="50" placeholder="Nhập mô tả chi tiết sản phẩm ở đây..."></textarea>
 
-      <!-- Pop up -->
+          <div id="close-edit-category-container">
+            <button class="close-button-for-edit-category-container">Lưu</button>
+          </div>
+        </div>
+      </div>
+
+
+      <!-- Pop up quản lý thương hiệu -->
       <div id="DetailModal" class="modal">
         <div class="modal-content-admin">
           <span class="close-button">&times;</span>

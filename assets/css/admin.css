@@ -400,6 +400,22 @@
     margin-right: 5px;
 }
 
+.close-button-for-edit-info-category {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+    
+    
+}
+
+.close-button-for-edit-info-category:hover,
+.close-button-for-edit-info-category:focus {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+}
 
 
 
@@ -746,14 +762,14 @@
     font-weight: 700; /* Giữ style hover của bạn */
 }
 
-#close-detail-order-container {
+#close-detail-order-container, #close-edit-category-container {
     display: flex;
-    justify-content: flex-end; /* Căn giữa hai nút trong form */
+    justify-content: flex-end; 
     margin-top: 20px; /* Khoảng cách lớn hơn với khối sản phẩm phía trên */
 }
 
 
-#close-detail-order-container button {
+#close-detail-order-container button, #close-edit-category-container button {
     padding: 10px 25px;
     border: none;
     border-radius: 25px; /* Bo tròn tương tự các nút khác của bạn */
@@ -769,7 +785,7 @@
 
 
 
-#close-detail-order-container button:hover {
+#close-detail-order-container button:hover, #close-edit-category-container button:hover {
     background-color: #252223;
     transform: translateY(-1px);
 }

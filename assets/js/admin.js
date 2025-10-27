@@ -111,6 +111,71 @@ manageButtons.forEach(button => {
     });
 });
 
+const editButtons = document.querySelectorAll('.edit-btn');
+if(editButtons) {
+    editButtons.forEach(button => {
+        button.addEventListener('click', function(event) {
+            event.preventDefault();
+            // Lấy modal chỉnh sửa bằng ID
+            const editModal = document.getElementById('edit-info-category');
+            const closebuttonforeditinfocategory = document.querySelector('.close-button-for-edit-info-category');
+            closebuttonforeditinfocategory.onclick = function() {
+                editModal.style.display = "none";
+            }
+
+            // Khi bấm vào bất kỳ đâu ngoài Modal
+            window.onclick = function(event) {
+                if (event.target == editModal) {
+                    editModal.style.display = "none";
+                }
+            }
+            // Khi bấm lưu đóng editModal
+            document.querySelector('.close-button-for-edit-category-container').onclick = function() {
+                editModal.style.display = "none";
+            }
+            // Lấy thông tin từ hàng hiện tại để điền vào modal (Nâng cao: Tùy chọn)
+            const row = button.closest('tr');
+            if (row) {
+                // Lấy ra các ô dữ liệu (<td>) trong hàng
+                const cells = row.querySelectorAll('td');
+                
+                // Cấu trúc cột dựa trên HTML của bạn:
+                // 0: ID
+                // 1: Tên Loại (class: .manage-name-category)
+                // 2: % Lợi nhuận
+                // 3: Mô tả
+                // 4: Chức năng
+
+                // 1. LẤY DỮ LIỆU TỪ HÀNG
+                const categoryName = cells[1].textContent.trim(); // Cột Tên Loại
+                const profitPercentage = cells[2].textContent.trim().replace('%', ''); // Cột Lợi nhuận (Loại bỏ ký tự '%')
+                const description = cells[3].textContent.trim(); // Cột Mô tả
+
+                // 2. ĐIỀN DỮ LIỆU VÀO CÁC INPUT TRONG MODAL
+                
+                // a) Tên Loại (Input đầu tiên trong <h3>)
+                const nameInput = document.getElementById('input-edit-namecategory');
+                if (nameInput) {
+                    nameInput.value = categoryName;
+                }
+
+                // b) % Lợi nhuận (Input thứ hai trong <h3>)
+                const profitInput = document.getElementById('input-edit-profitcategory');
+                if (profitInput) {
+                    profitInput.value = profitPercentage;
+                }
+                
+                // c) Mô tả (Textarea)
+                const descriptionTextarea = document.getElementById('mo_ta');
+                if (descriptionTextarea) {
+                    descriptionTextarea.value = description;
+                }
+            }
+            editModal.style.display = "block";
+        });
+    });
+}
+
 
 
 
