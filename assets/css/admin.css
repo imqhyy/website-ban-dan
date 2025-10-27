@@ -195,7 +195,7 @@
     margin: 4% auto; /* Đặt ở giữa màn hình (trên/dưới 10%, trái/phải tự động) */
     padding: 20px;
     border: 1px solid #888;
-    width: 80%; /* Chiều rộng hình chữ nhật */
+    width: 100%; /* Chiều rộng hình chữ nhật */
     max-width: 600px; /* Giới hạn kích thước tối đa */
     border-radius: 8px;
     box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);

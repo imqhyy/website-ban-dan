@@ -47,7 +47,7 @@
   ======================================================== -->
   </head>
 
-<body class="page-loading">
+<body>
 
   <header id="header" class="header sticky-top">
     <!-- Top Bar -->
@@ -508,13 +508,11 @@
   <script src="assets/js/auth.js"></script>
   <script src="assets/js/cart.js"></script>
   <script>
-    const currentUser = sessionStorage.getItem('currentUser');
+    const currentUserJSON = sessionStorage.getItem('currentUser');
 
-    if (currentUser) {
-      // Nếu đã đăng nhập, tìm đến thẻ BODY và GỠ class 'page-loading' đi để HIỆN LẠI trang
+    if (currentUserJSON) {
       document.body.classList.remove('page-loading');
     } else {
-      // Nếu chưa đăng nhập, hiện thông báo và chuyển hướng (phần này của anh đã đúng)
       Swal.fire({
         icon: 'warning',
         title: 'Yêu cầu đăng nhập',
@@ -522,6 +520,7 @@
         confirmButtonText: 'Đến trang đăng nhập',
         allowOutsideClick: false,
         customClass: {
+          container: 'blurred-login-alert', // Thêm class container riêng cho alert này
           popup: 'my-swal-popup',
           title: 'my-swal-title',
           htmlContainer: 'my-swal-html-container',
