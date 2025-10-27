@@ -181,7 +181,51 @@ if(editButtons) {
 
                                     /*DÀNH CHO QUẢN LÝ NHẬP SẢN PHẨM */
 
+// Dữ liệu mẫu tên sản phẩm (Bạn cần phải tùy chỉnh dữ liệu này)
+const productNamesData = {
+    "Guitar Classic": {
+        "Ba đờn": ["Ba Đờn N100", "Ba Đờn N250", "Ba Đờn C100"],
+        "Yamaha": ["Yamaha C40", "Yamaha C70", "Yamaha CX40"]
+    },
+    "Guitar Acoustic": {
+        "Saga": ["Saga CL65", "Saga SF700C", "Saga GS-02"],
+        "Taylor": ["Taylor A12E", "Taylor GS Mini", "Taylor 114CE"],
+        "Enya": ["Enya EGA X0 PRO SP1", "Enya ED-X0", "Enya Nova Go"],
+        "Yamaha": ["Yamaha FG800", "Yamaha FS820", "Yamaha LS36 ARE"]
+    }
+};
+// ... (các const khác như brandData)
 
+function updateProductDatalist(productContainer) {
+    // 1. Lấy giá trị đang chọn: Loại sản phẩm và Thương hiệu
+    const typeSelect = productContainer.querySelector('.manage-product-type');
+    const brandSelect = productContainer.querySelector('.manage-product-brands');
+    const productNameInput = productContainer.querySelector('.product-name-input');
+    
+    if (!typeSelect || !brandSelect || !productNameInput) return;
+
+    const selectedType = typeSelect.value;
+    const selectedBrand = brandSelect.value;
+    
+    // 2. Lấy datalist tương ứng với input tên sản phẩm
+    //    (Lưu ý: datalist có thể có ID tĩnh, nhưng nên tạo/quản lý riêng cho từng sản phẩm)
+    //    Để đơn giản, ta sẽ chỉ tìm datalist ngay sau input Tên sản phẩm
+    const datalist = document.getElementById(productNameInput.getAttribute('list'));
+    if (!datalist) return;
+
+    // 3. Xóa nội dung cũ
+    datalist.innerHTML = '';
+    
+    // 4. Lấy danh sách tên sản phẩm từ dữ liệu mẫu
+    const productList = productNamesData[selectedType]?.[selectedBrand] || [];
+
+    // 5. Thêm các tùy chọn mới vào datalist
+    productList.forEach(productName => {
+        const option = document.createElement('option');
+        option.value = productName;
+        datalist.appendChild(option);
+    });
+}
 
 
 function updateBrandsForProduct(typeSelect) { // khi chọn loại acoustic hay classic thì các brand cũng thay đổi
@@ -209,6 +253,9 @@ function updateBrandsForProduct(typeSelect) { // khi chọn loại acoustic hay 
         option.textContent = brand;
         brandSelect.appendChild(option);
     });
+
+    // THAY ĐỔI MỚI: Gọi hàm cập nhật datalist sau khi Brand được cập nhật
+    updateProductDatalist(productContainer);
 }
 
 document.addEventListener('DOMContentLoaded', function() {
@@ -221,6 +268,16 @@ document.addEventListener('DOMContentLoaded', function() {
         // Gọi hàm để thiết lập Thương hiệu ban đầu cho sản phẩm mặc định
         updateBrandsForProduct(selectElement); 
     });
+
+    // THAY ĐỔI MỚI: Gán sự kiện 'change' cho tất cả các select Thương hiệu hiện có
+    document.querySelectorAll('.manage-product-brands').forEach(selectElement => {
+        selectElement.addEventListener('change', function() {
+            // Lấy div cha (.product-fields-template)
+            const productContainer = this.closest('.product-fields-template');
+            updateProductDatalist(productContainer);
+        });
+    });
+// ...
 
     
     document.querySelectorAll('.create-import-btn').forEach(button => { //hiện popup khi click vào nút thêm phiếu nhập
@@ -278,6 +335,13 @@ document.addEventListener('DOMContentLoaded', function() {
                 updateBrandsForProduct(this);
             });
 
+            // THAY ĐỔI MỚI: Gán sự kiện 'change' cho select Thương hiệu MỚI
+            const newBrandSelect = newProductFields.querySelector('.manage-product-brands');
+            newBrandSelect.addEventListener('change', function() {
+                const productContainer = this.closest('.product-fields-template');
+                updateProductDatalist(productContainer);
+            });
+
             // Gọi hàm cập nhật Thương hiệu cho sản phẩm mới (dựa trên giá trị mặc định)
             updateBrandsForProduct(newTypeSelect);
 
@@ -285,6 +349,30 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 });
+
+const button_saveimportproduct = document.getElementById('save-import-product');
+if(button_saveimportproduct) {
+    button_saveimportproduct.addEventListener('click', function(event) {
+        event.preventDefault(); // Ngăn hành động mặc định (nếu có)
+        
+        // 1. Đóng Modal
+        modal.style.display = "none";
+        
+        // 2. Hiện thông báo (Sử dụng SweetAlert2 nếu đã được tích hợp, nếu không dùng alert() mặc định)
+        // Cách 1: Dùng alert() mặc định của trình duyệt
+        // alert("Phiếu nhập đã được lưu thành công!");
+        
+        // Cách 2: Dùng SweetAlert2 (Đã thấy thư viện được load trong HTML)
+        Swal.fire({
+            icon: 'success',
+            title: 'Thành công!',
+            text: 'Phiếu nhập đã được lưu thành công.',
+            confirmButtonText: 'Đóng'
+        });
+        
+        // NOTE: Thêm code xử lý lưu dữ liệu (gọi API, lưu LocalStorage,...) tại đây
+    });
+}
 
 
 

@@ -180,9 +180,7 @@
             <!-- Điền thông tin sản phẩm -->
             <div class="product-fields-template">
               <hr>
-              <label>Tên sản phẩm:</label>
-              <input type="text" placeholder="Nhập tên sản phẩm">
-              <br>
+              
               <label for="manage-product-types">Loại sản phẩm:</label>
               <select class="manage-product-type">
                 <option value="Guitar Classic">Classic</option>
@@ -192,6 +190,11 @@
               <select class="manage-product-brands">
                 <!-- Điền bằng JS -->
               </select>
+              <div style="margin-top: 10px; margin-bottom: 20px;">
+                <label>Tên sản phẩm:</label>
+                <input type="text" class="product-name-input" placeholder="Nhập tên sản phẩm" list="productNameList">
+                <datalist id="productNameList"></datalist>
+              </div>
               <label>Số Lượng:</label>
               <input type="number" min="1" style="width: 40px;">
               <br>
@@ -213,19 +216,23 @@
       <h2>Danh Sách Phiếu Nhập Sản Phẩm</h2>
         <!-- Search -->
       <form action="" class="search-container" method="get"><!-- Search box -->
-        <input type="text" id="search-input" placeholder="Tìm kiếm ngày nhập VD: 1/1/2025" name="search">
+        <input type="text" id="search-input" placeholder="Tìm kiếm mã phiếu nhập" name="search">
         <button id="search-button">
           <i class="fa fa-search"></i> Tìm kiếm          
         </button> 
       </form><!-- End Search box -->
 
       <div class="sort-container"> <!-- Sort-container -->
-        <button id="sort-button" onclick="sortCustomers('asc')">
-                Mới nhất
-        </button>
-        <button id="sort-button" onclick="sortCustomers('dsc')">
-                Cũ nhất
-        </button>
+        <div class="sort-by-date-container">
+          <label>Từ ngày:<input type="date" class="input-sort-date"></label>
+        
+          <label>Đến ngày:<input type="date" class="input-sort-date"></label>
+        </div>
+        <div class="sort-by-order-status">
+          <label>Tình trạng:</label>
+          <span class="status-button">Mới nhất</span>
+          <span class="status-button">Cũ nhất</span>
+        </div>
       </div>
 
       <!-- Phiếu nhập thứ nhất -->
