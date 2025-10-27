@@ -39,8 +39,7 @@
   ======================================================== -->
 </head>
 
-<body class="account-page page-loading">
-
+<body class="account-page">
   <header id="header" class="header sticky-top">
     <!-- Top Bar -->
     <div class="top-bar py-2">
@@ -342,440 +341,87 @@
                   </div>
 
                   <div class="orders-grid">
-                    <!-- Order Card 1 -->
+                  
                     <div class="order-card" data-aos="fade-up" data-aos-delay="100">
                       <div class="order-header">
                         <div class="order-id">
-                          <span class="label">Order ID:</span>
-                          <span class="value">#ORD-2024-1278</span>
+                          <span class="label">Mã đơn hàng:</span>
+                          <span class="value">#DEMO-003</span>
                         </div>
-                        <div class="order-date">Feb 20, 2025</div>
+                        <div class="order-date" id="order-date-1"></div>
                       </div>
                       <div class="order-content">
-                        <div class="product-grid">
-                          <!-- <img src="assets/img/product/product-1.webp" alt="Product" loading="lazy">
-                          <img src="assets/img/product/product-2.webp" alt="Product" loading="lazy">
-                          <img src="assets/img/product/product-3.webp" alt="Product" loading="lazy"> -->
+                        <div class="product-list-summary"
+                          style="padding-bottom: 15px; margin-bottom: 15px; border-bottom: 1px dashed #e0e0e0;">
+                          <div style="display: flex; align-items: center; font-size: 14px;">
+                            <img
+                              src="assets/img/product/guitar/acoustic/taylor/taylor-a12e/dan-guitar-acoustic-taylor-academy-12e-grand-concert-wbag-.jpg"
+                              alt="Taylor A12E"
+                              style="width: 40px; height: 40px; border-radius: 4px; margin-right: 10px; object-fit: cover;">
+                            <span style="flex: 1;">Taylor A12E</span>
+                            <span style="color: #888; margin-left: 10px;">SL: 1</span>
+                          </div>
                         </div>
                         <div class="order-info">
-                          <div class="info-row">
-                            <span>Trạng thái</span>
-                            <span class="status processing">Đang xử lý</span>
-                          </div>
-                          <div class="info-row">
-                            <span>Số lượng</span>
-                            <span>3</span>
-                          </div>
-                          <div class="info-row">
-                            <span>Tổng số tiền</span>
-                            <span class="price">100 000 VND</span>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="order-footer">
-                        <button type="button" class="btn-track" data-bs-toggle="collapse" data-bs-target="#tracking1"
-                          aria-expanded="false">Theo dõi đơn hàng</button>
-                        <button type="button" class="btn-details" data-bs-toggle="collapse" data-bs-target="#details1"
-                          aria-expanded="false">Xem chi tiết</button>
-                      </div>
-
-                      <!-- Order Tracking -->
-                      <div class="collapse tracking-info" id="tracking1">
-                        <div class="tracking-timeline">
-                          <div class="timeline-item completed">
-                            <div class="timeline-icon">
-                              <i class="bi bi-check-circle-fill"></i>
-                            </div>
-                            <div class="timeline-content">
-                              <h5>Order Confirmed</h5>
-                              <p>Your order has been received and confirmed</p>
-                              <span class="timeline-date">Feb 20, 2025 - 10:30 AM</span>
-                            </div>
-                          </div>
-
-                          <div class="timeline-item completed">
-                            <div class="timeline-icon">
-                              <i class="bi bi-check-circle-fill"></i>
-                            </div>
-                            <div class="timeline-content">
-                              <h5>Processing</h5>
-                              <p>Your order is being prepared for shipment</p>
-                              <span class="timeline-date">Feb 20, 2025 - 2:45 PM</span>
-                            </div>
-                          </div>
-
-                          <div class="timeline-item active">
-                            <div class="timeline-icon">
-                              <i class="bi bi-box-seam"></i>
-                            </div>
-                            <div class="timeline-content">
-                              <h5>Packaging</h5>
-                              <p>Your items are being packaged for shipping</p>
-                              <span class="timeline-date">Feb 20, 2025 - 4:15 PM</span>
-                            </div>
-                          </div>
-
-                          <div class="timeline-item">
-                            <div class="timeline-icon">
-                              <i class="bi bi-truck"></i>
-                            </div>
-                            <div class="timeline-content">
-                              <h5>In Transit</h5>
-                              <p>Expected to ship within 24 hours</p>
-                            </div>
-                          </div>
-
-                          <div class="timeline-item">
-                            <div class="timeline-icon">
-                              <i class="bi bi-house-door"></i>
-                            </div>
-                            <div class="timeline-content">
-                              <h5>Delivery</h5>
-                              <p>Estimated delivery: Feb 22, 2025</p>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-
-                      <!-- Order Details -->
-                      <div class="collapse order-details" id="details1">
-                        <div class="details-content">
-                          <div class="detail-section">
-                            <h5>Order Information</h5>
-                            <div class="info-grid">
-                              <div class="info-item">
-                                <span class="label">Payment Method</span>
-                                <span class="value">Credit Card (**** 4589)</span>
-                              </div>
-                              <div class="info-item">
-                                <span class="label">Shipping Method</span>
-                                <span class="value">Express Delivery (2-3 days)</span>
-                              </div>
-                            </div>
-                          </div>
-
-                          <div class="detail-section">
-                            <h5>Items (3)</h5>
-                            <div class="order-items">
-                              <div class="item">
-                                <img src="assets/img/product/product-1.webp" alt="Product" loading="lazy">
-                                <div class="item-info">
-                                  <h6>Lorem ipsum dolor sit amet</h6>
-                                  <div class="item-meta">
-                                    <span class="sku">SKU: PRD-001</span>
-                                    <span class="qty">Qty: 1</span>
-                                  </div>
-                                </div>
-                                <div class="item-price">$899.99</div>
-                              </div>
-
-                              <div class="item">
-                                <img src="assets/img/product/product-2.webp" alt="Product" loading="lazy">
-                                <div class="item-info">
-                                  <h6>Consectetur adipiscing elit</h6>
-                                  <div class="item-meta">
-                                    <span class="sku">SKU: PRD-002</span>
-                                    <span class="qty">Qty: 2</span>
-                                  </div>
-                                </div>
-                                <div class="item-price">$599.95</div>
-                              </div>
-
-                              <div class="item">
-                                <img src="assets/img/product/product-3.webp" alt="Product" loading="lazy">
-                                <div class="item-info">
-                                  <h6>Sed do eiusmod tempor</h6>
-                                  <div class="item-meta">
-                                    <span class="sku">SKU: PRD-003</span>
-                                    <span class="qty">Qty: 1</span>
-                                  </div>
-                                </div>
-                                <div class="item-price">$129.99</div>
-                              </div>
-                            </div>
-                          </div>
-
-                          <div class="detail-section">
-                            <h5>Price Details</h5>
-                            <div class="price-breakdown">
-                              <div class="price-row">
-                                <span>Subtdotal</span>
-                                <span>$1,929.93</span>
-                              </div>
-                              <div class="price-row">
-                                <span>Shipping</span>
-                                <span>$15.99</span>
-                              </div>
-                              <div class="price-row">
-                                <span>Tax</span>
-                                <span>$159.98</span>
-                              </div>
-                              <div class="price-row tdtal">
-                                <span>Tổng số tiền</span>
-                                <span>$2,105.90</span>
-                              </div>
-                            </div>
-                          </div>
-
-                          <div class="detail-section">
-                            <h5>Shipping Address</h5>
-                            <div class="address-info">
-                              <p>Sarah Anderson<br>123 Main Street<br>Apt 4B<br>New York, NY 10001<br>United States</p>
-                              <p class="contact">+1 (555) 123-4567</p>
-                            </div>
-                          </div>
+                          <div class="info-row"><span>Trạng thái</span><span class="status delivered">Đã hoàn thành</span></div>
+                          <div class="info-row"><span>Tổng cộng</span><span class="price">85.000.000 VNĐ</span></div>
                         </div>
                       </div>
                     </div>
-
-                    <!-- Order Card 2 -->
+                  
                     <div class="order-card" data-aos="fade-up" data-aos-delay="200">
                       <div class="order-header">
                         <div class="order-id">
-                          <span class="label">Order ID:</span>
-                          <span class="value">#ORD-2024-1265</span>
+                          <span class="label">Mã đơn hàng:</span>
+                          <span class="value">#DEMO-002</span>
                         </div>
-                        <div class="order-date">Feb 15, 2025</div>
+                        <div class="order-date" id="order-date-2"></div>
                       </div>
                       <div class="order-content">
-                        <div class="product-grid">
-                          <img src="assets/img/product/product-4.webp" alt="Product" loading="lazy">
-                          <img src="assets/img/product/product-5.webp" alt="Product" loading="lazy">
+                        <div class="product-list-summary"
+                          style="padding-bottom: 15px; margin-bottom: 15px; border-bottom: 1px dashed #e0e0e0;">
+                          <div style="display: flex; align-items: center; font-size: 14px;">
+                            <img
+                              src="assets/img/product/guitar/classic/badon/dan-guitar-classic-ba-don-c100/dan-guitar-classic-ba-don-c100-.jpg"
+                              alt="Ba đờn C100"
+                              style="width: 40px; height: 40px; border-radius: 4px; margin-right: 10px; object-fit: cover;">
+                            <span style="flex: 1;">Ba đờn C100</span>
+                            <span style="color: #888; margin-left: 10px;">SL: 1</span>
+                          </div>
                         </div>
                         <div class="order-info">
-                          <div class="info-row">
-                            <span>Status</span>
-                            <span class="status shipped">Đã giao</span>
-                          </div>
-                          <div class="info-row">
-                            <span>Số lượng</span>
-                            <span>2</span>
-                          </div>
-                          <div class="info-row">
-                            <span>Tổng số tiền</span>
-                            <span class="price">$459.99</span>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="order-footer">
-                        <button type="button" class="btn-track" data-bs-toggle="collapse" data-bs-target="#tracking2"
-                          aria-expanded="false">Theo dõi đơn hàng</button>
-                        <button type="button" class="btn-details" data-bs-toggle="collapse" data-bs-target="#details2"
-                          aria-expanded="false">Xem chi tiết</button>
-                      </div>
-
-                      <!-- Order Tracking -->
-                      <div class="collapse tracking-info" id="tracking2">
-                        <div class="tracking-timeline">
-                          <div class="timeline-item completed">
-                            <div class="timeline-icon">
-                              <i class="bi bi-check-circle-fill"></i>
-                            </div>
-                            <div class="timeline-content">
-                              <h5>Order Confirmed</h5>
-                              <p>Your order has been received and confirmed</p>
-                              <span class="timeline-date">Feb 15, 2025 - 9:15 AM</span>
-                            </div>
-                          </div>
-
-                          <div class="timeline-item completed">
-                            <div class="timeline-icon">
-                              <i class="bi bi-check-circle-fill"></i>
-                            </div>
-                            <div class="timeline-content">
-                              <h5>Processing</h5>
-                              <p>Your order is being prepared for shipment</p>
-                              <span class="timeline-date">Feb 15, 2025 - 11:30 AM</span>
-                            </div>
-                          </div>
-
-                          <div class="timeline-item completed">
-                            <div class="timeline-icon">
-                              <i class="bi bi-check-circle-fill"></i>
-                            </div>
-                            <div class="timeline-content">
-                              <h5>Packaging</h5>
-                              <p>Your items have been packaged for shipping</p>
-                              <span class="timeline-date">Feb 15, 2025 - 2:45 PM</span>
-                            </div>
-                          </div>
-
-                          <div class="timeline-item active">
-                            <div class="timeline-icon">
-                              <i class="bi bi-truck"></i>
-                            </div>
-                            <div class="timeline-content">
-                              <h5>In Transit</h5>
-                              <p>Package in transit with carrier</p>
-                              <span class="timeline-date">Feb 16, 2025 - 10:20 AM</span>
-                              <div class="shipping-info">
-                                <span>Tracking Number: </span>
-                                <span class="tracking-number">1Z999AA1234567890</span>
-                              </div>
-                            </div>
-                          </div>
-
-                          <div class="timeline-item">
-                            <div class="timeline-icon">
-                              <i class="bi bi-house-door"></i>
-                            </div>
-                            <div class="timeline-content">
-                              <h5>Delivery</h5>
-                              <p>Estimated delivery: Feb 18, 2025</p>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-
-                      <!-- Order Details -->
-                      <div class="collapse order-details" id="details2">
-                        <div class="details-content">
-                          <div class="detail-section">
-                            <h5>Order Information</h5>
-                            <div class="info-grid">
-                              <div class="info-item">
-                                <span class="label">Payment Method</span>
-                                <span class="value">Credit Card (**** 7821)</span>
-                              </div>
-                              <div class="info-item">
-                                <span class="label">Shipping Method</span>
-                                <span class="value">Standard Shipping (3-5 days)</span>
-                              </div>
-                            </div>
-                          </div>
-
-                          <div class="detail-section">
-                            <h5>Items (2)</h5>
-                            <div class="order-items">
-                              <div class="item">
-                                <img src="assets/img/product/product-4.webp" alt="Product" loading="lazy">
-                                <div class="item-info">
-                                  <h6>Ut enim ad minim veniam</h6>
-                                  <div class="item-meta">
-                                    <span class="sku">SKU: PRD-004</span>
-                                    <span class="qty">Qty: 1</span>
-                                  </div>
-                                </div>
-                                <div class="item-price">$299.99</div>
-                              </div>
-
-                              <div class="item">
-                                <img src="assets/img/product/product-5.webp" alt="Product" loading="lazy">
-                                <div class="item-info">
-                                  <h6>Quis nostrud exercitation</h6>
-                                  <div class="item-meta">
-                                    <span class="sku">SKU: PRD-005</span>
-                                    <span class="qty">Qty: 1</span>
-                                  </div>
-                                </div>
-                                <div class="item-price">$159.99</div>
-                              </div>
-                            </div>
-                          </div>
-
-                          <div class="detail-section">
-                            <h5>Price Details</h5>
-                            <div class="price-breakdown">
-                              <div class="price-row">
-                                <span>Subtotal</span>
-                                <span>$459.98</span>
-                              </div>
-                              <div class="price-row">
-                                <span>Shipping</span>
-                                <span>$9.99</span>
-                              </div>
-                              <div class="price-row">
-                                <span>Tax</span>
-                                <span>$38.02</span>
-                              </div>
-                              <div class="price-row total">
-                                <span>Total</span>
-                                <span>$459.99</span>
-                              </div>
-                            </div>
-                          </div>
-
-                          <div class="detail-section">
-                            <h5>Shipping Address</h5>
-                            <div class="address-info">
-                              <p>Sarah Anderson<br>123 Main Street<br>Apt 4B<br>New York, NY 10001<br>United States</p>
-                              <p class="contact">+1 (555) 123-4567</p>
-                            </div>
-                          </div>
+                          <div class="info-row"><span>Trạng thái</span><span class="status delivered">Đã hoàn thành</span></div>
+                          <div class="info-row"><span>Tổng cộng</span><span class="price">5.000.000 VNĐ</span></div>
                         </div>
                       </div>
                     </div>
-
-                    <!-- Order Card 3 -->
+                  
                     <div class="order-card" data-aos="fade-up" data-aos-delay="300">
                       <div class="order-header">
                         <div class="order-id">
-                          <span class="label">Order ID:</span>
-                          <span class="value">#ORD-2024-1252</span>
+                          <span class="label">Mã đơn hàng:</span>
+                          <span class="value">#DEMO-001</span>
                         </div>
-                        <div class="order-date">Feb 10, 2025</div>
+                        <div class="order-date" id="order-date-3"></div>
                       </div>
                       <div class="order-content">
-                        <div class="product-grid">
-                          <img src="assets/img/product/product-6.webp" alt="Product" loading="lazy">
+                        <div class="product-list-summary"
+                          style="padding-bottom: 15px; margin-bottom: 15px; border-bottom: 1px dashed #e0e0e0;">
+                          <div style="display: flex; align-items: center; font-size: 14px;">
+                            <img
+                              src="assets/img/product/guitar/acoustic/saga/saga-a1-de-pro/dan-guitar-acoustic-saga-a1-de-pro--1000x1000.jpg"
+                              alt="Saga A1" style="width: 40px; height: 40px; border-radius: 4px; margin-right: 10px; object-fit: cover;">
+                            <span style="flex: 1;">Saga A1 DE PRO</span>
+                            <span style="color: #888; margin-left: 10px;">SL: 1</span>
+                          </div>
                         </div>
                         <div class="order-info">
-                          <div class="info-row">
-                            <span>Status</span>
-                            <span class="status delivered">Delivered</span>
-                          </div>
-                          <div class="info-row">
-                            <span>Items</span>
-                            <span>1 item</span>
-                          </div>
-                          <div class="info-row">
-                            <span>Total</span>
-                            <span class="price">$129.99</span>
-                          </div>
+                          <div class="info-row"><span>Trạng thái</span><span class="status delivered">Đã hoàn thành</span></div>
+                          <div class="info-row"><span>Tổng cộng</span><span class="price">2.000.000 VNĐ</span></div>
                         </div>
-                      </div>
-                      <div class="order-footer">
-                        <button type="button" class="btn-review">Write Review</button>
-                        <button type="button" class="btn-details">View Details</button>
                       </div>
                     </div>
-
-                    <!-- Order Card 4 -->
-                    <div class="order-card" data-aos="fade-up" data-aos-delay="400">
-                      <div class="order-header">
-                        <div class="order-id">
-                          <span class="label">Order ID:</span>
-                          <span class="value">#ORD-2024-1245</span>
-                        </div>
-                        <div class="order-date">Feb 5, 2025</div>
-                      </div>
-                      <div class="order-content">
-                        <div class="product-grid">
-                          <img src="assets/img/product/product-7.webp" alt="Product" loading="lazy">
-                          <img src="assets/img/product/product-8.webp" alt="Product" loading="lazy">
-                          <img src="assets/img/product/product-9.webp" alt="Product" loading="lazy">
-                          <span class="more-items">+2</span>
-                        </div>
-                        <div class="order-info">
-                          <div class="info-row">
-                            <span>Status</span>
-                            <span class="status cancelled">Cancelled</span>
-                          </div>
-                          <div class="info-row">
-                            <span>Items</span>
-                            <span>5 items</span>
-                          </div>
-                          <div class="info-row">
-                            <span>Total</span>
-                            <span class="price">$1,299.99</span>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="order-footer">
-                        <button type="button" class="btn-reorder">Reorder</button>
-                        <button type="button" class="btn-details">View Details</button>
-                      </div>
-                    </div>
+                  
                   </div>
 
                   <!-- Pagination -->
@@ -1009,7 +655,7 @@
                     <div class="section-header" data-aos="fade-up">
                       <h2>Cài đặt tài khoản</h2>
                     </div>
-
+                  
                     <div class="settings-content">
                       <!-- Personal Information -->
                       <div class="settings-section" data-aos="fade-up">
@@ -1033,13 +679,14 @@
                               <input type="tel" class="form-control" id="phone">
                             </div>
                           </div>
-
+                  
                           <div class="form-buttons">
                             <button type="submit" class="btn-save">Lưu thay đổi</button>
                           </div>
                         </form>
                       </div>
-
+                  
+                  
                       <!-- Email Preferences -->
                       <div class="settings-section" data-aos="fade-up" data-aos-delay="100">
                         <h3>Nhận thông báo</h3>
@@ -1053,7 +700,7 @@
                               <input class="form-check-input" type="checkbox" id="orderUpdates" checked="">
                             </div>
                           </div>
-
+                  
                           <div class="preference-item">
                             <div class="preference-info">
                               <h4>Khuyến mãi</h4>
@@ -1063,7 +710,7 @@
                               <input class="form-check-input" type="checkbox" id="promotions">
                             </div>
                           </div>
-
+                  
                           <div class="preference-item">
                             <div class="preference-info">
                               <h4>Bản tin</h4>
@@ -1075,7 +722,7 @@
                           </div>
                         </div>
                       </div>
-
+                  
                       <!-- Security Settings -->
                       <div class="settings-section" data-aos="fade-up" data-aos-delay="200">
                         <h3>Bảo mật</h3>
@@ -1094,13 +741,13 @@
                               <input type="password" class="form-control" id="confirmPassword">
                             </div>
                           </div>
-
+                  
                           <div class="form-buttons">
                             <button type="submit" class="btn-save">Cập nhật mật khẩu</button>
                           </div>
                         </form>
                       </div>
-
+                  
                       <!-- Delete Account -->
                       <div class="settings-section danger-zone" data-aos="fade-up" data-aos-delay="300">
                         <h3>Xoá tài khoản</h3>
@@ -1115,7 +762,7 @@
               </div>
             </div>
           </div>
-
+          
         </div>
 
     </section><!-- /Account Section -->

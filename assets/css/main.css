@@ -14,29 +14,41 @@
 --------------------------------------------------------------*/
 /* Fonts */
 :root {
-  --default-font: "Roboto",  system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
-  --heading-font: "Montserrat",  sans-serif;
-  --nav-font: "Poppins",  sans-serif;
+  --default-font: "Roboto", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  --heading-font: "Montserrat", sans-serif;
+  --nav-font: "Poppins", sans-serif;
 }
 
 /* Global Colors - The following color variables are used throughout the website. Updating them here will change the color scheme of the entire website */
-:root { 
-  --background-color: #ffffff; /* Background color for the entire website, including individual sections */
-  --default-color: #444444; /* Default color used for the majority of the text content across the entire website */
-  --heading-color: #000000; /* Color for headings, subheadings and title throughout the website */
-  --accent-color: #252223; /* Accent color that represents your brand on the website. It's used for buttons, links, and other elements that need to stand out */
-  --surface-color: #ffffff; /* The surface color is used as a background of boxed elements within sections, such as cards, icon boxes, or other elements that require a visual separation from the global background. */
-  --contrast-color: #ffffff; /* Contrast color for text, ensuring readability against backgrounds of accent, heading, or default colors. */
+:root {
+  --background-color: #ffffff;
+  /* Background color for the entire website, including individual sections */
+  --default-color: #444444;
+  /* Default color used for the majority of the text content across the entire website */
+  --heading-color: #000000;
+  /* Color for headings, subheadings and title throughout the website */
+  --accent-color: #252223;
+  /* Accent color that represents your brand on the website. It's used for buttons, links, and other elements that need to stand out */
+  --surface-color: #ffffff;
+  /* The surface color is used as a background of boxed elements within sections, such as cards, icon boxes, or other elements that require a visual separation from the global background. */
+  --contrast-color: #ffffff;
+  /* Contrast color for text, ensuring readability against backgrounds of accent, heading, or default colors. */
 }
 
 /* Nav Menu Colors - The following color variables are used specifically for the navigation menu. They are separate from the global colors to allow for more customization options */
 :root {
-  --nav-color: rgba(255, 255, 255, 0.8);  /* The default color of the main navmenu links */
-  --nav-hover-color: #ffffff; /* Applied to main navmenu links when they are hovered over or active */
-  --nav-mobile-background-color: #ffffff; /* Used as the background color for mobile navigation menu */
-  --nav-dropdown-background-color: #ffffff; /* Used as the background color for dropdown items that appear when hovering over primary navigation items */
-  --nav-dropdown-color: #444444; /* Used for navigation links of the dropdown items in the navigation menu. */
-  --nav-dropdown-hover-color: #252223; /* Similar to --nav-hover-color, this color is applied to dropdown navigation links when they are hovered over. */
+  --nav-color: rgba(255, 255, 255, 0.8);
+  /* The default color of the main navmenu links */
+  --nav-hover-color: #ffffff;
+  /* Applied to main navmenu links when they are hovered over or active */
+  --nav-mobile-background-color: #ffffff;
+  /* Used as the background color for mobile navigation menu */
+  --nav-dropdown-background-color: #ffffff;
+  /* Used as the background color for dropdown items that appear when hovering over primary navigation items */
+  --nav-dropdown-color: #444444;
+  /* Used for navigation links of the dropdown items in the navigation menu. */
+  --nav-dropdown-hover-color: #252223;
+  /* Similar to --nav-hover-color, this color is applied to dropdown navigation links when they are hovered over. */
 }
 
 /* Color Presets - These classes override global colors when applied to any section or element, providing reuse of the sam color scheme. */
@@ -1078,8 +1090,8 @@ h6 {
   .navmenu .products-megamenu-1 {
     /* Hide Desktop Mega Menu 1 in Mobile */
   }
-S
-  .navmenu .products-megamenu-1 .desktop-megamenu {
+
+  S .navmenu .products-megamenu-1 .desktop-megamenu {
     display: none;
   }
 
@@ -1982,11 +1994,9 @@ section,
 }
 
 .hero .hero-content .hero-actions .btn-secondary {
-  background: linear-gradient(
-    135deg,
-    var(--heading-color) 0%,
-    color-mix(in srgb, var(--heading-color), #ef91e1 80%) 100%
-  );
+  background: linear-gradient(135deg,
+      var(--heading-color) 0%,
+      color-mix(in srgb, var(--heading-color), #ef91e1 80%) 100%);
   color: var(--contrast-color);
   border: none;
   box-shadow: 0 8px 25px color-mix(in srgb, var(--heading-color), transparent 70%);
@@ -12613,69 +12623,81 @@ section,
     justify-content: center;
   }
 }
+
 /* ======================================================= */
 /* CUSTOM SWEETALERT2 STYLING FOR NICESHOP THEME      */
 /* ======================================================= */
 
 /* Tùy chỉnh chung cho hộp thoại (popup) */
 .my-swal-popup {
-  font-family: var(--default-font); /* Dùng font chữ mặc định của web */
-  background-color: var(--surface-color); /* Dùng màu nền của các card */
-  border-radius: 16px; /* Bo góc cho mềm mại */
+  font-family: var(--default-font);
+  /* Dùng font chữ mặc định của web */
+  background-color: var(--surface-color);
+  /* Dùng màu nền của các card */
+  border-radius: 16px;
+  /* Bo góc cho mềm mại */
 }
 
 /* Tùy chỉnh cho tiêu đề */
 .my-swal-title {
-  font-family: var(--heading-font); /* Dùng font chữ cho tiêu đề */
-  color: var(--heading-color); /* Dùng màu chữ của tiêu đề */
+  font-family: var(--heading-font);
+  /* Dùng font chữ cho tiêu đề */
+  color: var(--heading-color);
+  /* Dùng màu chữ của tiêu đề */
   font-weight: 600;
 }
 
 /* Tùy chỉnh cho nội dung text */
 .my-swal-html-container {
-  color: var(--default-color); /* Dùng màu chữ mặc định */
+  color: var(--default-color);
+  /* Dùng màu chữ mặc định */
 }
 
 .my-swal-confirm-button {
-    /* --- Style cơ bản giống hệt nút Đăng ký --- */
-    background: linear-gradient(135deg, var(--accent-color), color-mix(in srgb, var(--accent-color), var(--heading-color) 30%)) !important;
-    color: var(--contrast-color) !important;
-    border-radius: 12px !important;
-    font-weight: 600 !important;
-    font-size: 1.1rem !important;
-    height: 56px !important;
-    padding: 0 24px !important;
-    border: none !important;
+  /* --- Style cơ bản giống hệt nút Đăng ký --- */
+  background: linear-gradient(135deg, var(--accent-color), color-mix(in srgb, var(--accent-color), var(--heading-color) 30%)) !important;
+  color: var(--contrast-color) !important;
+  border-radius: 12px !important;
+  font-weight: 600 !important;
+  font-size: 1.1rem !important;
+  height: 56px !important;
+  padding: 0 24px !important;
+  border: none !important;
 
-    /* --- Các thuộc tính quan trọng để tạo hiệu ứng --- */
-    position: relative !important; /* Bắt buộc phải có để chứa vệt sáng */
-    overflow: hidden !important;  /* Ẩn vệt sáng khi nó ở ngoài nút */
-    transition: all 0.3s ease !important;
+  /* --- Các thuộc tính quan trọng để tạo hiệu ứng --- */
+  position: relative !important;
+  /* Bắt buộc phải có để chứa vệt sáng */
+  overflow: hidden !important;
+  /* Ẩn vệt sáng khi nó ở ngoài nút */
+  transition: all 0.3s ease !important;
 }
 
 /* Tạo vệt sáng (ban đầu ẩn bên trái) */
 .my-swal-confirm-button::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: -100%; /* Đặt vệt sáng ẩn hẳn về bên trái */
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(33, 170, 244, 0.2), transparent);
-    transition: all 0.6s ease !important;
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  /* Đặt vệt sáng ẩn hẳn về bên trái */
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(33, 170, 244, 0.2), transparent);
+  transition: all 0.6s ease !important;
 }
 
 /* HIỆU ỨNG KHI DI CHUỘT VÀO (HOVER) */
 .my-swal-confirm-button:hover {
-    /* 1. Nút nhích lên */
-    transform: translateY(-3px);
-    
-    /* 2. Có bóng đổ */
-    box-shadow: 0 10px 20px color-mix(in srgb, var(--accent-color), transparent 85%);
+  /* 1. Nút nhích lên */
+  transform: translateY(-3px);
+
+  /* 2. Có bóng đổ */
+  box-shadow: 0 10px 20px color-mix(in srgb, var(--accent-color), transparent 85%);
 }
+
 /* 3. Vệt sáng chạy qua khi hover */
 .my-swal-confirm-button:hover::before {
-    left: 100%; /* Di chuyển vệt sáng từ trái qua phải */
+  left: 100%;
+  /* Di chuyển vệt sáng từ trái qua phải */
 }
 
 /* ... (các class .my-swal-cancel-button và icon giữ nguyên) ... */
@@ -12690,6 +12712,7 @@ section,
   padding: 0.6rem 1.8rem !important;
   transition: all 0.3s ease !important;
 }
+
 .my-swal-cancel-button:hover {
   background-color: var(--accent-color) !important;
   color: var(--contrast-color) !important;
@@ -12697,15 +12720,18 @@ section,
 
 /* Tùy chỉnh màu cho các icon */
 .swal2-icon.swal2-success .swal2-success-ring {
-  border-color: #059652 !important; /* Màu xanh lá từ class .sent-message */
+  border-color: #059652 !important;
+  /* Màu xanh lá từ class .sent-message */
 }
+
 .swal2-icon.swal2-success .swal2-success-line-tip,
 .swal2-icon.swal2-success .swal2-success-line-long {
   background-color: #059652 !important;
 }
 
 .swal2-icon.swal2-error {
-  border-color: #df1529 !important; /* Màu đỏ từ class .error-message */
+  border-color: #df1529 !important;
+  /* Màu đỏ từ class .error-message */
   color: #df1529 !important;
 }
 
@@ -12717,25 +12743,4 @@ section,
 .page-loading .main,
 .page-loading .footer {
   visibility: hidden;
-}
-/* Custom CSS cho SweetAlert2 - Blur nền */
-/* SweetAlert2 thường tự làm mờ, nhưng nếu cần, thêm cái này */
-.swal2-backdrop-show {
-  backdrop-filter: blur(5px);
-  /* Giá trị blur tùy chỉnh */
-  -webkit-backdrop-filter: blur(5px);
-  /* Hỗ trợ trình duyệt WebKit */
-}
-
-/* Tùy chỉnh nút trong SweetAlert2 */
-.swal2-actions .swal2-confirm {
-  background-color: #032e54 !important;
-  /* Màu xám cho nút xác nhận */
-  border: none !important;
-}
-
-.swal2-actions .swal2-cancel {
-  background-color: #272e2e !important;
-  /* Màu xanh cho nút Tiếp tục mua sắm */
-  border: none !important;
 }
