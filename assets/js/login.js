@@ -35,10 +35,10 @@ document.addEventListener('DOMContentLoaded', function () {
         const email = document.getElementById('email').value;
         const password = document.getElementById('password').value;
 
-        if (!email || !password) {
-            Toast.fire({ icon: 'error', title: 'Vui lòng nhập thông tin!' });
-            return;
-        }
+        // if (!email || !password) {
+        //     Toast.fire({ icon: 'error', title: 'Vui lòng nhập thông tin!' });
+        //     return;
+        // }
 
         const users = JSON.parse(localStorage.getItem('users')) || [];
 
