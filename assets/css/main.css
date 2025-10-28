@@ -4773,7 +4773,7 @@ section,
   align-items: center;
 }
 
-.category-product-list .product-price {
+.category-product-list .product-price, .search-product-list .product-price {
   font-weight: 600;
   font-size: 1.125rem;
   color: var(--accent-color);
@@ -6929,7 +6929,6 @@ section,
   color: var(--accent-color);
   display: flex;
   gap: 0.5rem;
-  align-items: center;
 }
 
 .search-product-list .product-price .original-price {
@@ -12754,4 +12753,45 @@ section,
   backdrop-filter: blur(50px) !important;
   -webkit-backdrop-filter: blur(6px) !important;
   transition: backdrop-filter 0.3s ease, background-color 0.3s ease;
+}
+
+
+
+/**
+* ĐOẠN CSS NÀY DÙNG ĐỂ ĐỊNH DẠNG CHO PHẦN ĐÁNH GIÁ SẢN PHẨM TRONG TAB ĐƠN HÀNG CỦA TRANG ACCOUNT
+*
+*/
+/* Custom Star Rating Selector for Review Form */
+.star-rating-selector {
+  font-size: 0; /* Ẩn khoảng trắng giữa các icon */
+  display: inline-block;
+  cursor: pointer;
+}
+
+.star-rating-selector .star-icon {
+  font-size: 1.5rem; /* Kích thước icon sao */
+  color: #ccc; /* Màu sao chưa được chọn */
+  transition: color 0.2s ease, transform 0.1s ease;
+  padding: 0 2px;
+}
+
+.star-rating-selector .star-icon:hover {
+  color: #ffc107; /* Màu khi rê chuột vào */
+  transform: scale(1.1);
+}
+
+.star-rating-selector .star-icon.filled {
+  color: #ffc107; /* Màu sao đã được chọn/đánh dấu */
+}
+
+/* Ẩn input ẩn */
+.star-rating-selector .rating-input {
+  display: none;
+}
+
+/* Định kiểu cho nút Gửi đánh giá */
+.review-submit-btn {
+  background-color: var(--accent-color);
+  border-color: var(--accent-color);
+  color: var(--contrast-color);
 }

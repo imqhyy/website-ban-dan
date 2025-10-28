@@ -279,7 +279,6 @@
     background-color: #f9f9f9;       
 }
 .add-form-category-products input[type="text"] {
-    flex-grow: 1;
     padding: 10px;
     border: 1px solid #ccc;
     border-radius: 25px;
