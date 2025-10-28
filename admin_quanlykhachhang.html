@@ -9,9 +9,9 @@
   <meta name="keywords" content="">
   <!--Kiểm tra xem đã đăng nhập chưa-->
   <script>
-        if (sessionStorage.getItem('admin_isLoggedIn') !== 'true') {
-            window.location.href = 'admin_login.html';
-        }
+    if (sessionStorage.getItem('admin_isLoggedIn') !== 'true') {
+      window.location.href = 'admin_login.html';
+    }
   </script>
 
   <!-- Favicons -->
@@ -21,7 +21,9 @@
   <!-- Fonts -->
   <link href="https://fonts.googleapis.com" rel="preconnect">
   <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+    rel="stylesheet">
 
   <!-- Vendor CSS Files -->
   <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -47,7 +49,7 @@
 <body class="login-page">
 
   <header id="header" class="header sticky-top">
-    
+
 
     <!-- Main Header -->
     <div class="main-header">
@@ -64,7 +66,8 @@
           <div class="header-actions d-flex align-items-center justify-content-end">
 
             <!-- Mobile Search Toggle -->
-            <button class="header-action-btn mobile-search-toggle d-xl-none" type="button" data-bs-toggle="collapse" data-bs-target="#mobileSearch" aria-expanded="false" aria-controls="mobileSearch">
+            <button class="header-action-btn mobile-search-toggle d-xl-none" type="button" data-bs-toggle="collapse"
+              data-bs-target="#mobileSearch" aria-expanded="false" aria-controls="mobileSearch">
               <i class="bi bi-search"></i>
             </button>
 
@@ -89,7 +92,8 @@
                   </a>
                 </div>
                 <div class="dropdown-footer">
-                  <a href="admin_login.html" class="btn btn-outline-primary w-100" id="admin-logout-button">Đăng xuất</a>
+                  <a href="admin_login.html" class="btn btn-outline-primary w-100" id="admin-logout-button">Đăng
+                    xuất</a>
                 </div>
               </div>
             </div>
@@ -100,9 +104,9 @@
           </div>
         </div>
 
-          </div>
-        </div>
       </div>
+    </div>
+    </div>
     </div>
 
     <!-- Navigation -->
@@ -154,21 +158,21 @@
 
 
     <form action="" class="search-container" method="get"><!-- Search box -->
-        <input type="text" id="search-input" placeholder="Tìm kiếm" name="search">
-        <button id="search-button">
-            <i class="fa fa-search"></i> Tìm kiếm          
-        </button> 
+      <input type="text" id="search-input" placeholder="Tìm kiếm" name="search">
+      <button id="search-button">
+        <i class="fa fa-search"></i> Tìm kiếm
+      </button>
     </form><!-- End Search box -->
 
     <div class="sort-container"> <!-- Sort-container -->
       <button id="sort-button" onclick="sortCustomers('asc')">
-            Sắp xếp A → Z
+        Sắp xếp A → Z
       </button>
       <button id="sort-button" onclick="sortCustomers('dsc')">
-            Sắp xếp Z → A
+        Sắp xếp Z → A
       </button>
     </div>
-      
+
 
     <div><!-- Thông tin khách hàng -->
       <!--Khách hàng 1-->
@@ -181,8 +185,11 @@
           <p class="customer-phone">0987654321</p>
         </div>
         <div class="customer-actions">
-          <button class="action-btn reset-btn">Reset Mật khẩu</button>
-          <button class="action-btn lock-btn">Khóa Tài khoản</button>
+          <button class="action-btn reset-btn" onclick="resetPassword('0987654321')">
+            Reset Mật khẩu </button>
+          <button class="action-btn lock-btn btn-success" onclick="toggleLock(this)">
+            Khóa Tài khoản
+          </button>
           <button class="action-btn detail-btn">Chi tiết</button>
         </div>
       </div>
@@ -197,8 +204,11 @@
           <p class="customer-phone">0987654321</p>
         </div>
         <div class="customer-actions">
-          <button class="action-btn reset-btn">Reset Mật khẩu</button>
-          <button class="action-btn lock-btn">Khóa Tài khoản</button>
+          <button class="action-btn reset-btn" onclick="resetPassword('0987654321')">
+            Reset Mật khẩu </button>
+          <button class="action-btn lock-btn btn-success" onclick="toggleLock(this)">
+            Khóa Tài khoản
+          </button>
           <button class="action-btn detail-btn">Chi tiết</button>
         </div>
       </div>
@@ -213,8 +223,11 @@
           <p class="customer-phone">0334342323</p>
         </div>
         <div class="customer-actions">
-          <button class="action-btn reset-btn">Reset Mật khẩu</button>
-          <button class="action-btn lock-btn">Khóa Tài khoản</button>
+          <button class="action-btn reset-btn" onclick="resetPassword('0987654321')">
+            Reset Mật khẩu </button>
+          <button class="action-btn lock-btn btn-success" onclick="toggleLock(this)">
+            Khóa Tài khoản
+          </button>
           <button class="action-btn detail-btn">Chi tiết</button>
         </div>
       </div>
@@ -229,8 +242,11 @@
           <p class="customer-phone">0343242344</p>
         </div>
         <div class="customer-actions">
-          <button class="action-btn reset-btn">Reset Mật khẩu</button>
-          <button class="action-btn lock-btn">Khóa Tài khoản</button>
+          <button class="action-btn reset-btn" onclick="resetPassword('0987654321')">
+            Reset Mật khẩu </button>
+          <button class="action-btn lock-btn btn-success" onclick="toggleLock(this)">
+            Khóa Tài khoản
+          </button>
           <button class="action-btn detail-btn">Chi tiết</button>
         </div>
       </div>
@@ -241,7 +257,8 @@
           <h2>Chi tiết Khách hàng</h2>
           <div class="customer-info-details-container">
             <div class="customer-avatar-details-container">
-              <img src="assets/img/person/images.jpg" id="modalImage" class="customer-avatar-details" atl="avatar khách hàng">
+              <img src="assets/img/person/images.jpg" id="modalImage" class="customer-avatar-details"
+                atl="avatar khách hàng">
             </div>
             <div>
               <p class="customer-info-details"><strong>Tên: </strong> <span id="modalName"></span></p>
@@ -260,29 +277,28 @@
     </div><!-- End Thông tin khách hàng -->
 
 
-<!-- Category Pagination Section -->
-					<section id="category-pagination" class="category-pagination section">
-						<div class="container">
-							<nav class="d-flex justify-content-center" aria-label="Page navigation">
-								<ul>
-									<li> <a href="#" aria-label="Previous page"> <i class="bi bi-arrow-left"></i>
-											<span class="d-none d-sm-inline">Previous</span>
-										</a> </li>
-									<li><a href="#" class="active">1</a></li>
-									<li><a href="#">2</a></li>
-									<li><a href="#">3</a></li>
-									<li class="ellipsis">...</li>
-									<li><a href="#">8</a></li>
-									<li><a href="#">9</a></li>
-									<li><a href="#">10</a></li>
-									<li> <a href="#" aria-label="Next page"> <span
-												class="d-none d-sm-inline">Next</span>
-											<i class="bi bi-arrow-right"></i>
-										</a> </li>
-								</ul>
-							</nav>
-						</div>
-					</section><!-- /Category Pagination Section -->
+    <!-- Category Pagination Section -->
+    <section id="category-pagination" class="category-pagination section">
+      <div class="container">
+        <nav class="d-flex justify-content-center" aria-label="Page navigation">
+          <ul>
+            <li> <a href="#" aria-label="Previous page"> <i class="bi bi-arrow-left"></i>
+                <span class="d-none d-sm-inline">Trước</span>
+              </a> </li>
+            <li><a href="#" class="active">1</a></li>
+            <li><a href="#">2</a></li>
+            <li><a href="#">3</a></li>
+            <li class="ellipsis">...</li>
+            <li><a href="#">8</a></li>
+            <li><a href="#">9</a></li>
+            <li><a href="#">10</a></li>
+            <li> <a href="#" aria-label="Next page"> <span class="d-none d-sm-inline">Sau</span>
+                <i class="bi bi-arrow-right"></i>
+              </a> </li>
+          </ul>
+        </nav>
+      </div>
+    </section><!-- /Category Pagination Section -->
 
 
 
@@ -294,7 +310,7 @@
       <div class="container">
         <div class="row gy-4">
           <div class="col-lg-4 col-md-6">
-            <div class="footer-widget footer-about">  
+            <div class="footer-widget footer-about">
               <a href="index.html" class="logo">
                 <span class="sitename">Guitar Xì Gòn</span>
               </a>
@@ -405,7 +421,8 @@
   </footer>
 
   <!-- Scroll Top -->
-  <a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+  <a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center"><i
+      class="bi bi-arrow-up-short"></i></a>
 
   <!-- Preloader -->
   <div id="preloader"></div>
@@ -427,24 +444,48 @@
 </body>
 <!-- Xử lý nếu đăng xuát xoá local storage -->
 <script>
-  document.addEventListener('DOMContentLoaded', function() {
+  document.addEventListener('DOMContentLoaded', function () {
     // Toàn bộ code bên trong sẽ chỉ chạy sau khi DOM đã được tải hoàn toàn
-    
+
     // 1. Lấy ra phần tử nút Đăng xuất
     const logoutButton = document.getElementById('admin-logout-button');
 
     // 2. Thêm trình lắng nghe sự kiện khi nhấp chuột
     if (logoutButton) { // Thêm kiểm tra an toàn
-        logoutButton.addEventListener('click', function(event) {
-            event.preventDefault(); // Ngăn hành vi mặc định của liên kết/nút
+      logoutButton.addEventListener('click', function (event) {
+        event.preventDefault(); // Ngăn hành vi mặc định của liên kết/nút
 
-            // 3. XÓA TRẠNG THÁI ĐĂNG NHẬP KHỎI LOCALSTORAGE
-            localStorage.removeItem('admin_isLoggedIn');
-                
-            // 4. CHUYỂN HƯỚNG người dùng về trang đăng nhập
-            window.location.href = 'admin_login.html';
-        });
+        // 3. XÓA TRẠNG THÁI ĐĂNG NHẬP KHỎI LOCALSTORAGE
+        localStorage.removeItem('admin_isLoggedIn');
+
+        // 4. CHUYỂN HƯỚNG người dùng về trang đăng nhập
+        window.location.href = 'admin_login.html';
+      });
     }
   });
+  function resetPassword(text) {
+    Swal.fire({
+      icon: 'success',
+      title: 'Đã gửi!',
+      text: `Link đặt lại mật khẩu đã được gửi đến SĐT ${text}`,
+      timer: 1200,
+      showConfirmButton: false
+    });
+  }
+  function toggleLock(button) {
+    const isLocked = button.textContent.includes('Khóa');
+    button.textContent = isLocked ? 'Mở khóa' : 'Khóa Tài khoản';
+    button.classList.toggle('btn-warning', isLocked);
+    button.classList.toggle('btn-success', !isLocked);
+
+    Swal.fire({
+      icon: isLocked ? 'warning' : 'success',
+      title: isLocked ? 'Đã khóa!' : 'Đã mở khóa!',
+      text: isLocked ? 'Tài khoản đã bị khóa' : 'Tài khoản đã được mở khóa',
+      timer: 1500,
+      showConfirmButton: false
+    });
+  }
 </script>
+
 </html>
