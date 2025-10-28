@@ -989,19 +989,16 @@ document.addEventListener("DOMContentLoaded", function () {
 
   const MIN = 0;
   const MAX = 100000000;
-  const STEP = 100000;
+  const MIN_GAP = 1000; // Khoảng cách tối thiểu giữa min và max
 
-  // Định dạng tiền Việt Nam
   function formatMoney(value) {
     return new Intl.NumberFormat("vi-VN").format(value) + " VND";
   }
 
-  // Loại bỏ định dạng để lấy số
   function parseMoney(str) {
     return parseInt(str.replace(/\D/g, ""), 10) || 0;
   }
 
-  // Cập nhật giao diện
   function updateDisplay() {
     const minVal = parseInt(minRange.value);
     const maxVal = parseInt(maxRange.value);
@@ -1012,65 +1009,65 @@ document.addEventListener("DOMContentLoaded", function () {
     minInput.value = new Intl.NumberFormat("vi-VN").format(minVal);
     maxInput.value = new Intl.NumberFormat("vi-VN").format(maxVal);
 
-    // Cập nhật thanh progress
     const percentMin = (minVal / MAX) * 100;
     const percentMax = (maxVal / MAX) * 100;
     progress.style.left = percentMin + "%";
     progress.style.right = (100 - percentMax) + "%";
   }
 
-  // Khi kéo thanh range
   function handleRangeInput() {
     let minVal = parseInt(minRange.value);
     let maxVal = parseInt(maxRange.value);
 
-    // Đảm bảo min <= max - STEP
-    if (minVal > maxVal - STEP) {
-      minRange.value = maxVal - STEP;
-    }
-    if (maxVal < minVal + STEP) {
-      maxRange.value = minVal + STEP;
-    }
+    if (minVal > maxVal - MIN_GAP) minRange.value = maxVal - MIN_GAP;
+    if (maxVal < minVal + MIN_GAP) maxRange.value = minVal + MIN_GAP;
 
     updateDisplay();
   }
 
-  // Khi nhập vào input
-  function handleInputBlur(e) {
+  function handleInputUpdate(e) {
     const isMin = e.target === minInput;
-    const rawValue = parseMoney(e.target.value);
-    let newValue = Math.min(Math.max(rawValue, MIN), MAX);
+    let rawValue = parseMoney(e.target.value);
+    let newValue = Math.max(MIN, Math.min(rawValue, MAX));
 
     if (isMin) {
       const maxVal = parseInt(maxRange.value);
-      if (newValue > maxVal - STEP) newValue = maxVal - STEP;
+      if (newValue > maxVal - MIN_GAP) newValue = maxVal - MIN_GAP;
       minRange.value = newValue;
     } else {
       const minVal = parseInt(minRange.value);
-      if (newValue < minVal + STEP) newValue = minVal + STEP;
+      if (newValue < minVal + MIN_GAP) newValue = minVal + MIN_GAP;
       maxRange.value = newValue;
     }
 
     updateDisplay();
   }
 
-  // Format input khi gõ (chỉ cho phép số + dấu chấm tự động)
   function formatInputOnType(e) {
     let value = e.target.value.replace(/\D/g, "");
     if (value === "") value = "0";
-    const num = parseInt(value, 10);
-    e.target.value = new Intl.NumberFormat("vi-VN").format(num);
+    e.target.value = new Intl.NumberFormat("vi-VN").format(parseInt(value, 10));
   }
 
-  // Sự kiện
+  function handleKeydown(e) {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      handleInputUpdate(e);
+    }
+  }
+
+  // === SỰ KIỆN ===
   minRange.addEventListener("input", handleRangeInput);
   maxRange.addEventListener("input", handleRangeInput);
 
   minInput.addEventListener("input", formatInputOnType);
   maxInput.addEventListener("input", formatInputOnType);
 
-  minInput.addEventListener("blur", handleInputBlur);
-  maxInput.addEventListener("blur", handleInputBlur);
+  minInput.addEventListener("blur", handleInputUpdate);
+  maxInput.addEventListener("blur", handleInputUpdate);
+
+  minInput.addEventListener("keydown", handleKeydown);
+  maxInput.addEventListener("keydown", handleKeydown);
 
   // Khởi tạo
   updateDisplay();
