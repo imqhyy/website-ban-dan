@@ -989,7 +989,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   const MIN = 0;
   const MAX = 100000000;
-  const MIN_GAP = 1000; // Khoảng cách tối thiểu giữa min và max
+  const MIN_GAP = 1000000; // Khoảng cách tối thiểu giữa min và max
 
   function formatMoney(value) {
     return new Intl.NumberFormat("vi-VN").format(value) + " VND";
