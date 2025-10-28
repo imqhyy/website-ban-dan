@@ -9,7 +9,7 @@
   <meta name="keywords" content="">
   <!--Kiểm tra xem đã đăng nhập chưa-->
   <script>
-    if (localStorage.getItem('admin_isLoggedIn') !== 'true') {
+    if (sessionStorage.getItem('admin_isLoggedIn') !== 'true') {
       window.location.href = 'admin_login.html';
     }
   </script>

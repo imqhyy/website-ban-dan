@@ -15,7 +15,9 @@
   <!-- Fonts -->
   <link href="https://fonts.googleapis.com" rel="preconnect">
   <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+    rel="stylesheet">
 
   <!-- Vendor CSS Files -->
   <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -40,7 +42,7 @@
 <body class="login-page">
 
   <header id="header" class="header sticky-top">
-    
+
 
     <!-- Main Header -->
     <div class="main-header">
@@ -54,9 +56,9 @@
             <h1 class="sitename">Guitar Xì Gòn</h1>
           </a>
 
-          </div>
         </div>
       </div>
+    </div>
     </div>
 
     <!-- Navigation -->
@@ -66,15 +68,18 @@
           <ul>
             <li><a href="index.html">Trang chủ</a></li>
             <li><a href="all.html">Tất cả sản phẩm</a></li>
-            <li class="dropdown"><a href="#"><span>Phân loại</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
+            <li class="dropdown"><a href="#"><span>Phân loại</span> <i
+                  class="bi bi-chevron-down toggle-dropdown"></i></a>
               <ul>
-                <li class="dropdown"><a href="#"><span>Guitar Classic</span><i class="bi bi-chevron-down toggle-dropdown"></i></a>
+                <li class="dropdown"><a href="#"><span>Guitar Classic</span><i
+                      class="bi bi-chevron-down toggle-dropdown"></i></a>
                   <ul>
                     <li><a href="#">Ba đờn</a></li>
                     <li><a href="#">Yamaha</a></li>
                   </ul>
                 </li>
-                <li class="dropdown"><a href="#"><span>Guitar Acoustic</span><i class="bi bi-chevron-down toggle-dropdown"></i></a>
+                <li class="dropdown"><a href="#"><span>Guitar Acoustic</span><i
+                      class="bi bi-chevron-down toggle-dropdown"></i></a>
                   <ul>
                     <li><a href="#">Saga</a></li>
                     <li><a href="#">Taylor</a></li>
@@ -145,14 +150,16 @@
                     <span class="input-icon">
                       <i class="bi bi-envelope"></i>
                     </span>
-                    <input type="email" class="form-control" placeholder="Địa chỉ Email" required="" autocomplete="email" id="email">
+                    <input type="email" class="form-control" placeholder="Địa chỉ Email" required=""
+                      autocomplete="email" id="email">
                   </div>
 
                   <div class="input-group mb-3">
                     <span class="input-icon">
                       <i class="bi bi-lock"></i>
                     </span>
-                    <input type="password" class="form-control" placeholder="Mật khẩu" required="" autocomplete="current-password" id="password">
+                    <input type="password" class="form-control" placeholder="Mật khẩu" required=""
+                      autocomplete="current-password" id="password">
                     <span class="password-toggle">
                       <i class="bi bi-eye"></i>
                     </span>
@@ -187,7 +194,7 @@
       <div class="container">
         <div class="row gy-4">
           <div class="col-lg-4 col-md-6">
-            <div class="footer-widget footer-about">  
+            <div class="footer-widget footer-about">
               <a href="index.html" class="logo">
                 <span class="sitename">Guitar Xì Gòn</span>
               </a>
@@ -298,7 +305,8 @@
   </footer>
 
   <!-- Scroll Top -->
-  <a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+  <a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center"><i
+      class="bi bi-arrow-up-short"></i></a>
 
   <!-- Preloader -->
   <div id="preloader"></div>
@@ -319,7 +327,7 @@
 </body>
 <!-- Xử lý nếu đăng nhập tạo local storage-->
 <script>
-  document.getElementById('login-form').addEventListener('submit', function(event) {
+  document.getElementById('login-form').addEventListener('submit', function (event) {
     event.preventDefault(); // Ngăn form submit mặc định
 
     // 1. **Thực hiện kiểm tra logic đăng nhập ở đây**
@@ -328,16 +336,17 @@
     let isSuccess = true; // Giả sử đăng nhập thành công
 
     if (isSuccess) {
-    // 2. **THÊM DÒNG CODE NÀY VÀO ĐÂY:**
-    localStorage.setItem('admin_isLoggedIn', 'true');
+      // 2. **THÊM DÒNG CODE NÀY VÀO ĐÂY:**
+      sessionStorage.setItem('admin_isLoggedIn', 'true');
 
-    // 3. **Chuyển hướng đến trang chính**
-    setTimeout(function() {
+      // 3. **Chuyển hướng đến trang chính**
+      setTimeout(function () {
         window.location.href = 'admin.html';
-    }, 1000);
+      }, 1000);
     } else {
-        alert('Tên đăng nhập hoặc mật khẩu không đúng.');
+      alert('Tên đăng nhập hoặc mật khẩu không đúng.');
     }
   });
 </script>
+
 </html>
