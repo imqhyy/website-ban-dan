@@ -66,38 +66,32 @@ document.addEventListener('DOMContentLoaded', function () {
     orderSubtotalElement.textContent = formattedTotal;
     orderTotalElement.textContent = formattedTotal;
     placeOrderBtnPrice.textContent = formattedTotal;
-
+    // --- KHUÔN MẪU TOAST ---
+    const Toast = Swal.mixin({
+        toast: true,
+        position: 'top-end',
+        showConfirmButton: false,
+        timer: 1200,
+        timerProgressBar: true,
+        customClass: {
+            popup: 'my-swal-popup'
+        },
+        didOpen: (toast) => {
+            // toast.onmouseenter = Swal.stopTimer;
+            // toast.onmouseleave = Swal.resumeTimer;
+        }
+    });
     // --- XỬ LÝ SỰ KIỆN ĐẶT HÀNG (DEMO) ---
     checkoutForm.addEventListener('submit', function (event) {
         event.preventDefault();
 
-        // --- BẮT ĐẦU SỬA ĐỔI TỪ ĐÂY ---
-
-        Swal.fire({
+        // Toast thông báo thành công
+        Toast.fire({
             icon: 'success',
-            title: 'Đặt hàng thành công!',
-            text: 'Cảm ơn bạn đã mua hàng.',
-
-            // Cài đặt cho nền mờ (blur)
-            backdrop: true, // Bật nền mờ
-            allowOutsideClick: false, // Không cho bấm ra ngoài
-
-            // Cài đặt 2 nút bấm
-            showCancelButton: true, // <-- DÒNG NÀY SẼ THÊM NÚT THỨ 2
-            confirmButtonText: 'Xem xác nhận đơn hàng',
-            cancelButtonText: 'Tiếp tục mua sắm'
-
-        }).then((result) => {
-            // Xử lý logic sau khi bấm nút
-            if (result.isConfirmed) {
-                // Nếu bấm nút "Xem xác nhận đơn hàng"
-                window.location.href = 'order-confirmation.html';
-            } else if (result.dismiss === Swal.DismissReason.cancel) {
-                // Nếu bấm nút "Tiếp tục mua sắm"
-                window.location.href = 'index.html'; // Chuyển về trang chủ
-            }
+            title: 'Đặt hàng thành công!'
+        }).then(() => {
+            window.location.href = 'order-confirmation.html';
         });
-
-        // --- KẾT THÚC SỬA ĐỔI ---
     });
+
 });
