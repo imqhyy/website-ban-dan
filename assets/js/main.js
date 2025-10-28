@@ -985,65 +985,94 @@ document.addEventListener("DOMContentLoaded", function () {
   const maxInput = document.querySelector(".max-price-input");
   const minLabel = document.querySelector(".min-price");
   const maxLabel = document.querySelector(".max-price");
+  const progress = document.querySelector(".slider-progress");
 
-  // Hàm format tiền kiểu Việt Nam
+  const MIN = 0;
+  const MAX = 100000000;
+  const STEP = 100000;
+
+  // Định dạng tiền Việt Nam
   function formatMoney(value) {
-    return Number(value).toLocaleString("vi-VN");
+    return new Intl.NumberFormat("vi-VN").format(value) + " VND";
   }
 
-  // Cập nhật hiển thị khi kéo thanh trượt
+  // Loại bỏ định dạng để lấy số
+  function parseMoney(str) {
+    return parseInt(str.replace(/\D/g, ""), 10) || 0;
+  }
+
+  // Cập nhật giao diện
   function updateDisplay() {
     const minVal = parseInt(minRange.value);
     const maxVal = parseInt(maxRange.value);
 
-    // --- BẮT ĐẦU SỬA ĐỔI ---
+    minLabel.textContent = formatMoney(minVal);
+    maxLabel.textContent = formatMoney(maxVal);
 
-    // Hàm để định dạng số (1000000 -> 1.000.000 VNĐ)
-    function formatPrice(value) {
-      // Chuyển đổi giá trị sang số, phòng trường hợp nó là chuỗi
-      const numberValue = parseInt(value, 10);
-      // Dùng Intl.NumberFormat để thêm dấu chấm
-      return new Intl.NumberFormat('vi-VN').format(numberValue) + ' VND';
+    minInput.value = new Intl.NumberFormat("vi-VN").format(minVal);
+    maxInput.value = new Intl.NumberFormat("vi-VN").format(maxVal);
 
-    }
-
-    minLabel.textContent = formatMoney(minRange.value) + " VND";
-    maxLabel.textContent = formatMoney(maxRange.value) + " VND";
-
-    minInput.value = formatMoney(minRange.value);
-    maxInput.value = formatMoney(maxRange.value);
+    // Cập nhật thanh progress
+    const percentMin = (minVal / MAX) * 100;
+    const percentMax = (maxVal / MAX) * 100;
+    progress.style.left = percentMin + "%";
+    progress.style.right = (100 - percentMax) + "%";
   }
 
-  // Khi người dùng nhập giá trị thủ công
-  function updateRangeFromInput() {
-    let minVal = parseInt(minInput.value.replace(/\D/g, "")) || 0;
-    let maxVal = parseInt(maxInput.value.replace(/\D/g, "")) || 0;
+  // Khi kéo thanh range
+  function handleRangeInput() {
+    let minVal = parseInt(minRange.value);
+    let maxVal = parseInt(maxRange.value);
 
-    if (minVal < parseInt(minRange.min)) minVal = parseInt(minRange.min);
-    if (maxVal > parseInt(maxRange.max)) maxVal = parseInt(maxRange.max);
-    if (minVal > maxVal - 100000) minVal = maxVal - 100000;
+    // Đảm bảo min <= max - STEP
+    if (minVal > maxVal - STEP) {
+      minRange.value = maxVal - STEP;
+    }
+    if (maxVal < minVal + STEP) {
+      maxRange.value = minVal + STEP;
+    }
 
-    minRange.value = minVal;
-    maxRange.value = maxVal;
     updateDisplay();
   }
 
-  // Sự kiện kéo thanh range
-  minRange.addEventListener("input", updateDisplay);
-  maxRange.addEventListener("input", updateDisplay);
+  // Khi nhập vào input
+  function handleInputBlur(e) {
+    const isMin = e.target === minInput;
+    const rawValue = parseMoney(e.target.value);
+    let newValue = Math.min(Math.max(rawValue, MIN), MAX);
 
-  // Sự kiện nhập trong ô input
-  minInput.addEventListener("input", (e) => {
-    e.target.value = e.target.value.replace(/\D/g, "").replace(/\B(?=(\d{3})+(?!\d))/g, ".");
-  });
-  maxInput.addEventListener("input", (e) => {
-    e.target.value = e.target.value.replace(/\D/g, "").replace(/\B(?=(\d{3})+(?!\d))/g, ".");
-  });
+    if (isMin) {
+      const maxVal = parseInt(maxRange.value);
+      if (newValue > maxVal - STEP) newValue = maxVal - STEP;
+      minRange.value = newValue;
+    } else {
+      const minVal = parseInt(minRange.value);
+      if (newValue < minVal + STEP) newValue = minVal + STEP;
+      maxRange.value = newValue;
+    }
 
-  minInput.addEventListener("blur", updateRangeFromInput);
-  maxInput.addEventListener("blur", updateRangeFromInput);
+    updateDisplay();
+  }
 
-  // Load ban đầu
+  // Format input khi gõ (chỉ cho phép số + dấu chấm tự động)
+  function formatInputOnType(e) {
+    let value = e.target.value.replace(/\D/g, "");
+    if (value === "") value = "0";
+    const num = parseInt(value, 10);
+    e.target.value = new Intl.NumberFormat("vi-VN").format(num);
+  }
+
+  // Sự kiện
+  minRange.addEventListener("input", handleRangeInput);
+  maxRange.addEventListener("input", handleRangeInput);
+
+  minInput.addEventListener("input", formatInputOnType);
+  maxInput.addEventListener("input", formatInputOnType);
+
+  minInput.addEventListener("blur", handleInputBlur);
+  maxInput.addEventListener("blur", handleInputBlur);
+
+  // Khởi tạo
   updateDisplay();
 });
 
