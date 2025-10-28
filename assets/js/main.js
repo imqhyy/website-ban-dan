@@ -978,96 +978,102 @@
   });
 })();
 
-// Dán toàn bộ khối code này vào bên trong
-// document.addEventListener('DOMContentLoaded', function() { ... }
-// của file assets/js/main.js
+document.addEventListener("DOMContentLoaded", function () {
+  const minRange = document.querySelector(".min-range");
+  const maxRange = document.querySelector(".max-range");
+  const minInput = document.querySelector(".min-price-input");
+  const maxInput = document.querySelector(".max-price-input");
+  const minLabel = document.querySelector(".min-price");
+  const maxLabel = document.querySelector(".max-price");
+  const progress = document.querySelector(".slider-progress");
 
-const priceRangeSlider = () => {
-  const rangeSliders = document.querySelectorAll('.range-slider');
-  if (!rangeSliders.length) {
-    return; // Dừng lại nếu không tìm thấy thanh trượt nào
+  const MIN = 0;
+  const MAX = 100000000;
+  const STEP = 100000;
+
+  // Định dạng tiền Việt Nam
+  function formatMoney(value) {
+    return new Intl.NumberFormat("vi-VN").format(value) + " VND";
   }
 
-  rangeSliders.forEach(rangeSlider => {
-    const minRange = rangeSlider.querySelector('.min-range');
-    const maxRange = rangeSlider.querySelector('.max-range');
-    const minPriceInput = rangeSlider.parentElement.querySelector('.min-price-input');
-    const maxPriceInput = rangeSlider.parentElement.querySelector('.max-price-input');
-    const minPriceDisplay = rangeSlider.parentElement.querySelector('.min-price');
-    const maxPriceDisplay = rangeSlider.parentElement.querySelector('.max-price');
-    const progress = rangeSlider.querySelector('.slider-progress');
-    const priceGap = 100000; // Khoảng cách tối thiểu giữa 2 thanh trượt
+  // Loại bỏ định dạng để lấy số
+  function parseMoney(str) {
+    return parseInt(str.replace(/\D/g, ""), 10) || 0;
+  }
 
-    // --- BẮT ĐẦU SỬA ĐỔI ---
+  // Cập nhật giao diện
+  function updateDisplay() {
+    const minVal = parseInt(minRange.value);
+    const maxVal = parseInt(maxRange.value);
 
-    // Hàm để định dạng số (1000000 -> 1.000.000 VNĐ)
-    function formatPrice(value) {
-      // Chuyển đổi giá trị sang số, phòng trường hợp nó là chuỗi
-      const numberValue = parseInt(value, 10);
-      // Dùng Intl.NumberFormat để thêm dấu chấm
-      return new Intl.NumberFormat('vi-VN').format(numberValue) + ' VND';
+    minLabel.textContent = formatMoney(minVal);
+    maxLabel.textContent = formatMoney(maxVal);
+
+    minInput.value = new Intl.NumberFormat("vi-VN").format(minVal);
+    maxInput.value = new Intl.NumberFormat("vi-VN").format(maxVal);
+
+    // Cập nhật thanh progress
+    const percentMin = (minVal / MAX) * 100;
+    const percentMax = (maxVal / MAX) * 100;
+    progress.style.left = percentMin + "%";
+    progress.style.right = (100 - percentMax) + "%";
+  }
+
+  // Khi kéo thanh range
+  function handleRangeInput() {
+    let minVal = parseInt(minRange.value);
+    let maxVal = parseInt(maxRange.value);
+
+    // Đảm bảo min <= max - STEP
+    if (minVal > maxVal - STEP) {
+      minRange.value = maxVal - STEP;
+    }
+    if (maxVal < minVal + STEP) {
+      maxRange.value = minVal + STEP;
     }
 
-    // Cập nhật hiển thị ban đầu khi tải trang
-    if (minPriceDisplay) minPriceDisplay.textContent = formatPrice(minRange.value);
-    if (maxPriceDisplay) maxPriceDisplay.textContent = formatPrice(maxRange.value);
+    updateDisplay();
+  }
 
-    // --- KẾT THÚC SỬA ĐỔI ---
+  // Khi nhập vào input
+  function handleInputBlur(e) {
+    const isMin = e.target === minInput;
+    const rawValue = parseMoney(e.target.value);
+    let newValue = Math.min(Math.max(rawValue, MIN), MAX);
 
-    const updateSliderProgress = () => {
-      if (progress) {
-        progress.style.left = (minRange.value / minRange.max) * 100 + '%';
-        progress.style.right = 100 - (maxRange.value / maxRange.max) * 100 + '%';
-      }
-    };
-
-    if (minRange) {
-      minRange.addEventListener('input', () => {
-        if (parseInt(maxRange.value) - parseInt(minRange.value) < priceGap) {
-          minRange.value = parseInt(maxRange.value) - priceGap;
-        }
-        if (minPriceInput) minPriceInput.value = minRange.value;
-        if (minPriceDisplay) minPriceDisplay.textContent = formatPrice(minRange.value);
-        updateSliderProgress();
-      });
+    if (isMin) {
+      const maxVal = parseInt(maxRange.value);
+      if (newValue > maxVal - STEP) newValue = maxVal - STEP;
+      minRange.value = newValue;
+    } else {
+      const minVal = parseInt(minRange.value);
+      if (newValue < minVal + STEP) newValue = minVal + STEP;
+      maxRange.value = newValue;
     }
 
-    if (maxRange) {
-      maxRange.addEventListener('input', () => {
-        if (parseInt(maxRange.value) - parseInt(minRange.value) < priceGap) {
-          maxRange.value = parseInt(minRange.value) + priceGap;
-        }
-        if (maxPriceInput) maxPriceInput.value = maxRange.value;
-        if (maxPriceDisplay) maxPriceDisplay.textContent = formatPrice(maxRange.value);
-        updateSliderProgress();
-      });
-    }
+    updateDisplay();
+  }
 
-    if (minPriceInput) {
-      minPriceInput.addEventListener('input', () => {
-        if (parseInt(maxPriceInput.value) - parseInt(minPriceInput.value) < priceGap) {
-          minPriceInput.value = parseInt(maxPriceInput.value) - priceGap;
-        }
-        minRange.value = minPriceInput.value;
-        if (minPriceDisplay) minPriceDisplay.textContent = formatPrice(minPriceInput.value);
-        updateSliderProgress();
-      });
-    }
+  // Format input khi gõ (chỉ cho phép số + dấu chấm tự động)
+  function formatInputOnType(e) {
+    let value = e.target.value.replace(/\D/g, "");
+    if (value === "") value = "0";
+    const num = parseInt(value, 10);
+    e.target.value = new Intl.NumberFormat("vi-VN").format(num);
+  }
 
-    if (maxPriceInput) {
-      maxPriceInput.addEventListener('input', () => {
-        if (parseInt(maxPriceInput.value) - parseInt(minPriceInput.value) < priceGap) {
-          maxPriceInput.value = parseInt(minPriceInput.value) + priceGap;
-        }
-        maxRange.value = maxPriceInput.value;
-        if (maxPriceDisplay) maxPriceDisplay.textContent = formatPrice(maxPriceInput.value);
-        updateSliderProgress();
-      });
-    }
+  // Sự kiện
+  minRange.addEventListener("input", handleRangeInput);
+  maxRange.addEventListener("input", handleRangeInput);
 
-    updateSliderProgress();
-  });
-};
+  minInput.addEventListener("input", formatInputOnType);
+  maxInput.addEventListener("input", formatInputOnType);
 
-// Gọi hàm để nó chạy
-priceRangeSlider();
+  minInput.addEventListener("blur", handleInputBlur);
+  maxInput.addEventListener("blur", handleInputBlur);
+
+  // Khởi tạo
+  updateDisplay();
+});
+
+

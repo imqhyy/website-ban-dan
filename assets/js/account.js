@@ -116,6 +116,7 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
+
     // --- HIỂN THỊ LỊCH SỬ ĐƠN HÀNG --- 
     // const ordersGrid = document.querySelector('#orders .orders-grid');
     // if (ordersGrid) {
@@ -167,6 +168,7 @@ document.addEventListener('DOMContentLoaded', function () {
     //         ordersGrid.innerHTML = '<p class="text-center p-5">Bạn chưa có đơn hàng nào.</p>';
     //     }
     // }
+
 
     // --- XỬ LÝ LƯU THÔNG TIN CÁ NHÂN ---
     if (settingsForm) {

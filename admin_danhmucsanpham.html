@@ -547,191 +547,6 @@
 </body>
 <script>
   document.addEventListener('DOMContentLoaded', function () {
-    const addForm = document.getElementById('product-form');
-    if (addForm) {
-      addForm.addEventListener('submit', function (event) {
-        event.preventDefault();
-        Toast.fire({
-          icon: 'success',
-          title: 'Thêm sản phẩm thành công!'
-        });
-        addForm.reset();
-      });
-    }
-    const categorySelect = document.getElementById('product-category');
-    const brandSelect = document.getElementById('product-brand');
-
-    const brandsData = {
-      'Acoustic': ['Enya', 'Yamaha', 'Everest', 'Taylor', 'Saga'],
-      'Classic': ['Ba đờn', 'Yamaha'],
-      '': []
-    };
-
-    function updateBrandOptions(category) {
-      const brands = brandsData[category] || [];
-      brandSelect.innerHTML = '<option value="">-- Chọn thương hiệu --</option>';
-
-      brands.forEach(brand => {
-        const option = document.createElement('option');
-        option.value = brand;
-        option.textContent = brand;
-        brandSelect.appendChild(option);
-      });
-
-      brandSelect.disabled = brands.length === 0;
-    }
-
-    if (categorySelect) {
-      categorySelect.addEventListener('change', function () {
-        const selectedCategory = categorySelect.value;
-        updateBrandOptions(selectedCategory);
-      });
-    }
-
-    updateBrandOptions(categorySelect ? categorySelect.value : '');
-
-    const costPriceInput = document.getElementById('costPrice');
-    const profitMarginInput = document.getElementById('profitMargin');
-    const sellingPriceInput = document.getElementById('sellingPrice');
-
-    function calculateSellingPrice() {
-      const costPrice = parseFloat(costPriceInput.value) || 0;
-      const profitMargin = parseFloat(profitMarginInput.value) || 0;
-
-      if (costPrice <= 0 || profitMargin < 0) {
-        sellingPriceInput.value = '';
-        return;
-      }
-
-      const finalProfitMargin = Math.min(Math.max(profitMargin, 0), 1000);
-      const sellingPrice = costPrice * (1 + finalProfitMargin / 100);
-
-      // ĐỊNH DẠNG GIÁ BÁN CHO FORM THÊM
-      sellingPriceInput.value = Math.round(sellingPrice).toLocaleString('vi-VN');
-    }
-
-    if (costPriceInput) {
-      costPriceInput.addEventListener('input', calculateSellingPrice);
-    }
-    if (profitMarginInput) {
-      profitMarginInput.addEventListener('input', calculateSellingPrice);
-    }
-
-    const listContainer = document.getElementById('product-list-container');
-    if (listContainer) {
-      listContainer.addEventListener('click', function (event) {
-        const target = event.target;
-        if (target.classList.contains('nutxoa')) {
-          Swal.fire({
-            title: 'Bạn có chắc chắn?',
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonText: 'Vâng, xóa nó!',
-            cancelButtonText: 'Hủy'
-          }).then((result) => {
-            if (result.isConfirmed) {
-              Toast.fire({ icon: 'success', title: 'Đã xóa!' });
-            }
-          });
-        }
-        if (target.classList.contains('nutsua')) {
-
-          // LẤY GIÁ TRỊ SỐ THÔ CHO INPUTS TYPE="NUMBER"
-          const name = target.dataset.name || 'Saga A1 DE PRO';
-          const category = target.dataset.category || 'Acoustic';
-          const costPriceRaw = target.dataset.costPrice || '2000000';
-          const profitMargin = target.dataset.profitMargin || '20';
-          const stock = target.dataset.stock || '12';
-
-          const productCode = 'SAGA-A1';
-          const imagePath = 'assets/img/product/...';
-
-          const formHTML = `
-                        <form id="swal-edit-form" class="row g-3" style="text-align: left;">
-                            <div class="col-14 mb-3">
-                                <label class="form-label fw-bold">Tên sản phẩm</label>
-                                <input type="text" class="form-control" value="${name}">
-                            </div>
-                            <div class="col-md-6 mb-3">
-                                <label class="form-label fw-bold">Mã sản phẩm</label>
-                                <input type="text" class="form-control" value="${productCode}">
-                            </div>
-                            <div class="col-md-6 mb-3">
-                                <label class="form-label fw-bold">Đường dẫn ảnh</label>
-                                <input type="text" class="form-control" value="${imagePath}">
-                            </div>
-                            <div class="col-md-4 mb-3">
-                                <label class="form-label fw-bold">Giá Vốn (VND)</label>
-                                <input type="number" class="form-control" value="${costPriceRaw}">
-                            </div>
-                            <div class="col-md-4 mb-3">
-                                <label class="form-label fw-bold">% Lợi nhuận</label>
-                                <input type="number" class="form-control" value="${profitMargin}">
-                            </div>
-                            <div class="col-md-4 mb-3">
-                                <label class="form-label fw-bold">Loại</label>
-                                <select class="form-select">
-                                    <option value="Acoustic" ${category === 'Acoustic' ? 'selected' : ''}>Acoustic</option>
-                                    <option value="Classic" ${category === 'Classic' ? 'selected' : ''}>Classic</option>
-                                </select>
-                            </div>
-                            
-                            
-                        </form>
-                    `;
-
-          Swal.fire({
-            title: `Sửa sản phẩm: ${name}`,
-            html: formHTML,
-            // icon: 'info',
-            showCancelButton: true,
-            confirmButtonText: 'Lưu thay đổi',
-            cancelButtonText: 'Hủy',
-            focusConfirm: false,
-            customClass: {
-              confirmButton: 'swal-green-btn',
-              cancelButton: 'swal-dark-btn'
-            },
-            preConfirm: () => {
-              return true;
-            }
-          }).then((result) => {
-            if (result.isConfirmed) {
-              Toast.fire({ icon: 'success', title: 'Đã lưu thay đổi!' });
-            }
-          });
-        }
-      });
-    }
-
-    //update brand cho sort
-    const sortcategorySelect = document.getElementById('sort-product-category');
-    const sortbrandSelect = document.getElementById('sort-product-brand');
-    function updatesortBrandOptions(category) {
-      const brands = brandsData[category] || [];
-      sortbrandSelect.innerHTML = '<option value="">-- Chọn thương hiệu --</option>';
-
-      brands.forEach(brand => {
-        const option = document.createElement('option');
-        option.value = brand;
-        option.textContent = brand;
-        sortbrandSelect.appendChild(option);
-      });
-
-      sortbrandSelect.disabled = brands.length === 0;
-    }
-
-    if (sortcategorySelect) {
-      sortcategorySelect.addEventListener('change', function () {
-        const selectedCategory = sortcategorySelect.value;
-        updatesortBrandOptions(selectedCategory);
-      });
-    }
-
-    updatesortBrandOptions(sortcategorySelect ? sortcategorySelect.value : '');
-  });
-  // aaa
-  document.addEventListener('DOMContentLoaded', function () {
     const addButton = document.getElementById('open-add-product');
 
     const brandsData = {
@@ -859,8 +674,120 @@
         });
       });
     }
-  });
 
+    const listContainer = document.getElementById('product-list-container');
+    if (listContainer) {
+      listContainer.addEventListener('click', function (event) {
+        const target = event.target;
+        if (target.classList.contains('nutxoa')) {
+          Swal.fire({
+            title: 'Bạn có chắc chắn?',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Vâng, xóa nó!',
+            cancelButtonText: 'Hủy'
+          }).then((result) => {
+            if (result.isConfirmed) {
+              Toast.fire({ icon: 'success', title: 'Đã xóa!' });
+            }
+          });
+        }
+        if (target.classList.contains('nutsua')) {
+
+          // LẤY GIÁ TRỊ SỐ THÔ CHO INPUTS TYPE="NUMBER"
+          const name = target.dataset.name || 'Saga A1 DE PRO';
+          const category = target.dataset.category || 'Acoustic';
+          const costPriceRaw = target.dataset.costPrice || '2000000';
+          const profitMargin = target.dataset.profitMargin || '20';
+          const stock = target.dataset.stock || '12';
+
+          const productCode = 'SAGA-A1';
+          const imagePath = 'assets/img/product/...';
+
+          const formHTML = `
+                        <form id="swal-edit-form" class="row g-3" style="text-align: left;">
+                            <div class="col-14 mb-3">
+                                <label class="form-label fw-bold">Tên sản phẩm</label>
+                                <input type="text" class="form-control" value="${name}">
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label fw-bold">Mã sản phẩm</label>
+                                <input type="text" class="form-control" value="${productCode}">
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label fw-bold">Đường dẫn ảnh</label>
+                                <input type="text" class="form-control" value="${imagePath}">
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label class="form-label fw-bold">Giá Vốn (VND)</label>
+                                <input type="number" class="form-control" value="${costPriceRaw}">
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label class="form-label fw-bold">% Lợi nhuận</label>
+                                <input type="number" class="form-control" value="${profitMargin}">
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label class="form-label fw-bold">Loại</label>
+                                <select class="form-select">
+                                    <option value="Acoustic" ${category === 'Acoustic' ? 'selected' : ''}>Acoustic</option>
+                                    <option value="Classic" ${category === 'Classic' ? 'selected' : ''}>Classic</option>
+                                </select>
+                            </div>
+                            
+                            
+                        </form>
+                    `;
+
+          Swal.fire({
+            title: `Sửa sản phẩm: ${name}`,
+            html: formHTML,
+            // icon: 'info',
+            showCancelButton: true,
+            confirmButtonText: 'Lưu thay đổi',
+            cancelButtonText: 'Hủy',
+            focusConfirm: false,
+            customClass: {
+              confirmButton: 'swal-green-btn',
+              cancelButton: 'swal-dark-btn'
+            },
+            preConfirm: () => {
+              return true;
+            }
+          }).then((result) => {
+            if (result.isConfirmed) {
+              Toast.fire({ icon: 'success', title: 'Đã lưu thay đổi!' });
+            }
+          });
+        }
+      });
+    }
+
+    //update brand cho sort
+    const sortcategorySelect = document.getElementById('sort-product-category');
+    const sortbrandSelect = document.getElementById('sort-product-brand');
+    function updatesortBrandOptions(category) {
+      const brands = brandsData[category] || [];
+      sortbrandSelect.innerHTML = '<option value="">-- Chọn thương hiệu --</option>';
+
+      brands.forEach(brand => {
+        const option = document.createElement('option');
+        option.value = brand;
+        option.textContent = brand;
+        sortbrandSelect.appendChild(option);
+      });
+
+      sortbrandSelect.disabled = brands.length === 0;
+    }
+ 
+    if (sortcategorySelect) {
+      sortcategorySelect.addEventListener('change', function () {
+        const selectedCategory = sortcategorySelect.value;
+        updatesortBrandOptions(selectedCategory);
+      });
+    }
+
+    updatesortBrandOptions(sortcategorySelect ? sortcategorySelect.value : '');
+  });
 </script>
 
 
