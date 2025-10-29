@@ -275,7 +275,7 @@ deleteAccountButton.addEventListener('click', function () {
     }
     Swal.fire({
         icon: 'warning',
-        title: 'Bạn có thực sự chắc chắn muốn xoá tài khoản này không?',
+        title: 'Ũa xao xó dị má!?',
         text: 'Bạn mà xoá là tui khóc huhu á :((',
         showCancelButton: true,
         confirmButtonColor: '#d33', // Đỏ cho hành động nguy hiểm
