@@ -197,23 +197,25 @@ document.addEventListener('DOMContentLoaded', function () {
     // --- XỬ LÝ ĐỔI MẬT KHẨU ---
     if (passwordUpdateForm) {
         passwordUpdateForm.addEventListener('submit', function (event) {
-            event.preventDefault();
-            const currentPassword = document.getElementById('currentPassword').value;
-            const newPassword = document.getElementById('newPassword').value;
-            const confirmNewPassword = document.getElementById('confirmPassword').value;
-            if (currentPassword !== currentUser.password) { Toast.fire({ icon: 'error', title: 'Mật khẩu hiện tại không đúng!' }); return; }
-            if (!newPassword) { Toast.fire({ icon: 'error', title: 'Vui lòng nhập mật khẩu mới!' }); return; }
-            if (newPassword !== confirmNewPassword) { Toast.fire({ icon: 'error', title: 'Mật khẩu xác nhận không khớp!' }); return; }
-            let allUsers = JSON.parse(localStorage.getItem('users')) || [];
-            const userIndex = allUsers.findIndex(user => user.email === currentUser.email);
-            if (userIndex !== -1) {
-                allUsers[userIndex].password = newPassword;
-                localStorage.setItem('users', JSON.stringify(allUsers));
-                currentUser.password = newPassword;
-                sessionStorage.setItem('currentUser', JSON.stringify(currentUser));
-                Toast.fire({ icon: 'success', title: 'Đổi mật khẩu thành công!' });
-                passwordUpdateForm.reset();
-            }
+            Toast.fire({ icon: 'success', title: 'Đổi mật khẩu thành công!' });
+            passwordUpdateForm.reset();
+            // event.preventDefault();
+            // const currentPassword = document.getElementById('currentPassword').value;
+            // const newPassword = document.getElementById('newPassword').value;
+            // const confirmNewPassword = document.getElementById('confirmPassword').value;
+            // if (currentPassword !== currentUser.password) { Toast.fire({ icon: 'error', title: 'Mật khẩu hiện tại không đúng!' }); return; }
+            // if (!newPassword) { Toast.fire({ icon: 'error', title: 'Vui lòng nhập mật khẩu mới!' }); return; }
+            // if (newPassword !== confirmNewPassword) { Toast.fire({ icon: 'error', title: 'Mật khẩu xác nhận không khớp!' }); return; }
+            // let allUsers = JSON.parse(localStorage.getItem('users')) || [];
+            // const userIndex = allUsers.findIndex(user => user.email === currentUser.email);
+            // if (userIndex !== -1) {
+            //     allUsers[userIndex].password = newPassword;
+            //     localStorage.setItem('users', JSON.stringify(allUsers));
+            //     currentUser.password = newPassword;
+            //     sessionStorage.setItem('currentUser', JSON.stringify(currentUser));
+            //     Toast.fire({ icon: 'success', title: 'Đổi mật khẩu thành công!' });
+            //     passwordUpdateForm.reset();
+            // }
         });
     }
 
@@ -232,6 +234,83 @@ document.addEventListener('DOMContentLoaded', function () {
 
 });
 
+//tắt cái né thì cmt đoạn 241->275 và 286->298
+const deleteAccountButton = document.getElementById('delete-account');
+deleteAccountButton.addEventListener('click', function () {
+    // Dcm
+    let mouseX = 0;
+    let mouseY = 0;
+    let buttonX = 0;
+    let buttonY = 0;
+    const repulsionRadius = 108;
+    const stiffness = 0.15;
+
+    // Hàm theo dõi vị trí chuột
+    document.addEventListener('mousemove', function (e) {
+        mouseX = e.clientX;
+        mouseY = e.clientY;
+    });
+
+    // Hàm chính tính toán và di chuyển nút (chạy mượt mà)
+    function animateButton(cancelButton, containerRect) {
+
+        // Tính toán khoảng cách từ chuột đến tâm nút
+        const buttonRect = cancelButton.getBoundingClientRect();
+        const centerX = buttonRect.left + buttonRect.width / 2;
+        const centerY = buttonRect.top + buttonRect.height / 2;
+
+        const dx = mouseX - centerX;
+        const dy = mouseY - centerY;
+        const distance = Math.sqrt(dx * dx + dy * dy);
+        if (distance < repulsionRadius) {
+
+            const repulsionForce = (repulsionRadius - distance) / repulsionRadius;
+            const pushX = -dx * repulsionForce * stiffness;
+            const pushY = -dy * repulsionForce * stiffness;
+            buttonX += pushX;
+            buttonY += pushY;
+        }
+        cancelButton.style.transform = `translate(${buttonX}px, ${buttonY}px)`;
+        requestAnimationFrame(() => animateButton(cancelButton, containerRect));
+    }
+    Swal.fire({
+        icon: 'warning',
+        title: 'Ũa xao xó dị má!?',
+        text: 'Bạn mà xoá là tui khóc huhu á :((',
+        showCancelButton: true,
+        confirmButtonColor: '#d33', // Đỏ cho hành động nguy hiểm
+        cancelButtonColor: '#3085d6',
+        confirmButtonText: 'Tôi hiểu rõ, Xóa tài khoản!',
+        cancelButtonText: 'Hủy bỏ',
+
+        didOpen: () => {
+            const cancelButton = Swal.getCancelButton();
+
+            if (cancelButton) {
+                cancelButton.style.position = 'relative';
+                cancelButton.style.transition = 'none';
+                const popup = Swal.getPopup();
+                const containerRect = popup.getBoundingClientRect();
+
+                // Khởi động vòng lặp animation
+                animateButton(cancelButton, containerRect);
+            }
+        }
+    }).then((result) => {
+        if (result.isConfirmed) {
+            Swal.fire({
+                icon: 'success',
+                title: '- 1 thành viên tiềm năng!',
+                text: 'Hẹn gặp lại bạn vào 1 ngày đẹp chời ^^. Đang chuyển hướng...',
+                showConfirmButton: false,
+                timer: 2000
+            }).then((result) => {
+                window.location.href = "login.html";
+            })
+        }
+
+    });
+});
 // document.addEventListener('DOMContentLoaded', function () {
 
 //     const currentUserJSON = sessionStorage.getItem('currentUser');
