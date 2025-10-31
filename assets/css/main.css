@@ -14835,13 +14835,22 @@ section,
 
 /* Tùy chỉnh cho nút "Hủy" (Cancel) */
 .my-swal-cancel-button {
+  /* Kiểu dáng đồng bộ với confirm */
+  border-radius: 12px !important; /* giống confirm */
+  font-weight: 600 !important; /* giống confirm */
+  font-size: 1.1rem !important; /* giống confirm */
+  height: 56px !important; /* giống confirm */
+  padding: 0 24px !important; /* giống confirm */
+  border: 1px solid var(--accent-color) !important; /* vẫn giữ viền Cancel */
+
+  /* Các thuộc tính cần cho hiệu ứng nút */
+  position: relative !important;
+  overflow: hidden !important;
+  transition: all 0.3s ease !important;
+
+  /* Màu sắc Cancel riêng */
   background-color: transparent !important;
   color: var(--accent-color) !important;
-  border: 1px solid var(--accent-color) !important;
-  border-radius: 50px !important;
-  font-weight: 500 !important;
-  padding: 0.6rem 1.8rem !important;
-  transition: all 0.3s ease !important;
 }
 
 .my-swal-cancel-button:hover {
@@ -14880,7 +14889,7 @@ section,
   background-color: rgba(0, 0, 0, 0.4) !important;
   backdrop-filter: blur(50px) !important;
   -webkit-backdrop-filter: blur(6px) !important;
-  transition: backdrop-filter 0.3s ease, background-color 0.3s ease;
+  transition: backdrop-filter 0.1s ease, background-color 0.1s ease;
 }
 
 /**
