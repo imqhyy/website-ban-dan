@@ -15,7 +15,9 @@
   <!-- Fonts -->
   <link href="https://fonts.googleapis.com" rel="preconnect">
   <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+    rel="stylesheet">
 
   <!-- Vendor CSS Files -->
   <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -39,7 +41,7 @@
 
 <body class="order-confirmation-page">
 
- <header id="header" class="header sticky-top">
+  <header id="header" class="header sticky-top">
     <!-- Top Bar -->
     <div class="top-bar py-2">
       <div class="container-fluid container-xl">
@@ -74,7 +76,7 @@
             </div>
           </div>
 
-          
+
         </div>
       </div>
     </div>
@@ -105,7 +107,8 @@
           <div class="header-actions d-flex align-items-center justify-content-end">
 
             <!-- Mobile Search Toggle -->
-            <button class="header-action-btn mobile-search-toggle d-xl-none" type="button" data-bs-toggle="collapse" data-bs-target="#mobileSearch" aria-expanded="false" aria-controls="mobileSearch">
+            <button class="header-action-btn mobile-search-toggle d-xl-none" type="button" data-bs-toggle="collapse"
+              data-bs-target="#mobileSearch" aria-expanded="false" aria-controls="mobileSearch">
               <i class="bi bi-search"></i>
             </button>
 
@@ -162,15 +165,18 @@
           <ul>
             <li><a href="index.html">Trang chủ</a></li>
             <li><a href="all.html">Tất cả sản phẩm</a></li>
-            <li class="dropdown"><a href="#"><span>Phân loại</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
+            <li class="dropdown"><a href="#"><span>Phân loại</span> <i
+                  class="bi bi-chevron-down toggle-dropdown"></i></a>
               <ul>
-                <li class="dropdown"><a href="#"><span>Guitar Classic</span><i class="bi bi-chevron-right toggle-dropdown"></i></a>
+                <li class="dropdown"><a href="category_detail.html"><span>Guitar Classic</span><i
+                      class="bi bi-chevron-right toggle-dropdown"></i></a>
                   <ul>
                     <li><a href="brand.html">Ba đờn</a></li>
                     <li><a href="brand.html">Yamaha</a></li>
                   </ul>
                 </li>
-                <li class="dropdown"><a href="#"><span>Guitar Acoustic</span><i class="bi bi-chevron-right toggle-dropdown"></i></a>
+                <li class="dropdown"><a href="category_detail.html"><span>Guitar Acoustic</span><i
+                      class="bi bi-chevron-right toggle-dropdown"></i></a>
                   <ul>
                     <li><a href="brand.html">Saga</a></li>
                     <li><a href="brand.html">Taylor</a></li>
@@ -207,70 +213,83 @@
 
   <main class="main">
     <div class="page-title light-background">
-        <div class="container d-lg-flex justify-content-between align-items-center">
-            <h1 class="mb-2 mb-lg-0">Xác nhận đơn hàng</h1>
-            <nav class="breadcrumbs"><ol><li><a href="index.html">Trang chủ</a></li><li class="current">Xác nhận đơn hàng</li></ol></nav>
-        </div>
-    </div><section id="order-confirmation" class="order-confirmation section">
-        <div class="container" data-aos="fade-up" data-aos-delay="100">
-            <div class="order-confirmation-3">
-                <div class="row g-0">
-                    <div class="col-lg-4 sidebar" data-aos="fade-right">
-                        <div class="sidebar-content">
-                            <div class="success-animation"><i class="bi bi-check-lg"></i></div>
-                            <div class="order-id">
-                                <h4 id="summary-order-id"></h4>
-                                <div class="order-date" id="summary-order-date"></div>
-                            </div>
-                            <div class="price-summary">
-                                <h5>Tóm tắt đơn hàng</h5>
-                                <ul class="summary-list" id="summary-price-list">
-                                    </ul>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-8 main-content" data-aos="fade-in">
-                        <div class="thank-you-message">
-                            <h1 id="thank-you-name">Cảm ơn bạn đã đặt hàng!</h1>
-                            <p>Chúng tôi đã nhận được đơn hàng và sẽ xử lý ngay. Một email xác nhận cùng thông tin chi tiết đã được gửi đến bạn.</p>
-                        </div>
-                        <div class="details-card" data-aos="fade-up">
-                            <div class="card-header"><h3><i class="bi bi-geo-alt"></i>Chi tiết giao hàng</h3></div>
-                            <div class="card-body">
-                                <div class="row g-4">
-                                    <div class="col-md-12">
-                                        <div class="detail-group">
-                                            <label>Giao đến</label>
-                                            <address id="shipping-address-details"></address>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="details-card" data-aos="fade-up">
-                            <div class="card-header"><h3><i class="bi bi-bag-check"></i>Sản phẩm đã đặt</h3></div>
-                            <div class="card-body" id="confirmation-item-list">
-                                </div>
-                        </div>
-                        <div class="action-area" data-aos="fade-up">
-                            <div class="row g-3">
-                                <div class="col-md-6"><a href="all.html" class="btn btn-back"><i class="bi bi-arrow-left"></i>Tiếp tục mua sắm</a></div>
-                                <div class="col-md-6"><a href="account.html#orders" class="btn btn-account"><span>Xem trong Tài khoản</span><i class="bi bi-arrow-right"></i></a></div>
-                            </div>
-                        </div>
-                    </div>
+      <div class="container d-lg-flex justify-content-between align-items-center">
+        <h1 class="mb-2 mb-lg-0">Xác nhận đơn hàng</h1>
+        <nav class="breadcrumbs">
+          <ol>
+            <li><a href="index.html">Trang chủ</a></li>
+            <li class="current">Xác nhận đơn hàng</li>
+          </ol>
+        </nav>
+      </div>
+    </div>
+    <section id="order-confirmation" class="order-confirmation section">
+      <div class="container" data-aos="fade-up" data-aos-delay="100">
+        <div class="order-confirmation-3">
+          <div class="row g-0">
+            <div class="col-lg-4 sidebar" data-aos="fade-right">
+              <div class="sidebar-content">
+                <div class="success-animation"><i class="bi bi-check-lg"></i></div>
+                <div class="order-id">
+                  <h4 id="summary-order-id"></h4>
+                  <div class="order-date" id="summary-order-date"></div>
                 </div>
+                <div class="price-summary">
+                  <h5>Tóm tắt đơn hàng</h5>
+                  <ul class="summary-list" id="summary-price-list">
+                  </ul>
+                </div>
+              </div>
             </div>
+            <div class="col-lg-8 main-content" data-aos="fade-in">
+              <div class="thank-you-message">
+                <h1 id="thank-you-name">Cảm ơn bạn đã đặt hàng!</h1>
+                <p>Chúng tôi đã nhận được đơn hàng và sẽ xử lý ngay. Một email xác nhận cùng thông tin chi tiết đã được
+                  gửi đến bạn.</p>
+              </div>
+              <div class="details-card" data-aos="fade-up">
+                <div class="card-header">
+                  <h3><i class="bi bi-geo-alt"></i>Chi tiết giao hàng</h3>
+                </div>
+                <div class="card-body">
+                  <div class="row g-4">
+                    <div class="col-md-12">
+                      <div class="detail-group">
+                        <label>Giao đến</label>
+                        <address id="shipping-address-details"></address>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="details-card" data-aos="fade-up">
+                <div class="card-header">
+                  <h3><i class="bi bi-bag-check"></i>Sản phẩm đã đặt</h3>
+                </div>
+                <div class="card-body" id="confirmation-item-list">
+                </div>
+              </div>
+              <div class="action-area" data-aos="fade-up">
+                <div class="row g-3">
+                  <div class="col-md-6"><a href="all.html" class="btn btn-back"><i class="bi bi-arrow-left"></i>Tiếp tục
+                      mua sắm</a></div>
+                  <div class="col-md-6"><a href="account.html#orders" class="btn btn-account"><span>Xem trong Tài
+                        khoản</span><i class="bi bi-arrow-right"></i></a></div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
+      </div>
     </section>
-</main>
+  </main>
 
   <footer id="footer" class="footer dark-background">
     <div class="footer-main">
       <div class="container">
         <div class="row gy-4">
           <div class="col-lg-4 col-md-6">
-            <div class="footer-widget footer-about">  
+            <div class="footer-widget footer-about">
               <a href="index.html" class="logo">
                 <span class="sitename">Guitar Xì Gòn</span>
               </a>
@@ -296,8 +315,8 @@
               <ul class="footer-links">
                 <li><a href="all.html">Sản phẩm mới</a></li>
                 <li><a href="all.html">Đang bán chạy</a></li>
-                <li><a href="all.html">Guitar classic</a></li>
-                <li><a href="all.html">Guitar acscoutic</a></li>
+                <li><a href="category_detail.html">Guitar classic</a></li>
+                <li><a href="category_detail.html">Guitar acscoutic</a></li>
                 <li><a href="all.html">Đang khuyến mãi</a></li>
               </ul>
             </div>
@@ -311,7 +330,6 @@
                 <li><a href="account.html">Trạng thái đặt hàng</a></li>
                 <li><a href="shiping-info.html">Thông tin giao hàng</a></li>
                 <li><a href="return-policy.html">Yêu cầu trả hàng</a></li>
-                <li><a href="#">Size Guide</a></li>
                 <li><a href="contact.html">Liên hệ với chúng tôi</a></li>
               </ul>
             </div>
@@ -381,7 +399,8 @@
   </footer>
 
   <!-- Scroll Top -->
-  <a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+  <a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center"><i
+      class="bi bi-arrow-up-short"></i></a>
 
   <!-- Preloader -->
   <div id="preloader"></div>
