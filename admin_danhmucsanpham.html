@@ -7,13 +7,7 @@
   <title>Quản lý danh mục sản phẩm - Guitar Xì Gòn</title>
   <meta name="description" content="">
   <meta name="keywords" content="">
-  <!--Kiểm tra xem đã đăng nhập chưa-->
-  <script>
-    if (sessionStorage.getItem('admin_isLoggedIn') !== 'true') {
-      window.location.href = 'admin_login.html';
-    }
-  </script>
-
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <link href="assets/img/favicon.png" rel="icon">
   <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
 
@@ -38,6 +32,29 @@
 </head>
 
 <body class="login-page">
+  <script>
+    const currentUserJSON = sessionStorage.getItem('isLoggedIn');
+    if (currentUserJSON) {
+      document.body.classList.remove('page-loading');
+    } else {
+      Swal.fire({
+        icon: 'warning',
+        title: 'Yêu cầu đăng nhập',
+        text: 'Bạn cần đăng nhập để có thể truy cập tính năng của admin.',
+        confirmButtonText: 'Đến trang đăng nhập',
+        allowOutsideClick: false,
+        customClass: {
+          container: 'blurred-login-alert', // Thêm class container riêng cho alert này
+          popup: 'my-swal-popup',
+          title: 'my-swal-title',
+          htmlContainer: 'my-swal-html-container',
+          confirmButton: 'my-swal-confirm-button'
+        }
+      }).then(() => {
+        window.location.href = 'admin_login.html';
+      });
+    }
+  </script>
 
   <header id="header" class="header sticky-top">
 
@@ -76,9 +93,45 @@
                   </a>
                 </div>
                 <div class="dropdown-footer">
-                  <a href="admin_login.html" class="btn btn-outline-primary w-100" id="admin-logout-button">Đăng
+                  <a class="btn btn-outline-primary w-100" id="admin-logout-button">Đăng
                     xuất</a>
                 </div>
+                <script>
+                  document.addEventListener('DOMContentLoaded', function () {
+                    const logoutBtn = document.getElementById('admin-logout-button');
+
+                    if (logoutBtn) {
+                      logoutBtn.addEventListener('click', function () {
+                        Swal.fire({
+                          icon: 'question',
+                          title: 'Xác nhận đăng xuất?',
+                          text: 'Bạn có chắc muốn đăng xuất khỏi hệ thống?',
+                          showCancelButton: true,
+                          confirmButtonText: 'Đăng xuất',
+                          cancelButtonText: 'Hủy',
+                          customClass: {
+                            popup: 'my-swal-popup',
+                            confirmButton: 'my-swal-confirm-button',
+                            cancelButton: 'my-swal-cancel-button'
+                          }
+                        }).then((result) => {
+                          if (result.isConfirmed) {
+                            sessionStorage.removeItem('isLoggedIn'); 
+                            Swal.fire({
+                              icon: 'success',
+                              title: 'Đăng xuất thành công!',
+                              showConfirmButton: false,
+                              timer: 1200,
+                              customClass: { popup: 'my-swal-popup' }
+                            }).then(() => {
+                              window.location.href = 'admin_login.html';
+                            });
+                          }
+                        });
+                      });
+                    }
+                  });
+                </script>
               </div>
             </div>
 
@@ -442,8 +495,8 @@
               <ul class="footer-links">
                 <li><a href="all.html">Sản phẩm mới</a></li>
                 <li><a href="all.html">Đang bán chạy</a></li>
-                <li><a href="all.html">Guitar classic</a></li>
-                <li><a href="all.html">Guitar acoustic</a></li>
+                <li><a href="category_detail.html">Guitar Classic</a></li>
+                <li><a href="category_detail.html">Guitar Acoustic</a></li>
                 <li><a href="all.html">Đang khuyến mãi</a></li>
               </ul>
             </div>
@@ -457,8 +510,7 @@
                 <li><a href="account.html">Trạng thái đặt hàng</a></li>
                 <li><a href="shiping-info.html">Thông tin giao hàng</a></li>
                 <li><a href="return-policy.html">Yêu cầu trả hàng</a></li>
-                <li><a href="#">Size Guide</a></li>
-                <li><a href="contact.html">Liên hệ với chúng tôi</a></li>
+                <!-- <li><a href="contact.html">Liên hệ với chúng tôi</a></li> -->
               </ul>
             </div>
           </div>
@@ -538,19 +590,18 @@
   <script src="assets/vendor/glightbox/js/glightbox.min.js"></script>
   <script src="assets/vendor/drift-zoom/Drift.min.js"></script>
   <script src="assets/vendor/purecounter/purecounter_vanilla.js"></script>
-  <script src="assets/js/admin_login.js"></script>
   <script src="assets/js/main.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <!-- <script src="assets/js/products.js"></script>
   <script src="assets/js/danhmucsp.js"></script> -->
-  <script src="assets/js/login.js"></script>
+  <!-- <script src="assets/js/login.js"></script> -->
 </body>
 <script>
   document.addEventListener('DOMContentLoaded', function () {
     const addButton = document.getElementById('open-add-product');
 
     const brandsData = {
-      'Acoustic': ['Saga', 'Taylor','Enya', 'Yamaha'],
+      'Acoustic': ['Saga', 'Taylor', 'Enya', 'Yamaha'],
       'Classic': ['Ba đờn', 'Yamaha'],
       '': []
     };
@@ -778,7 +829,7 @@
 
       sortbrandSelect.disabled = brands.length === 0;
     }
- 
+
     if (sortcategorySelect) {
       sortcategorySelect.addEventListener('change', function () {
         const selectedCategory = sortcategorySelect.value;
@@ -791,28 +842,6 @@
 </script>
 
 
-<!-- Xử lý nếu đăng xuát xoá local storage
-<script>
-  document.addEventListener('DOMContentLoaded', function () {
-    // Toàn bộ code bên trong sẽ chỉ chạy sau khi DOM đã được tải hoàn toàn
 
-    // 1. Lấy ra phần tử nút Đăng xuất
-    const logoutButton = document.getElementById('admin-logout-button');
-
-    // 2. Thêm trình lắng nghe sự kiện khi nhấp chuột
-    if (logoutButton) { // Thêm kiểm tra an toàn
-      logoutButton.addEventListener('click', function (event) {
-        event.preventDefault(); // Ngăn hành vi mặc định của liên kết/nút
-
-        // 3. XÓA TRẠNG THÁI ĐĂNG NHẬP KHỎI LOCALSTORAGE
-        localStorage.removeItem('admin_isLoggedIn');
-
-        // 4. CHUYỂN HƯỚNG người dùng về trang đăng nhập
-        window.location.href = 'admin_login.html';
-      });
-    }
-  });
-
-</script> -->
 
 </html>

@@ -8,11 +8,12 @@
   <meta name="description" content="">
   <meta name="keywords" content="">
   <!--Kiểm tra xem đã đăng nhập chưa-->
-  <script>
+  <!-- <script>
         if (sessionStorage.getItem('admin_isLoggedIn') !== 'true') {
             window.location.href = 'admin_login.html';
         }
-  </script>
+  </script> -->
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
   <!-- Favicons -->
   <link href="assets/img/favicon.png" rel="icon">
@@ -21,7 +22,9 @@
   <!-- Fonts -->
   <link href="https://fonts.googleapis.com" rel="preconnect">
   <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+    rel="stylesheet">
 
   <!-- Vendor CSS Files -->
   <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -45,9 +48,32 @@
 </head>
 
 <body class="login-page">
+  <script>
+    const currentUserJSON = sessionStorage.getItem('isLoggedIn');
+    if (currentUserJSON) {
+      document.body.classList.remove('page-loading');
+    } else {
+      Swal.fire({
+        icon: 'warning',
+        title: 'Yêu cầu đăng nhập',
+        text: 'Bạn cần đăng nhập để có thể truy cập tính năng của admin.',
+        confirmButtonText: 'Đến trang đăng nhập',
+        allowOutsideClick: false,
+        customClass: {
+          container: 'blurred-login-alert', // Thêm class container riêng cho alert này
+          popup: 'my-swal-popup',
+          title: 'my-swal-title',
+          htmlContainer: 'my-swal-html-container',
+          confirmButton: 'my-swal-confirm-button'
+        }
+      }).then(() => {
+        window.location.href = 'admin_login.html';
+      });
+    }
+  </script>
 
   <header id="header" class="header sticky-top">
-    
+
 
     <!-- Main Header -->
     <div class="main-header">
@@ -64,7 +90,8 @@
           <div class="header-actions d-flex align-items-center justify-content-end">
 
             <!-- Mobile Search Toggle -->
-            <button class="header-action-btn mobile-search-toggle d-xl-none" type="button" data-bs-toggle="collapse" data-bs-target="#mobileSearch" aria-expanded="false" aria-controls="mobileSearch">
+            <button class="header-action-btn mobile-search-toggle d-xl-none" type="button" data-bs-toggle="collapse"
+              data-bs-target="#mobileSearch" aria-expanded="false" aria-controls="mobileSearch">
               <i class="bi bi-search"></i>
             </button>
 
@@ -89,8 +116,45 @@
                   </a>
                 </div>
                 <div class="dropdown-footer">
-                  <a href="admin_login.html" class="btn btn-outline-primary w-100" id="admin-logout-button">Đăng xuất</a>
+                  <button class="btn btn-outline-primary w-100" id="admin-logout-button">Đăng
+                    xuất</button>
                 </div>
+                <script>
+                  document.addEventListener('DOMContentLoaded', function () {
+                    const logoutBtn = document.getElementById('admin-logout-button');
+
+                    if (logoutBtn) {
+                      logoutBtn.addEventListener('click', function () {
+                        Swal.fire({
+                          icon: 'question',
+                          title: 'Xác nhận đăng xuất?',
+                          text: 'Bạn có chắc muốn đăng xuất khỏi hệ thống?',
+                          showCancelButton: true,
+                          confirmButtonText: 'Đăng xuất',
+                          cancelButtonText: 'Hủy',
+                          customClass: {
+                            popup: 'my-swal-popup',
+                            confirmButton: 'my-swal-confirm-button',
+                            cancelButton: 'my-swal-cancel-button'
+                          }
+                        }).then((result) => {
+                          if (result.isConfirmed) {
+                            sessionStorage.removeItem('isLoggedIn'); 
+                            Swal.fire({
+                              icon: 'success',
+                              title: 'Đăng xuất thành công!',
+                              showConfirmButton: false,
+                              timer: 1200,
+                              customClass: { popup: 'my-swal-popup' }
+                            }).then(() => {
+                              window.location.href = 'admin_login.html';
+                            });
+                          }
+                        });
+                      });
+                    }
+                  });
+                </script>
               </div>
             </div>
 
@@ -100,9 +164,9 @@
           </div>
         </div>
 
-          </div>
-        </div>
       </div>
+    </div>
+    </div>
     </div>
 
     <!-- Navigation -->
@@ -157,12 +221,13 @@
     <div class="container-manage-category-products">
       <h2 style="margin: 20px 0px;">Thêm Loại Sản Phẩm Mới</h2>
       <div class="add-form-category-products">
-        <input type="text" id="newCategoryName" style="flex-grow: 1;" placeholder="Tên Loại Sản Phẩm (ví dụ: Guitar Acoustic)"> 
+        <input type="text" id="newCategoryName" style="flex-grow: 1;"
+          placeholder="Tên Loại Sản Phẩm (ví dụ: Guitar Acoustic)">
         <input type="text" id="" style="width: 120px;" placeholder="Lợi nhuận(%)">
         <input type="text" id="newCategoryDescription" style="flex-grow: 1;" placeholder="Mô tả (Tùy chọn)">
         <button onclick="addNewCategory()">Thêm mới</button>
       </div>
-      
+
       <h2>Danh Sách Loại Sản Phẩm</h2>
       <table class="data-table">
         <thead>
@@ -181,10 +246,15 @@
             <td>25%</td>
             <td>Dòng guitar thùng sử dụng dây kim loại.</td>
             <td class="function-button-container">
-              <button class="edit-btn action-icon-btn" title="Sửa"><img src="assets/img/iconbutton/pencil.png" class="button-icon" alt="Sửa"></button>
-              <button class="delete-btn action-icon-btn" title="Xoá"><img src="assets/img/iconbutton/trash.png" class="button-icon" alt="Xoá"></button>
-              <button class="hide-btn action-icon-btn" title="Ẩn"><img src="assets/img/iconbutton/eye.png" class="button-icon" alt="Ẩn"></button>
-              <button class="manage-brands-btn action-icon-btn" title="Quản lý thương hiệu"><img src="assets/img/iconbutton/settings-sliders.png" class="button-icon" alt="Quản lý thương hiệu"></button>
+              <button class="edit-btn action-icon-btn" title="Sửa"><img src="assets/img/iconbutton/pencil.png"
+                  class="button-icon" alt="Sửa"></button>
+              <button class="delete-btn action-icon-btn" title="Xoá"><img src="assets/img/iconbutton/trash.png"
+                  class="button-icon" alt="Xoá"></button>
+              <button class="hide-btn action-icon-btn" title="Ẩn"><img src="assets/img/iconbutton/eye.png"
+                  class="button-icon" alt="Ẩn"></button>
+              <button class="manage-brands-btn action-icon-btn" title="Quản lý thương hiệu"><img
+                  src="assets/img/iconbutton/settings-sliders.png" class="button-icon"
+                  alt="Quản lý thương hiệu"></button>
             </td>
           </tr>
           <tr>
@@ -193,10 +263,15 @@
             <td>30%</td>
             <td>Dòng guitar thùng sử dụng dây nylon.</td>
             <td class="function-button-container">
-              <button class="edit-btn action-icon-btn" title="Sửa"><img src="assets/img/iconbutton/pencil.png" class="button-icon" alt="Sửa"></button>
-              <button class="delete-btn action-icon-btn" title="Xoá"><img src="assets/img/iconbutton/trash.png" class="button-icon" alt="Xoá"></button>
-              <button class="hide-btn action-icon-btn" title="Ẩn"><img src="assets/img/iconbutton/eye.png" class="button-icon" alt="Ẩn"></button>
-              <button class="manage-brands-btn action-icon-btn" title="Quản lý thương hiệu"><img src="assets/img/iconbutton/settings-sliders.png" class="button-icon" alt="Quản lý thương hiệu"></button>
+              <button class="edit-btn action-icon-btn" title="Sửa"><img src="assets/img/iconbutton/pencil.png"
+                  class="button-icon" alt="Sửa"></button>
+              <button class="delete-btn action-icon-btn" title="Xoá"><img src="assets/img/iconbutton/trash.png"
+                  class="button-icon" alt="Xoá"></button>
+              <button class="hide-btn action-icon-btn" title="Ẩn"><img src="assets/img/iconbutton/eye.png"
+                  class="button-icon" alt="Ẩn"></button>
+              <button class="manage-brands-btn action-icon-btn" title="Quản lý thương hiệu"><img
+                  src="assets/img/iconbutton/settings-sliders.png" class="button-icon"
+                  alt="Quản lý thương hiệu"></button>
             </td>
           </tr>
         </tbody>
@@ -207,13 +282,15 @@
           <span class="close-button-for-edit-info-category">&times;</span>
           <h1>Chỉnh sửa phân loại: </h1>
           <h3>Tên loại: <input id="input-edit-namecategory" type="text" value=""></h3>
-          
+
           <hr>
-          <h3>% Lợi nhuận: <input id="input-edit-profitcategory" type="number" min="0" max="100" style="width: 70px;"></h3>
-          
+          <h3>% Lợi nhuận: <input id="input-edit-profitcategory" type="number" min="0" max="100" style="width: 70px;">
+          </h3>
+
           <hr>
           <h3>Mô tả</h3>
-          <textarea id="mo_ta" name="product_description" rows="4" cols="50" placeholder="Nhập mô tả chi tiết sản phẩm ở đây..."></textarea>
+          <textarea id="mo_ta" name="product_description" rows="4" cols="50"
+            placeholder="Nhập mô tả chi tiết sản phẩm ở đây..."></textarea>
 
           <div id="close-edit-category-container">
             <button class="close-button-for-edit-category-container">Lưu</button>
@@ -243,12 +320,12 @@
 
 
       </div>
-      
+
 
 
     </div>
 
-    
+
 
 
 
@@ -260,7 +337,7 @@
       <div class="container">
         <div class="row gy-4">
           <div class="col-lg-4 col-md-6">
-            <div class="footer-widget footer-about">  
+            <div class="footer-widget footer-about">
               <a href="index.html" class="logo">
                 <span class="sitename">Guitar Xì Gòn</span>
               </a>
@@ -286,8 +363,8 @@
               <ul class="footer-links">
                 <li><a href="all.html">Sản phẩm mới</a></li>
                 <li><a href="all.html">Đang bán chạy</a></li>
-                <li><a href="all.html">Guitar classic</a></li>
-                <li><a href="all.html">Guitar acoustic</a></li>
+                <li><a href="category_detail.html">Guitar Classic</a></li>
+                <li><a href="category_detail.html">Guitar Acoustic</a></li>
                 <li><a href="all.html">Đang khuyến mãi</a></li>
               </ul>
             </div>
@@ -301,8 +378,7 @@
                 <li><a href="account.html">Trạng thái đặt hàng</a></li>
                 <li><a href="shiping-info.html">Thông tin giao hàng</a></li>
                 <li><a href="return-policy.html">Yêu cầu trả hàng</a></li>
-                <li><a href="#">Size Guide</a></li>
-                <li><a href="contact.html">Liên hệ với chúng tôi</a></li>
+                <!-- <li><a href="contact.html">Liên hệ với chúng tôi</a></li> -->
               </ul>
             </div>
           </div>
@@ -371,7 +447,8 @@
   </footer>
 
   <!-- Scroll Top -->
-  <a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+  <a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center"><i
+      class="bi bi-arrow-up-short"></i></a>
 
   <!-- Preloader -->
   <div id="preloader"></div>
@@ -388,136 +465,136 @@
   <!-- Main JS File -->
   <script src="assets/js/main.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-  <script src="assets/js/login.js"></script>
+  <!-- <script src="assets/js/login.js"></script> -->
   <script src="assets/js/admin.js"></script>
 </body>
 <!-- Xử lý nếu đăng xuát xoá local storage -->
 <script>
-  document.addEventListener('DOMContentLoaded', function() {
+  document.addEventListener('DOMContentLoaded', function () {
     // Toàn bộ code bên trong sẽ chỉ chạy sau khi DOM đã được tải hoàn toàn
-    
+
     // 1. Lấy ra phần tử nút Đăng xuất
     const logoutButton = document.getElementById('admin-logout-button');
 
     // 2. Thêm trình lắng nghe sự kiện khi nhấp chuột
     if (logoutButton) { // Thêm kiểm tra an toàn
-        logoutButton.addEventListener('click', function(event) {
-            event.preventDefault(); // Ngăn hành vi mặc định của liên kết/nút
+      logoutButton.addEventListener('click', function (event) {
+        event.preventDefault(); // Ngăn hành vi mặc định của liên kết/nút
 
-            // 3. XÓA TRẠNG THÁI ĐĂNG NHẬP KHỎI LOCALSTORAGE
-            localStorage.removeItem('admin_isLoggedIn');
-                
-            // 4. CHUYỂN HƯỚNG người dùng về trang đăng nhập
-            window.location.href = 'admin_login.html';
-        });
+        // 3. XÓA TRẠNG THÁI ĐĂNG NHẬP KHỎI LOCALSTORAGE
+        localStorage.removeItem('admin_isLoggedIn');
+
+        // 4. CHUYỂN HƯỚNG người dùng về trang đăng nhập
+        window.location.href = 'admin_login.html';
+      });
     }
   });
 </script>
 
 <script>
-  document.addEventListener('DOMContentLoaded', function() {
+  document.addEventListener('DOMContentLoaded', function () {
     // 1. Lấy tất cả các nút có class 'hide-btn'
     const hideButtons = document.querySelectorAll('.hide-btn');
-    
+
     // Đường dẫn tới ảnh con mắt không gạch chéo (Ẩn)
-    const eyeIconSrc = 'assets/img/iconbutton/eye.png'; 
+    const eyeIconSrc = 'assets/img/iconbutton/eye.png';
     // Đường dẫn tới ảnh con mắt gạch chéo (Hiện)
-    const eyeCrossedIconSrc = 'assets/img/iconbutton/eye-crossed.png'; 
+    const eyeCrossedIconSrc = 'assets/img/iconbutton/eye-crossed.png';
 
     // 2. Lặp qua từng nút và thêm trình lắng nghe sự kiện
     hideButtons.forEach(button => {
-        button.addEventListener('click', function() {
-            // Lấy thẻ <img> bên trong nút được nhấn
-            const icon = button.querySelector('.button-icon');
-            // Lấy tên loại sản phẩm từ cột bên cạnh
-            const row = button.closest('tr');
-            const categoryName = row.querySelector('.manage-name-category').textContent;
-            
-            let newStateTitle = '';
-            let alertMessage = '';
+      button.addEventListener('click', function () {
+        // Lấy thẻ <img> bên trong nút được nhấn
+        const icon = button.querySelector('.button-icon');
+        // Lấy tên loại sản phẩm từ cột bên cạnh
+        const row = button.closest('tr');
+        const categoryName = row.querySelector('.manage-name-category').textContent;
 
-            // 3. Kiểm tra trạng thái hiện tại và xác định trạng thái mới
-            if (button.title === 'Ẩn') {
-                // Đổi sang trạng thái "Hiện" (tức là Ẩn sản phẩm)
-                icon.src = eyeCrossedIconSrc;
-                icon.alt = 'Hiện';
-                newStateTitle = 'Hiện';
-                alertMessage = `Đã ẩn loại sản phẩm: ${categoryName}`;
-                
-            } else if (button.title === 'Hiện') {
-                // Đổi về trạng thái "Ẩn" (tức là Hiện sản phẩm)
-                icon.src = eyeIconSrc;
-                icon.alt = 'Ẩn';
-                newStateTitle = 'Ẩn';
-                alertMessage = `Đã hiện loại sản phẩm: ${categoryName}`;
+        let newStateTitle = '';
+        let alertMessage = '';
+
+        // 3. Kiểm tra trạng thái hiện tại và xác định trạng thái mới
+        if (button.title === 'Ẩn') {
+          // Đổi sang trạng thái "Hiện" (tức là Ẩn sản phẩm)
+          icon.src = eyeCrossedIconSrc;
+          icon.alt = 'Hiện';
+          newStateTitle = 'Hiện';
+          alertMessage = `Đã ẩn loại sản phẩm: ${categoryName}`;
+
+        } else if (button.title === 'Hiện') {
+          // Đổi về trạng thái "Ẩn" (tức là Hiện sản phẩm)
+          icon.src = eyeIconSrc;
+          icon.alt = 'Ẩn';
+          newStateTitle = 'Ẩn';
+          alertMessage = `Đã hiện loại sản phẩm: ${categoryName}`;
+        }
+
+        // 4. Cập nhật thuộc tính title của nút
+        button.title = newStateTitle;
+
+        // 5. Hiển thị thông báo SweetAlert2
+        if (alertMessage) {
+          Swal.fire({
+            icon: 'success', // Hoặc 'info', 'warning' tùy ý
+            title: 'Cập nhật thành công!',
+            html: alertMessage, // Dùng html để in đậm
+            timer: 1200, // Tự động đóng sau 2 giây
+            showConfirmButton: false
+          });
+        }
+      });
+
+
+      //Hiệu ứng cho nút xoá
+      // 1. Lấy tất cả các nút có class 'delete-btn'
+      const deleteButtons = document.querySelectorAll('.delete-btn');
+
+      // 2. Lặp qua từng nút và thêm trình lắng nghe sự kiện
+      deleteButtons.forEach(button => {
+        button.addEventListener('click', function () {
+          // Lấy tên loại sản phẩm từ cột bên cạnh
+          const row = button.closest('tr');
+          const categoryName = row.querySelector('.manage-name-category').textContent;
+
+          // 3. Hiển thị thông báo xác nhận xóa (Confirm Dialog)
+          Swal.fire({
+            title: 'Bạn có chắc chắn muốn xóa?',
+            html: `Loại sản phẩm: ${categoryName} sẽ bị xóa vĩnh viễn.`,
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33', // Màu đỏ cho nút Xóa
+            cancelButtonColor: '#3085d6',
+            confirmButtonText: 'Có, xóa nó!',
+            cancelButtonText: 'Hủy'
+          }).then((result) => {
+            // 4. Xử lý kết quả sau khi người dùng nhấn nút
+            if (result.isConfirmed) {
+              // *** THÊM LOGIC XÓA THỰC TẾ Ở ĐÂY (gọi API xóa, v.v.) ***
+
+              // Ví dụ: Xóa hàng khỏi bảng (chỉ là giao diện)
+              // row.remove(); 
+
+              // 5. Hiển thị thông báo xóa thành công
+              Swal.fire({
+                icon: 'success',
+                title: 'Đã Xóa!',
+                html: `Loại sản phẩm ${categoryName} đã được xóa.`,
+                timer: 2000,
+                showConfirmButton: false
+              });
+            } else if (result.dismiss === Swal.DismissReason.cancel) {
+              // Người dùng đã nhấn nút Hủy
+              Swal.fire({
+                icon: 'info',
+                title: 'Đã hủy',
+                text: 'Loại sản phẩm vẫn an toàn.',
+                timer: 1500,
+                showConfirmButton: false
+              });
             }
-
-            // 4. Cập nhật thuộc tính title của nút
-            button.title = newStateTitle;
-
-            // 5. Hiển thị thông báo SweetAlert2
-            if (alertMessage) {
-                Swal.fire({
-                    icon: 'success', // Hoặc 'info', 'warning' tùy ý
-                    title: 'Cập nhật thành công!',
-                    html: alertMessage, // Dùng html để in đậm
-                    timer: 1200, // Tự động đóng sau 2 giây
-                    showConfirmButton: false
-                });
-            }
+          });
         });
-
-
-        //Hiệu ứng cho nút xoá
-        // 1. Lấy tất cả các nút có class 'delete-btn'
-        const deleteButtons = document.querySelectorAll('.delete-btn');
-        
-        // 2. Lặp qua từng nút và thêm trình lắng nghe sự kiện
-        deleteButtons.forEach(button => {
-            button.addEventListener('click', function() {
-                // Lấy tên loại sản phẩm từ cột bên cạnh
-                const row = button.closest('tr');
-                const categoryName = row.querySelector('.manage-name-category').textContent;
-                
-                // 3. Hiển thị thông báo xác nhận xóa (Confirm Dialog)
-                Swal.fire({
-                    title: 'Bạn có chắc chắn muốn xóa?',
-                    html: `Loại sản phẩm: ${categoryName} sẽ bị xóa vĩnh viễn.`,
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonColor: '#d33', // Màu đỏ cho nút Xóa
-                    cancelButtonColor: '#3085d6',
-                    confirmButtonText: 'Có, xóa nó!',
-                    cancelButtonText: 'Hủy'
-                }).then((result) => {
-                    // 4. Xử lý kết quả sau khi người dùng nhấn nút
-                    if (result.isConfirmed) {
-                        // *** THÊM LOGIC XÓA THỰC TẾ Ở ĐÂY (gọi API xóa, v.v.) ***
-                        
-                        // Ví dụ: Xóa hàng khỏi bảng (chỉ là giao diện)
-                        // row.remove(); 
-
-                        // 5. Hiển thị thông báo xóa thành công
-                        Swal.fire({
-                            icon: 'success',
-                            title: 'Đã Xóa!',
-                            html: `Loại sản phẩm ${categoryName} đã được xóa.`,
-                            timer: 2000,
-                            showConfirmButton: false
-                        });
-                    } else if (result.dismiss === Swal.DismissReason.cancel) {
-                        // Người dùng đã nhấn nút Hủy
-                        Swal.fire({
-                            icon: 'info',
-                            title: 'Đã hủy',
-                            text: 'Loại sản phẩm vẫn an toàn.',
-                            timer: 1500,
-                            showConfirmButton: false
-                        });
-                    }
-                });
-            });
-        });
+      });
     });
   });
 
@@ -526,28 +603,29 @@
    * (Phiên bản đơn giản: Hiển thị thông báo ngay lập tức mà không cần kiểm tra input)
    */
   function addNewCategory() {
-      // 1. Lấy tên loại sản phẩm (dù có thể rỗng, nhưng vẫn lấy để đưa vào thông báo)
-      const newCategoryNameInput = document.getElementById('newCategoryName');
-      const name = newCategoryNameInput.value.trim() || 'Sản phẩm không tên'; // Nếu rỗng thì đặt tên mặc định
+    // 1. Lấy tên loại sản phẩm (dù có thể rỗng, nhưng vẫn lấy để đưa vào thông báo)
+    const newCategoryNameInput = document.getElementById('newCategoryName');
+    const name = newCategoryNameInput.value.trim() || 'Sản phẩm không tên'; // Nếu rỗng thì đặt tên mặc định
 
-      // 2. *** Bỏ qua logic kiểm tra dữ liệu và logic thêm vào hệ thống ***
-      
-      // 3. Hiển thị thông báo thêm thành công bằng SweetAlert2
-      Swal.fire({
-          icon: 'success',
-          title: 'Đã thêm thành công!',
-          // html: `Đã thêm loại sản phẩm mới: <strong>${name}</strong>.`,
-          timer: 1200,
-          showConfirmButton: false
-      });
+    // 2. *** Bỏ qua logic kiểm tra dữ liệu và logic thêm vào hệ thống ***
 
-      // 4. Xóa dữ liệu đã nhập sau khi thông báo
-      newCategoryNameInput.value = '';
-      
-      // Xóa các input khác
-      document.querySelector('.add-form-category-products input[placeholder="Lợi nhuận(%)"]').value = '';
-      document.getElementById('newCategoryDescription').value = '';
+    // 3. Hiển thị thông báo thêm thành công bằng SweetAlert2
+    Swal.fire({
+      icon: 'success',
+      title: 'Đã thêm thành công!',
+      // html: `Đã thêm loại sản phẩm mới: <strong>${name}</strong>.`,
+      timer: 1200,
+      showConfirmButton: false
+    });
+
+    // 4. Xóa dữ liệu đã nhập sau khi thông báo
+    newCategoryNameInput.value = '';
+
+    // Xóa các input khác
+    document.querySelector('.add-form-category-products input[placeholder="Lợi nhuận(%)"]').value = '';
+    document.getElementById('newCategoryDescription').value = '';
   }
 
 </script>
+
 </html>

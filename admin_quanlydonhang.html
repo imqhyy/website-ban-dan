@@ -7,13 +7,7 @@
   <title>Quản lý đơn hàng - Guitar Xì Gòn</title>
   <meta name="description" content="">
   <meta name="keywords" content="">
-  <!--Kiểm tra xem đã đăng nhập chưa-->
-  <script>
-        if (sessionStorage.getItem('admin_isLoggedIn') !== 'true') {
-            window.location.href = 'admin_login.html';
-        }
-  </script>
-
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <!-- Favicons -->
   <link href="assets/img/favicon.png" rel="icon">
   <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
@@ -47,6 +41,29 @@
 </head>
 
 <body class="login-page">
+  <script>
+    const currentUserJSON = sessionStorage.getItem('isLoggedIn');
+    if (currentUserJSON) {
+      document.body.classList.remove('page-loading');
+    } else {
+      Swal.fire({
+        icon: 'warning',
+        title: 'Yêu cầu đăng nhập',
+        text: 'Bạn cần đăng nhập để có thể truy cập tính năng của admin.',
+        confirmButtonText: 'Đến trang đăng nhập',
+        allowOutsideClick: false,
+        customClass: {
+          container: 'blurred-login-alert', // Thêm class container riêng cho alert này
+          popup: 'my-swal-popup',
+          title: 'my-swal-title',
+          htmlContainer: 'my-swal-html-container',
+          confirmButton: 'my-swal-confirm-button'
+        }
+      }).then(() => {
+        window.location.href = 'admin_login.html';
+      });
+    }
+  </script>
 
   <header id="header" class="header sticky-top">
 
@@ -92,8 +109,45 @@
                   </a>
                 </div>
                 <div class="dropdown-footer">
-                  <a href="admin_login.html" class="btn btn-outline-primary w-100" id="admin-logout-button">Đăng xuất</a>
+                  <button class="btn btn-outline-primary w-100" id="admin-logout-button">Đăng
+                    xuất</button>
                 </div>
+                <script>
+                  document.addEventListener('DOMContentLoaded', function () {
+                    const logoutBtn = document.getElementById('admin-logout-button');
+
+                    if (logoutBtn) {
+                      logoutBtn.addEventListener('click', function () {
+                        Swal.fire({
+                          icon: 'question',
+                          title: 'Xác nhận đăng xuất?',
+                          text: 'Bạn có chắc muốn đăng xuất khỏi hệ thống?',
+                          showCancelButton: true,
+                          confirmButtonText: 'Đăng xuất',
+                          cancelButtonText: 'Hủy',
+                          customClass: {
+                            popup: 'my-swal-popup',
+                            confirmButton: 'my-swal-confirm-button',
+                            cancelButton: 'my-swal-cancel-button'
+                          }
+                        }).then((result) => {
+                          if (result.isConfirmed) {
+                            sessionStorage.removeItem('isLoggedIn'); 
+                            Swal.fire({
+                              icon: 'success',
+                              title: 'Đăng xuất thành công!',
+                              showConfirmButton: false,
+                              timer: 1200,
+                              customClass: { popup: 'my-swal-popup' }
+                            }).then(() => {
+                              window.location.href = 'admin_login.html';
+                            });
+                          }
+                        });
+                      });
+                    }
+                  });
+                </script>
               </div>
             </div>
 
@@ -155,19 +209,19 @@
       </div>
     </div><!-- End Page Title -->
 
-    
+
     <div class="container-manage-import-products">
       <form action="" class="search-container" method="get"><!-- Search box -->
         <input type="text" id="search-input" placeholder="Tra cứu mã đơn hàng" name="search">
         <button id="search-button">
-            <i class="fa fa-search"></i> Tìm kiếm          
-        </button> 
+          <i class="fa fa-search"></i> Tìm kiếm
+        </button>
       </form><!-- End Search box -->
 
       <div class="sort-container"> <!-- Sort-container -->
         <div class="sort-by-date-container">
           <label>Từ ngày:<input type="date" class="input-sort-date"></label>
-        
+
           <label>Đến ngày:<input type="date" class="input-sort-date"></label>
         </div>
         <div class="sort-by-order-status">
@@ -179,7 +233,7 @@
         </div>
       </div>
       <hr>
-     
+
 
       <!-- Pop-up Phiếu Nhập Mới -->
       <div id="DetailModal" class="modal">
@@ -203,10 +257,10 @@
             <label>Tên sản phẩm: <b>Saga X Pro</b></label>
             <br>
             <label>Loại sản phẩm: <b>Acoustic</b></label>
-              
+
             <label>Thương hiệu: <b>Saga</b></label>
             <br>
-              
+
             <label>Số Lượng: <b>1</b></label>
             <label>Đơn giá: <b>1.000.000VND</b></label>
           </div>
@@ -216,17 +270,17 @@
             <label>Tên sản phẩm: <b>Enya Y Pro Max</b></label>
             <br>
             <label>Loại sản phẩm: <b>Acoustic</b></label>
-              
+
             <label>Thương hiệu: <b>Enya</b></label>
             <br>
-              
+
             <label>Số Lượng: <b>1</b></label>
             <label>Đơn giá: <b>4.000.000VND</b></label>
           </div>
 
           <!--tổng số tiền-->
           <label>Tổng số tiền: <b>5.000.000VND</b></label>
-            
+
           <div id="close-detail-order-container">
             <button class="close-button-detail-order">Đóng</button>
           </div>
@@ -245,19 +299,21 @@
           </div>
           <div class="status-block">
             <div>
-              <p style="margin-bottom: 0px;">Tình trạng: <b class="order-status-value">Đã giao</b> <img src="assets/img/iconbutton/pencil.png" class="edit-status-order" alt="Sửa trạng thái" style="width: 15px; transform: translateY(-4px); cursor: pointer;"></p>
+              <p style="margin-bottom: 0px;">Tình trạng: <b class="order-status-value">Đã giao</b> <img
+                  src="assets/img/iconbutton/pencil.png" class="edit-status-order" alt="Sửa trạng thái"
+                  style="width: 15px; transform: translateY(-4px); cursor: pointer;"></p>
             </div>
             <div class="status-select-container hidden">
-                <span class="status-select-button">Mới đặt</span>
-                <hr style="margin: 0">
-                <span class="status-select-button">Đã xử lý</span>
-                <hr style="margin: 0">
-                <span class="status-select-button">Đã giao</span>
-                <hr style="margin: 0">
-                <span class="status-select-button">Huỷ</span>
+              <span class="status-select-button">Mới đặt</span>
+              <hr style="margin: 0">
+              <span class="status-select-button">Đã xử lý</span>
+              <hr style="margin: 0">
+              <span class="status-select-button">Đã giao</span>
+              <hr style="margin: 0">
+              <span class="status-select-button">Huỷ</span>
             </div>
           </div>
-          
+
         </div>
         <div style="display: flex; justify-content: flex-end; margin-top: 20px;">
           <button type="button" class="action-btn detail-btn">Chi tiết</button>
@@ -274,25 +330,27 @@
           </div>
           <div class="status-block">
             <div>
-              <p style="margin-bottom: 0px;">Tình trạng: <b class="order-status-value">Đã giao</b> <img src="assets/img/iconbutton/pencil.png" class="edit-status-order" alt="Sửa trạng thái" style="width: 15px; transform: translateY(-4px); cursor: pointer;"></p>
+              <p style="margin-bottom: 0px;">Tình trạng: <b class="order-status-value">Đã giao</b> <img
+                  src="assets/img/iconbutton/pencil.png" class="edit-status-order" alt="Sửa trạng thái"
+                  style="width: 15px; transform: translateY(-4px); cursor: pointer;"></p>
             </div>
             <div class="status-select-container hidden">
-                <span class="status-select-button">Mới đặt</span>
-                <hr style="margin: 0">
-                <span class="status-select-button">Đã xử lý</span>
-                <hr style="margin: 0">
-                <span class="status-select-button">Đã giao</span>
-                <hr style="margin: 0">
-                <span class="status-select-button">Huỷ</span>
+              <span class="status-select-button">Mới đặt</span>
+              <hr style="margin: 0">
+              <span class="status-select-button">Đã xử lý</span>
+              <hr style="margin: 0">
+              <span class="status-select-button">Đã giao</span>
+              <hr style="margin: 0">
+              <span class="status-select-button">Huỷ</span>
             </div>
           </div>
-          
+
         </div>
         <div style="display: flex; justify-content: flex-end; margin-top: 20px;">
           <button type="button" class="action-btn detail-btn">Chi tiết</button>
         </div>
       </div>
-      
+
       <!-- Đơn hàng thứ 3 -->
       <div class="manage-order-container">
         <div class="info-and-status-order">
@@ -303,34 +361,36 @@
           </div>
           <div class="status-block">
             <div>
-              <p style="margin-bottom: 0px;">Tình trạng: <b class="order-status-value">Đã giao</b> <img src="assets/img/iconbutton/pencil.png" class="edit-status-order" alt="Sửa trạng thái" style="width: 15px; transform: translateY(-4px); cursor: pointer;"></p>
+              <p style="margin-bottom: 0px;">Tình trạng: <b class="order-status-value">Đã giao</b> <img
+                  src="assets/img/iconbutton/pencil.png" class="edit-status-order" alt="Sửa trạng thái"
+                  style="width: 15px; transform: translateY(-4px); cursor: pointer;"></p>
             </div>
             <div class="status-select-container hidden">
-                <span class="status-select-button">Mới đặt</span>
-                <hr style="margin: 0">
-                <span class="status-select-button">Đã xử lý</span>
-                <hr style="margin: 0">
-                <span class="status-select-button">Đã giao</span>
-                <hr style="margin: 0">
-                <span class="status-select-button">Huỷ</span>
+              <span class="status-select-button">Mới đặt</span>
+              <hr style="margin: 0">
+              <span class="status-select-button">Đã xử lý</span>
+              <hr style="margin: 0">
+              <span class="status-select-button">Đã giao</span>
+              <hr style="margin: 0">
+              <span class="status-select-button">Huỷ</span>
             </div>
           </div>
         </div>
         <div style="display: flex; justify-content: flex-end; margin-top: 20px;">
           <button type="button" class="action-btn detail-btn">Chi tiết</button>
         </div>
-        
+
       </div>
 
-      
+
       <!-- Category Pagination Section -->
       <section id="category-pagination" class="category-pagination section" style="padding-bottom: 0px;">
         <div class="container">
           <nav class="d-flex justify-content-center" aria-label="Page navigation">
             <ul>
               <li> <a href="#" aria-label="Previous page"> <i class="bi bi-arrow-left"></i>
-                      <span class="d-none d-sm-inline">Previous</span>
-                    </a> </li>
+                  <span class="d-none d-sm-inline">Previous</span>
+                </a> </li>
               <li><a href="#" class="active">1</a></li>
               <li><a href="#">2</a></li>
               <li><a href="#">3</a></li>
@@ -338,17 +398,17 @@
               <li><a href="#">8</a></li>
               <li><a href="#">9</a></li>
               <li><a href="#">10</a></li>
-              <li> <a href="#" aria-label="Next page"> 
-                    <span class="d-none d-sm-inline">Next</span>
-                    <i class="bi bi-arrow-right"></i>
-                    </a> </li>
+              <li> <a href="#" aria-label="Next page">
+                  <span class="d-none d-sm-inline">Next</span>
+                  <i class="bi bi-arrow-right"></i>
+                </a> </li>
             </ul>
           </nav>
         </div>
       </section><!-- /Category Pagination Section -->
     </div> <!--End class container-manage-import-products-->
 
-    
+
 
 
 
@@ -390,8 +450,8 @@
               <ul class="footer-links">
                 <li><a href="all.html">Sản phẩm mới</a></li>
                 <li><a href="all.html">Đang bán chạy</a></li>
-                <li><a href="all.html">Guitar classic</a></li>
-                <li><a href="all.html">Guitar acoustic</a></li>
+                <li><a href="category_detail.html">Guitar Classic</a></li>
+                <li><a href="category_detail.html">Guitar Acoustic</a></li>
                 <li><a href="all.html">Đang khuyến mãi</a></li>
               </ul>
             </div>
@@ -405,8 +465,7 @@
                 <li><a href="account.html">Trạng thái đặt hàng</a></li>
                 <li><a href="shiping-info.html">Thông tin giao hàng</a></li>
                 <li><a href="return-policy.html">Yêu cầu trả hàng</a></li>
-                <li><a href="#">Size Guide</a></li>
-                <li><a href="contact.html">Liên hệ với chúng tôi</a></li>
+                <!-- <li><a href="contact.html">Liên hệ với chúng tôi</a></li> -->
               </ul>
             </div>
           </div>
@@ -493,29 +552,9 @@
   <!-- Main JS File -->
   <script src="assets/js/main.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-  <script src="assets/js/login.js"></script>
+  <!-- <script src="assets/js/login.js"></script> -->
   <script src="assets/js/admin2.js"></script>
 </body>
-<!-- Xử lý nếu đăng xuát xoá local storage -->
-<script>
-  document.addEventListener('DOMContentLoaded', function() {
-    // Toàn bộ code bên trong sẽ chỉ chạy sau khi DOM đã được tải hoàn toàn
-    
-    // 1. Lấy ra phần tử nút Đăng xuất
-    const logoutButton = document.getElementById('admin-logout-button');
 
-    // 2. Thêm trình lắng nghe sự kiện khi nhấp chuột
-    if (logoutButton) { // Thêm kiểm tra an toàn
-        logoutButton.addEventListener('click', function(event) {
-            event.preventDefault(); // Ngăn hành vi mặc định của liên kết/nút
 
-            // 3. XÓA TRẠNG THÁI ĐĂNG NHẬP KHỎI LOCALSTORAGE
-            localStorage.removeItem('admin_isLoggedIn');
-                
-            // 4. CHUYỂN HƯỚNG người dùng về trang đăng nhập
-            window.location.href = 'admin_login.html';
-        });
-    }
-  });
-</script>
 </html>

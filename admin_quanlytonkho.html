@@ -7,13 +7,7 @@
   <title>Quản lý tồn kho - Guitar Xì Gòn</title>
   <meta name="description" content="">
   <meta name="keywords" content="">
-  <!--Kiểm tra xem đã đăng nhập chưa-->
-  <script>
-        if (sessionStorage.getItem('admin_isLoggedIn') !== 'true') {
-            window.location.href = 'admin_login.html';
-        }
-  </script>
-
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <!-- Favicons -->
   <link href="assets/img/favicon.png" rel="icon">
   <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
@@ -21,7 +15,9 @@
   <!-- Fonts -->
   <link href="https://fonts.googleapis.com" rel="preconnect">
   <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+    rel="stylesheet">
 
   <!-- Vendor CSS Files -->
   <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -45,9 +41,32 @@
 </head>
 
 <body class="login-page">
+  <script>
+    const currentUserJSON = sessionStorage.getItem('isLoggedIn');
+    if (currentUserJSON) {
+      document.body.classList.remove('page-loading');
+    } else {
+      Swal.fire({
+        icon: 'warning',
+        title: 'Yêu cầu đăng nhập',
+        text: 'Bạn cần đăng nhập để có thể truy cập tính năng của admin.',
+        confirmButtonText: 'Đến trang đăng nhập',
+        allowOutsideClick: false,
+        customClass: {
+          container: 'blurred-login-alert', // Thêm class container riêng cho alert này
+          popup: 'my-swal-popup',
+          title: 'my-swal-title',
+          htmlContainer: 'my-swal-html-container',
+          confirmButton: 'my-swal-confirm-button'
+        }
+      }).then(() => {
+        window.location.href = 'admin_login.html';
+      });
+    }
+  </script>
 
   <header id="header" class="header sticky-top">
-    
+
 
     <!-- Main Header -->
     <div class="main-header">
@@ -64,7 +83,8 @@
           <div class="header-actions d-flex align-items-center justify-content-end">
 
             <!-- Mobile Search Toggle -->
-            <button class="header-action-btn mobile-search-toggle d-xl-none" type="button" data-bs-toggle="collapse" data-bs-target="#mobileSearch" aria-expanded="false" aria-controls="mobileSearch">
+            <button class="header-action-btn mobile-search-toggle d-xl-none" type="button" data-bs-toggle="collapse"
+              data-bs-target="#mobileSearch" aria-expanded="false" aria-controls="mobileSearch">
               <i class="bi bi-search"></i>
             </button>
 
@@ -89,8 +109,45 @@
                   </a>
                 </div>
                 <div class="dropdown-footer">
-                  <a href="admin_login.html" class="btn btn-outline-primary w-100" id="admin-logout-button">Đăng xuất</a>
+                  <button class="btn btn-outline-primary w-100" id="admin-logout-button">Đăng
+                    xuất</button>
                 </div>
+                <script>
+                  document.addEventListener('DOMContentLoaded', function () {
+                    const logoutBtn = document.getElementById('admin-logout-button');
+
+                    if (logoutBtn) {
+                      logoutBtn.addEventListener('click', function () {
+                        Swal.fire({
+                          icon: 'question',
+                          title: 'Xác nhận đăng xuất?',
+                          text: 'Bạn có chắc muốn đăng xuất khỏi hệ thống?',
+                          showCancelButton: true,
+                          confirmButtonText: 'Đăng xuất',
+                          cancelButtonText: 'Hủy',
+                          customClass: {
+                            popup: 'my-swal-popup',
+                            confirmButton: 'my-swal-confirm-button',
+                            cancelButton: 'my-swal-cancel-button'
+                          }
+                        }).then((result) => {
+                          if (result.isConfirmed) {
+                            sessionStorage.removeItem('isLoggedIn'); 
+                            Swal.fire({
+                              icon: 'success',
+                              title: 'Đăng xuất thành công!',
+                              showConfirmButton: false,
+                              timer: 1200,
+                              customClass: { popup: 'my-swal-popup' }
+                            }).then(() => {
+                              window.location.href = 'admin_login.html';
+                            });
+                          }
+                        });
+                      });
+                    }
+                  });
+                </script>
               </div>
             </div>
 
@@ -100,9 +157,9 @@
           </div>
         </div>
 
-          </div>
-        </div>
       </div>
+    </div>
+    </div>
     </div>
 
     <!-- Navigation -->
@@ -156,14 +213,14 @@
       <form action="" class="search-container" method="get"><!-- Search box -->
         <input type="text" id="search-input" placeholder="Tra cứu số lượng sản phẩm" name="search">
         <button id="search-button">
-            <i class="fa fa-search"></i> Tìm kiếm          
-        </button> 
+          <i class="fa fa-search"></i> Tìm kiếm
+        </button>
       </form><!-- End Search box -->
 
       <div class="sort-container"> <!-- Sort-container -->
         <div class="sort-by-date-container">
           <label>Từ ngày:<input type="date" class="input-sort-date"></label>
-        
+
           <label>Đến ngày:<input type="date" class="input-sort-date"></label>
         </div>
         <div class="sort-by-order-status">
@@ -177,130 +234,129 @@
 
 
       <div class="card-body">
-          <div class="table-responsive">
-            <table class="table table-hover data-table">
-              <thead>
-                <tr>
-                  <th scope="col" style="width: 10%;">Hình ảnh</th>
-                  <th scope="col">Tên sản phẩm</th>
-                  <th scope="col">Loại</th>
-                  <th scope="col">Nhập</th>
-                  <th scope="col">Xuất</th>
-                  <th scope="col">Tồn kho</th>
-                  <th scope="col">Trạng thái</th>
-                </tr>
-              </thead>
-              <tbody id="product-list-container">
-                <tr>
-                  <td><img
-                      src="assets/img/product/guitar/acoustic/saga/saga-a1-de-pro/dan-guitar-acoustic-saga-a1-de-pro--1000x1000.jpg"
-                      alt="Saga A1 DE PRO" style="width: 70px; height: auto;"></td>
-                  <td>Saga A1 DE PRO</td>
-                  <td>Acoustic</td>
-                  <td><span class="font-weight-bold">2</span></td>
-                  <td>0</td>
-                  <td>12</td>
-                  <td class="action-cell">
-                    
-                  </td>
-                </tr>
-                <tr>
-                  <td><img
-                      src="assets/img/product/guitar/acoustic/taylor/taylor-a12e/dan-guitar-acoustic-taylor-academy-12e-grand-concert-wbag-.jpg"
-                      alt="Taylor A12E" style="width: 70px; height: auto;"></td>
-                  <td>Taylor A12E</td>
-                  <td>Acoustic</td>
-                  <td><span class="font-weight-bold">20</span></td>
-                  <td>15</td>
-                  <td>32</td>
-                  <td>
-                    
-                  </td>
-                </tr>
-                <tr>
-                  <td><img src="assets/img/product/guitar/acoustic/saga/saga-cl65/dan-guitar-acoustic-saga-cl65-.jpg"
-                      alt="Saga CL65" style="width: 70px; height: auto;"></td>
-                  <td>Saga CL65</td>
-                  <td>Acoustic</td>
-                  <td><span class="font-weight-bold">0</span></td>
-                  <td>5</td>
-                  <td>45</td>
-                  <td>
-                    
-                  </td>
-                </tr>
-                <tr>
-                  <td><img
-                      src="assets/img/product/guitar/classic/badon/dan-guitar-classic-ba-don-c100/dan-guitar-classic-ba-don-c100-.jpg"
-                      alt="Ba đờn C100" style="width: 70px; height: auto;"></td>
-                  <td>Ba đờn C100</td>
-                  <td>Classic</td>
-                  <td><span class="font-weight-bold">10</span></td>
-                  <td>0</td>
-                  <td>23</td>
-                  <td>
-                    
-                  </td>
-                </tr>
-                <tr>
-                  <td><img
-                      src="assets/img/product/guitar/classic/yamaha/dan-guitar-classic-yamaha-cgs102aii-school-series/dan-guitar-classic-yamaha-cgs102aii-school-series-.jpg"
-                      alt="Yamaha CGS102AII" style="width: 70px; height: auto;"></td>
-                  <td>Yamaha CGS102AII</td>
-                  <td>Classic</td>
-                  <td><span class="font-weight-bold">7</span></td>
-                  <td>7</td>
-                  <td>1</td>
-                  <td>
-                    
-                  </td>
-                </tr>
-                <tr>
-                  <td><img
-                      src="assets/img/product/guitar/acoustic/enya/enya ega-x0-pro-sp1/dan-guitar-acoustic-enya-ega-x0-pro-sp1-acousticplus-smart-guitar-2-1536x1536.jpg"
-                      alt="Enya EGA X0 PRO SP1" style="width: 70px; height: auto;"></td>
-                  <td>Enya EGA X0 PRO SP1</td>    
-                  <td>Acoustic</td>
-                  <td><span class="font-weight-bold">2</span></td>
-                  <td>1</td>
-                  <td>3</td>
-                  <td>
-                    
-                  </td>
-                </tr>
-                <tr>
-                  <td><img src="assets/img/product/guitar/acoustic/yamaha/yamaha-ls36-are/1.jpg" alt="Yamaha LS36 ARE"
-                      style="width: 70px; height: auto;"></td>
-                  <td>Yamaha LS36 ARE</td>
-                  <td>Acoustic</td>
-                  <td><span class="font-weight-bold">6</span></td>
-                  <td>0</td>
-                  <td>15</td>
-                  <td>
-                    
-                  </td>
-                </tr>
-                <tr>
-                  <td><img
-                      src="assets/img/product/guitar/acoustic/saga/saga-ss-8ce/dan-guitar-acoustic-saga-ss-8ce-.jpg"
-                      alt="Saga SS 8CE" style="width: 70px; height: auto;"></td>
-                  <td>Saga SS 8CE</td>
-                  <td>Acoustic</td>
-                  <td><span class="font-weight-bold">5</span></td>
-                  <td>2</td>
-                  <td>0</td>
-                  <td>
-                    
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
+        <div class="table-responsive">
+          <table class="table table-hover data-table">
+            <thead>
+              <tr>
+                <th scope="col" style="width: 10%;">Hình ảnh</th>
+                <th scope="col">Tên sản phẩm</th>
+                <th scope="col">Loại</th>
+                <th scope="col">Nhập</th>
+                <th scope="col">Xuất</th>
+                <th scope="col">Tồn kho</th>
+                <th scope="col">Trạng thái</th>
+              </tr>
+            </thead>
+            <tbody id="product-list-container">
+              <tr>
+                <td><img
+                    src="assets/img/product/guitar/acoustic/saga/saga-a1-de-pro/dan-guitar-acoustic-saga-a1-de-pro--1000x1000.jpg"
+                    alt="Saga A1 DE PRO" style="width: 70px; height: auto;"></td>
+                <td>Saga A1 DE PRO</td>
+                <td>Acoustic</td>
+                <td><span class="font-weight-bold">2</span></td>
+                <td>0</td>
+                <td>12</td>
+                <td class="action-cell">
+
+                </td>
+              </tr>
+              <tr>
+                <td><img
+                    src="assets/img/product/guitar/acoustic/taylor/taylor-a12e/dan-guitar-acoustic-taylor-academy-12e-grand-concert-wbag-.jpg"
+                    alt="Taylor A12E" style="width: 70px; height: auto;"></td>
+                <td>Taylor A12E</td>
+                <td>Acoustic</td>
+                <td><span class="font-weight-bold">20</span></td>
+                <td>15</td>
+                <td>32</td>
+                <td>
+
+                </td>
+              </tr>
+              <tr>
+                <td><img src="assets/img/product/guitar/acoustic/saga/saga-cl65/dan-guitar-acoustic-saga-cl65-.jpg"
+                    alt="Saga CL65" style="width: 70px; height: auto;"></td>
+                <td>Saga CL65</td>
+                <td>Acoustic</td>
+                <td><span class="font-weight-bold">0</span></td>
+                <td>5</td>
+                <td>45</td>
+                <td>
+
+                </td>
+              </tr>
+              <tr>
+                <td><img
+                    src="assets/img/product/guitar/classic/badon/dan-guitar-classic-ba-don-c100/dan-guitar-classic-ba-don-c100-.jpg"
+                    alt="Ba đờn C100" style="width: 70px; height: auto;"></td>
+                <td>Ba đờn C100</td>
+                <td>Classic</td>
+                <td><span class="font-weight-bold">10</span></td>
+                <td>0</td>
+                <td>23</td>
+                <td>
+
+                </td>
+              </tr>
+              <tr>
+                <td><img
+                    src="assets/img/product/guitar/classic/yamaha/dan-guitar-classic-yamaha-cgs102aii-school-series/dan-guitar-classic-yamaha-cgs102aii-school-series-.jpg"
+                    alt="Yamaha CGS102AII" style="width: 70px; height: auto;"></td>
+                <td>Yamaha CGS102AII</td>
+                <td>Classic</td>
+                <td><span class="font-weight-bold">7</span></td>
+                <td>7</td>
+                <td>1</td>
+                <td>
+
+                </td>
+              </tr>
+              <tr>
+                <td><img
+                    src="assets/img/product/guitar/acoustic/enya/enya ega-x0-pro-sp1/dan-guitar-acoustic-enya-ega-x0-pro-sp1-acousticplus-smart-guitar-2-1536x1536.jpg"
+                    alt="Enya EGA X0 PRO SP1" style="width: 70px; height: auto;"></td>
+                <td>Enya EGA X0 PRO SP1</td>
+                <td>Acoustic</td>
+                <td><span class="font-weight-bold">2</span></td>
+                <td>1</td>
+                <td>3</td>
+                <td>
+
+                </td>
+              </tr>
+              <tr>
+                <td><img src="assets/img/product/guitar/acoustic/yamaha/yamaha-ls36-are/1.jpg" alt="Yamaha LS36 ARE"
+                    style="width: 70px; height: auto;"></td>
+                <td>Yamaha LS36 ARE</td>
+                <td>Acoustic</td>
+                <td><span class="font-weight-bold">6</span></td>
+                <td>0</td>
+                <td>15</td>
+                <td>
+
+                </td>
+              </tr>
+              <tr>
+                <td><img src="assets/img/product/guitar/acoustic/saga/saga-ss-8ce/dan-guitar-acoustic-saga-ss-8ce-.jpg"
+                    alt="Saga SS 8CE" style="width: 70px; height: auto;"></td>
+                <td>Saga SS 8CE</td>
+                <td>Acoustic</td>
+                <td><span class="font-weight-bold">5</span></td>
+                <td>2</td>
+                <td>0</td>
+                <td>
+
+                </td>
+              </tr>
+            </tbody>
+          </table>
         </div>
       </div>
     </div>
+    </div>
 
-    
+
 
 
 
@@ -315,7 +371,7 @@
       <div class="container">
         <div class="row gy-4">
           <div class="col-lg-4 col-md-6">
-            <div class="footer-widget footer-about">  
+            <div class="footer-widget footer-about">
               <a href="index.html" class="logo">
                 <span class="sitename">Guitar Xì Gòn</span>
               </a>
@@ -341,8 +397,8 @@
               <ul class="footer-links">
                 <li><a href="all.html">Sản phẩm mới</a></li>
                 <li><a href="all.html">Đang bán chạy</a></li>
-                <li><a href="all.html">Guitar classic</a></li>
-                <li><a href="all.html">Guitar acoustic</a></li>
+                <li><a href="category_detail.html">Guitar Classic</a></li>
+                <li><a href="category_detail.html">Guitar Acoustic</a></li>
                 <li><a href="all.html">Đang khuyến mãi</a></li>
               </ul>
             </div>
@@ -356,8 +412,7 @@
                 <li><a href="account.html">Trạng thái đặt hàng</a></li>
                 <li><a href="shiping-info.html">Thông tin giao hàng</a></li>
                 <li><a href="return-policy.html">Yêu cầu trả hàng</a></li>
-                <li><a href="#">Size Guide</a></li>
-                <li><a href="contact.html">Liên hệ với chúng tôi</a></li>
+                <!-- <li><a href="contact.html">Liên hệ với chúng tôi</a></li> -->
               </ul>
             </div>
           </div>
@@ -426,7 +481,8 @@
   </footer>
 
   <!-- Scroll Top -->
-  <a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+  <a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center"><i
+      class="bi bi-arrow-up-short"></i></a>
 
   <!-- Preloader -->
   <div id="preloader"></div>
@@ -444,87 +500,66 @@
   <script src="assets/js/main.js"></script>
   <script src="assets/js/admin.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-  <script src="assets/js/login.js"></script>
 </body>
-<!-- Xử lý nếu đăng xuát xoá local storage -->
-<script>
-  document.addEventListener('DOMContentLoaded', function() {
-    // Toàn bộ code bên trong sẽ chỉ chạy sau khi DOM đã được tải hoàn toàn
-    
-    // 1. Lấy ra phần tử nút Đăng xuất
-    const logoutButton = document.getElementById('admin-logout-button');
 
-    // 2. Thêm trình lắng nghe sự kiện khi nhấp chuột
-    if (logoutButton) { // Thêm kiểm tra an toàn
-        logoutButton.addEventListener('click', function(event) {
-            event.preventDefault(); // Ngăn hành vi mặc định của liên kết/nút
-
-            // 3. XÓA TRẠNG THÁI ĐĂNG NHẬP KHỎI LOCALSTORAGE
-            localStorage.removeItem('admin_isLoggedIn');
-                
-            // 4. CHUYỂN HƯỚNG người dùng về trang đăng nhập
-            window.location.href = 'admin_login.html';
-        });
-    }
-  });
-</script>
 
 <script>
-  document.addEventListener('DOMContentLoaded', function() {
+  document.addEventListener('DOMContentLoaded', function () {
     // 1. Lấy ra body của bảng (nơi chứa các hàng sản phẩm)
     const tableBody = document.getElementById('product-list-container');
-    
+
     if (!tableBody) {
-        console.error("Không tìm thấy phần tử tbody có ID 'product-list-container'.");
-        return;
+      console.error("Không tìm thấy phần tử tbody có ID 'product-list-container'.");
+      return;
     }
 
     // 2. Lặp qua từng hàng (<tr>) trong tbody
     const productRows = tableBody.getElementsByTagName('tr');
 
     for (let i = 0; i < productRows.length; i++) {
-        const row = productRows[i];
-        
-        // 3. Lấy ra tất cả các ô (<td>) trong hàng hiện tại
-        const cells = row.getElementsByTagName('td');
-        
-        // Cấu trúc cột (dựa trên HTML của bạn):
-        // 0: Hình ảnh
-        // 1: Tên sản phẩm
-        // 2: Loại
-        // 3: Nhập
-        // 4: Xuất
-        // 5: Tồn kho (Cột thứ 6)
-        // 6: Trạng thái (Cột thứ 7, action-cell)
+      const row = productRows[i];
 
-        // 4. Lấy giá trị Tồn kho từ cột thứ 6 (cells[5])
-        // Sử dụng .textContent để lấy nội dung bên trong <td> và chuyển thành số nguyên.
-        const stockCell = cells[5];
-        const stockQuantity = parseInt(stockCell.textContent.trim()); 
-        
-        // 5. Xác định cột Trạng thái (cells[6])
-        const statusCell = cells[6]; 
-        
-        // 6. Logic kiểm tra và cập nhật trạng thái
-        let statusText = '';
-        let statusColor = ''; // Tùy chọn để thêm màu sắc
-        
-        if (stockQuantity === 0) {
-            statusText = 'Hết hàng 🛑';
-            statusColor = 'red';
-        } else if (stockQuantity <= 5) {
-            statusText = 'Sắp hết ⚠️';
-            statusColor = 'orange';
-        } else {
-            statusText = 'Còn hàng ✅';
-            statusColor = 'green';
-        }
-        
-        // 7. Cập nhật nội dung và style cho ô Trạng thái
-        statusCell.innerHTML = `<strong>${statusText}</strong>`;
-        statusCell.style.color = statusColor;
-        statusCell.style.fontWeight = 'bold';
+      // 3. Lấy ra tất cả các ô (<td>) trong hàng hiện tại
+      const cells = row.getElementsByTagName('td');
+
+      // Cấu trúc cột (dựa trên HTML của bạn):
+      // 0: Hình ảnh
+      // 1: Tên sản phẩm
+      // 2: Loại
+      // 3: Nhập
+      // 4: Xuất
+      // 5: Tồn kho (Cột thứ 6)
+      // 6: Trạng thái (Cột thứ 7, action-cell)
+
+      // 4. Lấy giá trị Tồn kho từ cột thứ 6 (cells[5])
+      // Sử dụng .textContent để lấy nội dung bên trong <td> và chuyển thành số nguyên.
+      const stockCell = cells[5];
+      const stockQuantity = parseInt(stockCell.textContent.trim());
+
+      // 5. Xác định cột Trạng thái (cells[6])
+      const statusCell = cells[6];
+
+      // 6. Logic kiểm tra và cập nhật trạng thái
+      let statusText = '';
+      let statusColor = ''; // Tùy chọn để thêm màu sắc
+
+      if (stockQuantity === 0) {
+        statusText = 'Hết hàng 🛑';
+        statusColor = 'red';
+      } else if (stockQuantity <= 5) {
+        statusText = 'Sắp hết ⚠️';
+        statusColor = 'orange';
+      } else {
+        statusText = 'Còn hàng ✅';
+        statusColor = 'green';
+      }
+
+      // 7. Cập nhật nội dung và style cho ô Trạng thái
+      statusCell.innerHTML = `<strong>${statusText}</strong>`;
+      statusCell.style.color = statusColor;
+      statusCell.style.fontWeight = 'bold';
     }
   });
 </script>
+
 </html>

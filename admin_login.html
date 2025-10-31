@@ -129,7 +129,7 @@
                     <span class="input-icon">
                       <i class="bi bi-envelope"></i>
                     </span>
-                    <input type="email" class="form-control" placeholder="Địa chỉ Email" required=""
+                    <input type="text" class="form-control" placeholder="Địa chỉ Email" 
                       autocomplete="email" id="email">
                   </div>
 
@@ -137,7 +137,7 @@
                     <span class="input-icon">
                       <i class="bi bi-lock"></i>
                     </span>
-                    <input type="password" class="form-control" placeholder="Mật khẩu" required=""
+                    <input type="password" class="form-control" placeholder="Mật khẩu"
                       autocomplete="current-password" id="password">
                     <span class="password-toggle">
                       <i class="bi bi-eye"></i>
@@ -152,10 +152,34 @@
                     <a href="#" class="forgot-password">Quên mât khẩu?</a>
                   </div>
 
-                  <button type="submit" class="auth-btn primary-btn mb-3">
+                  <button type="submit" id = 'loggedIn' class="auth-btn primary-btn mb-3">
                     Đăng nhập
                     <i class="bi bi-arrow-right"></i>
                   </button>
+                  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+                  <script>
+                  document.addEventListener('DOMContentLoaded', function () {
+                    const Toast = Swal.mixin({
+                      toast: true,
+                      position: 'top-end',
+                      showConfirmButton: false,
+                      timer: 1200,
+                      timerProgressBar: true,
+                      customClass: { popup: 'my-swal-popup' },
+                    });
+
+                    document.getElementById('login-form').addEventListener('submit', function (event) {
+                      event.preventDefault();
+                      Toast.fire({
+                        icon: 'success',
+                        title: 'Đăng nhập thành công!',
+                      }).then(() => {
+                        sessionStorage.setItem('isLoggedIn', 'true');
+                        window.location.href = 'admin.html';
+                      });
+                    });
+                  });
+                  </script>
                 </form>
               </div>
             </div>
@@ -199,8 +223,8 @@
               <ul class="footer-links">
                 <li><a href="all.html">Sản phẩm mới</a></li>
                 <li><a href="all.html">Đang bán chạy</a></li>
-                <li><a href="all.html">Guitar classic</a></li>
-                <li><a href="all.html">Guitar acscoutic</a></li>
+                <li><a href="category_detail.html">Guitar Classic</a></li>
+                <li><a href="category_detail.html">Guitar Acoustic</a></li>
                 <li><a href="all.html">Đang khuyến mãi</a></li>
               </ul>
             </div>
@@ -214,8 +238,7 @@
                 <li><a href="account.html">Trạng thái đặt hàng</a></li>
                 <li><a href="shiping-info.html">Thông tin giao hàng</a></li>
                 <li><a href="return-policy.html">Yêu cầu trả hàng</a></li>
-                <li><a href="#">Size Guide</a></li>
-                <li><a href="contact.html">Liên hệ với chúng tôi</a></li>
+                <!-- <li><a href="contact.html">Liên hệ với chúng tôi</a></li> -->
               </ul>
             </div>
           </div>
@@ -301,31 +324,10 @@
 
   <!-- Main JS File -->
   <script src="assets/js/main.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-  <script src="assets/js/loginadm.js"></script>
+  
 </body>
-<!-- Xử lý nếu đăng nhập tạo local storage-->
-<script>
-  document.getElementById('login-form').addEventListener('submit', function (event) {
-    event.preventDefault(); // Ngăn form submit mặc định
 
-    // 1. **Thực hiện kiểm tra logic đăng nhập ở đây**
-    // (Ví dụ: kiểm tra username/password hoặc gọi API server)
+</body>
 
-    let isSuccess = true; // Giả sử đăng nhập thành công
-
-    if (isSuccess) {
-      // 2. **THÊM DÒNG CODE NÀY VÀO ĐÂY:**
-      sessionStorage.setItem('admin_isLoggedIn', 'true');
-
-      // 3. **Chuyển hướng đến trang chính**
-      setTimeout(function () {
-        window.location.href = 'admin.html';
-      }, 1000);
-    } else {
-      alert('Tên đăng nhập hoặc mật khẩu không đúng.');
-    }
-  });
-</script>
 
 </html>
