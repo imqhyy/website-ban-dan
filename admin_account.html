@@ -7,7 +7,12 @@
   <title>Tài khoản - Guitar Xì Gòn</title>
   <meta name="description" content="">
   <meta name="keywords" content="">
-
+    <!--Kiểm tra xem đã đăng nhập chưa-->
+  <script>
+    if (sessionStorage.getItem('admin_isLoggedIn') !== 'true') {
+      window.location.href = 'admin_login.html';
+    }
+  </script>
   <!-- Favicons -->
   <link href="assets/img/favicon.png" rel="icon">
   <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
@@ -126,20 +131,14 @@
                     <i class="bi bi-person-circle me-2"></i>
                     <span>Hồ sơ của tôi</span>
                   </a>
-                  <a class="dropdown-item d-flex align-items-center" href="account.html#orders">
-                    <i class="bi bi-bag-check me-2"></i>
-                    <span>Đơn hàng của tôi</span>
-                  </a>
-                  <!-- <a class="dropdown-item d-flex align-items-center" href="account.html#wishlist">
-                    <i class="bi bi-heart me-2"></i>
-                    <span>Danh sách mong muốn</span>
-                  </a> -->
-                  <a class="dropdown-item d-flex align-items-center" href="account.html#settings">
+                  <a class="dropdown-item d-flex align-items-center" href="admin_account.html#settings">
                     <i class="bi bi-gear me-2"></i>
                     <span>Cài đặt</span>
                   </a>
                 </div>
-                <div class="dropdown-footer" id="user-session">
+                <div class="dropdown-footer">
+                  <a href="admin_login.html" class="btn btn-outline-primary w-100" id="admin-logout-button">Đăng
+                    xuất</a>
                 </div>
               </div>
             </div>
@@ -162,38 +161,16 @@
       <div class="container-fluid container-xl position-relative">
         <nav id="navmenu" class="navmenu">
           <ul>
-            <li><a href="index.html">Trang chủ</a></li>
-            <li><a href="all.html">Tất cả sản phẩm</a></li>
-            <li class="dropdown"><a href="#"><span>Phân loại</span> <i
-                  class="bi bi-chevron-down toggle-dropdown"></i></a>
-              <ul>
-                <li class="dropdown"><a href="#"><span>Guitar Classic</span><i
-                      class="bi bi-chevron-down toggle-dropdown"></i></a>
-                  <ul>
-                    <li><a href="brand.html">Ba đờn</a></li>
-                    <li><a href="brand.html">Yamaha</a></li>
-                  </ul>
-                </li>
-                <li class="dropdown"><a href="#"><span>Guitar Acoustic</span><i
-                      class="bi bi-chevron-down toggle-dropdown"></i></a>
-                  <ul>
-                    <li><a href="brand.html">Saga</a></li>
-                    <li><a href="brand.html">Taylor</a></li>
-                    <li><a href="brand.html">Enya</a></li>
-                    <li><a href="brand.html">Yamaha</a></li>
-                  </ul>
-                </li>
-              </ul>
-            </li>
-            <li><a href="cart.html">Giỏ Hàng</a></li>
-            <li><a href="checkout.html">Thanh toán</a></li>
-            <li><a href="contact.html">Liên hệ</a></li>
-            <li><a href="about.html">Về chúng tôi</a></li>
+            <li><a href="admin_quanlykhachhang.html">Quản lý khách hàng</a></li>
+            <li><a href="admin_quanlyloaisanpham.html">Quản lý loại sản phẩm</a></li>
+            <li><a href="admin_danhmucsanpham.html">Quản lý danh mục sản phẩm</a></li>
+            <li><a href="admin_quanlynhapsanpham.html">Quản lý nhập sản phẩm</a></li>
+            <li><a href="admin_quanlydonhang.html">Quản lý đơn hàng</a></li>
+            <li><a href="admin_quanlytonkho.html">Quản lý tồn kho</a></li>
           </ul>
         </nav>
       </div>
     </div>
-
     <!-- Mobile Search Form -->
     <div class="collapse" id="mobileSearch">
       <div class="container">
@@ -277,12 +254,12 @@
                       <span>Phương thức thanh toán</span>
                     </a>
                   </li>
-                  <li class="nav-item">
+                  <!-- <li class="nav-item">
                     <a class="nav-link" data-bs-toggle="tab" href="#reviews">
                       <i class="bi bi-star"></i>
                       <span>Đánh giá của tôi</span>
                     </a>
-                  </li>
+                  </li> -->
                   <li class="nav-item">
                     <a class="nav-link" data-bs-toggle="tab" href="#addresses">
                       <i class="bi bi-geo-alt"></i>
@@ -302,7 +279,7 @@
                     <i class="bi bi-question-circle"></i>
                     <span>Trung tâm hỗ trợ</span>
                   </a>
-                  <a href="#" class="logout-link">
+                  <a href="admin_login.html" class="logout-link">
                     <i class="bi bi-box-arrow-right"></i>
                     <span>Đăng xuất</span>
                   </a>
@@ -1182,7 +1159,7 @@
                     <div class="review-card" data-aos="fade-up" data-aos-delay="100">
                       <div class="review-header">
                         <img
-                          src="assets/img/product/guitar/classic/yamaha/dan-guitar-classic-yamaha-cgs102aii-school-series/dan-guitar-classic-yamaha-cgs102aii-school-series-.jpg"
+                          src="assets/img/product/guitar/classic/yamaha/dan-guitar-classic-yamaha-gc42s-gc-gcx-series/a.jpg"
                           alt="Product" class="product-image" loading="lazy">
                         <div class="review-meta">
                           <h4>Yamaha GC42S</h4>
@@ -1557,7 +1534,7 @@
   <script src="assets/js/main.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <script src="assets/js/auth.js"></script>
-  <script src="assets/js/account.js"></script>
+  <script src="assets/js/account_admin.js"></script>
 
   <!--script này dùng để tạo thông báo và thực hiện 1 số thao tác trong đánh giá đơn hàng-->
   <script>
