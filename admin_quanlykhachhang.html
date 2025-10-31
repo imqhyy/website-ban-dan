@@ -8,11 +8,11 @@
   <meta name="description" content="">
   <meta name="keywords" content="">
   <!--Kiểm tra xem đã đăng nhập chưa-->
-  <script>
+  <!-- <script>
     if (sessionStorage.getItem('admin_isLoggedIn') !== 'true') {
       window.location.href = 'admin_login.html';
     }
-  </script>
+  </script> -->
 
   <!-- Favicons -->
   <link href="assets/img/favicon.png" rel="icon">
@@ -267,7 +267,8 @@
               <p class="customer-info-details"><strong>Số lần đặt hàng: </strong> <span>100</span></p>
               <p class="customer-info-details"><strong>Danh hiệu: </strong> <span>Cổ đông lớn nhất</span></p>
               <p class="customer-info-details"><strong>Email: </strong>chautinktri123@gmail.com</p>
-              <p class="customer-info-details"><strong>Địa chỉ: </strong>7 Lê Trọng Tấn phường Bình Tân thành phố Hồ Chí Minh</p>
+              <p class="customer-info-details"><strong>Địa chỉ: </strong>7 Lê Trọng Tấn phường Bình Tân thành phố Hồ Chí
+                Minh</p>
             </div>
           </div>
         </div>
@@ -439,30 +440,12 @@
   <!-- Main JS File -->
   <script src="assets/js/main.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-  <script src="assets/js/login.js"></script>
+  <!-- <script src="assets/js/login.js"></script>-->
   <script src="assets/js/admin.js"></script>
 </body>
-<!-- Xử lý nếu đăng xuát xoá local storage -->
+<!-- xu ly thong bao cho cac nut chuc nang trong quan ly khach hang -->
 <script>
-  document.addEventListener('DOMContentLoaded', function () {
-    // Toàn bộ code bên trong sẽ chỉ chạy sau khi DOM đã được tải hoàn toàn
 
-    // 1. Lấy ra phần tử nút Đăng xuất
-    const logoutButton = document.getElementById('admin-logout-button');
-
-    // 2. Thêm trình lắng nghe sự kiện khi nhấp chuột
-    if (logoutButton) { // Thêm kiểm tra an toàn
-      logoutButton.addEventListener('click', function (event) {
-        event.preventDefault(); // Ngăn hành vi mặc định của liên kết/nút
-
-        // 3. XÓA TRẠNG THÁI ĐĂNG NHẬP KHỎI LOCALSTORAGE
-        localStorage.removeItem('admin_isLoggedIn');
-
-        // 4. CHUYỂN HƯỚNG người dùng về trang đăng nhập
-        window.location.href = 'admin_login.html';
-      });
-    }
-  });
   function resetPassword(text) {
     Swal.fire({
       icon: 'success',

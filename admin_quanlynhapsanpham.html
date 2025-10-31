@@ -7,12 +7,7 @@
   <title>Quản lý nhập sản phẩm - Guitar Xì Gòn</title>
   <meta name="description" content="">
   <meta name="keywords" content="">
-  <!--Kiểm tra xem đã đăng nhập chưa-->
-  <script>
-        if (sessionStorage.getItem('admin_isLoggedIn') !== 'true') {
-            window.location.href = 'admin_login.html';
-        }
-  </script>
+
 
   <!-- Favicons -->
   <link href="assets/img/favicon.png" rel="icon">
@@ -21,7 +16,9 @@
   <!-- Fonts -->
   <link href="https://fonts.googleapis.com" rel="preconnect">
   <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+    rel="stylesheet">
 
   <!-- Vendor CSS Files -->
   <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -47,7 +44,7 @@
 <body class="login-page">
 
   <header id="header" class="header sticky-top">
-    
+
 
     <!-- Main Header -->
     <div class="main-header">
@@ -64,7 +61,8 @@
           <div class="header-actions d-flex align-items-center justify-content-end">
 
             <!-- Mobile Search Toggle -->
-            <button class="header-action-btn mobile-search-toggle d-xl-none" type="button" data-bs-toggle="collapse" data-bs-target="#mobileSearch" aria-expanded="false" aria-controls="mobileSearch">
+            <button class="header-action-btn mobile-search-toggle d-xl-none" type="button" data-bs-toggle="collapse"
+              data-bs-target="#mobileSearch" aria-expanded="false" aria-controls="mobileSearch">
               <i class="bi bi-search"></i>
             </button>
 
@@ -89,7 +87,8 @@
                   </a>
                 </div>
                 <div class="dropdown-footer">
-                  <a href="admin_login.html" class="btn btn-outline-primary w-100" id="admin-logout-button">Đăng xuất</a>
+                  <a href="admin_login.html" class="btn btn-outline-primary w-100" id="admin-logout-button">Đăng
+                    xuất</a>
                 </div>
               </div>
             </div>
@@ -100,9 +99,9 @@
           </div>
         </div>
 
-          </div>
-        </div>
       </div>
+    </div>
+    </div>
     </div>
 
     <!-- Navigation -->
@@ -160,7 +159,7 @@
     <div class="container-manage-import-products">
       <h2 style="margin: 20px 0px;">Thêm Phiếu Nhập Mới</h2>
       <button class="create-import-btn">Tạo Phiếu Nhập</button>
-      
+
       <!-- Pop-up Phiếu Nhập Mới -->
       <div id="DetailModal" class="modal">
         <div class="modal-content-admin">
@@ -180,7 +179,7 @@
             <!-- Điền thông tin sản phẩm -->
             <div class="product-fields-template">
               <hr>
-              
+
               <label for="manage-product-types">Loại sản phẩm:</label>
               <select class="manage-product-type">
                 <option value="Guitar Classic">Classic</option>
@@ -207,7 +206,7 @@
               <button id="add-product-fields-template">Thêm sản phẩm</button>
               <button id="save-import-product">Lưu</button>
             </div>
-            
+
           </div>
         </div>
       </div>
@@ -216,18 +215,18 @@
       <hr style="border: 1px solid black;">
       <!-- Danh sách phiếu nhập -->
       <h2>Danh Sách Phiếu Nhập Sản Phẩm</h2>
-        <!-- Search -->
+      <!-- Search -->
       <form action="" class="search-container" method="get"><!-- Search box -->
         <input type="text" id="search-input" placeholder="Tìm kiếm mã phiếu nhập" name="search">
         <button id="search-button">
-          <i class="fa fa-search"></i> Tìm kiếm          
-        </button> 
+          <i class="fa fa-search"></i> Tìm kiếm
+        </button>
       </form><!-- End Search box -->
 
       <div class="sort-container"> <!-- Sort-container -->
         <div class="sort-by-date-container">
           <label>Từ ngày:<input type="date" class="input-sort-date"></label>
-        
+
           <label>Đến ngày:<input type="date" class="input-sort-date"></label>
         </div>
         <div class="sort-by-order-status">
@@ -322,7 +321,7 @@
           </tr>
         </tfoot>
       </table>
-      
+
       <!-- Phiếu nhập thứ ba -->
       <hr>
       <h3>Ngày nhập: 12/6/2025</h3>
@@ -373,28 +372,28 @@
 
     </div>
     <!-- Category Pagination Section -->
-		<section id="category-pagination" class="category-pagination section">
-			<div class="container">
-				<nav class="d-flex justify-content-center" aria-label="Page navigation">
-					<ul>
-						<li> <a href="#" aria-label="Previous page"> <i class="bi bi-arrow-left"></i>
-						        <span class="d-none d-sm-inline">Previous</span>
-						      </a> </li>
-						<li><a href="#" class="active">1</a></li>
-						<li><a href="#">2</a></li>
-						<li><a href="#">3</a></li>
-						<li class="ellipsis">...</li>
-						<li><a href="#">8</a></li>
-						<li><a href="#">9</a></li>
-						<li><a href="#">10</a></li>
-						<li> <a href="#" aria-label="Next page"> 
-                  <span class="d-none d-sm-inline">Next</span>
-							    <i class="bi bi-arrow-right"></i>
-									</a> </li>
-					</ul>
-				</nav>
-			</div>
-	  </section><!-- /Category Pagination Section -->
+    <section id="category-pagination" class="category-pagination section">
+      <div class="container">
+        <nav class="d-flex justify-content-center" aria-label="Page navigation">
+          <ul>
+            <li> <a href="#" aria-label="Previous page"> <i class="bi bi-arrow-left"></i>
+                <span class="d-none d-sm-inline">Previous</span>
+              </a> </li>
+            <li><a href="#" class="active">1</a></li>
+            <li><a href="#">2</a></li>
+            <li><a href="#">3</a></li>
+            <li class="ellipsis">...</li>
+            <li><a href="#">8</a></li>
+            <li><a href="#">9</a></li>
+            <li><a href="#">10</a></li>
+            <li> <a href="#" aria-label="Next page">
+                <span class="d-none d-sm-inline">Next</span>
+                <i class="bi bi-arrow-right"></i>
+              </a> </li>
+          </ul>
+        </nav>
+      </div>
+    </section><!-- /Category Pagination Section -->
 
 
 
@@ -409,7 +408,7 @@
       <div class="container">
         <div class="row gy-4">
           <div class="col-lg-4 col-md-6">
-            <div class="footer-widget footer-about">  
+            <div class="footer-widget footer-about">
               <a href="index.html" class="logo">
                 <span class="sitename">Guitar Xì Gòn</span>
               </a>
@@ -520,7 +519,8 @@
   </footer>
 
   <!-- Scroll Top -->
-  <a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+  <a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center"><i
+      class="bi bi-arrow-up-short"></i></a>
 
   <!-- Preloader -->
   <div id="preloader"></div>
@@ -537,29 +537,8 @@
   <!-- Main JS File -->
   <script src="assets/js/main.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-  <script src="assets/js/login.js"></script>
   <script src="assets/js/admin.js"></script>
 </body>
-<!-- Xử lý nếu đăng xuát xoá local storage -->
-<script>
-  document.addEventListener('DOMContentLoaded', function() {
-    // Toàn bộ code bên trong sẽ chỉ chạy sau khi DOM đã được tải hoàn toàn
-    
-    // 1. Lấy ra phần tử nút Đăng xuất
-    const logoutButton = document.getElementById('admin-logout-button');
 
-    // 2. Thêm trình lắng nghe sự kiện khi nhấp chuột
-    if (logoutButton) { // Thêm kiểm tra an toàn
-        logoutButton.addEventListener('click', function(event) {
-            event.preventDefault(); // Ngăn hành vi mặc định của liên kết/nút
 
-            // 3. XÓA TRẠNG THÁI ĐĂNG NHẬP KHỎI LOCALSTORAGE
-            localStorage.removeItem('admin_isLoggedIn');
-                
-            // 4. CHUYỂN HƯỚNG người dùng về trang đăng nhập
-            window.location.href = 'admin_login.html';
-        });
-    }
-  });
-</script>
 </html>
