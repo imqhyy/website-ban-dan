@@ -8463,7 +8463,7 @@ section,
   background-color: var(--surface-color);
   border-radius: 24px;
   padding: 24px;
-  height: 100%;
+  height: auto;
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.04);
 }
 
@@ -14875,6 +14875,7 @@ section,
 .page-loading .footer {
   visibility: hidden;
 }
+
 .blurred-login-alert {
   background-color: rgba(0, 0, 0, 0.4) !important;
   backdrop-filter: blur(50px) !important;
@@ -14888,25 +14889,30 @@ section,
 */
 /* Custom Star Rating Selector for Review Form */
 .star-rating-selector {
-  font-size: 0; /* Ẩn khoảng trắng giữa các icon */
+  font-size: 0;
+  /* Ẩn khoảng trắng giữa các icon */
   display: inline-block;
   cursor: pointer;
 }
 
 .star-rating-selector .star-icon {
-  font-size: 1.5rem; /* Kích thước icon sao */
-  color: #ccc; /* Màu sao chưa được chọn */
+  font-size: 1.5rem;
+  /* Kích thước icon sao */
+  color: #ccc;
+  /* Màu sao chưa được chọn */
   transition: color 0.2s ease, transform 0.1s ease;
   padding: 0 2px;
 }
 
 .star-rating-selector .star-icon:hover {
-  color: #ffc107; /* Màu khi rê chuột vào */
+  color: #ffc107;
+  /* Màu khi rê chuột vào */
   transform: scale(1.1);
 }
 
 .star-rating-selector .star-icon.filled {
-  color: #ffc107; /* Màu sao đã được chọn/đánh dấu */
+  color: #ffc107;
+  /* Màu sao đã được chọn/đánh dấu */
 }
 
 /* Ẩn input ẩn */
