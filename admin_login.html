@@ -129,7 +129,7 @@
                     <span class="input-icon">
                       <i class="bi bi-envelope"></i>
                     </span>
-                    <input type="email" class="form-control" placeholder="Địa chỉ Email" required=""
+                    <input type="text" class="form-control" placeholder="Địa chỉ Email" 
                       autocomplete="email" id="email">
                   </div>
 
@@ -137,7 +137,7 @@
                     <span class="input-icon">
                       <i class="bi bi-lock"></i>
                     </span>
-                    <input type="password" class="form-control" placeholder="Mật khẩu" required=""
+                    <input type="password" class="form-control" placeholder="Mật khẩu"
                       autocomplete="current-password" id="password">
                     <span class="password-toggle">
                       <i class="bi bi-eye"></i>
@@ -152,10 +152,34 @@
                     <a href="#" class="forgot-password">Quên mât khẩu?</a>
                   </div>
 
-                  <button type="submit" class="auth-btn primary-btn mb-3">
+                  <button type="submit" id = 'loggedIn' class="auth-btn primary-btn mb-3">
                     Đăng nhập
                     <i class="bi bi-arrow-right"></i>
                   </button>
+                  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+                  <script>
+                  document.addEventListener('DOMContentLoaded', function () {
+                    const Toast = Swal.mixin({
+                      toast: true,
+                      position: 'top-end',
+                      showConfirmButton: false,
+                      timer: 1200,
+                      timerProgressBar: true,
+                      customClass: { popup: 'my-swal-popup' },
+                    });
+
+                    document.getElementById('login-form').addEventListener('submit', function (event) {
+                      event.preventDefault();
+                      Toast.fire({
+                        icon: 'success',
+                        title: 'Đăng nhập thành công!',
+                      }).then(() => {
+                        sessionStorage.setItem('isLoggedIn', 'true');
+                        window.location.href = 'admin.html';
+                      });
+                    });
+                  });
+                  </script>
                 </form>
               </div>
             </div>
@@ -301,8 +325,9 @@
 
   <!-- Main JS File -->
   <script src="assets/js/main.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-  <!-- <script src="assets/js/loginadm.js"></script> -->
+  
+</body>
+
 </body>
 
 
