@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
-    <title>Thanh toán - Guitar Xì zGòn</title>
+    <title>Thanh toán - Guitar Xì Gòn</title>
     <meta name="description" content="" />
     <meta name="keywords" content="" />
 
@@ -355,6 +355,36 @@
                       <h3>Địa chỉ giao hàng</h3>
                     </div>
                     <div class="section-content">
+                      <div class="address-options mb-4">
+                        <div class="form-check address-option">
+                          <input
+                            class="form-check-input"
+                            type="radio"
+                            name="address-option"
+                            id="default-address"
+                            value="default"
+                            checked
+                          />
+                          <label class="form-check-label" for="default-address">
+                            Địa chỉ Mặc định
+                            <i class="bi bi-geo-alt-fill text-danger ms-2"></i>
+                          </label>
+                          <p id="default-address-display" class="form-text ms-4">273 An Dương Vương, Phường Chợ Quán, Quận 5, Thành phố Hồ Chí Minh</p>
+                        </div>
+                        <div class="form-check address-option mt-3">
+                          <input
+                            class="form-check-input"
+                            type="radio"
+                            name="address-option"
+                            id="new-address"
+                            value="new"
+                          />
+                          <label class="form-check-label" for="new-address">
+                            Thêm địa chỉ mới
+                          <!-- </label> -->
+                        </div>
+                      </div>
+
                       <div class="form-group">
                         <label for="address"
                           >Địa chỉ chi tiết (Số nhà, tên đường,
@@ -366,6 +396,7 @@
                           name="address"
                           id="address"
                           value="273 An Dương Vương, Phường Chợ Quán, Quận 5, Thành phố Hồ Chí Minh"
+                          required
                         />
                       </div>
                     </div>

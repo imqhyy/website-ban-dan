@@ -40,13 +40,13 @@ document.addEventListener("DOMContentLoaded", function () {
   const checkoutForm = document.getElementById("checkout-form");
 
   // --- ĐIỀN THÔNG TIN CÓ SẴN CỦA NGƯỜI DÙNG ---
-  if (currentUser.fullName) {
-    const nameParts = currentUser.fullName.split(" ");
-    firstNameInput.value = nameParts.shift();
-    lastNameInput.value = nameParts.join(" ");
-  }
-  emailInput.value = currentUser.email || "";
-  phoneInput.value = currentUser.phone || "";
+  // if (currentUser.fullName) {
+  //   const nameParts = currentUser.fullName.split(" ");
+  //   firstNameInput.value = nameParts.shift();
+  //   lastNameInput.value = nameParts.join(" ");
+  // }
+  // emailInput.value = currentUser.email || "";
+  // phoneInput.value = currentUser.phone || "";
 
   // --- HIỂN THỊ TÓM TẮT ĐƠN HÀNG (DEMO) ---
   const demoCart = [
@@ -130,4 +130,45 @@ document.addEventListener("DOMContentLoaded", function () {
       window.location.href = "order-confirmation.html";
     });
   });
+
+  // --- XỬ LÝ CHỌN ĐỊA CHỈ ---
+  const defaultAddressRadio = document.getElementById("default-address");
+  const newAddressRadio = document.getElementById("new-address");
+
+  const defaultAddressDisplay = document
+    .getElementById("default-address-display")
+    .textContent.trim();
+
+  // Hàm xử lý thay đổi lựa chọn địa chỉ
+  function handleAddressChange() {
+    if (defaultAddressRadio.checked) {
+      // 1. Nếu chọn Địa chỉ Mặc định
+      addressInput.value = defaultAddressDisplay;
+      addressInput.classList.remove("is-new-address"); // (Tùy chọn: xóa class)
+      Toast.fire({
+        icon: "info",
+        title: "Đã chọn địa chỉ mặc định",
+        timer: 1000,
+      });
+    } else if (newAddressRadio.checked) {
+      // 2. Nếu chọn Thêm địa chỉ mới
+      addressInput.value = "";
+      addressInput.classList.add("is-new-address"); // (Tùy chọn: thêm class)
+      addressInput.focus();
+      Toast.fire({
+        icon: "info",
+        title: "Vui lòng nhập địa chỉ mới",
+        timer: 1000,
+      });
+    }
+  }
+
+  // Lắng nghe sự kiện thay đổi trên cả hai radio button
+  defaultAddressRadio.addEventListener("change", handleAddressChange);
+  newAddressRadio.addEventListener("change", handleAddressChange);
+
+  // Khởi tạo trạng thái ban đầu (đảm bảo địa chỉ mặc định được điền sẵn khi tải trang)
+  // Không cần gọi handleAddressChange() vì input đã có sẵn value mặc định.
+  // Nhưng nếu bạn muốn đảm bảo, hãy gọi nó.
+  // handleAddressChange();
 });

@@ -459,3 +459,13 @@ deleteAccountButton.addEventListener("click", function () {
 //     }
 
 // });
+
+//Dùng để khi click vào nút "đặt lại" trong đơn hàng nó sẽ nhảy sang trang checkout
+// Lấy đối tượng nút bằng ID của nó
+const button = document.getElementById("reorder-btn");
+
+// Thêm một hàm để thực thi khi nút được nhấn
+button.addEventListener("click", function () {
+  // Thay đổi URL của cửa sổ hiện tại
+  window.location.href = "checkout.html"; // Thay thế bằng đường dẫn trang bạn muốn
+});
