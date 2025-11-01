@@ -29,14 +29,14 @@ document.addEventListener('DOMContentLoaded', function () {
     // 1. Cột trái (Sidebar)
     if (orderIdEl) orderIdEl.textContent = `Mã đơn: #ORD-2024-1279`;
     if (orderDateEl) orderDateEl.textContent = `Ngày đặt: ${new Date().toLocaleDateString('vi-VN')}`;
-    if (priceListEl) {
-        priceListEl.innerHTML = `
-            <li class="total">
-                <span>Tổng cộng</span>
-                <span>${total.toLocaleString('vi-VN')} VND</span>
-            </li>
-        `;
-    }
+    // if (priceListEl) {
+    //     priceListEl.innerHTML = `
+    //         <li class="total">
+    //             <span>Tổng cộng</span>
+    //             <span>${total.toLocaleString('vi-VN')} VND</span>
+    //         </li>
+    //     `;
+    // }
 
     // 2. Cột phải (Nội dung chính)
     if (currentUser) {
