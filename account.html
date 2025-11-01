@@ -249,7 +249,8 @@
                   <img src="assets\img\person\images.jpg" alt="Profile" loading="lazy">
                   <span class="status-badge"><i class="bi bi-shield-check"></i></span>
                 </div>
-                <h4 id="user-display-name">Sarah Anderson</h4>
+                <h4 id="user-display-name">Long G</h4>
+                <h6 style="color: rgb(129, 129, 128);">user: Gnevadie</h6>
                 <div class="user-status">
                   <i class="bi bi-award"></i>
                   <span>Thành viên phá phách</span>
@@ -1371,41 +1372,51 @@
                       <form class="settings-form" id="account-settings-form">
                         <div class="row g-3">
                           <div class="col-md-6">
+                            <label for="username" class="form-label">Tên đăng nhập</label>
+                            <input type="text" class="form-control" id="username" value="Gnevadie">
+                          </div>
+                          <div class="col-md-6">
+                            <label for="username" class="form-label">Họ và tên</label>
+                            <input type="text" class="form-control" id="name" value="Long G">
+                          </div>
+                          <!-- <div class="col-md-6">
                             <label for="firstName" class="form-label">Họ</label>
                             <input type="text" class="form-control" id="firstName">
                           </div>
                           <div class="col-md-6">
                             <label for="lastName" class="form-label">Tên</label>
                             <input type="text" class="form-control" id="lastName">
-                          </div>
+                          </div> -->
                           <div class="col-md-6">
                             <label for="email" class="form-label">Email</label>
-                            <input type="text" class="form-control" id="email">
+                            <input type="text" class="form-control" id="email" value="dragonG@gmai.com">
                           </div>
                           <div class="col-md-6">
                             <label for="phone" class="form-label">Số điện thoại</label>
                             <input type="tel" class="form-control" id="phone">
                           </div>
-                        </div>
-                        <div class="input-new-avatar-image">
-                          <label for="profilePicture" class="form-label">Ảnh đại diện</label>
-                          <div class="input-group">
-                            <input type="file" class="form-control file-input-hidden" id="profilePicture"
-                              accept="image/*">
 
-                            <input type="text" class="form-control" id="fileNameDisplay"
-                              placeholder="Chưa có tệp nào được chọn" readonly
-                              style="border-radius: 10px 0px 0px 10px;">
+                          <div class="input-new-avatar-image">
+                            <label for="profilePicture" class="form-label">Ảnh đại diện</label>
+                            <div class="input-group">
+                              <input type="file" class="form-control file-input-hidden" id="profilePicture"
+                                accept="image/*">
 
-                            <button class="btn btn-outline-secondary custom-upload-btn" type="button"
-                              id="uploadAvatarButton">
-                              Tải lên
-                            </button>
-                          </div>
-                          <div class="form-text">
-                            Kích thước tối đa: 2MB. Định dạng: JPG, PNG.
+                              <input type="text" class="form-control" id="fileNameDisplay"
+                                placeholder="Chưa có tệp nào được chọn" readonly
+                                style="border-radius: 10px 0px 0px 10px;">
+
+                              <button class="btn btn-outline-secondary custom-upload-btn" type="button"
+                                id="uploadAvatarButton">
+                                Tải lên
+                              </button>
+                            </div>
+                            <div class="form-text">
+                              Kích thước tối đa: 2MB. Định dạng: JPG, PNG.
+                            </div>
                           </div>
                         </div>
+                        
 
                         <div class="form-buttons">
                           <button type="submit" class="btn-save">Lưu thay đổi</button>
