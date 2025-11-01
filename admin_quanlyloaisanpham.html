@@ -139,7 +139,7 @@
                           }
                         }).then((result) => {
                           if (result.isConfirmed) {
-                            sessionStorage.removeItem('isLoggedIn'); 
+                            sessionStorage.removeItem('isLoggedIn');
                             Swal.fire({
                               icon: 'success',
                               title: 'Đăng xuất thành công!',
@@ -296,6 +296,28 @@
           <div id="close-edit-category-container">
             <button class="close-button-for-edit-category-container">Lưu</button>
           </div>
+          <script>document.addEventListener('DOMContentLoaded', function () {
+              const saveButton = document.querySelector('.close-button-for-edit-category-container');
+
+              if (saveButton) {
+                saveButton.addEventListener('click', function () {
+                  // Tìm container cha (có thể chỉnh sửa, thêm class nếu cần)
+                  const editContainer = saveButton.closest('.edit-category-wrapper')
+                    || saveButton.closest('.modal')
+                    || saveButton.closest('div');
+
+                  if (editContainer) {
+                    editContainer.style.display = 'none'; // ← Ẩn, không xóa
+                  }
+
+                  // HIỆN TOAST
+                  Toast.fire({
+                    icon: 'success',
+                    html: '<strong>Đã lưu thay đổi</strong>'
+                  });
+                });
+              }
+            });</script>
         </div>
       </div>
 
@@ -315,6 +337,29 @@
             <h3>Thêm Thương hiệu mới:</h3>
             <input type="text" id="newBrandName" placeholder="Tên thương hiệu">
             <button id="addBrandBtn">Thêm</button>
+            <script>document.addEventListener('DOMContentLoaded', function () {
+                const addBrandBtn = document.getElementById('addBrandBtn');
+                const input = document.getElementById('newBrandName');
+
+                if (addBrandBtn && input) {
+                  addBrandBtn.addEventListener('click', function () {
+                    // 1. Lấy tên (không cần validate)
+                    const brandName = input.value.trim();
+
+                    // 2. XÓA Ô INPUT
+                    input.value = '';
+
+                    // 3. HIỆN TOAST
+                    Toast.fire({
+                      icon: 'success',
+                      html: '<strong>Đã thêm thương hiệu</strong>'
+                    });
+
+                    // GỌI API THÊM Ở ĐÂY (nếu có)
+                    // addBrandToDatabase(brandName);
+                  });
+                }
+              });</script>
           </div>
 
         </div>
@@ -494,139 +539,112 @@
 
 <script>
   document.addEventListener('DOMContentLoaded', function () {
-    // 1. Lấy tất cả các nút có class 'hide-btn'
-    const hideButtons = document.querySelectorAll('.hide-btn');
+    // === TOAST ĐỊNH NGHĨA ===
+    const Toast = Swal.mixin({
+      toast: true,
+      position: 'top-end',
+      showConfirmButton: false,
+      timer: 2000,
+      timerProgressBar: true,
+      didOpen: (toast) => {
+        toast.addEventListener('mouseenter', Swal.stopTimer);
+        toast.addEventListener('mouseleave', Swal.resumeTimer);
+      }
+    });
 
-    // Đường dẫn tới ảnh con mắt không gạch chéo (Ẩn)
     const eyeIconSrc = 'assets/img/iconbutton/eye.png';
-    // Đường dẫn tới ảnh con mắt gạch chéo (Hiện)
     const eyeCrossedIconSrc = 'assets/img/iconbutton/eye-crossed.png';
 
-    // 2. Lặp qua từng nút và thêm trình lắng nghe sự kiện
+    // === ẨN / HIỆN DANH MỤC ===
+    const hideButtons = document.querySelectorAll('.hide-btn');
     hideButtons.forEach(button => {
       button.addEventListener('click', function () {
-        // Lấy thẻ <img> bên trong nút được nhấn
         const icon = button.querySelector('.button-icon');
-        // Lấy tên loại sản phẩm từ cột bên cạnh
         const row = button.closest('tr');
-        const categoryName = row.querySelector('.manage-name-category').textContent;
+        const categoryName = row.querySelector('.manage-name-category').textContent.trim();
 
         let newStateTitle = '';
-        let alertMessage = '';
+        let toastMessage = '';
 
-        // 3. Kiểm tra trạng thái hiện tại và xác định trạng thái mới
         if (button.title === 'Ẩn') {
-          // Đổi sang trạng thái "Hiện" (tức là Ẩn sản phẩm)
           icon.src = eyeCrossedIconSrc;
           icon.alt = 'Hiện';
           newStateTitle = 'Hiện';
-          alertMessage = `Đã ẩn loại sản phẩm: ${categoryName}`;
-
-        } else if (button.title === 'Hiện') {
-          // Đổi về trạng thái "Ẩn" (tức là Hiện sản phẩm)
+          toastMessage = `Đã ẩn: <strong>${categoryName}</strong>`;
+        } else {
           icon.src = eyeIconSrc;
           icon.alt = 'Ẩn';
           newStateTitle = 'Ẩn';
-          alertMessage = `Đã hiện loại sản phẩm: ${categoryName}`;
+          toastMessage = `Đã hiện: <strong>${categoryName}</strong>`;
         }
 
-        // 4. Cập nhật thuộc tính title của nút
         button.title = newStateTitle;
 
-        // 5. Hiển thị thông báo SweetAlert2
-        if (alertMessage) {
-          Swal.fire({
-            icon: 'success', // Hoặc 'info', 'warning' tùy ý
-            title: 'Cập nhật thành công!',
-            html: alertMessage, // Dùng html để in đậm
-            timer: 1200, // Tự động đóng sau 2 giây
-            showConfirmButton: false
-          });
-        }
+        // TOAST
+        Toast.fire({
+          icon: 'success',
+          html: toastMessage
+        });
       });
+    });
 
+    // === XÓA DANH MỤC ===
+    const deleteButtons = document.querySelectorAll('.delete-btn');
+    deleteButtons.forEach(button => {
+      button.addEventListener('click', function () {
+        const row = button.closest('tr');
+        const categoryName = row.querySelector('.manage-name-category').textContent.trim();
 
-      //Hiệu ứng cho nút xoá
-      // 1. Lấy tất cả các nút có class 'delete-btn'
-      const deleteButtons = document.querySelectorAll('.delete-btn');
+        // Giữ popup xác nhận (quan trọng)
+        Swal.fire({
+          title: 'Xác nhận xóa?',
+          html: `Loại: <strong>${categoryName}</strong> sẽ bị xóa vĩnh viễn.`,
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#d33',
+          cancelButtonColor: '#3085d6',
+          confirmButtonText: 'Xóa',
+          cancelButtonText: 'Hủy'
+        }).then((result) => {
+          if (result.isConfirmed) {
+            // === GỌI API XÓA Ở ĐÂY ===
+            // row.remove();
 
-      // 2. Lặp qua từng nút và thêm trình lắng nghe sự kiện
-      deleteButtons.forEach(button => {
-        button.addEventListener('click', function () {
-          // Lấy tên loại sản phẩm từ cột bên cạnh
-          const row = button.closest('tr');
-          const categoryName = row.querySelector('.manage-name-category').textContent;
-
-          // 3. Hiển thị thông báo xác nhận xóa (Confirm Dialog)
-          Swal.fire({
-            title: 'Bạn có chắc chắn muốn xóa?',
-            html: `Loại sản phẩm: ${categoryName} sẽ bị xóa vĩnh viễn.`,
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#d33', // Màu đỏ cho nút Xóa
-            cancelButtonColor: '#3085d6',
-            confirmButtonText: 'Có, xóa nó!',
-            cancelButtonText: 'Hủy'
-          }).then((result) => {
-            // 4. Xử lý kết quả sau khi người dùng nhấn nút
-            if (result.isConfirmed) {
-              // *** THÊM LOGIC XÓA THỰC TẾ Ở ĐÂY (gọi API xóa, v.v.) ***
-
-              // Ví dụ: Xóa hàng khỏi bảng (chỉ là giao diện)
-              // row.remove(); 
-
-              // 5. Hiển thị thông báo xóa thành công
-              Swal.fire({
-                icon: 'success',
-                title: 'Đã Xóa!',
-                html: `Loại sản phẩm ${categoryName} đã được xóa.`,
-                timer: 2000,
-                showConfirmButton: false
-              });
-            } else if (result.dismiss === Swal.DismissReason.cancel) {
-              // Người dùng đã nhấn nút Hủy
-              Swal.fire({
-                icon: 'info',
-                title: 'Đã hủy',
-                text: 'Loại sản phẩm vẫn an toàn.',
-                timer: 1500,
-                showConfirmButton: false
-              });
-            }
-          });
+            Toast.fire({
+              icon: 'success',
+              html: `Đã xóa: <strong>${categoryName}</strong>`
+            });
+          } else if (result.dismiss === Swal.DismissReason.cancel) {
+            Toast.fire({
+              icon: 'info',
+              html: 'Đã hủy xóa'
+            });
+          }
         });
       });
     });
   });
 
-  /**
-   * Hàm xử lý logic khi nhấn nút 'Thêm mới' loại sản phẩm
-   * (Phiên bản đơn giản: Hiển thị thông báo ngay lập tức mà không cần kiểm tra input)
-   */
+  // === THÊM DANH MỤC MỚI ===
   function addNewCategory() {
-    // 1. Lấy tên loại sản phẩm (dù có thể rỗng, nhưng vẫn lấy để đưa vào thông báo)
     const newCategoryNameInput = document.getElementById('newCategoryName');
-    const name = newCategoryNameInput.value.trim() || 'Sản phẩm không tên'; // Nếu rỗng thì đặt tên mặc định
+    const name = newCategoryNameInput.value.trim() || '';
 
-    // 2. *** Bỏ qua logic kiểm tra dữ liệu và logic thêm vào hệ thống ***
+    // === GỌI API THÊM Ở ĐÂY ===
 
-    // 3. Hiển thị thông báo thêm thành công bằng SweetAlert2
-    Swal.fire({
+    // HIỆN TOAST
+    Toast.fire({
       icon: 'success',
-      title: 'Đã thêm thành công!',
-      // html: `Đã thêm loại sản phẩm mới: <strong>${name}</strong>.`,
-      timer: 1200,
-      showConfirmButton: false
+      html: `Đã thêm thành công <strong>${name}</strong>!`
     });
 
-    // 4. Xóa dữ liệu đã nhập sau khi thông báo
+    // XÓA FORM
     newCategoryNameInput.value = '';
-
-    // Xóa các input khác
-    document.querySelector('.add-form-category-products input[placeholder="Lợi nhuận(%)"]').value = '';
-    document.getElementById('newCategoryDescription').value = '';
+    const profitInput = document.querySelector('.add-form-category-products input[placeholder="Lợi nhuận(%)"]');
+    if (profitInput) profitInput.value = '';
+    const descInput = document.getElementById('newCategoryDescription');
+    if (descInput) descInput.value = '';
   }
-
 </script>
 
 </html>
