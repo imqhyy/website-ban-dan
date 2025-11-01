@@ -351,7 +351,12 @@
                           <span class="label">Mã đơn hàng:</span>
                           <span class="value">#ORD-2024-1278</span>
                         </div>
-                        <div class="order-date">20/02/2025</div>
+                        <div class="order-date" id="order-date"></div>
+
+                        <script>
+                          document.getElementById('order-date').textContent =
+                            new Date().toLocaleDateString('vi-VN');
+                        </script>
                       </div>
                       <div class="order-content">
                         <div class="product-grid">
@@ -1393,7 +1398,7 @@
                           </div>
                           <div class="col-md-6">
                             <label for="phone" class="form-label">Số điện thoại</label>
-                            <input type="tel" class="form-control" id="phone">
+                            <input type="phone" class="form-control" id="phone" value="(096) 969-6969">
                           </div>
 
                           <div class="input-new-avatar-image">
@@ -1416,7 +1421,7 @@
                             </div>
                           </div>
                         </div>
-                        
+
 
                         <div class="form-buttons">
                           <button type="submit" class="btn-save">Lưu thay đổi</button>

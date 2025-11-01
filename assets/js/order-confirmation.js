@@ -27,25 +27,26 @@ document.addEventListener('DOMContentLoaded', function () {
     // --- ĐIỀN THÔNG TIN VÀO TRANG ---
 
     // 1. Cột trái (Sidebar)
-    if (orderIdEl) orderIdEl.textContent = `Mã đơn: #DEMO-12345`;
+    if (orderIdEl) orderIdEl.textContent = `Mã đơn: #ORD-2024-1279`;
     if (orderDateEl) orderDateEl.textContent = `Ngày đặt: ${new Date().toLocaleDateString('vi-VN')}`;
     if (priceListEl) {
         priceListEl.innerHTML = `
             <li class="total">
                 <span>Tổng cộng</span>
-                <span>${total.toLocaleString('vi-VN')} VNĐ</span>
+                <span>${total.toLocaleString('vi-VN')} VND</span>
             </li>
         `;
     }
 
     // 2. Cột phải (Nội dung chính)
     if (currentUser) {
-        if (thankYouNameEl) thankYouNameEl.textContent = `Cảm ơn, ${currentUser.fullName}!`;
+        if (thankYouNameEl) thankYouNameEl.textContent = `Cảm ơn, Long G!`;
         if (shippingDetailsEl) {
             shippingDetailsEl.innerHTML = `
-                ${currentUser.fullName}<br>
-                 273 An Dương Vương, Phường, Chợ Quán, Thành phố Hồ Chí Minh 700000<br>
-                SĐT: ${currentUser.phone || 'Chưa có SĐT'}`;
+                Long G<br>
+                Địa chỉ: 273 An Dương Vương, Phường, Chợ Quán, Thành phố Hồ Chí Minh 700000<br>
+                Email: dragonG@gmai.com <br>
+                SĐT: (096) 969-6969`;
         }
     } else {
         if (thankYouNameEl) thankYouNameEl.textContent = `Cảm ơn bạn đã đặt hàng!`;
