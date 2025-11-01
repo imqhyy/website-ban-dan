@@ -6,9 +6,25 @@ document.addEventListener('DOMContentLoaded', function () {
     const currentUser = JSON.parse(sessionStorage.getItem('currentUser'));
     // KHÔNG KIỂM TRA GIỎ HÀNG THẬT NỮA
 
-    if (!currentUser) {
-        Swal.fire({ icon: 'warning', title: 'Yêu cầu đăng nhập', text: 'Bạn cần đăng nhập để thanh toán!' }).then(() => { window.location.href = 'login.html'; });
-        return;
+    if (currentUser) {
+        document.body.classList.remove('page-loading');
+    } else {
+        Swal.fire({
+            icon: 'warning',
+            title: 'Yêu cầu đăng nhập',
+            text: 'Bạn cần đăng nhập để có thể thanh toán!',
+            confirmButtonText: 'Đến trang đăng nhập',
+            allowOutsideClick: false,
+            customClass: {
+                container: 'blurred-login-alert', // Thêm class container riêng cho alert này
+                popup: 'my-swal-popup',
+                title: 'my-swal-title',
+                htmlContainer: 'my-swal-html-container',
+                confirmButton: 'my-swal-confirm-button'
+            }
+        }).then(() => {
+            window.location.href = 'login.html';
+        });
     }
 
     // --- LẤY CÁC PHẦN TỬ HTML ---
