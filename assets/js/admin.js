@@ -1,6 +1,16 @@
 
-
-                                    /*DÀNH CHO QUẢN LÝ KHÁCH HÀNG*/
+const Toast = Swal.mixin({
+    toast: true,
+    position: 'top-end',
+    showConfirmButton: false,
+    timer: 1200,
+    timerProgressBar: true,
+    didOpen: (toast) => {
+        toast.addEventListener('mouseenter', Swal.stopTimer);
+        toast.addEventListener('mouseleave', Swal.resumeTimer);
+    }
+});
+/*DÀNH CHO QUẢN LÝ KHÁCH HÀNG*/
 // Lấy các phần tử
 var modal = document.getElementById("DetailModal");
 var closeButton = document.querySelector(".close-button");
@@ -13,7 +23,7 @@ function showCustomerDetails(name, phone, img) {
     document.getElementById("modalPhone").innerText = phone;
     document.getElementById('modalImage').src = img;
     // ... Điền các dữ liệu khác tại đây
-    
+
     // 2. Hiển thị Modal
     modal.style.display = "block";
 }
@@ -24,12 +34,12 @@ function showCustomerDetails(name, phone, img) {
 // Bạn cần lắng nghe sự kiện bấm vào nút 'Chi tiết'
 // Giả sử nút 'Chi tiết' có class là 'detail-btn'
 document.querySelectorAll('.detail-btn').forEach(button => {
-    button.addEventListener('click', function(event) {
+    button.addEventListener('click', function (event) {
         event.preventDefault(); // Ngăn hành động chuyển trang mặc định của thẻ <a>
-        
+
         // **Lưu ý quan trọng:** Bạn phải lấy dữ liệu (Nguyễn Văn A, SĐT) từ HTML/Database
         // Trong ví dụ này, ta giả định dữ liệu có sẵn:
-        var customerName = 'Châu Tinh Trì'; 
+        var customerName = 'Châu Tinh Trì';
         var customerPhone = '0987654321';
         var customerImage = 'assets/img/person/chautinhtri.jpg';
         showCustomerDetails(customerName, customerPhone, customerImage);
@@ -40,18 +50,18 @@ document.querySelectorAll('.detail-btn').forEach(button => {
 // Đóng Modal
 // --------------------
 // Khi bấm vào nút Đóng (X)
-closeButton.onclick = function() {
+closeButton.onclick = function () {
     modal.style.display = "none";
 }
 
 // Khi bấm vào bất kỳ đâu ngoài Modal
-window.onclick = function(event) {
+window.onclick = function (event) {
     if (event.target == modal) {
         modal.style.display = "none";
     }
 }
 
-                    /*DÀNH CHO TRANG QUẢN LÝ PHÂN LOẠI*/
+/*DÀNH CHO TRANG QUẢN LÝ PHÂN LOẠI*/
 
 
 
@@ -73,7 +83,7 @@ const brandData = {
 const brandsUlList = document.getElementById("brandsUlList"); // Dùng ID mới của UL
 
 function showBrandList(nameCategory) {
-    
+
     // 2. Lấy danh sách thương hiệu dựa trên tên loại sản phẩm
     const brands = brandData[nameCategory];
     // 3. Xóa nội dung cũ trong UL
@@ -92,14 +102,14 @@ function showBrandList(nameCategory) {
         li.textContent = `Chưa có thương hiệu nào cho loại ${nameCategory}.`;
         brandsUlList.appendChild(li);
     }
-    
+
 }
 
 
 const manageButtons = document.querySelectorAll('.manage-brands-btn');
 // 3. Lặp qua từng nút và gắn sự kiện 'click'
 manageButtons.forEach(button => {
-    button.addEventListener('click', function(event) {
+    button.addEventListener('click', function (event) {
         event.preventDefault(); // Ngăn hành động mặc định (nếu là thẻ <a>)
         const row = button.closest('tr');
         const categoryTd = row.querySelector('.manage-name-category');
@@ -112,25 +122,25 @@ manageButtons.forEach(button => {
 });
 
 const editButtons = document.querySelectorAll('.edit-btn');
-if(editButtons) {
+if (editButtons) {
     editButtons.forEach(button => {
-        button.addEventListener('click', function(event) {
+        button.addEventListener('click', function (event) {
             event.preventDefault();
             // Lấy modal chỉnh sửa bằng ID
             const editModal = document.getElementById('edit-info-category');
             const closebuttonforeditinfocategory = document.querySelector('.close-button-for-edit-info-category');
-            closebuttonforeditinfocategory.onclick = function() {
+            closebuttonforeditinfocategory.onclick = function () {
                 editModal.style.display = "none";
             }
 
             // Khi bấm vào bất kỳ đâu ngoài Modal
-            window.onclick = function(event) {
+            window.onclick = function (event) {
                 if (event.target == editModal) {
                     editModal.style.display = "none";
                 }
             }
             // Khi bấm lưu đóng editModal
-            document.querySelector('.close-button-for-edit-category-container').onclick = function() {
+            document.querySelector('.close-button-for-edit-category-container').onclick = function () {
                 editModal.style.display = "none";
             }
             // Lấy thông tin từ hàng hiện tại để điền vào modal (Nâng cao: Tùy chọn)
@@ -138,7 +148,7 @@ if(editButtons) {
             if (row) {
                 // Lấy ra các ô dữ liệu (<td>) trong hàng
                 const cells = row.querySelectorAll('td');
-                
+
                 // Cấu trúc cột dựa trên HTML của bạn:
                 // 0: ID
                 // 1: Tên Loại (class: .manage-name-category)
@@ -152,7 +162,7 @@ if(editButtons) {
                 const description = cells[3].textContent.trim(); // Cột Mô tả
 
                 // 2. ĐIỀN DỮ LIỆU VÀO CÁC INPUT TRONG MODAL
-                
+
                 // a) Tên Loại (Input đầu tiên trong <h3>)
                 const nameInput = document.getElementById('input-edit-namecategory');
                 if (nameInput) {
@@ -164,7 +174,7 @@ if(editButtons) {
                 if (profitInput) {
                     profitInput.value = profitPercentage;
                 }
-                
+
                 // c) Mô tả (Textarea)
                 const descriptionTextarea = document.getElementById('mo_ta');
                 if (descriptionTextarea) {
@@ -179,7 +189,7 @@ if(editButtons) {
 
 
 
-                                    /*DÀNH CHO QUẢN LÝ NHẬP SẢN PHẨM */
+/*DÀNH CHO QUẢN LÝ NHẬP SẢN PHẨM */
 
 
 // Dữ liệu mẫu tên sản phẩm (Bạn cần phải tùy chỉnh dữ liệu này)
@@ -202,12 +212,12 @@ function updateProductDatalist(productContainer) {
     const typeSelect = productContainer.querySelector('.manage-product-type');
     const brandSelect = productContainer.querySelector('.manage-product-brands');
     const productNameInput = productContainer.querySelector('.product-name-input');
-    
+
     if (!typeSelect || !brandSelect || !productNameInput) return;
 
     const selectedType = typeSelect.value;
     const selectedBrand = brandSelect.value;
-    
+
     // 2. Lấy datalist tương ứng với input tên sản phẩm
     //    (Lưu ý: datalist có thể có ID tĩnh, nhưng nên tạo/quản lý riêng cho từng sản phẩm)
     //    Để đơn giản, ta sẽ chỉ tìm datalist ngay sau input Tên sản phẩm
@@ -216,7 +226,7 @@ function updateProductDatalist(productContainer) {
 
     // 3. Xóa nội dung cũ
     datalist.innerHTML = '';
-    
+
     // 4. Lấy danh sách tên sản phẩm từ dữ liệu mẫu
     const productList = productNamesData[selectedType]?.[selectedBrand] || [];
 
@@ -232,10 +242,10 @@ function updateProductDatalist(productContainer) {
 function updateBrandsForProduct(typeSelect) { // khi chọn loại acoustic hay classic thì các brand cũng thay đổi
     // 1. Lấy giá trị loại sản phẩm đang được chọn
     const selectedType = typeSelect.value;
-            
+
     // 2. Lấy thẻ select Thương hiệu tương ứng (là phần tử cùng cấp trong div cha)
     //    Chúng ta tìm kiếm thẻ select có class 'manage-product-brands' bên trong thẻ DIV cha của typeSelect.
-    const productContainer = typeSelect.closest('.product-fields-template'); 
+    const productContainer = typeSelect.closest('.product-fields-template');
     if (!productContainer) return; // Bảo vệ nếu không tìm thấy container
 
     const brandSelect = productContainer.querySelector('.manage-product-brands');
@@ -262,17 +272,17 @@ function updateBrandsForProduct(typeSelect) { // khi chọn loại acoustic hay 
 //Hàm xử lý tiền tệ khi nhập đơn giá (KHÔNG ĐỔI)
 function formatCurrency(value) {
     // 1. Loại bỏ tất cả ký tự không phải số (trừ dấu chấm để tránh bị lỗi khi nhập liệu)
-    const rawNumber = value.toString().replace(/[^0-9]/g, ''); 
-    
+    const rawNumber = value.toString().replace(/[^0-9]/g, '');
+
     // Nếu số lượng chữ số dưới 4, không định dạng dấu chấm
     if (rawNumber.length < 4) {
-        return rawNumber; 
+        return rawNumber;
     }
 
     // 2. Định dạng số với dấu chấm là dấu phân cách hàng nghìn (ví dụ: 12.345.678)
     // RegExp: Tìm tất cả vị trí có 3 chữ số đứng sau, không phải ở đầu chuỗi và không có thêm chữ số nào sau nó.
-    const formatted = rawNumber.replace(/\B(?=(\d{3})+(?!\d))/g, "."); 
-    
+    const formatted = rawNumber.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+
     // 3. Thêm đơn vị VND
     return formatted + " VND";
 }
@@ -282,10 +292,10 @@ function attachPriceFormatter(inputElement) {
     if (!inputElement) return;
 
     // --- Định nghĩa hàm xử lý định dạng chung ---
-    const handleFormatting = function() {
+    const handleFormatting = function () {
         // Lấy giá trị hiện tại, loại bỏ tất cả ký tự không phải số
         const currentValue = this.value.replace(/[^0-9]/g, '');
-        
+
         // Chỉ định dạng nếu có giá trị
         if (currentValue) {
             // Gán lại giá trị đã được định dạng (có dấu chấm và VND)
@@ -295,9 +305,9 @@ function attachPriceFormatter(inputElement) {
             this.value = '';
         }
     };
-    
+
     // --- Định nghĩa hàm xử lý khi nhấn phím ---
-    const handleKeydown = function(event) {
+    const handleKeydown = function (event) {
         // Kiểm tra xem phím Enter (key code 13) có được nhấn không
         if (event.key === 'Enter') {
             event.preventDefault(); // Ngăn trình duyệt gửi form hoặc hành động mặc định
@@ -311,9 +321,9 @@ function attachPriceFormatter(inputElement) {
 
     // 2. Gán sự kiện KEYDOWN (Nhấn Enter)
     inputElement.addEventListener('keydown', handleKeydown);
-    
+
     // QUAN TRỌNG: Gán sự kiện FOCUS để dọn dẹp định dạng khi BẮT ĐẦU nhập lại
-    inputElement.addEventListener('focus', function() {
+    inputElement.addEventListener('focus', function () {
         // Khi người dùng click vào ô, loại bỏ ' VND' và dấu chấm để họ nhập số thuần
         this.value = this.value.replace(/[^0-9]/g, '');
     });
@@ -332,15 +342,15 @@ function resetImportForm() {
 
     // 2. Chỉ giữ lại 1 sản phẩm duy nhất và reset nó
     const allProductFields = importFormContainer.querySelectorAll('.product-fields-template');
-    
+
     // Giữ lại phần tử đầu tiên (sản phẩm mặc định)
     const initialProductFields = allProductFields[0];
-    
+
     // Xóa tất cả các phần tử sản phẩm thừa (từ phần tử thứ 2 trở đi)
     for (let i = 1; i < allProductFields.length; i++) {
         allProductFields[i].remove();
     }
-    
+
     // 3. Reset các trường của sản phẩm còn lại (sản phẩm đầu tiên)
     initialProductFields.querySelectorAll('input, select').forEach(element => {
         if (element.tagName === 'SELECT') {
@@ -358,20 +368,20 @@ function resetImportForm() {
 }
 
 
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     // 1. Gán sự kiện 'change' cho tất cả các select Loại sản phẩm hiện có
     //    (Áp dụng cho sản phẩm mặc định ban đầu)
     document.querySelectorAll('.manage-product-type').forEach(selectElement => { //khi thay đổi lựa chọn phân loại sẽ kích hoạt hàm thay đổi brand
-        selectElement.addEventListener('change', function() {
+        selectElement.addEventListener('change', function () {
             updateBrandsForProduct(this); // 'this' là select Loại sản phẩm vừa thay đổi
         });
         // Gọi hàm để thiết lập Thương hiệu ban đầu cho sản phẩm mặc định
-        updateBrandsForProduct(selectElement); 
+        updateBrandsForProduct(selectElement);
     });
 
     // THAY ĐỔI MỚI: Gán sự kiện 'change' cho tất cả các select Thương hiệu hiện có
     document.querySelectorAll('.manage-product-brands').forEach(selectElement => {
-        selectElement.addEventListener('change', function() {
+        selectElement.addEventListener('change', function () {
             // Lấy div cha (.product-fields-template)
             const productContainer = this.closest('.product-fields-template');
             updateProductDatalist(productContainer);
@@ -384,10 +394,10 @@ document.addEventListener('DOMContentLoaded', function() {
     });
     // ===================================================
 
-    
+
     document.querySelectorAll('.create-import-btn').forEach(button => { //hiện popup khi click vào nút thêm phiếu nhập
-        button.addEventListener('click', function(event) {
-            event.preventDefault(); 
+        button.addEventListener('click', function (event) {
+            event.preventDefault();
             // <<< THÊM: Reset form trước khi mở modal >>>
             resetImportForm();
             modal.style.display = "block";
@@ -398,7 +408,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const initialRemoveBtn = initialProductTemplate.querySelector('.remove-product-btn');
     if (initialRemoveBtn) {
         // Ẩn nút xóa trên sản phẩm đầu tiên để đảm bảo luôn có ít nhất 1 sản phẩm
-        initialRemoveBtn.style.display = 'none'; 
+        initialRemoveBtn.style.display = 'none';
     }
 
 
@@ -407,13 +417,13 @@ document.addEventListener('DOMContentLoaded', function() {
     const importFormContainer = document.getElementById('import-form-container');
     const productTemplate = document.getElementsByClassName('product-fields-template')[0];
     const actionButtonConatainer = document.getElementById('manage-add-and-save-container');
-    
+
     if (addProductButton && actionButtonConatainer) {
-        addProductButton.addEventListener('click', function() {
+        addProductButton.addEventListener('click', function () {
             const newProductFields = productTemplate.cloneNode(true);
-            
+
             // ... (Phần xóa giá trị và thêm HR như code trước) ...
-            
+
             // Xóa giá trị input và reset select
             newProductFields.querySelectorAll('input, select').forEach(element => {
                 if (element.tagName === 'SELECT') {
@@ -427,28 +437,28 @@ document.addEventListener('DOMContentLoaded', function() {
             const newRemoveBtn = newProductFields.querySelector('.remove-product-btn');
             if (newRemoveBtn) {
                 newRemoveBtn.style.display = 'block'; // Đảm bảo nút này hiển thị
-                
+
                 // 2. GÁN SỰ KIỆN XÓA CHO NÚT MỚI
-                newRemoveBtn.addEventListener('click', function() {
+                newRemoveBtn.addEventListener('click', function () {
                     // Xóa phần tử cha của nút (chính là .product-fields-template)
-                    newProductFields.remove(); 
+                    newProductFields.remove();
                 });
             }
-            
-            
+
+
             // CHỖ QUAN TRỌNG: Gán sự kiện 'change' cho select Loại sản phẩm MỚI
             const newTypeSelect = newProductFields.querySelector('.manage-product-type');
-            newTypeSelect.addEventListener('change', function() {
+            newTypeSelect.addEventListener('change', function () {
                 updateBrandsForProduct(this);
             });
 
             // Gán sự kiện 'change' cho select Thương hiệu MỚI
             const newBrandSelect = newProductFields.querySelector('.manage-product-brands');
-            newBrandSelect.addEventListener('change', function() {
+            newBrandSelect.addEventListener('change', function () {
                 const productContainer = this.closest('.product-fields-template');
                 updateProductDatalist(productContainer);
             });
-            
+
             // THAY ĐỔI MỚI: Gán sự kiện format cho ô Đơn giá MỚI
             const newPriceInput = newProductFields.querySelector('.unit-price-input');
             attachPriceFormatter(newPriceInput);
@@ -462,25 +472,24 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     const button_saveimportproduct = document.getElementById('save-import-product');
-    if(button_saveimportproduct) {
-        button_saveimportproduct.addEventListener('click', function(event) {
-            event.preventDefault(); // Ngăn hành động mặc định (nếu có)
-            
+    if (button_saveimportproduct) {
+        button_saveimportproduct.addEventListener('click', function (event) {
+            event.preventDefault(); // Ngăn submit form nếu có
+
             // 1. Đóng Modal
             modal.style.display = "none";
-            
-            // <<< THÊM: Reset form trước khi mở modal >>>
+
+            // 2. Reset form
             resetImportForm();
-            
-            // 2. Hiện thông báo (Sử dụng SweetAlert2 nếu đã được tích hợp, nếu không dùng alert() mặc định)
-            Swal.fire({
+
+            // 3. Hiện Toast thành công
+            Toast.fire({
                 icon: 'success',
-                title: 'Thành công!',
-                text: 'Phiếu nhập đã được lưu thành công.',
-                confirmButtonText: 'Đóng'
+                title: 'Phiếu nhập đã được lưu thành công!'
             });
-            
-            // NOTE: Thêm code xử lý lưu dữ liệu (gọi API, lưu LocalStorage,...) tại đây
+
+            // TODO: Gọi API lưu dữ liệu ở đây
+            // saveImportData();
         });
     }
 
