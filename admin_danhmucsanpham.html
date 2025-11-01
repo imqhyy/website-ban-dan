@@ -601,6 +601,17 @@
   <!-- <script src="assets/js/login.js"></script> -->
 </body>
 <script>
+  const Toast = Swal.mixin({
+    toast: true,
+    position: 'top-end',
+    showConfirmButton: false,
+    timer: 1200,
+    timerProgressBar: true,
+    didOpen: (toast) => {
+      toast.addEventListener('mouseenter', Swal.stopTimer);
+      toast.addEventListener('mouseleave', Swal.resumeTimer);
+    }
+  });
   document.addEventListener('DOMContentLoaded', function () {
     const addButton = document.getElementById('open-add-product');
 
