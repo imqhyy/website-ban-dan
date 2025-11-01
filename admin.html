@@ -131,7 +131,7 @@
                           }
                         }).then((result) => {
                           if (result.isConfirmed) {
-                            sessionStorage.removeItem('isLoggedIn'); 
+                            sessionStorage.removeItem('isLoggedIn');
                             Swal.fire({
                               icon: 'success',
                               title: 'Đăng xuất thành công!',
@@ -166,11 +166,11 @@
       <div class="container-fluid container-xl position-relative">
         <nav id="navmenu" class="navmenu">
           <ul>
+            <li><a href="admin.html">Trang điều khiển</a></li>
             <li><a href="admin_quanlykhachhang.html">Quản lý khách hàng</a></li>
             <li><a href="admin_quanlyloaisanpham.html">Quản lý loại sản phẩm</a></li>
             <li><a href="admin_danhmucsanpham.html">Quản lý danh mục sản phẩm</a></li>
             <li><a href="admin_quanlynhapsanpham.html">Quản lý nhập sản phẩm</a></li>
-            <li><a href="admin_quanlygiaban.html">Quản lý giá bán</a></li>
             <li><a href="admin_quanlydonhang.html">Quản lý đơn hàng</a></li>
             <li><a href="admin_quanlytonkho.html">Quản lý tồn kho</a></li>
           </ul>
@@ -194,346 +194,239 @@
 
   </header>
 
+  <!-- THAY THẾ PHẦN <main> HIỆN TẠI BẰNG ĐOẠN NÀY -->
   <main class="main">
 
-    <div class="page-breadcrumb">
-      <div class="row">
-        <div class="col-5 align-self-center">
-          <h4 class="page-title">Dashboard</h4>
-        </div>
-        <div class="col-7 align-self-center">
-          <div class="d-flex align-items-center justify-content-end">
-            <nav aria-label="breadcrumb">
-              <ol class="breadcrumb">
-                <li class="breadcrumb-item">
-                  <a href="#">Home</a>
-                </li>
-                <li class="breadcrumb-item active" aria-current="page">Dashboard</li>
-              </ol>
-            </nav>
-          </div>
-        </div>
+    <!-- Page Title -->
+    <div class="page-title light-background">
+      <div class="container d-lg-flex justify-content-between align-items-center">
+        <h1 class="mb-2 mb-lg-0">Trang điều khiển</h1>
+        <nav class="breadcrumbs">
+          <ol>
+            <li><a href="index.html">Trang chủ</a></li>
+            <li class="current">Trang điều khiển</li>
+          </ol>
+        </nav>
       </div>
     </div>
-    <!-- ============================================================== -->
-    <!-- End Bread crumb and right sidebar toggle -->
-    <!-- ============================================================== -->
-    <!-- ============================================================== -->
-    <!-- Container fluid  -->
-    <!-- ============================================================== -->
-    <div class="container-fluid">
-      <!-- ============================================================== -->
-      <!-- Email campaign chart -->
-      <!-- ============================================================== -->
-      <div class="row">
-        <div class="col-md-8">
-          <div class="card">
-            <div class="card-body">
-              <h4 class="card-title">Sales Ratio</h4>
-              <div class="sales ct-charts mt-3"></div>
+
+    <!-- Stats Cards -->
+    <section class="section dashboard">
+      <div class="container">
+
+        <div class="row g-4">
+
+          <!-- 1. Doanh thu hôm nay -->
+          <div class="col-lg-3 col-md-6">
+            <div class="card info-card sales-card">
+          
+              <!-- 1. BỘ LỌC (FILTER) ĐƯỢC THÊM VÀO -->
+              <div class="filter">
+                <a class="icon" href="#" data-bs-toggle="dropdown">
+                  <i class="bi bi-three-dots"></i>
+                </a>
+                <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+                  <li class="dropdown-header text-start">
+                    <h7>Bộ lọc</h7>
+                  </li>
+                  <li><a class="dropdown-item" href="#">Hôm nay</a></li>
+                  <li><a class="dropdown-item" href="#">Tháng này</a></li>
+                  <li><a class="dropdown-item" href="#">Năm nay</a></li>
+                </ul>
+              </div>
+          
+              <div class="card-body">
+                <h5 class="card-title">Doanh thu <span>| Hôm nay</span></h5>
+          
+                <div class="d-flex align-items-start">
+                  <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                    <i class="bi bi-cash-stack"></i>
+                  </div>
+                  <div class="ps-3">
+                    <h6>24.500.000 VND</h6>
+                    <span class="text-success small pt-1 fw-bold">+12% so với hôm qua</span>
+                  </div>
+                </div>
+          
+              </div>
             </div>
           </div>
+
+          <!-- 2. Đơn hàng mới -->
+          <div class="col-lg-3 col-md-6">
+            <div class="card info-card revenue-card">
+              <div class="filter">
+                <a class="icon" href="#" data-bs-toggle="dropdown">
+                  <i class="bi bi-three-dots"></i>
+                </a>
+                <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+                  <li class="dropdown-header text-start">
+                    <h7>Bộ lọc</h7>
+                  </li>
+                  <li><a class="dropdown-item" href="#">Hôm nay</a></li>
+                  <li><a class="dropdown-item" href="#">Tháng này</a></li>
+                  <li><a class="dropdown-item" href="#">Năm nay</a></li>
+                </ul>
+              </div>
+              <div class="card-body">
+                <h5 class="card-title">Đơn hàng <span>| Hôm nay</span></h5>
+          
+                <div class="d-flex align-items-start">
+                  <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                    <i class="bi bi-cart"></i>
+                  </div>
+                  <div class="ps-3">
+                    <h6>42</h6>
+                    <span class="text-success small pt-1 fw-bold">+8 so với hôm qua</span> 
+                    <span class="text-warning small pt-1 d-block">25 đơn đang chờ xử lý</span>                   
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 3. Khách hàng hoạt động -->
+          <div class="col-lg-3 col-md-6">
+            <div class="card info-card customers-card">
+              <div class="filter">
+                <a class="icon" href="#" data-bs-toggle="dropdown">
+                  <i class="bi bi-three-dots"></i>
+                </a>
+                <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+                  <li class="dropdown-header text-start">
+                    <h7>Bộ lọc</h7>
+                  </li>
+                  <li><a class="dropdown-item" href="#">Tuần này</a></li>
+                  <li><a class="dropdown-item" href="#">Tháng này</a></li>
+                  <li><a class="dropdown-item" href="#">Năm nay</a></li>
+                </ul>
+              </div>
+              <div class="card-body">
+                <h5 class="card-title">Khách hoạt động <span>| Tuần này</span></h5>
+          
+                <div class="d-flex align-items-start">
+                  <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                    <i class="bi bi-people"></i>
+                  </div>
+                  <div class="ps-3">
+                    <h6>268</h6>
+          
+                    <span class="text-success small pt-1 fw-bold">+5% so với tuần trước</span>
+          
+                    <span class="text-info small pt-1 d-block">30 khách mới</span>
+          
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Tồn kho thấp -->
+          <div class="col-lg-3 col-md-6">
+            <div class="card info-card warning-card h-100">         
+              <div class="card-body">
+                <h5 class="card-title">Sản phẩm sắp hết hàng</h5>
+          
+                <div class="d-flex align-items-center">
+                  <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                    <i class="bi bi-exclamation-triangle"></i>
+                  </div>
+                  <div class="ps-3">
+                    <h6 class="text-danger">Dưới 5 cây</h6>
+                  </div>
+                </div>
+          
+                <div class="mt-2 small" style="max-height: 85px; overflow-y: auto; font-size: 0.9rem;">
+                  <div><strong>Enya EGA X0 PRO SP1:</strong> <span class="text-warning fw-bold">3 cây</span></div>
+                  <div><strong>Yamaha CGS102AII:</strong> <span class="text-danger fw-bold">1 cây</span></div>
+                  <div><strong>Saga SS 8CE:</strong> <span class="text-danger fw-bold">0 cây</span> → <span
+                      class="text-danger fw-bold">Hết hàng</span></div>
+                </div>
+          
+                <a href="admin_quanlytonkho.html" class="btn btn-sm btn-warning d-block mt-2">Xem chi tiết</a>
+          
+              </div>
+            </div>
+          </div>
+
+          <div class="row g-4 mt-2">
+
+            <!-- Biểu đồ doanh thu -->
+            <div class="col-lg-8">
+              <div class="card">
+                <div class="card-body">
+                  <h5 class="card-title">Doanh thu 6 tháng gần nhất</h5>
+                  <div class="chart-container" style="position: relative; height: 350px;">
+                    <canvas id="revenueChart"></canvas>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Biểu đồ tròn -->
+            <div class="col-lg-4">
+              <div class="card">
+                <div class="card-body">
+                  <h5 class="card-title">Tỷ lệ đơn hàng</h5>
+                  <div class="chart-container" style="position: relative; height: 350px;">
+                    <canvas id="orderStatusChart"></canvas>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Bảng đơn hàng gần nhất -->
+          <div class="row mt-4">
+            <div class="col-12">
+              <div class="card recent-sales">
+                <div class="card-body">
+                  <h5 class="card-title">Đơn hàng gần nhất</h5>
+                  <div class="table-responsive">
+                    <table class="table table-borderless datatable">
+                      <thead>
+                        <tr>
+                          <th>Mã đơn</th>
+                          <th>Khách hàng</th>
+                          <th>Sản phẩm</th>
+                          <th>Giá</th>
+                          <th>Trạng thái</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td><a href="#">#ORD-2024-1279</a></td>
+                          <td>Long G</td>
+                          <td>Enya EA X2 + Saga A1 DE PRO + Taylor 110E</td>
+                          <td>701.000.000 VND</td>
+                          <td><span class="badge bg-warning">Đang xử lý</span></td>
+                          
+                        </tr>
+                        <tr>
+                          <td><a href="#">#ORD-2024-1278</a></td>
+                          <td>Sói Cô Độc</td>
+                          <td>Guitar Yamaha FG800</td>
+                          <td>5.200.000 VND</td>
+                          <td><span class="badge bg-success">Hoàn thành</span></td>
+                        </tr>
+                        <tr>
+                          <td><a href="#">#ORD-2024-1277</a></td>
+                          <td>Châu Tinh Trì</td>
+                          <td>Enya EGA X0 PRO SP1</td>
+                          <td>11.300.000 VND</td>
+                          <td><span class="badge bg-success">Hoàn thành</span></td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
         </div>
-        <div class="col-md-4">
-          <div class="card">
-            <div class="card-body">
-              <h5 class="card-title m-b-5">Referral Earnings</h5>
-              <h3 class="font-light">$769.08</h3>
-              <div class="m-t-20 text-center">
-                <div id="earnings"></div>
-              </div>
-            </div>
-          </div>
-          <div class="card">
-            <div class="card-body">
-              <h4 class="card-title m-b-0">Users</h4>
-              <h2 class="font-light">35,658 <span class="font-16 text-success font-medium">+23%</span></h2>
-              <div class="m-t-30">
-                <div class="row text-center">
-                  <div class="col-6 border-right">
-                    <h4 class="m-b-0">58%</h4>
-                    <span class="font-14 text-muted">New Users</span>
-                  </div>
-                  <div class="col-6">
-                    <h4 class="m-b-0">42%</h4>
-                    <span class="font-14 text-muted">Repeat Users</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <!-- ============================================================== -->
-      <!-- Email campaign chart -->
-      <!-- ============================================================== -->
-      <!-- ============================================================== -->
-      <!-- Ravenue - page-view-bounce rate -->
-      <!-- ============================================================== -->
-      <div class="row">
-        <!-- column -->
-        <div class="col-12">
-          <div class="card">
-            <div class="card-body">
-              <h4 class="card-title">Latest Sales</h4>
-            </div>
-            <div class="table-responsive">
-              <table class="table table-hover">
-                <thead>
-                  <tr>
-                    <th class="border-top-0">NAME</th>
-                    <th class="border-top-0">STATUS</th>
-                    <th class="border-top-0">DATE</th>
-                    <th class="border-top-0">PRICE</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-    
-                    <td class="txt-oflo">Elite admin</td>
-                    <td><span class="label label-success label-rounded">SALE</span> </td>
-                    <td class="txt-oflo">April 18, 2017</td>
-                    <td><span class="font-medium">$24</span></td>
-                  </tr>
-                  <tr>
-    
-                    <td class="txt-oflo">Real Homes WP Theme</td>
-                    <td><span class="label label-info label-rounded">EXTENDED</span></td>
-                    <td class="txt-oflo">April 19, 2017</td>
-                    <td><span class="font-medium">$1250</span></td>
-                  </tr>
-                  <tr>
-    
-                    <td class="txt-oflo">Ample Admin</td>
-                    <td><span class="label label-purple label-rounded">Tax</span></td>
-                    <td class="txt-oflo">April 19, 2017</td>
-                    <td><span class="font-medium">$1250</span></td>
-                  </tr>
-                  <tr>
-    
-                    <td class="txt-oflo">Medical Pro WP Theme</td>
-                    <td><span class="label label-success label-rounded">Sale</span></td>
-                    <td class="txt-oflo">April 20, 2017</td>
-                    <td><span class="font-medium">-$24</span></td>
-                  </tr>
-                  <tr>
-    
-                    <td class="txt-oflo">Hosting press html</td>
-                    <td><span class="label label-success label-rounded">SALE</span></td>
-                    <td class="txt-oflo">April 21, 2017</td>
-                    <td><span class="font-medium">$24</span></td>
-                  </tr>
-                  <tr>
-    
-                    <td class="txt-oflo">Digital Agency PSD</td>
-                    <td><span class="label label-danger label-rounded">Tax</span> </td>
-                    <td class="txt-oflo">April 23, 2017</td>
-                    <td><span class="font-medium">-$14</span></td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </div>
-      </div>
-      <!-- ============================================================== -->
-      <!-- Ravenue - page-view-bounce rate -->
-      <!-- ============================================================== -->
-      <!-- ============================================================== -->
-      <!-- Recent comment and chats -->
-      <!-- ============================================================== -->
-      <div class="row">
-        <!-- column -->
-        <div class="col-lg-6">
-          <div class="card">
-            <div class="card-body">
-              <h4 class="card-title">Recent Comments</h4>
-            </div>
-            <div class="comment-widgets" style="height:430px;">
-              <!-- Comment Row -->
-              <div class="d-flex flex-row comment-row m-t-0">
-                <div class="p-2">
-                  <img src="../../assets/images/users/1.jpg" alt="user" width="50" class="rounded-circle">
-                </div>
-                <div class="comment-text w-100">
-                  <h6 class="font-medium">James Anderson</h6>
-                  <span class="m-b-15 d-block">Lorem Ipsum is simply dummy text of the printing and type setting industry.
-                  </span>
-                  <div class="comment-footer">
-                    <span class="text-muted float-right">April 14, 2016</span>
-                    <span class="label label-rounded label-primary">Pending</span>
-                    <span class="action-icons">
-                      <a href="javascript:void(0)">
-                        <i class="ti-pencil-alt"></i>
-                      </a>
-                      <a href="javascript:void(0)">
-                        <i class="ti-check"></i>
-                      </a>
-                      <a href="javascript:void(0)">
-                        <i class="ti-heart"></i>
-                      </a>
-                    </span>
-                  </div>
-                </div>
-              </div>
-              <!-- Comment Row -->
-              <div class="d-flex flex-row comment-row">
-                <div class="p-2">
-                  <img src="../../assets/images/users/4.jpg" alt="user" width="50" class="rounded-circle">
-                </div>
-                <div class="comment-text active w-100">
-                  <h6 class="font-medium">Michael Jorden</h6>
-                  <span class="m-b-15 d-block">Lorem Ipsum is simply dummy text of the printing and type setting industry.
-                  </span>
-                  <div class="comment-footer ">
-                    <span class="text-muted float-right">April 14, 2016</span>
-                    <span class="label label-success label-rounded">Approved</span>
-                    <span class="action-icons active">
-                      <a href="javascript:void(0)">
-                        <i class="ti-pencil-alt"></i>
-                      </a>
-                      <a href="javascript:void(0)">
-                        <i class="icon-close"></i>
-                      </a>
-                      <a href="javascript:void(0)">
-                        <i class="ti-heart text-danger"></i>
-                      </a>
-                    </span>
-                  </div>
-                </div>
-              </div>
-              <!-- Comment Row -->
-              <div class="d-flex flex-row comment-row">
-                <div class="p-2">
-                  <img src="../../assets/images/users/5.jpg" alt="user" width="50" class="rounded-circle">
-                </div>
-                <div class="comment-text w-100">
-                  <h6 class="font-medium">Johnathan Doeting</h6>
-                  <span class="m-b-15 d-block">Lorem Ipsum is simply dummy text of the printing and type setting industry.
-                  </span>
-                  <div class="comment-footer">
-                    <span class="text-muted float-right">April 14, 2016</span>
-                    <span class="label label-rounded label-danger">Rejected</span>
-                    <span class="action-icons">
-                      <a href="javascript:void(0)">
-                        <i class="ti-pencil-alt"></i>
-                      </a>
-                      <a href="javascript:void(0)">
-                        <i class="ti-check"></i>
-                      </a>
-                      <a href="javascript:void(0)">
-                        <i class="ti-heart"></i>
-                      </a>
-                    </span>
-                  </div>
-                </div>
-              </div>
-              <!-- Comment Row -->
-              <div class="d-flex flex-row comment-row m-t-0">
-                <div class="p-2">
-                  <img src="../../assets/images/users/2.jpg" alt="user" width="50" class="rounded-circle">
-                </div>
-                <div class="comment-text w-100">
-                  <h6 class="font-medium">Steve Jobs</h6>
-                  <span class="m-b-15 d-block">Lorem Ipsum is simply dummy text of the printing and type setting industry.
-                  </span>
-                  <div class="comment-footer">
-                    <span class="text-muted float-right">April 14, 2016</span>
-                    <span class="label label-rounded label-primary">Pending</span>
-                    <span class="action-icons">
-                      <a href="javascript:void(0)">
-                        <i class="ti-pencil-alt"></i>
-                      </a>
-                      <a href="javascript:void(0)">
-                        <i class="ti-check"></i>
-                      </a>
-                      <a href="javascript:void(0)">
-                        <i class="ti-heart"></i>
-                      </a>
-                    </span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <!-- column -->
-        <div class="col-lg-6">
-          <div class="card">
-            <div class="card-body">
-              <h4 class="card-title">Temp Guide</h4>
-              <div class="d-flex align-items-center flex-row m-t-30">
-                <div class="display-5 text-info"><i class="wi wi-day-showers"></i> <span>73<sup>°</sup></span></div>
-                <div class="m-l-10">
-                  <h3 class="m-b-0">Saturday</h3><small>Ahmedabad, India</small>
-                </div>
-              </div>
-              <table class="table no-border mini-table m-t-20">
-                <tbody>
-                  <tr>
-                    <td class="text-muted">Wind</td>
-                    <td class="font-medium">ESE 17 mph</td>
-                  </tr>
-                  <tr>
-                    <td class="text-muted">Humidity</td>
-                    <td class="font-medium">83%</td>
-                  </tr>
-                  <tr>
-                    <td class="text-muted">Pressure</td>
-                    <td class="font-medium">28.56 in</td>
-                  </tr>
-                  <tr>
-                    <td class="text-muted">Cloud Cover</td>
-                    <td class="font-medium">78%</td>
-                  </tr>
-                </tbody>
-              </table>
-              <ul class="row list-style-none text-center m-t-30">
-                <li class="col-3">
-                  <h4 class="text-info"><i class="wi wi-day-sunny"></i></h4>
-                  <span class="d-block text-muted">09:30</span>
-                  <h3 class="m-t-5">70<sup>°</sup></h3>
-                </li>
-                <li class="col-3">
-                  <h4 class="text-info"><i class="wi wi-day-cloudy"></i></h4>
-                  <span class="d-block text-muted">11:30</span>
-                  <h3 class="m-t-5">72<sup>°</sup></h3>
-                </li>
-                <li class="col-3">
-                  <h4 class="text-info"><i class="wi wi-day-hail"></i></h4>
-                  <span class="d-block text-muted">13:30</span>
-                  <h3 class="m-t-5">75<sup>°</sup></h3>
-                </li>
-                <li class="col-3">
-                  <h4 class="text-info"><i class="wi wi-day-sprinkle"></i></h4>
-                  <span class="d-block text-muted">15:30</span>
-                  <h3 class="m-t-5">76<sup>°</sup></h3>
-                </li>
-              </ul>
-            </div>
-          </div>
-    
-        </div>
-      </div>
-      <!-- ============================================================== -->
-      <!-- Recent comment and chats -->
-      <!-- ============================================================== -->
-    </div>
-    <!-- ============================================================== -->
-    <!-- End Container fluid  -->
-    <!-- ============================================================== -->
-    <!-- ============================================================== -->
-    <!-- footer -->
-    <!-- ============================================================== -->
-
-
-
-
-
-
-
-
-
+    </section>
 
   </main>
 
@@ -670,6 +563,62 @@
   <!-- Main JS File -->
   <script src="assets/js/main.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      // Biểu đồ doanh thu 6 tháng
+      const ctxRevenue = document.getElementById('revenueChart').getContext('2d');
+      const revenueChart = new Chart(ctxRevenue, {
+        type: 'line',
+        data: {
+          labels: ['Tháng 5', 'Tháng 6', 'Tháng 7', 'Tháng 8', 'Tháng 9', 'Tháng 10'],
+          datasets: [{
+            label: 'Doanh thu (Triệu VND)',
+            data: [18, 22, 25, 28, 26, 30],
+            borderColor: 'rgb(75, 192, 192)',
+            backgroundColor: 'rgba(75, 192, 192, 0.1)',
+            tension: 0.4,
+            fill: true
+          }]
+        },
+        options: {
+          responsive: true,
+          plugins: {
+            legend: { position: 'top' },
+            title: { display: false }
+          },
+          scales: {
+            y: { beginAtZero: true }
+          }
+        }
+      });
+
+      // Biểu đồ tròn trạng thái đơn hàng
+      const ctxPie = document.getElementById('orderStatusChart').getContext('2d');
+      const orderStatusChart = new Chart(ctxPie, {
+        type: 'doughnut',
+        data: {
+          labels: ['Hoàn thành', 'Đang xử lý', 'Đã hủy', 'Đang giao'],
+          datasets: [{
+            data: [65, 25, 5, 5],
+            backgroundColor: [
+              '#28a745', // xanh
+              '#ffc107', // vàng
+              '#dc3545', // đỏ
+              '#007bff'  // xanh dương
+            ],
+            borderWidth: 1
+          }]
+        },
+        options: {
+          responsive: true,
+          plugins: {
+            legend: { position: 'bottom' }
+          }
+        }
+      });
+    });
+  </script>
 </body>
 
 

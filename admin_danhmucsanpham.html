@@ -116,7 +116,7 @@
                           }
                         }).then((result) => {
                           if (result.isConfirmed) {
-                            sessionStorage.removeItem('isLoggedIn'); 
+                            sessionStorage.removeItem('isLoggedIn');
                             Swal.fire({
                               icon: 'success',
                               title: 'Đăng xuất thành công!',
@@ -149,6 +149,7 @@
       <div class="container-fluid container-xl position-relative">
         <nav id="navmenu" class="navmenu">
           <ul>
+            <li><a href="admin.html">Trang điều khiển</a></li>
             <li><a href="admin_quanlykhachhang.html">Quản lý khách hàng</a></li>
             <li><a href="admin_quanlyloaisanpham.html">Quản lý loại sản phẩm</a></li>
             <li><a href="admin_danhmucsanpham.html">Quản lý danh mục sản phẩm</a></li>
@@ -671,7 +672,8 @@
           cancelButtonText: 'Hủy',
           customClass: {
             popup: 'my-swal-popup',
-            confirmButton: 'my-swal-confirm-button'
+            confirmButton: 'my-swal-confirm-button',
+            cancelButton: 'my-swal-cancel-button'
           },
           didOpen: () => {
             const categorySelect = document.getElementById('product-category');
