@@ -149,7 +149,7 @@
       <div class="container-fluid container-xl position-relative">
         <nav id="navmenu" class="navmenu">
           <ul>
-            <li><a href="admin.html">Trang điều khiển</a></li>
+            <li><a href="admin.html">Trang chủ</a></li>
             <li><a href="admin_quanlykhachhang.html">Quản lý khách hàng</a></li>
             <li><a href="admin_quanlyloaisanpham.html">Quản lý loại sản phẩm</a></li>
             <li><a href="admin_danhmucsanpham.html">Quản lý danh mục sản phẩm</a></li>
@@ -441,29 +441,32 @@
         </div>
       </div>
 
+      <!-- Category Pagination Section -->
+      <section id="category-pagination" class="category-pagination section" style="padding-bottom: 0px;">
+        <div class="container">
+          <nav class="d-flex justify-content-center" aria-label="Page navigation">
+            <ul>
+              <li> <a href="#" aria-label="Previous page"> <i class="bi bi-arrow-left"></i>
+                  <span class="d-none d-sm-inline">Previous</span>
+                </a> </li>
+              <li><a href="#" class="active">1</a></li>
+              <li><a href="#">2</a></li>
+              <li><a href="#">3</a></li>
+              <li class="ellipsis">...</li>
+              <li><a href="#">8</a></li>
+              <li><a href="#">9</a></li>
+              <li><a href="#">10</a></li>
+              <li> <a href="#" aria-label="Next page">
+                  <span class="d-none d-sm-inline">Next</span>
+                  <i class="bi bi-arrow-right"></i>
+                </a> </li>
+            </ul>
+          </nav>
+        </div>
+      </section><!-- /Category Pagination Section -->
 
     </div>
-    <section id="category-pagination" class="category-pagination section">
-      <div class="container">
-        <nav class="d-flex justify-content-center" aria-label="Page navigation">
-          <ul>
-            <li> <a href="#" aria-label="Previous page"> <i class="bi bi-arrow-left"></i>
-                <span class="d-none d-sm-inline">Trước</span>
-              </a> </li>
-            <li><a href="#" class="active">1</a></li>
-            <li><a href="#">2</a></li>
-            <li><a href="#">3</a></li>
-            <li class="ellipsis">...</li>
-            <li><a href="#">8</a></li>
-            <li><a href="#">9</a></li>
-            <li><a href="#">10</a></li>
-            <li> <a href="#" aria-label="Next page"> <span class="d-none d-sm-inline">Sau</span>
-                <i class="bi bi-arrow-right"></i>
-              </a> </li>
-          </ul>
-        </nav>
-      </div>
-    </section><!-- /Category Pagination Section -->
+    
   </main>
   <footer id="footer" class="footer dark-background">
     <div class="footer-main">
@@ -785,6 +788,10 @@
                                     <option value="Acoustic" ${category === 'Acoustic' ? 'selected' : ''}>Acoustic</option>
                                     <option value="Classic" ${category === 'Classic' ? 'selected' : ''}>Classic</option>
                                 </select>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label class="form-label fw-bold">Mô tả</label>
+                                <textarea id="mo_ta" name="product_description" rows="4" cols="49" placeholder="Nhập mô tả chi tiết sản phẩm ở đây..."></textarea>
                             </div>
                             
                             

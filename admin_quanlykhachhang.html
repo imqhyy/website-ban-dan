@@ -97,7 +97,7 @@
                   <p class="mb-0">quản lý sản phẩm &amp; khách hàng</p>
                 </div>
                 <div class="dropdown-body">
-                  <a class="dropdown-item d-flex align-items-center" href="account.html">
+                  <a class="dropdown-item d-flex align-items-center" href="admin_account.html">
                     <i class="bi bi-person-circle me-2"></i>
                     <span>Hồ sơ admin</span>
                   </a>
@@ -165,7 +165,7 @@
       <div class="container-fluid container-xl position-relative">
         <nav id="navmenu" class="navmenu">
           <ul>
-            <li><a href="admin.html">Trang điều khiển</a></li>
+            <li><a href="admin.html">Trang chủ</a></li>
             <li><a href="admin_quanlykhachhang.html">Quản lý khách hàng</a></li>
             <li><a href="admin_quanlyloaisanpham.html">Quản lý loại sản phẩm</a></li>
             <li><a href="admin_danhmucsanpham.html">Quản lý danh mục sản phẩm</a></li>
@@ -208,151 +208,157 @@
       </div>
     </div><!-- End Page Title -->
 
+    <div class="container-manage-import-products">
+      
+    
+      <form action="" class="search-container" method="get"><!-- Search box -->
+        <input type="text" id="search-input" placeholder="Tìm kiếm" name="search">
+        <button id="search-button">
+          <i class="fa fa-search"></i> Tìm kiếm
+        </button>
+      </form><!-- End Search box -->
 
-    <form action="" class="search-container" method="get"><!-- Search box -->
-      <input type="text" id="search-input" placeholder="Tìm kiếm" name="search">
-      <button id="search-button">
-        <i class="fa fa-search"></i> Tìm kiếm
-      </button>
-    </form><!-- End Search box -->
-
-    <div class="sort-container"> <!-- Sort-container -->
-      <button id="sort-button" onclick="sortCustomers('asc')">
-        Sắp xếp A → Z
-      </button>
-      <button id="sort-button" onclick="sortCustomers('dsc')">
-        Sắp xếp Z → A
-      </button>
-    </div>
-
-
-    <div><!-- Thông tin khách hàng -->
-      <!--Khách hàng 1-->
-      <div class="customer-card">
-        <div class="customer-avatar-container">
-          <img src="assets/img/person/gdragon.png" class="customer-avatar" atl="avatar khách hàng">
-        </div>
-        <div class="customer-info">
-          <p class="customer-name">Ji Đa Gòn</p>
-          <p class="customer-phone">0987654321</p>
-        </div>
-        <div class="customer-actions">
-          <button class="action-btn reset-btn" onclick="resetPassword('0987654321')">
-            Reset Mật khẩu </button>
-          <button class="action-btn lock-btn btn-success" onclick="toggleLock(this)">
-            Khóa Tài khoản
-          </button>
-          <button class="action-btn detail-btn">Chi tiết</button>
-        </div>
+      <div class="sort-container"> <!-- Sort-container -->
+        <button id="sort-button" onclick="sortCustomers('asc')">
+          Sắp xếp A → Z
+        </button>
+        <button id="sort-button" onclick="sortCustomers('dsc')">
+          Sắp xếp Z → A
+        </button>
       </div>
 
-      <!--Khách hàng 2-->
-      <div class="customer-card">
-        <div class="customer-avatar-container">
-          <img src="assets/img/person/chautinhtri.jpg" class="customer-avatar" atl="avatar khách hàng">
-        </div>
-        <div class="customer-info">
-          <p class="customer-name">Châu Tinh Trì</p>
-          <p class="customer-phone">0987654321</p>
-        </div>
-        <div class="customer-actions">
-          <button class="action-btn reset-btn" onclick="resetPassword('0987654321')">
-            Reset Mật khẩu </button>
-          <button class="action-btn lock-btn btn-success" onclick="toggleLock(this)">
-            Khóa Tài khoản
-          </button>
-          <button class="action-btn detail-btn">Chi tiết</button>
-        </div>
-      </div>
 
-      <!--Khách hàng 3-->
-      <div class="customer-card">
-        <div class="customer-avatar-container">
-          <img src="assets/img/person/datvantay.jpg" class="customer-avatar" atl="avatar khách hàng">
+      <div><!-- Thông tin khách hàng -->
+        <!--Khách hàng 1-->
+        <div class="customer-card">
+          <div class="customer-avatar-container">
+            <img src="assets/img/person/gdragon.png" class="customer-avatar" atl="avatar khách hàng">
+          </div>
+          <div class="customer-info">
+            <p class="customer-name">Ji Đa Gòn</p>
+            <p class="customer-phone">0987654321</p>
+          </div>
+          <div class="customer-actions">
+            <button class="action-btn reset-btn" onclick="resetPassword('0987654321')">
+              Reset Mật khẩu </button>
+            <button class="action-btn lock-btn btn-success" onclick="toggleLock(this)">
+              Khóa Tài khoản
+            </button>
+            <button class="action-btn detail-btn">Chi tiết</button>
+          </div>
         </div>
-        <div class="customer-info">
-          <p class="customer-name">Đạt Văn Tây</p>
-          <p class="customer-phone">0334342323</p>
-        </div>
-        <div class="customer-actions">
-          <button class="action-btn reset-btn" onclick="resetPassword('0987654321')">
-            Reset Mật khẩu </button>
-          <button class="action-btn lock-btn btn-success" onclick="toggleLock(this)">
-            Khóa Tài khoản
-          </button>
-          <button class="action-btn detail-btn">Chi tiết</button>
-        </div>
-      </div>
 
-      <!--Khách hàng 4-->
-      <div class="customer-card">
-        <div class="customer-avatar-container">
-          <img src="assets/img/person/soicodoc.jpg" class="customer-avatar" atl="avatar khách hàng">
+        <!--Khách hàng 2-->
+        <div class="customer-card">
+          <div class="customer-avatar-container">
+            <img src="assets/img/person/chautinhtri.jpg" class="customer-avatar" atl="avatar khách hàng">
+          </div>
+          <div class="customer-info">
+            <p class="customer-name">Châu Tinh Trì</p>
+            <p class="customer-phone">0987654321</p>
+          </div>
+          <div class="customer-actions">
+            <button class="action-btn reset-btn" onclick="resetPassword('0987654321')">
+              Reset Mật khẩu </button>
+            <button class="action-btn lock-btn btn-success" onclick="toggleLock(this)">
+              Khóa Tài khoản
+            </button>
+            <button class="action-btn detail-btn">Chi tiết</button>
+          </div>
         </div>
-        <div class="customer-info">
-          <p class="customer-name">Sói Cô Độc</p>
-          <p class="customer-phone">0343242344</p>
+
+        <!--Khách hàng 3-->
+        <div class="customer-card">
+          <div class="customer-avatar-container">
+            <img src="assets/img/person/datvantay.jpg" class="customer-avatar" atl="avatar khách hàng">
+          </div>
+          <div class="customer-info">
+            <p class="customer-name">Đạt Văn Tây</p>
+            <p class="customer-phone">0334342323</p>
+          </div>
+          <div class="customer-actions">
+            <button class="action-btn reset-btn" onclick="resetPassword('0987654321')">
+              Reset Mật khẩu </button>
+            <button class="action-btn lock-btn btn-success" onclick="toggleLock(this)">
+              Khóa Tài khoản
+            </button>
+            <button class="action-btn detail-btn">Chi tiết</button>
+          </div>
         </div>
-        <div class="customer-actions">
-          <button class="action-btn reset-btn" onclick="resetPassword('0987654321')">
-            Reset Mật khẩu </button>
-          <button class="action-btn lock-btn btn-success" onclick="toggleLock(this)">
-            Khóa Tài khoản
-          </button>
-          <button class="action-btn detail-btn">Chi tiết</button>
+
+        <!--Khách hàng 4-->
+        <div class="customer-card">
+          <div class="customer-avatar-container">
+            <img src="assets/img/person/soicodoc.jpg" class="customer-avatar" atl="avatar khách hàng">
+          </div>
+          <div class="customer-info">
+            <p class="customer-name">Sói Cô Độc</p>
+            <p class="customer-phone">0343242344</p>
+          </div>
+          <div class="customer-actions">
+            <button class="action-btn reset-btn" onclick="resetPassword('0987654321')">
+              Reset Mật khẩu </button>
+            <button class="action-btn lock-btn btn-success" onclick="toggleLock(this)">
+              Khóa Tài khoản
+            </button>
+            <button class="action-btn detail-btn">Chi tiết</button>
+          </div>
         </div>
-      </div>
-      <!-- Pop-up chi tiết -->
-      <div id="DetailModal" class="modal">
-        <div class="modal-content-admin" style="margin: 10% auto;">
-          <span class="close-button">&times;</span>
-          <h2>Chi tiết Khách hàng</h2>
-          <div class="customer-info-details-container">
-            <div class="customer-avatar-details-container">
-              <img src="assets/img/person/images.jpg" id="modalImage" class="customer-avatar-details"
-                atl="avatar khách hàng">
-            </div>
-            <div>
-              <p class="customer-info-details"><strong>Tên: </strong> <span id="modalName"></span></p>
-              <p class="customer-info-details"><strong>SĐT: </strong> <span id="modalPhone"></span></p>
-              <p class="customer-info-details"><strong>Ngày đăng ký: </strong> <span>1/1/2021</span></p>
-              <p class="customer-info-details"><strong>Số lần đặt hàng: </strong> <span>100</span></p>
-              <p class="customer-info-details"><strong>Danh hiệu: </strong> <span>Cổ đông lớn nhất</span></p>
-              <p class="customer-info-details"><strong>Email: </strong>chautinktri123@gmail.com</p>
-              <p class="customer-info-details"><strong>Địa chỉ: </strong>7 Lê Trọng Tấn phường Bình Tân thành phố Hồ Chí
-                Minh</p>
+        <!-- Pop-up chi tiết -->
+        <div id="DetailModal" class="modal">
+          <div class="modal-content-admin" style="margin: 10% auto;">
+            <span class="close-button">&times;</span>
+            <h2>Chi tiết Khách hàng</h2>
+            <div class="customer-info-details-container">
+              <div class="customer-avatar-details-container">
+                <img src="assets/img/person/images.jpg" id="modalImage" class="customer-avatar-details"
+                  atl="avatar khách hàng">
+              </div>
+              <div>
+                <p class="customer-info-details"><strong>Tên: </strong> <span id="modalName"></span></p>
+                <p class="customer-info-details"><strong>SĐT: </strong> <span id="modalPhone"></span></p>
+                <p class="customer-info-details"><strong>Ngày đăng ký: </strong> <span>1/1/2021</span></p>
+                <p class="customer-info-details"><strong>Số lần đặt hàng: </strong> <span>100</span></p>
+                <p class="customer-info-details"><strong>Danh hiệu: </strong> <span>Cổ đông lớn nhất</span></p>
+                <p class="customer-info-details"><strong>Email: </strong>chautinktri123@gmail.com</p>
+                <p class="customer-info-details"><strong>Địa chỉ: </strong>7 Lê Trọng Tấn phường Bình Tân thành phố Hồ Chí
+                  Minh</p>
+              </div>
             </div>
           </div>
         </div>
-      </div>
 
 
-    </div><!-- End Thông tin khách hàng -->
+      </div><!-- End Thông tin khách hàng -->
+      
 
 
-    <!-- Category Pagination Section -->
-    <section id="category-pagination" class="category-pagination section">
-      <div class="container">
-        <nav class="d-flex justify-content-center" aria-label="Page navigation">
-          <ul>
-            <li> <a href="#" aria-label="Previous page"> <i class="bi bi-arrow-left"></i>
-                <span class="d-none d-sm-inline">Trước</span>
-              </a> </li>
-            <li><a href="#" class="active">1</a></li>
-            <li><a href="#">2</a></li>
-            <li><a href="#">3</a></li>
-            <li class="ellipsis">...</li>
-            <li><a href="#">8</a></li>
-            <li><a href="#">9</a></li>
-            <li><a href="#">10</a></li>
-            <li> <a href="#" aria-label="Next page"> <span class="d-none d-sm-inline">Sau</span>
-                <i class="bi bi-arrow-right"></i>
-              </a> </li>
-          </ul>
-        </nav>
-      </div>
-    </section><!-- /Category Pagination Section -->
+      <!-- Category Pagination Section -->
+        <section id="category-pagination" class="category-pagination section" style="padding-bottom: 0px;">
+          <div class="container">
+            <nav class="d-flex justify-content-center" aria-label="Page navigation">
+              <ul>
+                <li> <a href="#" aria-label="Previous page"> <i class="bi bi-arrow-left"></i>
+                    <span class="d-none d-sm-inline">Previous</span>
+                  </a> </li>
+                <li><a href="#" class="active">1</a></li>
+                <li><a href="#">2</a></li>
+                <li><a href="#">3</a></li>
+                <li class="ellipsis">...</li>
+                <li><a href="#">8</a></li>
+                <li><a href="#">9</a></li>
+                <li><a href="#">10</a></li>
+                <li> <a href="#" aria-label="Next page">
+                    <span class="d-none d-sm-inline">Next</span>
+                    <i class="bi bi-arrow-right"></i>
+                  </a> </li>
+              </ul>
+            </nav>
+          </div>
+        </section><!-- /Category Pagination Section -->
 
+    </div> <!--End container manage import products-->
+    
 
 
 
