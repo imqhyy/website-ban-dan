@@ -1,0 +1,769 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Trang chủ - Guitar Xì Gòn</title>
+    <meta name="description" content="" />
+    <meta name="keywords" content="" />
+
+    <!-- Favicons -->
+    <link href="assets/img/favicon.png" rel="icon" />
+    <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon" />
+
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com" rel="preconnect" />
+    <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Vendor CSS Files -->
+    <link
+      href="assets/vendor/bootstrap/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="assets/vendor/bootstrap-icons/bootstrap-icons.css"
+      rel="stylesheet"
+    />
+    <link href="assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet" />
+    <link href="assets/vendor/aos/aos.css" rel="stylesheet" />
+    <link
+      href="assets/vendor/glightbox/css/glightbox.min.css"
+      rel="stylesheet"
+    />
+    <link href="assets/vendor/drift-zoom/drift-basic.css" rel="stylesheet" />
+
+    <!-- Main CSS File -->
+    <link href="assets/css/main.css" rel="stylesheet" />
+
+    <!-- =======================================================
+  * Template Name: NiceShop
+  * Template URL: https://bootstrapmade.com/niceshop-bootstrap-ecommerce-template/
+  * Updated: Aug 26 2025 with Bootstrap v5.3.7
+  * Author: BootstrapMade.com
+  * License: https://bootstrapmade.com/license/
+  ======================================================== -->
+  </head>
+
+  <body class="index-page">
+    <header id="header" class="header sticky-top">
+      <!-- Top Bar -->
+      <div class="top-bar py-2">
+        <div class="container-fluid container-xl">
+          <div class="row align-items-center">
+            <div class="col-lg-4 d-none d-lg-flex">
+              <div class="top-bar-item">
+                <i class="bi bi-telephone-fill me-2"></i>
+                <span>Cần giúp đỡ? Liên hệ chúng tôi: </span>
+                <a href="tel:+1234567890">0123456789</a>
+              </div>
+            </div>
+
+            <div class="col-lg-4 col-md-12 text-center">
+              <div class="announcement-slider swiper init-swiper">
+                <script type="application/json" class="swiper-config">
+                  {
+                    "loop": true,
+                    "speed": 600,
+                    "autoplay": {
+                      "delay": 5000
+                    },
+                    "slidesPerView": 1,
+                    "direction": "vertical",
+                    "effect": "slide"
+                  }
+                </script>
+                <div class="swiper-wrapper">
+                  <div class="swiper-slide">
+                    🚚 Miễn phí giao hàng cho đơn hàng trên 2.000.000VND
+                  </div>
+                  <div class="swiper-slide">
+                    💰 Đảm bảo hoàn tiền trong 30 ngày.
+                  </div>
+                  <div class="swiper-slide">
+                    🎁 Giảm giá 20% cho đơn hàng đầu tiên
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Main Header -->
+      <div class="main-header">
+        <div class="container-fluid container-xl">
+          <div class="d-flex py-3 align-items-center justify-content-between">
+            <!-- Logo -->
+            <a href="index.html" class="logo d-flex align-items-center">
+              <!-- Uncomment the line below if you also wish to use an image logo -->
+              <!-- <img src="assets/img/logo.webp" alt=""> -->
+              <h1 class="sitename">Guitar Xì Gòn</h1>
+            </a>
+
+            <!-- Search -->
+            <form
+              class="search-form desktop-search-form"
+              action="search-results.html"
+            >
+              <div class="input-group">
+                <input
+                  type="text"
+                  class="form-control"
+                  placeholder="Tìm kiếm sản phẩm"
+                />
+                <button class="btn" type="submit">
+                  <i class="bi bi-search"></i>
+                </button>
+              </div>
+            </form>
+
+            <!-- Actions -->
+            <div
+              class="header-actions d-flex align-items-center justify-content-end"
+            >
+              <!-- Mobile Search Toggle -->
+              <button
+                class="header-action-btn mobile-search-toggle d-xl-none"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#mobileSearch"
+                aria-expanded="false"
+                aria-controls="mobileSearch"
+              >
+                <i class="bi bi-search"></i>
+              </button>
+
+              <!-- Account -->
+              <div class="dropdown account-dropdown">
+                <button class="header-action-btn" data-bs-toggle="dropdown">
+                  <i class="bi bi-person"></i>
+                </button>
+                <div class="dropdown-menu">
+                  <div class="dropdown-header">
+                    <h6>
+                      Chào mừng đến với
+                      <span class="sitename">Guitar Xì Gòn</span>
+                    </h6>
+                    <p class="mb-0">
+                      Truy cập tài khoản &amp; quản lý đơn hàng
+                    </p>
+                  </div>
+                  <div class="dropdown-body">
+                    <a
+                      class="dropdown-item d-flex align-items-center"
+                      href="account.html#"
+                    >
+                      <i class="bi bi-person-circle me-2"></i>
+                      <span>Hồ sơ của tôi</span>
+                    </a>
+                    <a
+                      class="dropdown-item d-flex align-items-center"
+                      href="account.html#orders"
+                    >
+                      <i class="bi bi-bag-check me-2"></i>
+                      <span>Đơn hàng của tôi</span>
+                    </a>
+                    <!-- <a class="dropdown-item d-flex align-items-center" href="account.html#wishlist">
+                    <i class="bi bi-heart me-2"></i>
+                    <span>Danh sách mong muốn</span>
+                  </a> -->
+                    <a
+                      class="dropdown-item d-flex align-items-center"
+                      href="account.html#settings"
+                    >
+                      <i class="bi bi-gear me-2"></i>
+                      <span>Cài đặt</span>
+                    </a>
+                  </div>
+                  <div class="dropdown-footer" id="user-session"></div>
+                </div>
+              </div>
+              <!-- Cart -->
+              <a href="cart.html" class="header-action-btn">
+                <i class="bi bi-cart3"></i>
+                <span class="badge">3</span>
+              </a>
+
+              <!-- Mobile Navigation Toggle -->
+              <i class="mobile-nav-toggle d-xl-none bi bi-list me-0"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Navigation -->
+      <div class="header-nav">
+        <div class="container-fluid container-xl position-relative">
+          <nav id="navmenu" class="navmenu">
+            <ul>
+              <li><a href="index.html">Trang chủ</a></li>
+              <li><a href="all.html">Tất cả sản phẩm</a></li>
+              <li class="dropdown">
+                <a href="#"
+                  ><span>Phân loại</span>
+                  <i class="bi bi-chevron-down toggle-dropdown"></i
+                ></a>
+                <ul>
+                  <li class="dropdown">
+                    <a href="category_detail.html"
+                      ><span>Guitar Classic</span
+                      ><i class="bi bi-chevron-right toggle-dropdown"></i
+                    ></a>
+                    <ul>
+                      <li><a href="brand.html">Ba đờn</a></li>
+                      <li><a href="brand.html">Yamaha</a></li>
+                    </ul>
+                  </li>
+                  <li class="dropdown">
+                    <a href="category_detail.html"
+                      ><span>Guitar Acoustic</span
+                      ><i class="bi bi-chevron-right toggle-drop"></i
+                    ></a>
+                    <ul>
+                      <li><a href="brand.html">Saga</a></li>
+                      <li><a href="brand.html">Taylor</a></li>
+                      <li><a href="brand.html">Enya</a></li>
+                      <li><a href="brand.html">Yamaha</a></li>
+                    </ul>
+                  </li>
+                </ul>
+              </li>
+              <li><a href="cart.html">Giỏ Hàng</a></li>
+              <li><a href="checkout.html">Thanh toán</a></li>
+              <!-- <li><a href="contact.html">Liên hệ</a></li> -->
+              <li><a href="about.html">Về chúng tôi</a></li>
+            </ul>
+          </nav>
+        </div>
+      </div>
+
+      <!-- Mobile Search Form -->
+      <div class="collapse" id="mobileSearch">
+        <div class="container">
+          <form class="search-form">
+            <div class="input-group">
+              <input
+                type="text"
+                class="form-control"
+                placeholder="Tìm kiếm sản phẩm"
+              />
+              <button class="btn" type="submit">
+                <i class="bi bi-search"></i>
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </header>
+
+    <main class="main">
+      <!-- Hero Section -->
+      <section id="hero" class="hero section">
+        <div class="hero-container">
+          <div class="hero-content">
+            <div
+              class="content-wrapper"
+              data-aos="fade-up"
+              data-aos-delay="100"
+            >
+              <h1 class="hero-title">Sản phẩm nổi bật</h1>
+              <p class="hero-description">
+                Khám phá bộ sưu tập guitar cao cấp, mang lại âm thanh tinh tế và
+                đẳng cấp. Từ classic đến acoustic, tất cả đều sẵn sàng với ưu
+                đãi độc quyền và giao hàng nhanh chóng.
+              </p>
+              <div class="hero-actions" data-aos="fade-up" data-aos-delay="200">
+                <a href="all.html" class="btn-secondary">Xem toàn bộ đàn</a>
+              </div>
+              <div
+                class="features-list"
+                data-aos="fade-up"
+                data-aos-delay="300"
+              >
+                <div class="feature-item">
+                  <i class="bi bi-truck"></i>
+                  <span>Giao hàng miễn phí</span>
+                </div>
+                <div class="feature-item">
+                  <i class="bi bi-award"></i>
+                  <span>Chất lượng</span>
+                </div>
+                <div class="feature-item">
+                  <i class="bi bi-headset"></i>
+                  <span>Hỗ trợ nhiệt tình</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="hero-visuals">
+            <div
+              class="product-showcase"
+              data-aos="fade-left"
+              data-aos-delay="200"
+            >
+              <div class="product-card featured">
+                <a href="product-details.html">
+                  <img
+                    src="assets/img/product/guitar/classic/badon/dan-guitar-classic-ba-don-c250/1.jpg"
+                    alt="Featured Product"
+                    class="img-fluid"
+                  />
+                </a>
+                <div class="product-badge">Bán chạy nhất</div>
+                <div class="product-info">
+                  <a href="product-details.html" class="product-title"
+                    >Guitar Classic Ba Đờn C250</a
+                  >
+                  <div class="price">
+                    <span class="sale-price">95.100.000 VND</span>
+                    <span class="original-price">110.000.000 VND</span>
+                  </div>
+                </div>
+                <div
+                  class="product-rating"
+                  style="display: flex; justify-content: flex-end"
+                >
+                  <i class="bi bi-star-fill"></i>
+                  4.8 <span>(42)</span>
+                </div>
+              </div>
+              <!-- Ân 2 sản phẩm mini hiện lên sản phẩm to hơn, đẹp v xoá uổng -->
+              <!-- <div class="product-grid">
+              <div class="product-mini" data-aos="zoom-in" data-aos-delay="400">
+                <a href="all.html">
+                  <img src="assets\img\product\guitar\acoustic\yamaha\yamaha-apx600fm\1.jpg" alt="Product"
+                    class="img-fluid">
+                </a>
+                <span class="mini-price">2.300.000 VND</span>
+              </div>
+              <div class="product-mini" data-aos="zoom-in" data-aos-delay="500">
+                <a href="all.html">
+                  <img src="assets\img\product\guitar\acoustic\enya\enya ega-x0-pro-sp1\8.jpg" alt="Product"
+                    class="img-fluid">
+                </a>
+                <span class="mini-price">6.500.000 VND</span>
+              </div>
+            </div> -->
+            </div>
+
+            <div class="floating-elements">
+              <a
+                href="cart.html"
+                class="floating-icon cart"
+                data-aos="fade-up"
+                data-aos-delay="600"
+              >
+                <i class="bi bi-cart3"></i>
+                <span class="notification-dot cart-item-count-badge">0</span>
+              </a>
+              <div
+                class="floating-icon search"
+                data-aos="fade-up"
+                data-aos-delay="800"
+              >
+                <i class="bi bi-search"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <!-- /Hero Section -->
+
+      <!--  -->
+
+      <!-- Best Sellers Section -->
+      <section id="best-sellers" class="best-sellers section">
+        <!-- Section Title -->
+        <div class="container section-title" data-aos="fade-up">
+          <h2>Bán chạy nhất</h2>
+          <p>Top những sản phẩm hay được đập nhất shop</p>
+        </div>
+        <!-- End Section Title -->
+
+        <div class="container" data-aos="fade-up" data-aos-delay="100">
+          <div class="row g-5">
+            <!-- Product 1 -->
+            <div class="col-lg-3 col-md-6">
+              <div class="product-item">
+                <div class="product-image">
+                  <div class="product-badge">Giới hạn</div>
+                  <a href="product-details.html"
+                    ><img
+                      src="assets\img\product\guitar\classic\badon\dan-guitar-classic-ba-don-c250\1.jpg"
+                      alt="Product Image"
+                      class="img-fluid"
+                      loading="lazy"
+                  /></a>
+                </div>
+                <div class="product-info">
+                  <div class="product-category">Sản phẩm cao cấp</div>
+                  <h4 class="product-title">
+                    <a href="product-details.html"
+                      >Guitar Classic Ba Đờn C250</a
+                    >
+                  </h4>
+                  <div class="product-price">
+                    <span class="current-price">95.100.000 VND</span>
+                    <br />
+                    <span class="old-price">110.000.000 VND</span>
+                  </div>
+                  <div
+                    class="product-rating"
+                    style="display: flex; justify-content: flex-end"
+                  >
+                    <i class="bi bi-star-fill"></i>
+                    4.8 <span>(42)</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- End Product 1 -->
+
+            <!-- Product 2 -->
+            <div class="col-lg-3 col-md-6">
+              <div class="product-item">
+                <div class="product-image">
+                  <div class="product-badge sale-badge">-25%</div>
+                  <a href="product-details.html"
+                    ><img
+                      src="assets/img/product/guitar/acoustic/enya/enya-ea-x2/1.jpg"
+                      alt="Product Image"
+                      class="img-fluid"
+                      loading="lazy"
+                  /></a>
+                </div>
+                <div class="product-info">
+                  <div class="product-category">Bán chạy</div>
+                  <h4 class="product-title">
+                    <a href="product-details.html"
+                      >Guitar Acoustic Enya EA-X2</a
+                    >
+                  </h4>
+                  <div class="product-price">
+                    <span class="current-price">6.150.000 VND</span>
+                    <br />
+                    <span class="old-price">8.200.000 VND</span>
+                  </div>
+                  <div
+                    class="product-rating"
+                    style="display: flex; justify-content: flex-end"
+                  >
+                    <i class="bi bi-star-fill"></i>
+                    4.2 <span>(380)</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- End Product 2 -->
+
+            <!-- Product 3 -->
+            <div class="col-lg-3 col-md-6">
+              <div class="product-item">
+                <div class="product-image">
+                  <a href="product-details.html"
+                    ><img
+                      src="assets/img/product/guitar/classic/yamaha/dan-guitar-classic-yamaha-ncx700-nx-series/1.jpg"
+                      alt="Product Image"
+                      class="img-fluid"
+                      loading="lazy"
+                  /></a>
+                </div>
+                <div class="product-info">
+                  <div class="product-category">Mới ra mắt</div>
+                  <h4 class="product-title">
+                    <a href="product-details.html"
+                      >Guitar Classic Yamaha NCX-700</a
+                    >
+                  </h4>
+                  <div class="product-price">8.000.000 VND</div>
+                  <div
+                    class="product-rating"
+                    style="display: flex; justify-content: flex-end"
+                  >
+                    <i class="bi bi-star-fill"></i>
+                    3.8 <span>(30)</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- End Product 3 -->
+
+            <!-- Product 4 -->
+            <div class="col-lg-3 col-md-6">
+              <div class="product-item">
+                <div class="product-image">
+                  <a href="product-details.html"
+                    ><img
+                      src="assets/img/product/guitar/acoustic/yamaha/yamaha-ls36-are/1.jpg"
+                      alt="Product Image"
+                      class="img-fluid"
+                      loading="lazy" /></a
+                  >git
+                </div>
+                <div class="product-info">
+                  <div class="product-category">Hợp cho người nghèo</div>
+                  <h4 class="product-title">
+                    <a href="product-details.html"
+                      >Guitar Acoustic Yamaha LS36 ARE Series 3</a
+                    >
+                  </h4>
+                  <div class="product-price">2.300.000 VND</div>
+                  <div
+                    class="product-rating"
+                    style="display: flex; justify-content: flex-end"
+                  >
+                    <i class="bi bi-star-fill"></i>
+                    4.2 <span>(380)</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- End Product 4 -->
+          </div>
+        </div>
+      </section>
+      <!-- /Best Sellers Section -->
+
+      <!-- Cards Section -->
+
+      <!-- Call To Action Section -->
+      <section id="call-to-action" class="call-to-action section">
+        <div class="container" data-aos="fade-up" data-aos-delay="100">
+          <div class="row">
+            <div class="col-lg-8 mx-auto">
+              <div
+                class="main-content text-center"
+                data-aos="zoom-in"
+                data-aos-delay="200"
+              >
+                <div
+                  class="offer-badge"
+                  data-aos="fade-down"
+                  data-aos-delay="250"
+                >
+                  <span class="limited-time">Ưu đãi khủng</span>
+                  <span class="offer-text">Giảm giá lên đến 50%</span>
+                </div>
+
+                <h2 data-aos="fade-up" data-aos-delay="300">
+                  Đếm ngược ngày đại ưu đãi
+                </h2>
+
+                <p class="subtitle" data-aos="fade-up" data-aos-delay="350">
+                  Nếu bạn đã lỡ tay hoặc vô tình đập đi cây đàn yêu giấu của
+                  mình thì đừng buồn, cột sống mà, những con số dưới đây biểu
+                  hiện cho thời điểm chín mùi để bạn có thế mua và trải nghiệm
+                  cảm giác đập 1 cây đàn cao cấp với mức giá siêu hời.
+                </p>
+
+                <div
+                  class="countdown-wrapper"
+                  data-aos="fade-up"
+                  data-aos-delay="400"
+                >
+                  <div
+                    class="countdown d-flex justify-content-center"
+                    data-count="2025/11/20"
+                  >
+                    <div>
+                      <h3 class="count-days"></h3>
+                      <h4>Ngày</h4>
+                    </div>
+                    <div>
+                      <h3 class="count-hours"></h3>
+                      <h4>Giờ</h4>
+                    </div>
+                    <div>
+                      <h3 class="count-minutes"></h3>
+                      <h4>Phút</h4>
+                    </div>
+                    <div>
+                      <h3 class="count-seconds"></h3>
+                      <h4>Giây</h4>
+                    </div>
+                  </div>
+                </div>
+
+                <div
+                  class="action-buttons"
+                  data-aos="fade-up"
+                  data-aos-delay="450"
+                >
+                  <a href="all.html" class="btn-shop-now">Mua sắm ngay</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <!-- /Call To Action Section -->
+    </main>
+
+    <footer id="footer" class="footer dark-background">
+      <div class="footer-main">
+        <div class="container">
+          <div class="row gy-4">
+            <div class="col-lg-4 col-md-6">
+              <div class="footer-widget footer-about">
+                <a href="index.html" class="logo">
+                  <span class="sitename">Guitar Xì Gòn</span>
+                </a>
+                <p>
+                  Guitar Xì Gòn là nhà phân phối nhạc cụ guitar, thiết bị guitar
+                  chuyên nghiệp hàng đầu tại Việt Nam.
+                </p>
+
+                <div class="social-links mt-4">
+                  <h5>Kết nối với chúng tôi</h5>
+                  <div class="social-icons">
+                    <a href="#" aria-label="Facebook"
+                      ><i class="bi bi-facebook"></i
+                    ></a>
+                    <a href="#" aria-label="Instagram"
+                      ><i class="bi bi-instagram"></i
+                    ></a>
+                    <a href="#" aria-label="Twitter"
+                      ><i class="bi bi-twitter-x"></i
+                    ></a>
+                    <a href="#" aria-label="TikTok"
+                      ><i class="bi bi-tiktok"></i
+                    ></a>
+                    <a href="#" aria-label="Pinterest"
+                      ><i class="bi bi-pinterest"></i
+                    ></a>
+                    <a href="#" aria-label="YouTube"
+                      ><i class="bi bi-youtube"></i
+                    ></a>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-lg-2 col-md-6 col-sm-6">
+              <div class="footer-widget">
+                <h4>Sản phẩm</h4>
+                <ul class="footer-links">
+                  <li><a href="all.html">Sản phẩm mới</a></li>
+                  <li><a href="all.html">Đang bán chạy</a></li>
+                  <li><a href="category_detail.html">Guitar Classic</a></li>
+                  <li><a href="category_detail.html">Guitar Acoustic</a></li>
+                  <li><a href="all.html">Đang khuyến mãi</a></li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="col-lg-2 col-md-6 col-sm-6">
+              <div class="footer-widget">
+                <h4>Hỗ trợ</h4>
+                <ul class="footer-links">
+                  <li><a href="support.html">Trung tâm hỗ trợ</a></li>
+                  <li><a href="account.html">Trạng thái đặt hàng</a></li>
+                  <li><a href="shiping-info.html">Thông tin giao hàng</a></li>
+                  <li><a href="return-policy.html">Yêu cầu trả hàng</a></li>
+                  <!-- <li><a href="contact.html">Liên hệ với chúng tôi</a></li> -->
+                </ul>
+              </div>
+            </div>
+
+            <div class="col-lg-4 col-md-6">
+              <div class="footer-widget">
+                <h4>Thông tin liên hệ</h4>
+                <div class="footer-contact">
+                  <div class="contact-item">
+                    <i class="bi bi-geo-alt"></i>
+                    <span>
+                      273 An Dương Vương, Phường, Chợ Quán, Hồ Chí Minh
+                      700000</span
+                    >
+                  </div>
+                  <div class="contact-item">
+                    <i class="bi bi-telephone"></i>
+                    <span>0123456789</span>
+                  </div>
+                  <div class="contact-item">
+                    <i class="bi bi-envelope"></i>
+                    <span>guitarxigon@gmail.com</span>
+                  </div>
+                  <div class="contact-item">
+                    <i class="bi bi-clock"></i>
+                    <span>Thứ 2 - Chủ Nhật: 6h-23h<br />Ngày lễ: Đóng cửa</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <div class="container">
+          <div class="row gy-3 align-items-center">
+            <div class="col-lg-6 col-md-12">
+              <div class="copyright">
+                <p>
+                  © <span>Copyright</span>
+                  <strong class="sitename">Guitar Xì Gòn</strong>. All Rights
+                  Reserved.
+                </p>
+              </div>
+              <div class="credits mt-1">
+                Designed by <span>Quốc Huy - Hồng Nhân - Xuân Tâm</span>
+              </div>
+            </div>
+            <div class="col-lg-6 col-md-12">
+              <div
+                class="d-flex flex-wrap justify-content-lg-end justify-content-center align-items-center gap-4"
+              >
+                <div class="payment-methods">
+                  <div class="payment-icons">
+                    <i class="bi bi-credit-card" aria-label="Credit Card"></i>
+                    <i class="bi bi-paypal" aria-label="PayPal"></i>
+                    <i class="bi bi-apple" aria-label="Apple Pay"></i>
+                    <i class="bi bi-google" aria-label="Google Pay"></i>
+                    <i class="bi bi-shop" aria-label="Shop Pay"></i>
+                    <i class="bi bi-cash" aria-label="Cash on Delivery"></i>
+                  </div>
+                </div>
+                <div class="legal-links">
+                  <a href="tos.html">Terms</a>
+                  <a href="privacy.html">Privacy</a>
+                  <a href="tos.html">Cookies</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <!-- Scroll Top -->
+    <a
+      href="#"
+      id="scroll-top"
+      class="scroll-top d-flex align-items-center justify-content-center"
+      ><i class="bi bi-arrow-up-short"></i
+    ></a>
+
+    <!-- Preloader -->
+    <div id="preloader"></div>
+
+    <!-- Vendor JS Files -->
+    <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="assets/vendor/php-email-form/validate.js"></script>
+    <script src="assets/vendor/swiper/swiper-bundle.min.js"></script>
+    <script src="assets/vendor/aos/aos.js"></script>
+    <script src="assets/vendor/glightbox/js/glightbox.min.js"></script>
+    <script src="assets/vendor/drift-zoom/Drift.min.js"></script>
+    <script src="assets/vendor/purecounter/purecounter_vanilla.js"></script>
+
+    <!-- Main JS File -->
+    <script src="assets/js/main.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="assets/js/auth.js"></script>
+  </body>
+</html>

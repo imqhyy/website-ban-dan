@@ -1,0 +1,790 @@
+                        
+                        /*DÀNH CHO TRANG QUẢN LÝ KHÁCH HÀNG*/
+
+
+/* Search box */
+.search-container {
+    /* 1. Kích hoạt Flexbox */
+    display: flex;
+    /* 2. Căn giữa các mục con theo chiều ngang */
+    justify-content: center;
+    /* 3. Thêm khoảng cách phía trên và dưới */
+    margin: 20px 0;
+    width: 100%; /* Đảm bảo nó chiếm toàn bộ chiều rộng để căn giữa được */
+    
+}
+
+
+#search-input {
+    /* Thiết lập kích thước */
+    width: 400px; /* Tùy chỉnh chiều rộng */
+    padding: 10px 15px;
+    /* Thiết kế */
+    border: 2px solid #ccc;
+    border-right: none; /* Loại bỏ đường viền bên phải để nối với nút */
+    border-radius: 25px 0 0 25px; /* Bo tròn góc trái */
+    font-size: 16px;
+    transition: border-color 0.5s; /* Hiệu ứng khi focus */
+}
+
+#search-input:focus {
+    border-color: #5f5f5f; /* Đổi màu khi đang nhập */
+    outline: none; /* Loại bỏ viền focus mặc định của trình duyệt */
+}
+
+#search-button {
+    padding: 10px 20px;
+    /* Thiết kế nút */
+    background-color: #444444; /* Màu xanh nổi bật */
+    color: white;
+    border: none;
+    border-radius: 0 25px 25px 0; /* Bo tròn góc phải */
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s;
+}
+
+#search-button:hover {
+    background-color: #252223; /* Đổi màu khi rê chuột */
+}
+
+/* Sort container */
+.sort-container {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    align-items: baseline;
+}
+
+#sort-button {
+    padding: 10px 20px;
+    background-color: #444444; /* Chọn một màu khác biệt, ví dụ màu cam */
+    color: white;
+    border: none;
+    border-radius: 25px; /* Bo tròn tương tự */
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s;
+}
+
+#sort-button:hover {
+    background-color: #252223; /* Đổi màu khi rê chuột */
+}
+
+                                    /* QUẢN LÝ KHÁCH HÀNG */
+.customer-card {
+    /* Tạo hình chữ nhật */
+    width: 90%; /* Chiếm phần lớn chiều rộng trang */
+    height: 100px; /* Chiều cao cố định */
+    
+    /* Thiết lập bố cục nằm ngang */
+    display: flex;
+    justify-content: flex-start;
+    gap: 40px;
+    align-items: center; /* Căn giữa theo chiều dọc */
+    
+    /* Thiết kế thẩm mỹ */
+    border: 1px solid #ddd; /* Khung viền mỏng */
+    border-radius: 8px; /* Bo góc nhẹ */
+    padding: 15px;
+    margin: 20px auto; /* Căn giữa và tạo khoảng cách */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Tạo bóng đổ nhẹ */
+    background-color: #fff; /* Màu nền trắng */
+}
+.customer-avatar-container {
+    /* Kích thước khung */
+    min-width: 70px;
+    height: 70px;
+    
+    /* Tạo hình tròn */
+    border-radius: 50%; 
+    
+    /* Đảm bảo ảnh không bị tràn ra ngoài */
+    overflow: hidden; 
+    
+    /* Thêm border ngoài (tùy chọn) */
+    border: 2px solid #3498db; 
+    
+    /* Khoảng cách với tên */
+    margin-right: 15px;
+}
+
+.customer-avatar {
+    /* Đảm bảo ảnh lấp đầy khung tròn */
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Quan trọng: Cắt ảnh để vừa vặn mà không bị méo */
+}
+.customer-info {
+    /* Đảm bảo chiếm không gian còn lại (nếu dùng flexbox) */
+    flex-grow: 1;
+}
+
+.customer-name {
+    margin: 0; /* Xóa margin mặc định của thẻ <p> */
+    font-size: 18px;
+    font-weight: bold;
+    color: #333;
+    
+}
+.customer-phone {
+    /* Xóa margin mặc định để dính sát hơn với tên */
+    margin: 0px;
+    /* Định dạng font */
+    font-size: 14px; /* Nhỏ hơn tên (18px) */
+    color: #666; /* Màu xám nhạt hơn */
+    font-weight: normal; 
+    
+}
+.customer-actions {
+    /* Đẩy toàn bộ khối này sang sát lề phải của .customer-card */
+    margin-left: auto;
+    /* Thiết lập cho các nút bên trong nằm ngang */
+    display: flex;
+    gap: 10px; /* Khoảng cách giữa các nút */
+    align-items: center; 
+}
+/* ... (Thêm styling cho các nút) ... */
+.action-btn {
+    padding: 8px 12px;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    font-size: 14px;
+    text-decoration: none; /* Dùng cho thẻ <a> (Chi tiết) */
+    color: white; 
+}
+
+.reset-btn {
+    background-color: #faaf38; /* Màu vàng cam */
+}
+.reset-btn:hover {
+    background-color: #f39c12; /* Màu vàng cam */
+}
+
+.lock-btn {
+    background-color: #e74c3c; /* Màu đỏ (Nguy hiểm) */
+}
+.lock-btn:hover {
+    background-color: #e33623; /* Màu đỏ (Nguy hiểm) */
+}
+
+.detail-btn {
+    background-color: #3498db; /* Màu xanh dương (Thông tin) */
+}
+.detail-btn:hover {
+    background-color: #1d8dd8; /* Màu xanh dương (Thông tin) */
+}
+
+/* 1. Thiết lập Modal mặc định (toàn màn hình, ẩn) */
+.modal {
+    display: none; /* Ẩn Modal theo mặc định */
+    position: fixed; /* Cố định vị trí, không cuộn theo trang */
+    z-index: 1000; /* Đặt lớp trên cùng, cao hơn mọi thứ */
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto; /* Cho phép cuộn nếu nội dung dài */
+    background-color: rgba(0, 0, 0, 0.4); /* Nền mờ đen 40% */
+}
+
+/* 2. Thiết kế Hộp Nội dung (Hình chữ nhật Pop-up) */
+.modal-content-admin {
+    background-color: #fefefe;
+    margin: 4% auto; /* Đặt ở giữa màn hình (trên/dưới 10%, trái/phải tự động) */
+    padding: 20px;
+    border: 1px solid #888;
+    width: 100%; /* Chiều rộng hình chữ nhật */
+    max-width: 600px; /* Giới hạn kích thước tối đa */
+    border-radius: 8px;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+
+}
+.customer-info-details-container {
+    display: flex;
+    align-items:center;
+
+}
+
+.customer-avatar-details-container {
+    /* Kích thước khung */
+    min-width: 200px;
+    
+    height: 200px;
+    
+    /* Tạo hình tròn */
+    border-radius: 50%; 
+    
+    /* Đảm bảo ảnh không bị tràn ra ngoài */
+    overflow: hidden; 
+    
+    /* Thêm border ngoài (tùy chọn) */
+    border: 2px solid #3498db; 
+    
+    /* Khoảng cách với tên */
+    margin-right: 15px;
+}
+
+.customer-avatar-details {
+    /* Đảm bảo ảnh lấp đầy khung tròn */
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Quan trọng: Cắt ảnh để vừa vặn mà không bị méo */
+}
+
+.customer-info-details {
+    margin: 2px;
+}
+
+/* 3. Thiết kế nút Đóng */
+.close-button {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+    
+    
+}
+
+.close-button:hover,
+.close-button:focus {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+                                /* QUẢN LÝ LOẠI SẢN PHẨM */
+
+
+.container-manage-category-products {
+    width: 90%;
+            
+    margin: auto;
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* --- Phần Thêm mới --- */
+.add-form-category-products {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 50px;
+    background-color: #f9f9f9;       
+}
+.add-form-category-products input[type="text"] {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 25px;
+}
+.add-form-category-products button {
+    background-color: #28a745;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+.add-form-category-products button:hover {
+    background-color: #218838;
+}
+
+/* --- Phần Bảng Danh sách --- */
+.data-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+.data-table th, .data-table td {
+    border: 1px solid #ddd;
+    padding: 12px;
+    text-align: left;
+}
+.data-table th {
+    background-color: #3d4042;
+    color: white;
+    font-weight: bold;
+}
+.data-table tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+.function-button-container {
+    display: flex;
+    justify-content: space-evenly;
+}
+.data-table button {
+    padding: 8px 12px;
+    margin-right: 5px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    color: white;
+    background-color: transparent;
+}
+        
+
+.data-table .action-icon-btn {
+    /* Đảm bảo nút nhỏ gọn */
+    width: 34px; 
+    height: 34px;
+    padding: 0; /* Loại bỏ padding mặc định */
+    display: inline-flex; /* Sử dụng Flexbox để căn giữa biểu tượng */
+    align-items: center;
+    justify-content: center;
+    border-radius: 4px; /* Làm nút vuông vắn, bạn có thể dùng 50% để làm tròn */
+    font-size: 14px; /* Điều chỉnh kích thước icon */
+}
+
+.button-icon {
+    /* Đảm bảo ảnh lấp đầy nút mà không bị tràn */
+    width: 100%; 
+    height: 100%;
+    object-fit: contain; /* Giữ tỷ lệ ảnh */
+    vertical-align: middle; /* Loại bỏ khoảng trắng không mong muốn */
+
+    /* Thêm Transition để chuyển động mượt mà */
+    transition: transform 0.2s ease-in-out;
+}
+
+.action-icon-btn {
+    background-size: 70%;
+    background-repeat: no-repeat;
+    background-position: center;
+            
+}
+/* Hiệu ứng khi di chuột qua */
+.action-icon-btn:hover .button-icon {
+    /* Phóng to icon lên 1.2 lần (20%) */
+    transform: scale(1.2); 
+}
+
+
+
+.category-list {
+    border: 1px solid black;
+    border-radius: 25px;
+    height: 33px;
+}
+
+#newBrandName {
+    border: 1px solid black;
+    border-radius: 25px;
+    height: 33px;
+}
+
+
+#addBrandBtn {
+    border: 1px solid black;
+    border-radius: 25px;
+    height: 33px;
+    background-color: #F0F0F0;
+    transition: 0.3s;
+    cursor: pointer;
+}
+#addBrandBtn:hover {
+    background-color: #aeaeae;
+}
+
+
+#newBrandName {
+    padding: 7px;
+    margin-right: 5px;
+}
+
+.close-button-for-edit-info-category {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+    
+    
+}
+
+.close-button-for-edit-info-category:hover,
+.close-button-for-edit-info-category:focus {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+
+
+                                /*Dành CHO QUẢN LÝ NHẬP SẢN PHẨM*/
+.container-manage-import-products {
+    width: 90%;  
+    margin: auto;
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.create-import-btn {
+    border: none;
+    background-color: #28a745;
+    font-size: 15px;
+    color: white;
+    padding: 10px;
+    width: 150px;
+    height: 50px;
+    border-radius: 25px;
+    transition: 0.3s;
+}
+
+.create-import-btn:hover {
+    background-color: #218838;
+}
+
+/*CSS cho nội dung bên trong popup*/
+/* ---------------------------------------------------- */
+/* 4. Layout và Input Fields (Các trường nhập liệu) */
+/* ---------------------------------------------------- */
+#import-form-container .header-fields-row-manage-import {
+    display: flex; /* Kích hoạt Flexbox */
+    justify-content: space-between; /* Đẩy hai nhóm ra hai bên */
+    align-items: flex-start; /* Căn chỉnh các mục theo chiều dọc */
+    margin-bottom: 20px;
+    
+}
+#import-form-container .header-fields-row-manage-import .input-info-manage-import {
+    display: flex; /* Kích hoạt Flexbox cho từng nhóm label + input */
+    flex-grow: 1;
+    align-items:baseline;
+}
+
+/* Định nghĩa chiều rộng cố định cho label ở hàng trên cùng */
+#import-form-container .input-info-manage-import label {
+    font-weight: 600;
+    width: auto;
+}
+#import-form-container label {
+    color: #555;
+}
+
+#import-form-container input {
+    padding: 10px 15px;
+    margin-bottom: 0px;
+    margin-left: 10px;
+    border: 1px solid #ccc;
+    border-radius: 25px; /* Áp dụng bo tròn 25px cho đồng bộ */
+    transition: border-color 0.3s, box-shadow 0.3s;
+    width: 200px; /* Tăng chiều rộng input */
+    box-sizing: border-box; /* Quan trọng để padding không làm tăng chiều rộng tổng thể */
+}
+
+#import-form-container .input-info-manage-import input {
+    margin-left: 10px;
+    width: 150px;
+}
+
+
+
+#import-form-container select {
+    padding: 10px 15px;
+    border: 1px solid #ccc;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    border-radius: 25px; /* Áp dụng bo tròn 25px cho đồng bộ */
+    transition: border-color 0.3s, box-shadow 0.3s;
+    width: 125px; /* Tăng chiều rộng input */
+    box-sizing: border-box; /* Quan trọng để padding không làm tăng chiều rộng tổng thể */
+}
+
+/* Điều chỉnh input Số Lượng nhỏ lại */
+#import-form-container input[style*="40px"] {
+    width: 70px !important; 
+    text-align: center;
+}
+
+
+#import-form-container input:focus,
+#import-form-container select:focus {
+    border-color: #28a745; /* Màu xanh lá cây nổi bật khi focus */
+    box-shadow: 0 0 8px rgba(40, 167, 69, 0.4);
+    outline: none;
+}
+
+/* ---------------------------------------------------- */
+/* 5. Khuôn mẫu Sản phẩm và Nút Thêm */
+/* ---------------------------------------------------- */
+
+/* Tạo khoảng cách rõ ràng giữa các sản phẩm được thêm */
+.product-fields-template {
+    border: 1px dashed #28a745; /* Đường viền mờ màu xanh lá */
+    padding: 20px 15px 5px 15px;
+    margin-bottom: 15px;
+    border-radius: 10px;
+    background-color: #f0fff0; /* Nền trắng xanh nhạt (rất nhạt) */
+}
+
+.product-fields-template hr {
+    border: none;
+    border-top: 2px solid #28a745; /* Đường kẻ đậm hơn màu xanh lá */
+    opacity: 0.5; /* Làm mờ để không quá nổi bật */
+    margin: 15px 0;
+}
+
+/* Nút Thêm sản phẩm */
+#add-product-button {
+    /* Áp dụng styling đồng bộ với .create-import-btn (màu xanh lá) */
+    background-color: #28a745; 
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 25px; /* Bo tròn 25px */
+    cursor: pointer;
+    font-weight: bold;
+    margin-top: 20px; 
+    transition: background-color 0.3s;
+    /* Căn nút ra giữa container */
+    display: block; 
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#add-product-button:hover {
+    background-color: #218838;
+}
+
+/* ---------------------------------------------------- */
+/* 6. Hiệu ứng (Animations) */
+/* ---------------------------------------------------- */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ---------------------------------------------------- */
+/* CSS cho Nút Xóa Sản phẩm */
+/* ---------------------------------------------------- */
+.remove-product-btn {
+    /* Màu đỏ để thể hiện hành động xóa (nguy hiểm) */
+    background-color: #e74c3c; 
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 4px; 
+    cursor: pointer;
+    font-weight: bold;
+    margin-top: 10px;
+    margin-bottom: 5px; /* Thêm margin dưới để cách khỏi sản phẩm tiếp theo */
+    transition: background-color 0.3s;
+    float: right; /* Đặt nút này ở góc phải của khối sản phẩm */
+}
+
+.remove-product-btn:hover {
+    background-color: #c0392b;
+}
+
+/* Clear float sau nút xóa để không ảnh hưởng đến layout */
+.product-fields-template::after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+
+/* ---------------------------------------------------- */
+/* 1. Container Nút Hành động (Phần dưới cùng của form) */
+/* ---------------------------------------------------- */
+#manage-add-and-save-container {
+    display: flex;
+    justify-content: space-between; /* Căn giữa hai nút trong form */
+    margin-top: 20px; /* Khoảng cách lớn hơn với khối sản phẩm phía trên */
+}
+
+/* ---------------------------------------------------- */
+/* 2. Style chung cho tất cả các nút hành động trong container */
+/* ---------------------------------------------------- */
+#manage-add-and-save-container button {
+    padding: 10px 25px;
+    border: none;
+    border-radius: 25px; /* Bo tròn tương tự các nút khác của bạn */
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 16px;
+    transition: background-color 0.3s, transform 0.1s;
+}
+
+/* ---------------------------------------------------- */
+/* 3. Style riêng cho Nút "Thêm sản phẩm" (Hành động phụ) */
+/* ---------------------------------------------------- */
+#add-product-fields-template {
+    /* Màu xanh lá cây (màu chủ đạo cho hành động thêm/thành công) */
+    background-color: #28a745; 
+    color: white;
+    /* Dùng box-shadow nhẹ để tạo chiều sâu */
+    box-shadow: 0 4px 6px rgba(40, 167, 69, 0.3);
+}
+
+#add-product-fields-template:hover {
+    background-color: #218838;
+    transform: translateY(-1px); /* Hiệu ứng nhấc nhẹ */
+}
+
+/* ---------------------------------------------------- */
+/* 4. Style riêng cho Nút "Lưu" (Hành động chính) */
+/* ---------------------------------------------------- */
+#save-import-product {
+    /* Màu xám/đen (Màu trung tính, đồng bộ với màu #444444 bạn hay dùng) */
+    background-color: #444444; 
+    color: white;
+    box-shadow: 0 4px 6px rgba(68, 68, 68, 0.3);
+}
+
+#save-import-product:hover {
+    background-color: #252223;
+    transform: translateY(-1px);
+}
+
+
+
+                                    /*DÀNH CHO QUẢN LÝ ĐƠN HÀNG*/
+
+.manage-order-container {
+    border: 1px solid #ddd;
+    padding: 20px;
+    border-radius: 25px;
+    box-shadow: 0 0 8px rgba(99, 101, 100, 0.4);
+    margin-bottom: 20px;
+    
+}
+
+.info-and-status-order {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.sort-by-date-container .input-sort-date {
+    padding: 10px 15px;
+    margin-bottom: 0px;
+    margin-left: 10px;
+    border: 1px solid #ccc;
+    border-radius: 25px; /* Áp dụng bo tròn 25px cho đồng bộ */
+    transition: border-color 0.3s, box-shadow 0.3s;
+    width: 200px; /* Tăng chiều rộng input */
+    box-sizing: border-box; /* Quan trọng để padding không làm tăng chiều rộng tổng thể */
+}
+
+.sort-by-date-container .input-sort-date:focus {
+    border-color: #2d322e;
+    box-shadow: 0 0 8px rgba(99, 101, 100, 0.4);
+    outline: none;
+}
+
+.status-button {
+    background-color: #444444; /* Chọn một màu khác biệt, ví dụ màu cam */
+    color: white;
+    padding: 10px 15px;
+    margin-bottom: 0px;
+    margin-left: 10px;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    border-radius: 25px; /* Áp dụng bo tròn 25px cho đồng bộ */
+    transition: border-color 0.3s;
+}
+
+.status-button:hover {
+    background-color: #252223;
+}
+
+.status-block {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    position: relative;
+}
+.status-select-container {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid black;
+    border: 1px solid #ccc;
+    border-radius: 15px;
+    padding: 5px;
+    width: 60%;
+    position: absolute;
+    top: 25px;
+    
+    
+}
+.status-select-button {
+    text-align: center;
+    cursor: pointer;
+}
+
+.status-select-button:hover {
+    color: black;
+    font-weight: 700;
+}
+
+/* ẨN MẶC ĐỊNH CHO SELECT LIST */
+.hidden {
+    display: none;
+}
+
+/* DÀNH CHO QUẢN LÝ ĐƠN HÀNG */
+/* ... (các style khác) ... */
+
+/* Style mới cho trạng thái đơn hàng hiện tại trong dropdown */
+.status-select-button.current-status {
+    /* Tô đậm */
+    font-weight: 700 !important; 
+    /* Đổi màu nền nhẹ để nổi bật hơn */
+    background-color: #e0f7fa; 
+    /* Hoặc đổi màu chữ */
+    color: #007bff; 
+    /* Thêm padding nhẹ */
+    padding: 2px 5px;
+    border-radius: 5px;
+}
+
+/* Đảm bảo hover vẫn hoạt động nhưng không làm mất style đậm */
+.status-select-button:hover {
+    color: black;
+    font-weight: 700; /* Giữ style hover của bạn */
+}
+
+#close-detail-order-container, #close-edit-category-container {
+    display: flex;
+    justify-content: flex-end; 
+    margin-top: 20px; /* Khoảng cách lớn hơn với khối sản phẩm phía trên */
+}
+
+
+#close-detail-order-container button, #close-edit-category-container button {
+    padding: 10px 25px;
+    border: none;
+    border-radius: 25px; /* Bo tròn tương tự các nút khác của bạn */
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 16px;
+    transition: background-color 0.3s, transform 0.1s;
+    /* Màu xám/đen (Màu trung tính, đồng bộ với màu #444444 bạn hay dùng) */
+    background-color: #444444; 
+    color: white;
+    box-shadow: 0 4px 6px rgba(68, 68, 68, 0.3);
+}
+
+
+
+#close-detail-order-container button:hover, #close-edit-category-container button:hover {
+    background-color: #252223;
+    transform: translateY(-1px);
+}

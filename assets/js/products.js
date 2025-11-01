@@ -1,0 +1,98 @@
+const products = [
+    {
+        id: 1,
+        category: 'Acoustic',
+        name: 'Saga A1 DE PRO',
+        price: 2000000,
+        originalPrice: 2500000,
+        image: 'assets/img/product/guitar/acoustic/saga/saga-a1-de-pro/dan-guitar-acoustic-saga-a1-de-pro--1000x1000.jpg',
+        hoverImage: 'assets/img/product/guitar/acoustic/saga/saga-a1-de-pro/3.jpg',
+        rating: 4.8,
+        reviews: 42,
+        stock: 12
+    },
+    {
+        id: 2,
+        category: 'Acoustic',
+        name: 'Taylor A12E',
+        price: 85000000,
+        originalPrice: null,
+        image: 'assets/img/product/guitar/acoustic/taylor/taylor-a12e/dan-guitar-acoustic-taylor-academy-12e-grand-concert-wbag-.jpg',
+        hoverImage: 'assets/img/product/guitar/acoustic/taylor/taylor-a12e/dan-guitar-acoustic-taylor-academy-12e-grand-concert-wbag-6-1000x1000.jpg',
+        rating: 4.6,
+        reviews: 28,
+        stock: 32
+    },
+    {
+        id: 3,
+        category: 'Acoustic',
+        name: 'Saga CL65',
+        price: 2000000,
+        originalPrice: 2500000,
+        image: 'assets/img/product/guitar/acoustic/saga/saga-cl65/dan-guitar-acoustic-saga-cl65-.jpg',
+        hoverImage: 'assets/img/product/guitar/acoustic/saga/saga-cl65/dan-guitar-acoustic-saga-cl65-4-1536x1536.jpg',
+        rating: 4.9,
+        reviews: 56,
+        stock: 45
+    },
+    {
+        id: 4,
+        category: 'Classic',
+        name: 'Ba đờn C100',
+        price: 5000000,
+        originalPrice: null,
+        image: 'assets/img/product/guitar/classic/badon/dan-guitar-classic-ba-don-c100/dan-guitar-classic-ba-don-c100-.jpg',
+        hoverImage: 'assets/img/product/guitar/classic/badon/dan-guitar-classic-ba-don-c100/dan-guitar-classic-ba-don-c100-9.jpg',
+        rating: 4.7,
+        reviews: 35,
+        stock: 3
+    },
+    {
+        id: 5,
+        category: 'Classic',
+        name: 'Yamaha CGS102AII',
+        price: 7000000,
+        originalPrice: null,
+        image: 'assets/img/product/guitar/classic/yamaha/dan-guitar-classic-yamaha-cgs102aii-school-series/dan-guitar-classic-yamaha-cgs102aii-school-series-.jpg',
+        hoverImage: 'assets/img/product/guitar/classic/yamaha/dan-guitar-classic-yamaha-cgs102aii-school-series/dan-guitar-classic-yamaha-cgs102aii-school-series-3-1536x1536.jpg',
+        rating: 4.5,
+        reviews: 23,
+        stock: 11
+    },
+    {
+        id: 6,
+        category: 'Acoustic',
+        name: 'Enya EGA X0 PRO SP1',
+        price: 11300000,
+        originalPrice: 12300000,
+        image: 'assets/img/product/guitar/acoustic/enya/enya-ega-x1-pro-sp1/dan-guitar-acoustic-enya-ega-x1-pro-sp1-acousticplus-smart-guitar-3-1000x1000.jpg',
+        hoverImage: 'assets/img/product/guitar/acoustic/enya/enya-ega-x1-pro-sp1/dan-guitar-acoustic-enya-ega-x1-pro-sp1-acousticplus-smart-guitar-9-1000x1000.jpg',
+        rating: 4.8,
+        reviews: 30,
+        stock: 36
+    },
+    {
+        id: 7,
+        category: 'Acoustic',
+        name: 'Yamaha LS36 ARE',
+        price: 8200000,
+        originalPrice: null,
+        image: 'assets/img/product/guitar/acoustic/yamaha/yamaha-ls36-are/1.jpg',
+        hoverImage: 'assets/img/product/guitar/acoustic/yamaha/yamaha-ls36-are/dan-guitar-acoustic-yamaha-ls36-are-ls-series-3-1536x1536.jpg',
+        rating: 4.9,
+        reviews: 40,
+        stock: 15
+    },
+    {
+        id: 8,
+        category: 'Acoustic',
+        name: 'Saga SS 8CE',
+        price: 6500000,
+        originalPrice: null,
+        image: 'assets/img/product/guitar/acoustic/saga/saga-ss-8ce/dan-guitar-acoustic-saga-ss-8ce-.jpg',
+        hoverImage: 'assets/img/product/guitar/acoustic/saga/saga-ss-8ce/dan-guitar-acoustic-saga-ss-8ce-4-1536x1536.jpg',
+        rating: 4.6,
+        reviews: 22,
+        stock: 51
+    },
+];
