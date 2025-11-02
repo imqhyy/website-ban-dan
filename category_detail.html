@@ -106,14 +106,14 @@
                         <li class="dropdown"><a href="#"><span>Phân loại</span> <i
                                     class="bi bi-chevron-down toggle-dropdown"></i></a>
                             <ul>
-                                <li class="dropdown"><a href="#"><span>Guitar
+                                <li class="dropdown"><a href="category_detail.html"><span>Guitar
                                             Classic</span><i class="bi bi-chevron-right toggle-dropdown"></i></a>
                                     <ul>
                                         <li><a href="brand.html">Ba đờn</a></li>
                                         <li><a href="brand.html">Yamaha</a></li>
                                     </ul>
                                 </li>
-                                <li class="dropdown"><a href="#"><span>Guitar
+                                <li class="dropdown"><a href="category_detail.html"><span>Guitar
                                             Acoustic</span><i class="bi bi-chevron-right toggle-dropdown"></i></a>
                                     <ul>
                                         <li><a href="brand.html">Saga</a></li>
@@ -157,55 +157,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-4 sidebar">
-                    <div class="widgets-container"> <!-- Product Categories Widget -->
-                        <div class="product-categories-widget widget-item">
-                            <h3 class="widget-title">Phân loại</h3>
-                            <ul class="category-tree list-unstyled mb-0">
-                                <!-- Guitar Category -->
-                                <li class="category-item">
-                                    <div class="d-flex justify-content-between align-items-center category-header collapsed"
-                                        data-bs-toggle="collapse" data-bs-target="#categories-1-clothing-subcategories"
-                                        aria-expanded="false" aria-controls="categories-1-clothing-subcategories">
-                                        <a href="javascript:void(0)" class="category-link">Guitar
-                                            Classic</a> <span class="category-toggle"> <i
-                                                class="bi bi-chevron-down"></i>
-                                            <i class="bi bi-chevron-up"></i>
-                                        </span>
-                                    </div>
-                                    <ul id="categories-1-clothing-subcategories"
-                                        class="subcategory-list list-unstyled collapse ps-3 mt-2">
-                                        <li><a href="brand.html" class="subcategory-link">Ba
-                                                đờn</a></li>
-                                        <li><a href="brand.html" class="subcategory-link">Yamaha</a>
-                                        </li>
-                                    </ul>
-                                </li> <!-- Electronics Category -->
-                                <li class="category-item">
-                                    <div class="d-flex justify-content-between align-items-center category-header collapsed"
-                                        data-bs-toggle="collapse"
-                                        data-bs-target="#categories-1-electronics-subcategories" aria-expanded="false"
-                                        aria-controls="categories-1-electronics-subcategories">
-                                        <a href="javascript:void(0)" class="category-link">Guitar
-                                            Acoustic</a> <span class="category-toggle"> <i
-                                                class="bi bi-chevron-down"></i>
-                                            <i class="bi bi-chevron-up"></i>
-                                        </span>
-                                    </div>
-                                    <ul id="categories-1-electronics-subcategories"
-                                        class="subcategory-list list-unstyled collapse ps-3 mt-2">
-                                        <li><a href="brand.html" class="subcategory-link">Saga</a>
-                                        </li>
-                                        <li><a href="brand.html" class="subcategory-link">Taylor</a>
-                                        </li>
-                                        <li><a href="brand.html" class="subcategory-link">Enya</a>
-                                        </li>
-                                        <li><a href="brand.html" class="subcategory-link">Yamaha</a>
-                                        </li>
-                                    </ul>
-                                </li>
-                            </ul>
-                        </div>
-                        <!--/Product Categories Widget -->
+                    <div class="widgets-container"> 
                         <!-- Pricing Range Widget -->
                         <div class="pricing-range-widget widget-item">
                             <h3 class="widget-title">Khoảng giá</h3>
@@ -246,6 +198,52 @@
                             </div>
                         </div>
                         <!--/Pricing Range Widget -->
+                        <!-- Brand Filter Widget -->
+                        <div class="brand-filter-widget widget-item">
+                        <h3 class="widget-title">Lọc theo thương hiệu</h3>
+                        <div class="brand-filter-content">
+                            <div class="brand-search"> <input type="text" class="form-control"
+                                placeholder="Tìm kiếm thương hiệu...">
+                            <i class="bi bi-search"></i>
+                            </div>
+                            <div class="brand-list">
+                            <div class="brand-item">
+                                <div class="form-check"> <input class="form-check-input" type="checkbox"
+                                    id="brand1"> <label class="form-check-label" for="brand1"> Ba đờn <span
+                                    class="brand-count">(23)</span>
+                                </label> </div>
+                            </div>
+                            <div class="brand-item">
+                                <div class="form-check"> <input class="form-check-input" type="checkbox"
+                                    id="brand1"> <label class="form-check-label" for="brand1"> Saga <span
+                                    class="brand-count">(24)</span>
+                                </label> </div>
+                            </div>
+                            <div class="brand-item">
+                                <div class="form-check"> <input class="form-check-input" type="checkbox"
+                                    id="brand2"> <label class="form-check-label" for="brand2"> Tayor
+                                    <span class="brand-count">(18)</span>
+                                </label> </div>
+                            </div>
+                            <div class="brand-item">
+                                <div class="form-check"> <input class="form-check-input" type="checkbox"
+                                    id="brand3"> <label class="form-check-label" for="brand3"> Enya
+                                    <span class="brand-count">(12)</span>
+                                </label> </div>
+                            </div>
+                            <div class="brand-item">
+                                <div class="form-check"> <input class="form-check-input" type="checkbox"
+                                    id="brand4"> <label class="form-check-label" for="brand4"> Yamaha
+                                    <span class="brand-count">(9)</span>
+                                </label> </div>
+                            </div>
+                            </div>
+                            <div class="brand-actions"> <button class="btn btn-sm btn-outline-primary">Áp
+                                dụng bộ lọc</button> <button class="btn btn-sm btn-link">Xóa tất
+                                cả</button> </div>
+                        </div>
+                        </div>
+                        <!--/Brand Filter Widget -->
 
                     </div>
                 </div>
@@ -277,7 +275,7 @@
                                         <div class="product-details">
                                             <div class="product-category">Acoustic</div>
                                             <h4 class="product-title">
-                                                <a href="product-details.html">Saga A1 DE PRO</a>
+                                                <a href="product-details.html">Saga Tinh Hệ</a>
                                             </h4>
                                             <div class="product-meta">
                                                 <div class="product-price">
@@ -309,7 +307,7 @@
                                         <div class="product-details">
                                             <div class="product-category">Acoustic</div>
                                             <h4 class="product-title">
-                                                <a href="product-details.html">Saga CC1</a>
+                                                <a href="product-details.html">Enya Tiệc Bãi Biển</a>
                                             </h4>
                                             <div class="product-meta">
                                                 <div class="product-price">
@@ -343,7 +341,7 @@
                                         <div class="product-details">
                                             <div class="product-category">Acoustic</div>
                                             <h4 class="product-title">
-                                                <a href="product-details.html">Saga CL65</a>
+                                                <a href="product-details.html">Saga Siêu Việt 2.0</a>
                                             </h4>
                                             <div class="product-meta">
                                                 <div class="product-price">

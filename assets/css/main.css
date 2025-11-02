@@ -5097,6 +5097,7 @@ section,
   align-items: center;
   gap: 0.25rem;
   transition: color 0.3s ease;
+  cursor: pointer;
 }
 
 .cart .cart-items .cart-item .product-info .product-details .remove-item:hover {
@@ -12573,13 +12574,13 @@ section,
   cursor: pointer;
 }
 
-.brand-filter-widget .brand-item .form-check-input:checked {
+.brand-filter-widget .brand-item .form-check-input:checked, .category-item .form-check-input:checked {
   background-color: var(--accent-color);
   border-color: var(--accent-color);
   box-shadow: none;
 }
 
-.brand-filter-widget .brand-item .form-check-input:focus {
+.brand-filter-widget .brand-item .form-check-input:focus, .category-item .form-check-input:focus {
   border-color: var(--accent-color);
   box-shadow: none;
 }
