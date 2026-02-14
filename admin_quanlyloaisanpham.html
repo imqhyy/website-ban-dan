@@ -247,7 +247,7 @@
             <td>25%</td>
             <td>Dòng guitar thùng sử dụng dây kim loại.</td>
             <td class="function-button-container">
-              <button class="edit-btn action-icon-btn" title="Sửa"><img src="assets/img/iconbutton/pencil.png"
+              <button class="edit-category-btn action-icon-btn" title="Sửa"><img src="assets/img/iconbutton/pencil.png"
                   class="button-icon" alt="Sửa"></button>
               <button class="delete-btn action-icon-btn" title="Xoá"><img src="assets/img/iconbutton/trash.png"
                   class="button-icon" alt="Xoá"></button>
@@ -264,7 +264,7 @@
             <td>30%</td>
             <td>Dòng guitar thùng sử dụng dây nylon.</td>
             <td class="function-button-container">
-              <button class="edit-btn action-icon-btn" title="Sửa"><img src="assets/img/iconbutton/pencil.png"
+              <button class="edit-category-btn action-icon-btn" title="Sửa"><img src="assets/img/iconbutton/pencil.png"
                   class="button-icon" alt="Sửa"></button>
               <button class="delete-btn action-icon-btn" title="Xoá"><img src="assets/img/iconbutton/trash.png"
                   class="button-icon" alt="Xoá"></button>
@@ -281,86 +281,83 @@
       <div id="edit-info-category" class="modal">
         <div class="modal-content-admin">
           <span class="close-button-for-edit-info-category">&times;</span>
-          <h1>Chỉnh sửa phân loại: </h1>
+          <h2>Chỉnh sửa phân loại: </h2>
           <h3>Tên loại: <input id="input-edit-namecategory" type="text" value=""></h3>
 
           <hr>
-          <h3>% Lợi nhuận: <input id="input-edit-profitcategory" type="number" min="0" max="100" style="width: 70px;">
+          <h3>% Lợi nhuận: <input id="input-edit-profitcategory" type="number" min="0" max="999" style="width: 80px;">
           </h3>
 
           <hr>
           <h3>Mô tả</h3>
           <textarea id="mo_ta" name="product_description" rows="4" cols="50"
-            placeholder="Nhập mô tả chi tiết sản phẩm ở đây..."></textarea>
+            placeholder="Nhập mô tả chi tiết sản phẩm ở đây..." style="border-radius: 25px; padding: 10px;"></textarea>
 
           <div id="close-edit-category-container">
             <button class="close-button-for-edit-category-container">Lưu</button>
           </div>
-          <script>document.addEventListener('DOMContentLoaded', function () {
-              const saveButton = document.querySelector('.close-button-for-edit-category-container');
-
-              if (saveButton) {
-                saveButton.addEventListener('click', function () {
-                  // Tìm container cha (có thể chỉnh sửa, thêm class nếu cần)
-                  const editContainer = saveButton.closest('.edit-category-wrapper')
-                    || saveButton.closest('.modal')
-                    || saveButton.closest('div');
-
-                  if (editContainer) {
-                    editContainer.style.display = 'none'; // ← Ẩn, không xóa
-                  }
-
-                  // HIỆN TOAST
-                  Toast.fire({
-                    icon: 'success',
-                    html: '<strong>Đã lưu thay đổi</strong>'
-                  });
-                });
-              }
-            });</script>
         </div>
       </div>
 
 
       <!-- Pop up quản lý thương hiệu -->
-      <div id="DetailModal" class="modal">
+      <div id="edit-brands-modal" class="modal">
         <div class="modal-content-admin">
-          <span class="close-button">&times;</span>
-          <h1 id="modalCategory"></h1> <!-- Chỗ này hiện xem coi nó là acoustic hay classic bằng JS-->
+          <span class="close-button-for-edit-brands">&times;</span>
           <div id="brandList">
             <h3>Danh sách thương hiệu hiện có:</h3>
-            <ul id="brandsUlList"></ul> <!-- Chỗ này dùng JavaScript để hiện danh sách -->
+            <div class="brandsContainer">
+              <table class="brandsTable">
+                <thead>
+                  <tr>
+                    <th style="width: 50%;">Thương hiệu</th>
+                    <th style="width: 25%;">Lợi nhuận</th>
+                    <th style="width: 25%;">Tuỳ chỉnh</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Saga</td>
+                    <td>20%</td>
+                    <td><input type="text" class="brand-edit-input"></td>
+                  </tr>
+                  <tr>
+                    <td>Taylor</td>
+                    <td>10000%</td>
+                    <td><input type="text" class="brand-edit-input"></td>
+                  </tr>
+                  <tr>
+                    <td>Takamine</td>
+                    <td>0%</td>
+                    <td><input type="text" class="brand-edit-input"></td>
+                  </tr>
+                  <tr>
+                    <td>Takamine</td>
+                    <td>0%</td>
+                    <td><input type="text" class="brand-edit-input"></td>
+                  </tr>
+                  <tr>
+                    <td>Takamine</td>
+                    <td>0%</td>
+                    <td><input type="text" class="brand-edit-input"></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <div class="addBrandsForm">
+              <input class="inputBrandsForm" placeholder="Thêm thương hiệu (Lợi nhuận sẽ mặc định theo phân loại)">
+
+              </input>
+              <div class="addBrandsButton">Thêm</div>
+            </div>
+            <div class="modal-footer-admin">
+              <button id="save-brands-list-btn" class="save-all-brands-btn">Lưu thay đổi</button>
+            </div>
           </div>
+          
 
-          <hr>
-          <div id="addBrandForm">
-            <h3>Thêm Thương hiệu mới:</h3>
-            <input type="text" id="newBrandName" placeholder="Tên thương hiệu">
-            <button id="addBrandBtn">Thêm</button>
-            <script>document.addEventListener('DOMContentLoaded', function () {
-                const addBrandBtn = document.getElementById('addBrandBtn');
-                const input = document.getElementById('newBrandName');
-
-                if (addBrandBtn && input) {
-                  addBrandBtn.addEventListener('click', function () {
-                    // 1. Lấy tên (không cần validate)
-                    const brandName = input.value.trim();
-
-                    // 2. XÓA Ô INPUT
-                    input.value = '';
-
-                    // 3. HIỆN TOAST
-                    Toast.fire({
-                      icon: 'success',
-                      html: '<strong>Đã thêm thương hiệu</strong>'
-                    });
-
-                    // GỌI API THÊM Ở ĐÂY (nếu có)
-                    // addBrandToDatabase(brandName);
-                  });
-                }
-              });</script>
-          </div>
+          
 
         </div>
 

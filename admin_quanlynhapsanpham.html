@@ -290,10 +290,15 @@
           <label>Đến ngày:<input type="date" class="input-sort-date"></label>
         </div>
         <div class="sort-by-order-status">
-          <label>Tình trạng:</label>
-          <span class="status-button">Mới nhất</span>
-          <span class="status-button">Cũ nhất</span>
+          <label for="sort-order">Tình trạng:</label>
+          <select id="sort-order" class="status-select-custom">
+            <option value="newest">Mới nhất</option>
+            <option value="oldest">Cũ nhất</option>
+          </select>
         </div>
+        <button id="filter-button" class="status-button">
+          <i class="bi bi-funnel"></i> Tra cứu
+        </button>
       </div>
 
       <!-- Phiếu nhập thứ nhất -->

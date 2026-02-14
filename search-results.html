@@ -49,7 +49,7 @@
   </head>
 
   <body class="search-results-page">
-    <header id="header" class="header sticky-top">
+    <header id="header" class="header">
       <!-- Top Bar -->
       <div class="top-bar py-2">
         <div class="container-fluid container-xl">
@@ -193,7 +193,7 @@
       </div>
 
       <!-- Navigation -->
-      <div class="header-nav">
+      <div class="header-nav" style="position: sticky; top: 0;">
         <div class="container-fluid container-xl position-relative">
           <nav id="navmenu" class="navmenu">
             <ul>
@@ -306,14 +306,14 @@
                   <div class="filter-tags">
                     <span class="filter-label">Filters:</span>
                     <div class="tags-wrapper">
-                      <!-- <span class="filter-tag">
+                      <span class="filter-tag">
                       Phân loại: Acoustics
                       <i class="bi bi-x-circle"></i>
-                    </span> -->
-                      <!-- <span class="filter-tag">
+                    </span>
+                      <span class="filter-tag">
                       Date: Last Month
                       <i class="bi bi-x-circle"></i>
-                    </span> -->
+                    </span>
                     </div>
                   </div>
                 </div>
@@ -323,6 +323,7 @@
                     <select
                       id="sort-select"
                       class="form-select form-select-sm d-inline-block w-auto"
+                      style="border-radius: 25px;"
                     >
                       <option value="relevance">Liên quan</option>
                       <option value="date-desc">Mới nhất</option>
@@ -332,6 +333,57 @@
                     </select>
                   </div>
                 </div>
+              </div>
+            </div>
+
+            <div class="advanced-search-bar" data-aos="fade-up"
+              data-aos-delay="400">
+              <div class="d-flex flex-wrap align-items-center gap-3">
+                
+                <div class="search-item">
+                  <label>Dáng đàn:</label>
+                  <select class="custom-pill-select">
+                    <option value="">Tất cả</option>
+                    <option value="d">Dáng D</option>
+                    <option value="a">Dáng A</option>
+                    <option value="concert">Concert</option>
+                  </select>
+                </div>
+
+                <div class="search-item">
+                  <label>Loại gỗ:</label>
+                  <select class="custom-pill-select">
+                    <option value="">Tất cả</option>
+                    <option value="spruce">Gỗ Thông</option>
+                    <option value="mahogany">Gỗ Hồng Đào</option>
+                    <option value="rosewood">Gỗ Điệp</option>
+                  </select>
+                </div>
+
+                <div class="search-item">
+                  <label>Cấu tạo:</label>
+                  <select class="custom-pill-select">
+                    <option value="">Tất cả</option>
+                    <option value="full-solid">Full Solid</option>
+                    <option value="solid-top">Solid Top</option>
+                    <option value="laminate">Gỗ ép</option>
+                  </select>
+                </div>
+
+                <div class="search-item">
+                  <label>Kích thước:</label>
+                  <select class="custom-pill-select">
+                    <option value="">Tất cả</option>
+                    <option value="4-4">Size 4/4</option>
+                    <option value="3-4">Size 3/4</option>
+                    <option value="1-2">Size 1/2</option>
+                  </select>
+                </div>
+
+                <button class="btn-tra-cuu">
+                  <i class="bi bi-funnel"></i> Tra cứu
+                </button>
+
               </div>
             </div>
           </div>

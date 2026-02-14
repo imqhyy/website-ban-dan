@@ -226,12 +226,17 @@
           <label>Đến ngày:<input type="date" class="input-sort-date"></label>
         </div>
         <div class="sort-by-order-status">
-          <label>Tình trạng:</label>
-          <span class="status-button">Mới đặt</span>
-          <span class="status-button">Đã xử lý</span>
-          <span class="status-button">Đã giao</span>
-          <span class="status-button">Đã huỷ</span>
+          <label for="sort-order">Tình trạng:</label>
+          <select id="sort-order" class="status-select-custom">
+            <option value="newest">Mới đặt</option>
+            <option value="processed">Đã xử lý</option>
+            <option value="deliveried">Đã giao</option>
+            <option value="cancel">Huỷ</option>
+          </select>
         </div>
+        <button id="filter-button" class="status-button">
+          <i class="bi bi-funnel"></i> Tra cứu
+        </button>
       </div>
       <hr>
 

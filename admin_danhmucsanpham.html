@@ -26,7 +26,7 @@
 
   <link href="assets/css/main.css" rel="stylesheet">
   <link href="assets/css/admin.css" rel="stylesheet">
-  <link href="assets/css/danhmucsanpham.css" rel="stylesheet">
+  
 
 
 </head>
@@ -195,72 +195,176 @@
           <h4 class="fw-semibold text-dark mb-0">Thêm sản phẩm</h4>
         </div>
         <div class="card-body pt-3">
-          <button id="open-add-product" class="btn btn-primary d-flex align-items-center gap-2">
-            <i class="bi bi-plus-circle"></i>
+          <button id="open-add-product" class="add-products-btn">
             <span>Thêm sản phẩm</span>
           </button>
-          <!-- <form id="product-form" class="row g-3">
-
-            <input type="hidden" id="product-id">
-
-            <div class="col-md-3">
-              <label for="product-name" class="form-label">Tên sản phẩm</label>
-              <input type="text" class="form-control" id="product-name" placeholder="Saga A1 DE PRO">
-            </div>
-            <div class="col-md-3">
-              <label for="product-code" class="form-label">Mã sản phẩm</label>
-              <input type="text" class="form-control" id="product-code" placeholder="SAGA-A1">
-            </div>
-            <div class="col-md-6">
-              <label for="product-image" class="form-label">Đường dẫn hình ảnh</label>
-              <input type="text" class="form-control" id="product-image" placeholder="assets/img/product/...">
-            </div>
-            <div class="col-md-3 mb-3">
-              <label for="costPrice" class="form-label">Giá Vốn (VND)</label>
-              <input type="text" class="form-control" id="costPrice" placeholder="2.000.000" min="0">
-            </div>
-
-            <div class="col-md-2 mb-3">
-              <label for="profitMargin" class="form-label">% Lợi nhuận</label>
-              <input type="number" class="form-control" id="profitMargin" placeholder="20" min="0" max="100">
-            </div>
-
-            <div class="col-md-3 mb-3">
-              <label for="sellingPrice" class="form-label">Giá Bán (VND)</label>
-              <input type="text" class="form-control" id="sellingPrice" readonly placeholder="2.400.000">
-            </div>
-            
-            <div class="col-md-3">
-              <label for="product-category" class="form-label">Loại sản phẩm</label>
-              <select id="product-category" class="form-select">
-                <option value="">-- Chọn loại --</option>
-                <option value="Acoustic">Acoustic</option>
-                <option value="Classic">Classic</option>
-              </select>
-            </div>
-
-            <div class="col-md-3">
-              <label for="product-brand" class="form-label">Thương hiệu</label>
-              <select id="product-brand" class="form-select">
-                <option value="">-- Chọn thương hiệu --</option>
-              </select>
-            </div>
-            <div class="col-12">
-              <label for="product-description" class="form-label">Mô tả</label>
-              <textarea class="form-control" id="product-description" rows="3"
-                placeholder="Mô tả chi tiết sản phẩm..."></textarea>
-            </div>
-
-            <div class="col-12 text-end">
-              <button type="submit" id="addProductBtn" class="custom-btn btn-add-product me-3">Thêm sản phẩm</button>
-              <button type="reset" class="custom-btn btn-save-product">Reset</button>
-            </div>
-          </form> -->
+          
         </div>
 
       </div>
 
+      <div id="addProductModal" class="modal">
+        <div class="modal-content-admin" style="max-width: 900px;"> <span class="close-button">&times;</span>
+          <h2 class="mb-4">Thêm sản phẩm mới</h2>
+          
+          <form id="add-product-form">
+            <div class="row">
+              <div class="col-md-6">
+                <div class="mb-3">
+                  <label class="form-label fw-bold">Tên sản phẩm:</label>
+                  <input type="text" class="form-control custom-input" placeholder="Nhập tên sản phẩm" required>
+                </div>
+                <div class="row">
+                  <div class="col-md-6 mb-3">
+                    <label class="form-label fw-bold">Phân loại:</label>
+                    <select class="form-select custom-input" id="modal-product-type">
+                      <option value="Guitar Acoustic">Guitar Acoustic</option>
+                      <option value="Guitar Classic">Guitar Classic</option>
+                    </select>
+                  </div>
+                  <div class="col-md-6 mb-3">
+                    <label class="form-label fw-bold">Thương hiệu:</label>
+                    <select class="form-select custom-input" id="modal-product-brand">
+                      </select>
+                  </div>
+                </div>
+                <div class="mb-3">
+                  <label class="form-label fw-bold">Ảnh sản phẩm (Tối đa 6 ảnh):</label>
+                  <input type="file" class="form-control custom-input" multiple accept="image/*" id="product-images-upload">
+                  <div id="image-preview-container" class="d-flex flex-wrap gap-2 mt-2"></div>
+                </div>
+              </div>
 
+              <div class="col-md-6">
+                <div class="mb-3">
+                  <label class="form-label fw-bold">Mô tả tóm tắt:</label>
+                  <textarea class="form-control custom-input" rows="2" placeholder="Mô tả ngắn gọn về sản phẩm"></textarea>
+                </div>
+                <div class="mb-3">
+                  <label class="form-label fw-bold">Tổng quan sản phẩm:</label>
+                  <textarea class="form-control custom-input" rows="4" placeholder="Thông tin chi tiết về cấu tạo, chất liệu..."></textarea>
+                </div>
+              </div>
+            </div>
+
+            <hr>
+            <h4 class="fw-bold mb-3">Điểm nổi bật (Hiển thị 4 khối)</h4>
+            <div class="row g-3">
+              <script>
+                for(let i=1; i<=4; i++) {
+                  document.write(`
+                    <div class="col-md-6">
+                      <div class="highlight-input-group p-3 border rounded shadow-sm">
+                        <span class="badge bg-secondary mb-2">Điểm ${i}</span>
+                        <input type="text" class="form-control mb-2 fw-bold" placeholder="Tiêu đề in đậm (VD: Âm thanh nội lực)">
+                        <textarea class="form-control form-control-sm text-muted" placeholder="Nội dung mờ phía dưới (VD: Âm thanh vang, mạnh mẽ...)"></textarea>
+                      </div>
+                    </div>
+                  `);
+                }
+              </script>
+            </div>
+
+            <hr>
+            <h4 class="fw-bold mb-3">Điểm nổi bật (Hiển thị 4 khối)</h4>
+            <div class="row g-3" id="accessories-container">
+                <div class="col-12 d-flex flex-wrap gap-3 mb-2">
+                    <div class="form-check">
+                        <input class="form-check-input accessory-checkbox" type="checkbox" value="Bao đàn chính hãng cao cấp (Gig Bag)" id="acc1">
+                        <label class="form-check-label" for="acc1">Bao đàn Gig Bag</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input accessory-checkbox" type="checkbox" value="Lục giác chỉnh cần (Ty chỉnh cần)" id="acc2">
+                        <label class="form-check-label" for="acc2">Lục giác chỉnh cần</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input accessory-checkbox" type="checkbox" value="Dây đàn dự phòng/Bộ dây đi kèm" id="acc3">
+                        <label class="form-check-label" for="acc3">Dây dự phòng</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input accessory-checkbox" type="checkbox" value="Capo (Kẹp tăng tông) hoặc Pick (Miếng gảy đàn)" id="acc4">
+                        <label class="form-check-label" for="acc4">Capo/Pick</label>
+                    </div>
+                </div>
+                
+                <div class="col-md-12">
+                    <label class="form-label text-muted small">Hoặc nhập danh sách phụ kiện khác (mỗi dòng một món):</label>
+                    <textarea class="form-control custom-input" id="modal-product-accessories" rows="3" 
+                              placeholder="Ví dụ: &#10;Dây đeo (Guitar Strap)&#10;Thẻ bảo hành và Hướng dẫn sử dụng"></textarea>
+                </div>
+            </div>
+
+            <div class="modal-footer-admin d-flex justify-content-between">
+              <button type="button" class="btn btn-secondary action-btn-common nutsua" id="cancel-add-product">Hủy bỏ</button>
+              <button type="submit" class="save-all-brands-btn">Lưu sản phẩm</button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <div id="editProductModal" class="modal">
+          <div class="modal-content-admin" style="max-width: 900px;"> 
+              <span class="close-button" id="close-edit-modal">&times;</span>
+              <h2 class="mb-4">Chỉnh sửa thông tin sản phẩm</h2>
+              
+              <form id="edit-product-form">
+                  <div class="row">
+                      <div class="col-md-6">
+                          <div class="mb-3">
+                              <label class="form-label fw-bold">Tên sản phẩm:</label>
+                              <input type="text" id="edit-product-name" class="form-control custom-input" required>
+                          </div>
+                          <div class="row">
+                              <div class="col-md-6 mb-3">
+                                  <label class="form-label fw-bold">Phân loại:</label>
+                                  <select class="form-select custom-input" id="edit-product-type">
+                                      <option value="Guitar Acoustic">Guitar Acoustic</option>
+                                      <option value="Guitar Classic">Guitar Classic</option>
+                                  </select>
+                              </div>
+                              <div class="col-md-6 mb-3">
+                                  <label class="form-label fw-bold">Thương hiệu:</label>
+                                  <select class="form-select custom-input" id="edit-product-brand">
+                                      </select>
+                              </div>
+                          </div>
+                          <div class="mb-3">
+                              <label class="form-label fw-bold">Thay đổi ảnh (Tối đa 6 ảnh):</label>
+                              <input type="file" class="form-control custom-input" multiple accept="image/*" id="edit-images-upload">
+                              <div id="edit-preview-container" class="d-flex flex-wrap gap-2 mt-2"></div>
+                          </div>
+                      </div>
+
+                      <div class="col-md-6">
+                          <div class="mb-3">
+                              <label class="form-label fw-bold">Mô tả tóm tắt:</label>
+                              <textarea id="edit-product-summary" class="form-control custom-input" rows="2"></textarea>
+                          </div>
+                          <div class="mb-3">
+                              <label class="form-label fw-bold">Tổng quan sản phẩm:</label>
+                              <textarea id="edit-product-overview" class="form-control custom-input" rows="4"></textarea>
+                          </div>
+                      </div>
+                  </div>
+
+                  <hr>
+                  <h4 class="fw-bold mb-3">Điểm nổi bật</h4>
+                  <div class="row g-3" id="edit-highlights-container">
+                      </div>
+
+                  <hr>
+                  <h4 class="fw-bold mb-3">Phụ kiện kèm theo</h4>
+                  <div class="col-md-12">
+                      <textarea class="form-control custom-input" id="edit-product-accessories" rows="3"></textarea>
+                  </div>
+
+                  <div class="modal-footer-admin d-flex justify-content-between">
+                      <button type="button" class="btn btn-secondary action-btn-common nutsua" id="cancel-edit-product">Hủy bỏ</button>
+                      <button type="submit" class="save-all-brands-btn">Lưu thay đổi</button>
+                  </div>
+              </form>
+          </div>
+      </div>
       <!-- Thanh tìm kiếm -->
       <form action="" class="search-container" method="get"><!-- Search box -->
         <input type="text" id="search-input" placeholder="Tra cứu sản phẩm" name="search">
@@ -299,20 +403,20 @@
             <table class="table table-hover data-table">
               <thead>
                 <tr>
-                  <th scope="col" style="width: 10%;">Hình ảnh</th>
-                  <th scope="col">Tên sản phẩm</th>
-                  <th scope="col">Loại</th>
-                  <th scope="col">Giá Vốn</th>
-                  <th scope="col">% Lợi nhuận</th>
-                  <th scope="col">Giá bán</th>
-                  <th scope="col">Hành động</th>
+                  <th scope="col" style="width: 7%;">Hình ảnh</th>
+                  <th scope="col" style="width: 25%;">Tên sản phẩm</th>
+                  <th scope="col" style="width: 9%;">Loại</th>
+                  <th scope="col" style="width: 20%;">Giá Vốn</th>
+                  <th scope="col" style="width: 7%;">% Lợi nhuận</th>
+                  <th scope="col" style="width: 20%">Giá bán</th>
+                  <th scope="col" style="width: 10%">Chức năng</th>
                 </tr>
               </thead>
               <tbody id="product-list-container">
                 <tr>
                   <td><img
                       src="assets/img/product/guitar/acoustic/saga/saga-a1-de-pro/dan-guitar-acoustic-saga-a1-de-pro--1000x1000.jpg"
-                      alt="Saga A1 DE PRO" style="width: 70px; height: auto;"></td>
+                      alt="Saga A1 DE PRO" class="avt-product-mini"></td>
                   <td>Saga A1 DE PRO</td>
                   <td>Acoustic</td>
                   <td><span class="font-weight-bold">2.000.000 VND</span></td>
@@ -320,15 +424,16 @@
                   <td><span class="font-weight-bold">2.400.000 VND</span></td>
 
                   <td class="action-cell">
-                    <button class="nutsua action-btn-common" data-cost-price="2000000"
-                      data-profit-margin="20">Sửa</button>
-                    <button class="nutxoa action-btn-common">Xóa</button>
+                    <button class="edit-btn action-icon-btn edit-product-btn" title="Sửa"><img src="assets/img/iconbutton/pencil.png"
+                  class="button-icon" alt="Sửa"></button>
+                    <button class="delete-btn action-icon-btn" title="Xoá"><img src="assets/img/iconbutton/trash.png"
+                  class="button-icon" alt="Xoá"></button>
                   </td>
                 </tr>
                 <tr>
                   <td><img
                       src="assets/img/product/guitar/acoustic/taylor/taylor-a12e/dan-guitar-acoustic-taylor-academy-12e-grand-concert-wbag-.jpg"
-                      alt="Taylor A12E" style="width: 70px; height: auto;"></td>
+                      alt="Taylor A12E" class="avt-product-mini"></td>
                   <td>Taylor A12E</td>
                   <td>Acoustic</td>
                   <td><span class="font-weight-bold">70.000.000 VND</span></td>
@@ -336,14 +441,15 @@
                   <td><span class="font-weight-bold">85.000.000 VND</span></td>
 
                   <td>
-                    <button class="nutsua action-btn-common" data-cost-price="70000000"
-                      data-profit-margin="21.43">Sửa</button>
-                    <button class="nutxoa action-btn-common">Xóa</button>
+                    <button class="edit-btn action-icon-btn edit-product-btn" title="Sửa"><img src="assets/img/iconbutton/pencil.png"
+                  class="button-icon" alt="Sửa"></button>
+                    <button class="delete-btn action-icon-btn" title="Xoá"><img src="assets/img/iconbutton/trash.png"
+                  class="button-icon" alt="Xoá"></button>
                   </td>
                 </tr>
                 <tr>
                   <td><img src="assets/img/product/guitar/acoustic/saga/saga-cl65/dan-guitar-acoustic-saga-cl65-.jpg"
-                      alt="Saga CL65" style="width: 70px; height: auto;"></td>
+                      alt="Saga CL65" class="avt-product-mini"></td>
                   <td>Saga CL65</td>
                   <td>Acoustic</td>
                   <td><span class="font-weight-bold">2.000.000 VND</span></td>
@@ -351,15 +457,16 @@
                   <td><span class="font-weight-bold">2.400.000 VND</span></td>
 
                   <td>
-                    <button class="nutsua action-btn-common" data-cost-price="2000000"
-                      data-profit-margin="20">Sửa</button>
-                    <button class="nutxoa action-btn-common">Xóa</button>
+                    <button class="edit-btn action-icon-btn edit-product-btn" title="Sửa"><img src="assets/img/iconbutton/pencil.png"
+                  class="button-icon" alt="Sửa"></button>
+                    <button class="delete-btn action-icon-btn" title="Xoá"><img src="assets/img/iconbutton/trash.png"
+                  class="button-icon" alt="Xoá"></button>
                   </td>
                 </tr>
                 <tr>
                   <td><img
                       src="assets/img/product/guitar/classic/badon/dan-guitar-classic-ba-don-c100/dan-guitar-classic-ba-don-c100-.jpg"
-                      alt="Ba đờn C100" style="width: 70px; height: auto;"></td>
+                      alt="Ba đờn C100" class="avt-product-mini"></td>
                   <td>Ba đờn C100</td>
                   <td>Classic</td>
                   <td><span class="font-weight-bold">4.000.000 VND</span></td>
@@ -367,15 +474,16 @@
                   <td><span class="font-weight-bold">5.000.000 VND</span></td>
 
                   <td>
-                    <button class="nutsua action-btn-common" data-cost-price="4000000"
-                      data-profit-margin="25">Sửa</button>
-                    <button class="nutxoa action-btn-common">Xóa</button>
+                    <button class="edit-btn action-icon-btn edit-product-btn" title="Sửa"><img src="assets/img/iconbutton/pencil.png"
+                  class="button-icon" alt="Sửa"></button>
+                    <button class="delete-btn action-icon-btn" title="Xoá"><img src="assets/img/iconbutton/trash.png"
+                  class="button-icon" alt="Xoá"></button>
                   </td>
                 </tr>
                 <tr>
                   <td><img
                       src="assets/img/product/guitar/classic/yamaha/dan-guitar-classic-yamaha-cgs102aii-school-series/dan-guitar-classic-yamaha-cgs102aii-school-series-.jpg"
-                      alt="Yamaha CGS102AII" style="width: 70px; height: auto;"></td>
+                      alt="Yamaha CGS102AII" class="avt-product-mini"></td>
                   <td>Yamaha CGS102AII</td>
                   <td>Classic</td>
                   <td><span class="font-weight-bold">5.600.000 VND</span></td>
@@ -383,15 +491,16 @@
                   <td><span class="font-weight-bold">7.000.000 VND</span></td>
 
                   <td>
-                    <button class="nutsua action-btn-common" data-cost-price="5600000"
-                      data-profit-margin="25">Sửa</button>
-                    <button class="nutxoa action-btn-common">Xóa</button>
+                    <button class="edit-btn action-icon-btn edit-product-btn" title="Sửa"><img src="assets/img/iconbutton/pencil.png"
+                  class="button-icon" alt="Sửa"></button>
+                    <button class="delete-btn action-icon-btn" title="Xoá"><img src="assets/img/iconbutton/trash.png"
+                  class="button-icon" alt="Xoá"></button>
                   </td>
                 </tr>
                 <tr>
                   <td><img
                       src="assets/img/product/guitar/acoustic/enya/enya ega-x0-pro-sp1/dan-guitar-acoustic-enya-ega-x0-pro-sp1-acousticplus-smart-guitar-2-1536x1536.jpg"
-                      alt="Enya EGA X0 PRO SP1" style="width: 70px; height: auto;"></td>
+                      alt="Enya EGA X0 PRO SP1" class="avt-product-mini"></td>
                   <td>Enya EGA X0 PRO SP1</td>
                   <td>Acoustic</td>
                   <td><span class="font-weight-bold">9.416.667 VND</span></td>
@@ -399,14 +508,15 @@
                   <td><span class="font-weight-bold">11.300.000 VND</span></td>
 
                   <td>
-                    <button class="nutsua action-btn-common" data-cost-price="9416667"
-                      data-profit-margin="20">Sửa</button>
-                    <button class="nutxoa action-btn-common">Xóa</button>
+                    <button class="edit-btn action-icon-btn edit-product-btn" title="Sửa"><img src="assets/img/iconbutton/pencil.png"
+                  class="button-icon" alt="Sửa"></button>
+                    <button class="delete-btn action-icon-btn" title="Xoá"><img src="assets/img/iconbutton/trash.png"
+                  class="button-icon" alt="Xoá"></button>
                   </td>
                 </tr>
                 <tr>
                   <td><img src="assets/img/product/guitar/acoustic/yamaha/yamaha-ls36-are/1.jpg" alt="Yamaha LS36 ARE"
-                      style="width: 70px; height: auto;"></td>
+                      class="avt-product-mini"></td>
                   <td>Yamaha LS36 ARE</td>
                   <td>Acoustic</td>
                   <td><span class="font-weight-bold">6.560.000 VND</span></td>
@@ -414,15 +524,16 @@
                   <td><span class="font-weight-bold">8.200.000 VND</span></td>
 
                   <td>
-                    <button class="nutsua action-btn-common" data-cost-price="6560000"
-                      data-profit-margin="25">Sửa</button>
-                    <button class="nutxoa action-btn-common">Xóa</button>
+                    <button class="edit-btn action-icon-btn edit-product-btn" title="Sửa"><img src="assets/img/iconbutton/pencil.png"
+                  class="button-icon" alt="Sửa"></button>
+                    <button class="delete-btn action-icon-btn" title="Xoá"><img src="assets/img/iconbutton/trash.png"
+                  class="button-icon" alt="Xoá"></button>
                   </td>
                 </tr>
                 <tr>
                   <td><img
                       src="assets/img/product/guitar/acoustic/saga/saga-ss-8ce/dan-guitar-acoustic-saga-ss-8ce-.jpg"
-                      alt="Saga SS 8CE" style="width: 70px; height: auto;"></td>
+                      alt="Saga SS 8CE" class="avt-product-mini"></td>
                   <td>Saga SS 8CE</td>
                   <td>Acoustic</td>
                   <td><span class="font-weight-bold">5.416.667 VND</span></td>
@@ -430,9 +541,10 @@
                   <td><span class="font-weight-bold">6.500.000 VND</span></td>
 
                   <td>
-                    <button class="nutsua action-btn-common" data-cost-price="5416667"
-                      data-profit-margin="20">Sửa</button>
-                    <button class="nutxoa action-btn-common">Xóa</button>
+                    <button class="edit-btn action-icon-btn edit-product-btn" title="Sửa"><img src="assets/img/iconbutton/pencil.png"
+                  class="button-icon" alt="Sửa"></button>
+                    <button class="delete-btn action-icon-btn" title="Xoá"><img src="assets/img/iconbutton/trash.png"
+                  class="button-icon" alt="Xoá"></button>
                   </td>
                 </tr>
               </tbody>
@@ -440,6 +552,10 @@
           </div>
         </div>
       </div>
+
+
+      
+
 
       <!-- Category Pagination Section -->
       <section id="category-pagination" class="category-pagination section" style="padding-bottom: 0px;">
@@ -595,271 +711,13 @@
   <script src="assets/vendor/drift-zoom/Drift.min.js"></script>
   <script src="assets/vendor/purecounter/purecounter_vanilla.js"></script>
   <script src="assets/js/main.js"></script>
+  <script src="assets/js/admin.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <!-- <script src="assets/js/products.js"></script>
   <script src="assets/js/danhmucsp.js"></script> -->
   <!-- <script src="assets/js/login.js"></script> -->
 </body>
-<script>
-  const Toast = Swal.mixin({
-    toast: true,
-    position: 'top-end',
-    showConfirmButton: false,
-    timer: 1200,
-    timerProgressBar: true,
-    didOpen: (toast) => {
-      toast.addEventListener('mouseenter', Swal.stopTimer);
-      toast.addEventListener('mouseleave', Swal.resumeTimer);
-    }
-  });
-  document.addEventListener('DOMContentLoaded', function () {
-    const addButton = document.getElementById('open-add-product');
 
-    const brandsData = {
-      'Acoustic': ['Saga', 'Taylor', 'Enya', 'Yamaha'],
-      'Classic': ['Ba đờn', 'Yamaha'],
-      '': []
-    };
-
-    if (addButton) {
-      addButton.addEventListener('click', function () {
-        const popupHTML = `
-        <form id="product-form" class="row g-3" style="text-align: left;">
-          <div class="col-md-6 mb-3">
-            <label class="form-label fw-bold">Tên sản phẩm</label>
-            <input id="product-name" type="text" class="form-control" placeholder="VD: Saga A1 DE PRO">
-          </div>
-          <div class="col-md-6 mb-3">
-            <label class="form-label fw-bold">Mã sản phẩm</label>
-            <input id="product-code" type="text" class="form-control" placeholder="VD: SAGA-A1">
-          </div>
-
-          <div class="col-md-6 mb-3">
-            <label class="form-label fw-bold">Đường dẫn hình ảnh</label>
-            <input id="product-image" type="text" class="form-control" placeholder="VD: assets/img/product/...">
-          </div>
-
-          <div class="col-md-6 mb-3">
-            <label class="form-label fw-bold">Danh mục</label>
-            <select id="product-category" class="form-select">
-              <option value="">-- Chọn loại --</option>
-              <option value="Acoustic">Acoustic</option>
-              <option value="Classic">Classic</option>
-            </select>
-          </div>
-
-          <div class="col-md-6 mb-3">
-            <label class="form-label fw-bold">Thương hiệu</label>
-            <select id="product-brand" class="form-select" disabled>
-              <option value="">-- Chọn thương hiệu --</option>
-            </select>
-          </div>
-
-          <div class="col-md-6 mb-3">
-            <label class="form-label fw-bold">Giá vốn (VND)</label>
-            <input id="costPrice" type="number" class="form-control" placeholder="VD: 2.000.000" min="0">
-          </div>
-
-          <div class="col-md-6 mb-3">
-            <label class="form-label fw-bold">% Lợi nhuận</label>
-            <input id="profitMargin" type="number" class="form-control" placeholder="VD: 20" min="0" max="100">
-          </div>
-
-          <div class="col-md-6 mb-3">
-            <label class="form-label fw-bold">Giá bán (VND)</label>
-            <input id="sellingPrice" type="text" class="form-control" readonly placeholder="Tự động tính...">
-          </div>
-
-          <div class="col-12 mb-3">
-            <label class="form-label fw-bold">Mô tả</label>
-            <textarea id="product-description" class="form-control" rows="3" placeholder="Mô tả chi tiết sản phẩm..."></textarea>
-          </div>
-        </form>
-      `;
-
-        Swal.fire({
-          title: 'Thêm sản phẩm mới',
-          html: popupHTML,
-          width: 800, // làm popup rộng ra
-          showCancelButton: true,
-          confirmButtonText: 'Thêm',
-          cancelButtonText: 'Hủy',
-          customClass: {
-            popup: 'my-swal-popup',
-            confirmButton: 'my-swal-confirm-button',
-            cancelButton: 'my-swal-cancel-button'
-          },
-          didOpen: () => {
-            const categorySelect = document.getElementById('product-category');
-            const brandSelect = document.getElementById('product-brand');
-            const costPriceInput = document.getElementById('costPrice');
-            const profitMarginInput = document.getElementById('profitMargin');
-            const sellingPriceInput = document.getElementById('sellingPrice');
-
-            function updateBrandOptions(category) {
-              const brands = brandsData[category] || [];
-              brandSelect.innerHTML = '<option value="">-- Chọn thương hiệu --</option>';
-              brands.forEach(brand => {
-                const option = document.createElement('option');
-                option.value = brand;
-                option.textContent = brand;
-                brandSelect.appendChild(option);
-              });
-              brandSelect.disabled = brands.length === 0;
-            }
-
-            function calculateSellingPrice() {
-              const costPrice = parseFloat(costPriceInput.value) || 0;
-              const profitMargin = parseFloat(profitMarginInput.value) || 0;
-
-              if (costPrice <= 0 || profitMargin < 0) {
-                sellingPriceInput.value = '';
-                return;
-              }
-
-              const finalProfitMargin = Math.min(Math.max(profitMargin, 0), 1000);
-              const sellingPrice = costPrice * (1 + finalProfitMargin / 100);
-              sellingPriceInput.value = Math.round(sellingPrice).toLocaleString('vi-VN');
-            }
-
-            categorySelect.addEventListener('change', () => updateBrandOptions(categorySelect.value));
-            costPriceInput.addEventListener('input', calculateSellingPrice);
-            profitMarginInput.addEventListener('input', calculateSellingPrice);
-          },
-          preConfirm: () => {
-            const name = document.getElementById('product-name').value.trim();
-
-            return true;
-          }
-        }).then((result) => {
-          if (result.isConfirmed) {
-            Toast.fire({
-              icon: 'success',
-              title: 'Thêm sản phẩm thành công!'
-            });
-          }
-        });
-      });
-    }
-
-    const listContainer = document.getElementById('product-list-container');
-    if (listContainer) {
-      listContainer.addEventListener('click', function (event) {
-        const target = event.target;
-        if (target.classList.contains('nutxoa')) {
-          Swal.fire({
-            title: 'Bạn có chắc chắn?',
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonText: 'Vâng, xóa nó!',
-            cancelButtonText: 'Hủy'
-          }).then((result) => {
-            if (result.isConfirmed) {
-              Toast.fire({ icon: 'success', title: 'Đã xóa!' });
-            }
-          });
-        }
-        if (target.classList.contains('nutsua')) {
-
-          // LẤY GIÁ TRỊ SỐ THÔ CHO INPUTS TYPE="NUMBER"
-          const name = target.dataset.name || 'Saga A1 DE PRO';
-          const category = target.dataset.category || 'Acoustic';
-          const costPriceRaw = target.dataset.costPrice || '2000000';
-          const profitMargin = target.dataset.profitMargin || '20';
-          const stock = target.dataset.stock || '12';
-
-          const productCode = 'SAGA-A1';
-          const imagePath = 'assets/img/product/...';
-
-          const formHTML = `
-                        <form id="swal-edit-form" class="row g-3" style="text-align: left;">
-                            <div class="col-14 mb-3">
-                                <label class="form-label fw-bold">Tên sản phẩm</label>
-                                <input type="text" class="form-control" value="${name}">
-                            </div>
-                            <div class="col-md-6 mb-3">
-                                <label class="form-label fw-bold">Mã sản phẩm</label>
-                                <input type="text" class="form-control" value="${productCode}">
-                            </div>
-                            <div class="col-md-6 mb-3">
-                                <label class="form-label fw-bold">Đường dẫn ảnh</label>
-                                <input type="text" class="form-control" value="${imagePath}">
-                            </div>
-                            <div class="col-md-4 mb-3">
-                                <label class="form-label fw-bold">Giá Vốn (VND)</label>
-                                <input type="number" class="form-control" value="${costPriceRaw}">
-                            </div>
-                            <div class="col-md-4 mb-3">
-                                <label class="form-label fw-bold">% Lợi nhuận</label>
-                                <input type="number" class="form-control" value="${profitMargin}">
-                            </div>
-                            <div class="col-md-4 mb-3">
-                                <label class="form-label fw-bold">Loại</label>
-                                <select class="form-select">
-                                    <option value="Acoustic" ${category === 'Acoustic' ? 'selected' : ''}>Acoustic</option>
-                                    <option value="Classic" ${category === 'Classic' ? 'selected' : ''}>Classic</option>
-                                </select>
-                            </div>
-                            <div class="col-md-4 mb-3">
-                                <label class="form-label fw-bold">Mô tả</label>
-                                <textarea id="mo_ta" name="product_description" rows="4" cols="49" placeholder="Nhập mô tả chi tiết sản phẩm ở đây...">Sản phẩm này tuyệt vãi ò</textarea>
-                            </div>
-                            
-                            
-                        </form>
-                    `;
-
-          Swal.fire({
-            title: `Sửa sản phẩm: ${name}`,
-            html: formHTML,
-            // icon: 'info',
-            showCancelButton: true,
-            confirmButtonText: 'Lưu thay đổi',
-            cancelButtonText: 'Hủy',
-            focusConfirm: false,
-            customClass: {
-              confirmButton: 'swal-green-btn',
-              cancelButton: 'swal-dark-btn'
-            },
-            preConfirm: () => {
-              return true;
-            }
-          }).then((result) => {
-            if (result.isConfirmed) {
-              Toast.fire({ icon: 'success', title: 'Đã lưu thay đổi!' });
-            }
-          });
-        }
-      });
-    }
-
-    //update brand cho sort
-    const sortcategorySelect = document.getElementById('sort-product-category');
-    const sortbrandSelect = document.getElementById('sort-product-brand');
-    function updatesortBrandOptions(category) {
-      const brands = brandsData[category] || [];
-      sortbrandSelect.innerHTML = '<option value="">-- Chọn thương hiệu --</option>';
-
-      brands.forEach(brand => {
-        const option = document.createElement('option');
-        option.value = brand;
-        option.textContent = brand;
-        sortbrandSelect.appendChild(option);
-      });
-
-      sortbrandSelect.disabled = brands.length === 0;
-    }
-
-    if (sortcategorySelect) {
-      sortcategorySelect.addEventListener('change', function () {
-        const selectedCategory = sortcategorySelect.value;
-        updatesortBrandOptions(selectedCategory);
-      });
-    }
-
-    updatesortBrandOptions(sortcategorySelect ? sortcategorySelect.value : '');
-  });
-</script>
 
 
 

@@ -15,18 +15,37 @@ const Toast = Swal.mixin({
 var modal = document.getElementById("DetailModal");
 var closeButton = document.querySelector(".close-button");
 
+if(modal) {
+    // Hàm hiển thị Modal và điền dữ liệu (Cần được gọi khi bấm nút)
+    function showCustomerDetails(name, phone, img) {
+        // 1. Điền dữ liệu vào Modal
+        document.getElementById("modalName").innerText = name;
+        document.getElementById("modalPhone").innerText = phone;
+        document.getElementById('modalImage').src = img;
+        // ... Điền các dữ liệu khác tại đây
 
-// Hàm hiển thị Modal và điền dữ liệu (Cần được gọi khi bấm nút)
-function showCustomerDetails(name, phone, img) {
-    // 1. Điền dữ liệu vào Modal
-    document.getElementById("modalName").innerText = name;
-    document.getElementById("modalPhone").innerText = phone;
-    document.getElementById('modalImage').src = img;
-    // ... Điền các dữ liệu khác tại đây
+        // 2. Hiển thị Modal
+        modal.style.display = "block";
+    }
+    // --------------------
+    // Đóng Modal
+    // --------------------
+    // Khi bấm vào nút Đóng (X)
+    if(closeButton) {
+        closeButton.onclick = function () {
+            modal.style.display = "none";
+        }
+    }
 
-    // 2. Hiển thị Modal
-    modal.style.display = "block";
+
+    // Khi bấm vào bất kỳ đâu ngoài Modal
+    window.onclick = function (event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    }
 }
+
 
 // --------------------
 // Bấm vào nút "Chi tiết"
@@ -46,82 +65,71 @@ document.querySelectorAll('.detail-btn').forEach(button => {
     });
 });
 
-// --------------------
-// Đóng Modal
-// --------------------
-// Khi bấm vào nút Đóng (X)
-closeButton.onclick = function () {
-    modal.style.display = "none";
-}
-
-// Khi bấm vào bất kỳ đâu ngoài Modal
-window.onclick = function (event) {
-    if (event.target == modal) {
-        modal.style.display = "none";
-    }
-}
-
-/*DÀNH CHO TRANG QUẢN LÝ PHÂN LOẠI*/
 
 
-
-//Dữ liệu mẫu (Giả định bạn có cấu trúc dữ liệu như thế này)
-const brandData = {
-    "Guitar Classic": [
-        "Ba đờn",
-        "Yamaha"
-    ],
-    "Guitar Acoustic": [
-        "Saga",
-        "Taylor",
-        "Enya",
-        "Yamaha"
-    ]
-    // Thêm các loại khác nếu cần
-};
-
-const brandsUlList = document.getElementById("brandsUlList"); // Dùng ID mới của UL
-
-function showBrandList(nameCategory) {
-
-    // 2. Lấy danh sách thương hiệu dựa trên tên loại sản phẩm
-    const brands = brandData[nameCategory];
-    // 3. Xóa nội dung cũ trong UL
-    brandsUlList.innerHTML = '';
-
-    if (brands && brands.length > 0) {
-        // 5. Thêm các thương hiệu mới vào UL
-        brands.forEach(brand => {
-            const li = document.createElement('li');
-            li.textContent = brand;
-            brandsUlList.appendChild(li);
-        });
-    } else {
-        // Nếu không có dữ liệu
-        const li = document.createElement('li');
-        li.textContent = `Chưa có thương hiệu nào cho loại ${nameCategory}.`;
-        brandsUlList.appendChild(li);
-    }
-
-}
+                            /*DÀNH CHO TRANG QUẢN LÝ PHÂN LOẠI*/
 
 
 const manageButtons = document.querySelectorAll('.manage-brands-btn');
-// 3. Lặp qua từng nút và gắn sự kiện 'click'
-manageButtons.forEach(button => {
-    button.addEventListener('click', function (event) {
-        event.preventDefault(); // Ngăn hành động mặc định (nếu là thẻ <a>)
-        const row = button.closest('tr');
-        const categoryTd = row.querySelector('.manage-name-category');
-        const categoryName = categoryTd.textContent.trim();
-        var name = categoryName;
-        document.getElementById("modalCategory").innerText = name;
-        showBrandList(name);
-        modal.style.display = "block";
+if(manageButtons) {
+    const editModal = document.getElementById('edit-brands-modal');
+    // 3. Lặp qua từng nút và gắn sự kiện 'click'
+    manageButtons.forEach(button => {
+        button.addEventListener('click', function (event) {
+            event.preventDefault(); // Ngăn hành động mặc định (nếu là thẻ <a>)
+            editModal.style.display = "block";
+            const closebuttonforeditinfocategory = document.querySelector('.close-button-for-edit-brands');
+            closebuttonforeditinfocategory.onclick = function () {
+                editModal.style.display = "none";
+            }
+            // Khi bấm vào bất kỳ đâu ngoài Modal
+            window.onclick = function (event) {
+                if (event.target == editModal) {
+                    editModal.style.display = "none";
+                }
+            }
+        });
     });
-});
+    /*Hiệu ứng thông báo và đóng modal của nút lưu thay đổi*/
+    document.addEventListener('DOMContentLoaded', function () {
+        // 1. Khai báo Toast (Dùng lại cấu hình giống các phần trên của bạn)
+        const Toast = Swal.mixin({
+            toast: true,
+            position: 'top-end',
+            showConfirmButton: false,
+            timer: 2000,
+            timerProgressBar: true,
+            didOpen: (toast) => {
+                toast.addEventListener('mouseenter', Swal.stopTimer);
+                toast.addEventListener('mouseleave', Swal.resumeTimer);
+            }
+        });
 
-const editButtons = document.querySelectorAll('.edit-btn');
+        // 2. Lấy các phần tử cần thiết
+        const saveBtn = document.getElementById('save-brands-list-btn');
+        const brandModal = document.getElementById('edit-brands-modal');
+
+        if (saveBtn) {
+            saveBtn.addEventListener('click', function () {
+                // Tại đây bạn có thể thêm logic xử lý dữ liệu từ các ô input (.brand-edit-input)
+                
+                // 3. Hiển thị thông báo thành công
+                Toast.fire({
+                    icon: 'success',
+                    html: '<strong>Đã lưu thay đổi thương hiệu thành công!</strong>'
+                });
+
+                // 4. Đóng Modal
+                if (brandModal) {
+                    brandModal.style.display = 'none';
+                }
+            });
+        }
+    });
+}
+
+
+const editButtons = document.querySelectorAll('.edit-category-btn');
 if (editButtons) {
     editButtons.forEach(button => {
         button.addEventListener('click', function (event) {
@@ -184,14 +192,52 @@ if (editButtons) {
             editModal.style.display = "block";
         });
     });
+
+    document.addEventListener('DOMContentLoaded', function () {
+        const saveButton = document.querySelector('.close-button-for-edit-category-container');
+        if (saveButton) {
+            saveButton.addEventListener('click', function () {
+                // Tìm container cha (có thể chỉnh sửa, thêm class nếu cần)
+                const editContainer = saveButton.closest('.edit-category-wrapper')
+                || saveButton.closest('.modal')
+                || saveButton.closest('div');
+            
+                if (editContainer) {
+                    editContainer.style.display = 'none'; // ← Ẩn, không xóa
+                }
+            
+                // HIỆN TOAST
+                Toast.fire({
+                icon: 'success',
+                html: '<strong>Đã lưu thay đổi</strong>'
+                });
+            });
+        }
+    });
 }
 
 
 
 
-/*DÀNH CHO QUẢN LÝ NHẬP SẢN PHẨM */
 
 
+                            /*DÀNH CHO QUẢN LÝ NHẬP SẢN PHẨM */
+
+
+                            //Dữ liệu mẫu (Giả định bạn có cấu trúc dữ liệu như thế này)
+const brandData = {
+    "Guitar Classic": [
+        "Ba đờn",
+        "Yamaha"
+    ],
+    "Guitar Acoustic": [
+        "Saga",
+        "Taylor",
+        "Enya",
+        "Yamaha"
+    ]
+    // Thêm các loại khác nếu cần
+};
 // Dữ liệu mẫu tên sản phẩm (Bạn cần phải tùy chỉnh dữ liệu này)
 const productNamesData = {
     "Guitar Classic": {
@@ -493,4 +539,242 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
+});
+
+
+                                    /**Quản lý danh mục sản phẩm */
+const openAddBtn = document.getElementById('open-add-product');
+if(openAddBtn) {
+    document.addEventListener('DOMContentLoaded', function () {
+        const addProductModal = document.getElementById('addProductModal');
+        const closeBtn = addProductModal.querySelector('.close-button');
+        const cancelBtn = document.getElementById('cancel-add-product');
+        const imageUpload = document.getElementById('product-images-upload');
+        const previewContainer = document.getElementById('image-preview-container');
+
+        // 1. Mở/Đóng Modal
+        openAddBtn.addEventListener('click', () => {
+            addProductModal.style.display = 'block';
+        });
+
+        [closeBtn, cancelBtn].forEach(btn => {
+            btn.onclick = () => addProductModal.style.display = 'none';
+        });
+
+        // 2. Xử lý xem trước ảnh (Tối đa 6 ảnh)
+
+        // Khởi tạo "vùng đệm" DataTransfer
+        let dataStorage = new DataTransfer(); 
+
+        if (imageUpload) {
+            imageUpload.addEventListener('change', function() {
+                const files = Array.from(this.files);
+                
+                // Kiểm tra giới hạn 6 ảnh
+                if (dataStorage.files.length + files.length > 6) {
+                    Swal.fire('Thông báo', 'Tổng số lượng ảnh không được quá 6!', 'warning');
+                    // Cập nhật lại input bằng những gì đang có trong dataStorage (để xóa tệp vừa chọn sai)
+                    this.files = dataStorage.files; 
+                    return;
+                }
+
+                files.forEach(file => {
+                    // Thêm file mới vào vùng đệm
+                    dataStorage.items.add(file); 
+                    
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        const div = document.createElement('div');
+                        div.className = 'preview-item';
+                        div.innerHTML = `
+                            <img src="${e.target.result}">
+                            <button type="button" class="remove-img-btn">&times;</button>
+                        `;
+
+                        // Xử lý khi bấm nút xóa
+                        div.querySelector('.remove-img-btn').onclick = () => {
+                            // Xóa file khỏi vùng đệm DataTransfer
+                            const newDataStorage = new DataTransfer();
+                            for (let i = 0; i < dataStorage.files.length; i++) {
+                                if (dataStorage.files[i] !== file) {
+                                    newDataStorage.items.add(dataStorage.files[i]);
+                                }
+                            }
+                            dataStorage = newDataStorage;
+                            
+                            // CẬP NHẬT NGƯỢC LẠI INPUT FILE
+                            imageUpload.files = dataStorage.files; 
+                            div.remove();
+                        };
+
+                        previewContainer.appendChild(div);
+                    }
+                    reader.readAsDataURL(file);
+                });
+
+                // QUAN TRỌNG: Cập nhật input file để nó đồng bộ với vùng đệm
+                this.files = dataStorage.files; 
+            });
+}
+
+        // 3. Xử lý Logic Thương hiệu dựa trên Phân loại (Sử dụng dữ liệu brandData có sẵn của bạn)
+        const typeSelect = document.getElementById('modal-product-type');
+        const brandSelect = document.getElementById('modal-product-brand');
+
+        function updateModalBrands() {
+            const brands = brandData[typeSelect.value] || [];
+            brandSelect.innerHTML = brands.map(b => `<option value="${b}">${b}</option>`).join('');
+        }
+
+        typeSelect.addEventListener('change', updateModalBrands);
+        updateModalBrands(); // Khởi tạo lần đầu
+
+        // 4. Xử lý lưu form
+        document.getElementById('add-product-form').onsubmit = function(e) {
+            e.preventDefault();
+            Swal.fire({
+                icon: 'success',
+                title: 'Thành công',
+                text: 'Sản phẩm mới đã được thêm vào hệ thống!',
+                confirmButtonColor: '#28a745'
+            }).then(() => {
+                addProductModal.style.display = 'none';
+                this.reset();
+                previewContainer.innerHTML = '';
+            });
+        };
+    });
+}
+
+// Bộ lọc cho bảng Danh sách sản phẩm hiện có
+const sortProductCategory = document.getElementById('sort-product-category');
+const sortProductBrand = document.getElementById('sort-product-brand');
+
+if (sortProductCategory && sortProductBrand) {
+    // 1. Cập nhật danh sách Thương hiệu khi chọn Loại sản phẩm
+    sortProductCategory.addEventListener('change', function () {
+        const selectedType = this.value; // Ví dụ: "Acoustic" hoặc "Classic"
+        
+        // Map lại giá trị value vì brandData của bạn dùng key đầy đủ
+        const typeKey = selectedType === "Acoustic" ? "Guitar Acoustic" : 
+                        selectedType === "Classic" ? "Guitar Classic" : "";
+
+        const brands = brandData[typeKey] || [];
+
+        // Xóa cũ thêm mới
+        sortProductBrand.innerHTML = '<option value="">-- Chọn thương hiệu --</option>';
+        brands.forEach(brand => {
+            const option = document.createElement('option');
+            option.value = brand;
+            option.textContent = brand;
+            sortProductBrand.appendChild(option);
+        });
+    });
+
+    // 2. Logic lọc bảng (Ví dụ đơn giản lọc theo text trong các cột)
+    const filterTable = () => {
+        const categoryValue = sortProductCategory.value.toLowerCase();
+        const brandValue = sortProductBrand.value.toLowerCase();
+        const rows = document.querySelectorAll('#product-list-container tr');
+
+        rows.forEach(row => {
+            const rowCategory = row.cells[2].textContent.toLowerCase();
+            const rowName = row.cells[1].textContent.toLowerCase();
+            
+            const matchCategory = !categoryValue || rowCategory.includes(categoryValue);
+            const matchBrand = !brandValue || rowName.toLowerCase().includes(brandValue);
+
+            row.style.display = (matchCategory && matchBrand) ? "" : "none";
+        });
+    };
+
+    sortProductCategory.addEventListener('change', filterTable);
+    sortProductBrand.addEventListener('change', filterTable);
+}
+
+/* --- QUẢN LÝ DANH MỤC SẢN PHẨM: XỬ LÝ NÚT SỬA --- */
+document.addEventListener('DOMContentLoaded', function () {
+    const editProductModal = document.getElementById('editProductModal');
+    const editProductForm = document.getElementById('edit-product-form');
+    
+    // Lắng nghe sự kiện click cho các nút có class .edit-product-btn
+    document.querySelectorAll('.edit-product-btn').forEach(button => {
+        button.addEventListener('click', function (event) {
+            event.preventDefault();
+
+            // 1. Tìm hàng (row) chứa nút vừa bấm
+            const row = this.closest('tr');
+            if (!row) return;
+
+            // 2. Trích xuất dữ liệu từ các cột trong hàng
+            // Cột 1: Hình ảnh, Cột 2: Tên, Cột 3: Loại, Cột 4: Giá vốn...
+            const productName = row.cells[1].textContent.trim();
+            const productType = row.cells[2].textContent.trim();
+            const costPrice = row.cells[3].textContent.trim();
+            const profit = row.cells[4].textContent.trim();
+
+            // 3. Điền dữ liệu vào các ô Input trong Modal Sửa
+            document.getElementById('edit-product-name').value = productName;
+            
+            // Chuẩn hóa loại sản phẩm để khớp với value của <select>
+            const typeValue = productType.includes("Acoustic") ? "Guitar Acoustic" : "Guitar Classic";
+            const typeSelect = document.getElementById('edit-product-type');
+            typeSelect.value = typeValue;
+
+            // Cập nhật danh sách Thương hiệu tương ứng với Loại vừa chọn
+            updateEditModalBrands(typeValue);
+            
+            // Điền một số dữ liệu mặc định/giả định cho các trường chi tiết
+            document.getElementById('edit-product-summary').value = `Mô tả tóm tắt cho ${productName}`;
+            document.getElementById('edit-product-overview').value = `Thông tin chi tiết về cấu tạo và chất liệu của dòng ${productName}...`;
+            document.getElementById('edit-product-accessories').value = "Bao đàn chính hãng\nLục giác chỉnh cần\nBộ dây dự phòng";
+
+            // 4. Hiển thị Modal
+            if (editProductModal) {
+                editProductModal.style.display = 'block';
+            }
+        });
+    });
+
+    // Hàm cập nhật Thương hiệu trong Modal Sửa dựa trên brandData có sẵn
+    function updateEditModalBrands(selectedType) {
+        const brandSelect = document.getElementById('edit-product-brand');
+        if (!brandSelect) return;
+
+        const brands = brandData[selectedType] || [];
+        brandSelect.innerHTML = brands.map(b => `<option value="${b}">${b}</option>`).join('');
+    }
+
+    // Tự động cập nhật Thương hiệu khi người dùng thay đổi Loại trong Modal Sửa
+    const modalTypeSelect = document.getElementById('edit-product-type');
+    if (modalTypeSelect) {
+        modalTypeSelect.addEventListener('change', function() {
+            updateEditModalBrands(this.value);
+        });
+    }
+
+    // Xử lý đóng Modal Sửa
+    const closeEditBtn = document.getElementById('close-edit-modal');
+    const cancelEditBtn = document.getElementById('cancel-edit-product');
+    
+    [closeEditBtn, cancelEditBtn].forEach(btn => {
+        if (btn) {
+            btn.onclick = () => { editProductModal.style.display = 'none'; };
+        }
+    });
+
+    // Xử lý khi bấm Lưu thay đổi
+    if (editProductForm) {
+        editProductForm.onsubmit = function(e) {
+            e.preventDefault();
+            Swal.fire({
+                icon: 'success',
+                title: 'Thành công',
+                text: 'Dữ liệu sản phẩm đã được cập nhật!',
+                confirmButtonColor: '#28a745'
+            }).then(() => {
+                editProductModal.style.display = 'none';
+            });
+        };
+    }
 });

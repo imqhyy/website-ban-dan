@@ -220,16 +220,19 @@
 
       <div class="sort-container"> <!-- Sort-container -->
         <div class="sort-by-date-container">
-          <label>Từ ngày:<input type="date" class="input-sort-date"></label>
-
-          <label>Đến ngày:<input type="date" class="input-sort-date"></label>
+          <label>Ngày:<input type="date" class="input-sort-date"></label>
         </div>
         <div class="sort-by-order-status">
-          <label>Tình trạng:</label>
-          <span class="status-button">Còn hàng</span>
-          <span class="status-button">Sắp hết</span>
-          <span class="status-button">Hết hàng</span>
+          <label for="sort-order">Tình trạng:</label>
+          <select id="sort-order" class="status-select-custom">
+            <option value="instock">Còn hàng</option>
+            <option value="almost">Sắp hết</option>
+            <option value="outstock">Hết hàng</option>
+          </select>
         </div>
+        <button id="filter-button" class="status-button">
+          <i class="bi bi-funnel"></i> Tra cứu
+        </button>
       </div>
       <hr>
 

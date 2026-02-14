@@ -85,7 +85,7 @@
     
     /* Thiết kế thẩm mỹ */
     border: 1px solid #ddd; /* Khung viền mỏng */
-    border-radius: 8px; /* Bo góc nhẹ */
+    border-radius: 25px; /* Bo góc nhẹ */
     padding: 15px;
     margin: 20px auto; /* Căn giữa và tạo khoảng cách */
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Tạo bóng đổ nhẹ */
@@ -197,14 +197,19 @@
     border: 1px solid #888;
     width: 100%; /* Chiều rộng hình chữ nhật */
     max-width: 600px; /* Giới hạn kích thước tối đa */
-    border-radius: 8px;
+    border-radius: 25px;
     box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
 
 }
 .customer-info-details-container {
     display: flex;
-    align-items:center;
+    align-items:flex-start;
 
+}
+
+.avt-container {
+    display: flex;
+    flex-direction: column;
 }
 
 .customer-avatar-details-container {
@@ -301,20 +306,32 @@
     width: 100%;
     border-collapse: collapse;
     margin-top: 20px;
+    
 }
 .data-table th, .data-table td {
     border: 1px solid #ddd;
-    padding: 12px;
     text-align: left;
+    padding: 12px;
 }
+
+.data-table td .avt-product-mini {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+    display: block;
+    margin: 0 auto; /* Căn giữa ảnh trong ô */
+}
+
 .data-table th {
     background-color: #3d4042;
     color: white;
     font-weight: bold;
 }
+
 .data-table tr:nth-child(even) {
     background-color: #f2f2f2;
 }
+
 
 .function-button-container {
     display: flex;
@@ -399,7 +416,7 @@
     margin-right: 5px;
 }
 
-.close-button-for-edit-info-category {
+.close-button-for-edit-info-category, .close-button-for-edit-brands {
     color: #aaa;
     float: right;
     font-size: 28px;
@@ -409,13 +426,196 @@
     
 }
 
-.close-button-for-edit-info-category:hover,
-.close-button-for-edit-info-category:focus {
+.close-button-for-edit-info-category:hover, .close-button-for-edit-brands:hover,
+.close-button-for-edit-info-category:focus, .close-button-for-edit-brands:focus {
     color: #000;
     text-decoration: none;
     cursor: pointer;
 }
 
+#input-edit-namecategory, #input-edit-profitcategory {
+    border-radius: 25px;
+    border: 1px solid rgb(204, 204, 204);
+    padding-left: 10px;
+}
+
+/*popup modal thương hiệu*/
+#brandList h3 {
+    margin-left: 10px;
+}
+
+
+/* Container bảng thương hiệu với tính năng cuộn */
+.brandsContainer {
+    border: 1px solid #D9D9D9;
+    border-radius: 25px;
+    width: auto;
+    margin: 10px;
+    
+    /* Cấu hình quan trọng để cuộn */
+    max-height: 280px;         /* Giới hạn chiều cao tương đương khoảng 4 hàng */
+    overflow-y: auto;          /* Hiện thanh cuộn khi nội dung vượt quá max-height */
+    
+    padding-left: 20px;
+    padding-right: 20px;
+    background-color: #fff;
+}
+
+/* Tùy chỉnh thanh cuộn (scrollbar) cho đẹp và mượt hơn (Dành cho Chrome, Safari) */
+.brandsContainer::-webkit-scrollbar {
+    width: 6px;
+}
+
+.brandsContainer::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 25px;
+    margin-top: 17px;
+    margin-bottom: 17px;
+}
+
+.brandsContainer::-webkit-scrollbar-thumb {
+    background: #ccc;
+    border-radius: 20x;
+}
+
+.brandsContainer::-webkit-scrollbar-thumb:hover {
+    background: #888;
+}
+
+/* Định dạng bảng */
+.brandsTable {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+/* Giữ tiêu đề cố định ở trên cùng khi cuộn */
+.brandsTable thead th {
+    position: sticky;
+    top: 0;
+    background-color: #ffffff; /* Bắt buộc phải có màu nền để che nội dung bên dưới */
+    z-index: 2;                /* Đảm bảo nằm trên các hàng nội dung */
+    box-shadow: 0 2px 2px -1px rgba(0, 0, 0, 0.1); /* Tạo đường kẻ mảnh ngăn cách khi cuộn */
+    padding-top: 10px;
+    padding-bottom: 15px;
+}
+
+.brandsTable th {
+    text-align: center;
+    font-weight: 700;
+    padding-bottom: 15px;
+    font-size: 1.1rem;
+}
+
+.brandsTable td {
+    padding: 10px 0;
+    text-align: center;
+    vertical-align: middle;
+}
+/* Căn TRÁI cho cột Thương hiệu (cột 1) và Lợi nhuận (cột 2) */
+.brandsTable td:nth-child(1) {    
+    text-align: left;
+    padding-left: 10px; /* Thêm một chút khoảng cách lề trái cho thoáng */
+}
+.brandsTable th:nth-child(2), .brandsTable td:nth-child(2) {
+    text-align: right;
+    padding-right: 10px; /* Thêm một chút khoảng cách lề trái cho thoáng */
+}
+
+/* Căn GIỮA cho cột Tuỳ chỉnh (cột 3) */
+.brandsTable th:nth-child(3), .brandsTable td:nth-child(3) {
+    text-align: center;
+}
+
+/* Ô nhập liệu trong cột Tuỳ chỉnh */
+.brand-edit-input {
+    width: 80%;
+    height: 35px;
+    border-radius: 15px; /* Bo góc nhẹ giống Figma */
+    border: 1px solid #D9D9D9;
+    padding: 0 10px;
+    outline: none;
+    transition: 0.3s;
+}
+
+.brand-edit-input:focus {
+    border-color: #444444;
+    box-shadow: 0 0 5px rgba(0,0,0,0.1);
+}
+
+.addBrandsForm {
+    margin-top: 20px;
+    margin-left: 10px;
+    margin-right: 10px;
+    width: auto;
+    height: 35px;
+    display: flex;
+    justify-content: space-between;
+    
+}
+/* Thêm hiệu ứng khi người dùng rê chuột hoặc click vào */
+.addBrandsForm .inputBrandsForm:focus {
+    border-color: #28a745; /* Đổi màu viền khi click vào */
+    box-shadow: 0 0 5px rgba(40, 167, 69, 0.2);
+}
+.addBrandsForm .inputBrandsForm {
+    width: 85%;
+    border-radius: 25px;
+    border: 1px solid #D9D9D9;
+    padding: 0 20px;
+    outline: none;
+    transition: all 0.3s ease;
+}
+/* Nút Thêm thương hiệu */
+.addBrandsForm .addBrandsButton {
+    width: 13%;
+    border-radius: 25px;
+    background-color: #28a745; /* Màu xanh lá đồng bộ với nút thêm loại sản phẩm */
+    color: white;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: none;
+}
+
+/* Hiệu ứng khi di chuột qua nút Thêm */
+.addBrandsForm .addBrandsButton:hover {
+    background-color: #218838; /* Màu đậm hơn khi hover */
+    transform: translateY(-2px); /* Nhích nhẹ lên tạo hiệu ứng nhấn */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.addBrandsForm .addBrandsButton:active {
+    transform: translateY(0); /* Trở về vị trí cũ khi click */
+}
+
+/*Nút lưu tất cả thay đổi*/
+.modal-footer-admin {
+    display: flex;
+    justify-content: flex-end; /* Đẩy nút sang bên phải */
+    margin-top: 25px;
+    padding-top: 15px;
+    border-top: 1px solid #eee; /* Đường kẻ mờ ngăn cách */
+}
+
+.save-all-brands-btn {
+    padding: 10px 30px;
+    background-color: #444444; /* Màu trung tính đồng bộ với admin.css */
+    color: white;
+    border: none;
+    border-radius: 25px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.save-all-brands-btn:hover {
+    background-color: #252223;
+    transform: translateY(-2px);
+}
 
 
                                 /*Dành CHO QUẢN LÝ NHẬP SẢN PHẨM*/
@@ -443,6 +643,54 @@
 .create-import-btn:hover {
     background-color: #218838;
 }
+
+/* Style cho hộp select tình trạng */
+.status-select-custom {
+    padding: 10px 20px; /* Tăng padding hai bên để trông cân đối hơn */
+    margin-left: 10px;
+    border: 1px solid #ccc;
+    border-radius: 25px; /* Bo tròn hoàn toàn hai đầu */
+    background-color: white;
+    font-size: 16px;
+    outline: none;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    
+    /* Ẩn mũi tên mặc định của trình duyệt để tùy chỉnh sâu hơn nếu cần */
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    
+    /* Thêm biểu tượng mũi tên mới phù hợp với giao diện bo tròn */
+    background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23444444%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 15px top 50%;
+    background-size: 12px auto;
+    padding-right: 40px; /* Chừa khoảng trống cho mũi tên */
+}
+
+.status-select-custom:focus {
+    border-color: #444444; /* Đồng bộ với màu chủ đạo của bạn */
+    box-shadow: 0 0 8px rgba(99, 101, 100, 0.4);
+}
+.status-select-custom:focus {
+    border-color: #444444;
+    box-shadow: 0 0 8px rgba(99, 101, 100, 0.4);
+}
+
+/* Căn chỉnh lại cụm Tra cứu */
+.sort-by-order-status {
+    display: flex;
+    align-items: center;
+}
+
+/* Margin cho nút tra cứu để không dính sát vào select */
+#filter-button {
+    margin-left: 15px;
+}
+
+/* Lưu ý: Các thẻ <option> bên trong không thể bo tròn góc bằng CSS thuần 
+   trên hầu hết các trình duyệt hiện đại. */
 
 /*CSS cho nội dung bên trong popup*/
 /* ---------------------------------------------------- */
@@ -787,4 +1035,114 @@
 #close-detail-order-container button:hover, #close-edit-category-container button:hover {
     background-color: #252223;
     transform: translateY(-1px);
+}
+
+
+                /*Quản lý danh mục sản phẩm*/
+/* --- Định dạng nút Thêm sản phẩm (Nút lớn phía trên) --- */
+.add-products-btn {
+    background-color: #28a745; /* Màu xanh lá thành công */
+    color: white;
+    border: none;
+    padding: 12px 25px;
+    border-radius: 25px; /* Bo tròn theo yêu cầu */
+    font-weight: 600;
+    font-size: 16px;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    box-shadow: 0 4px 6px rgba(40, 167, 69, 0.2);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.add-products-btn:hover {
+    background-color: #218838;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(40, 167, 69, 0.3);
+}
+
+/* Tùy chỉnh cho modal thêm sản phẩm */
+.custom-input {
+    border-radius: 15px !important;
+    padding: 10px 15px;
+    border: 1px solid #D9D9D9;
+}
+
+.highlight-input-group {
+    background-color: #f8f9fa;
+    transition: all 0.3s;
+}
+
+.highlight-input-group:hover {
+    border-color: #28a745 !important;
+}
+
+#image-preview-container img {
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+}
+
+/* Tận dụng bo tròn 25px từ yêu cầu trước của bạn cho các nút */
+.modal-footer-admin .action-btn-common {
+    border-radius: 25px;
+}
+
+/* Style cho phần checkbox phụ kiện */
+.accessory-checkbox:checked {
+    background-color: #28a745;
+    border-color: #28a745;
+}
+
+#accessories-container .form-check-label, #accessories-container .accessory-checkbox  {
+    font-size: 14px;
+    cursor: pointer;
+}
+
+#modal-product-accessories {
+    border-radius: 15px !important;
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+/* Container cho mỗi tấm ảnh xem trước */
+.preview-item {
+    position: relative;
+    display: inline-block;
+    margin: 5px;
+}
+
+.preview-item img {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+}
+
+
+/* Nút xóa ảnh */
+.remove-img-btn {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    background: #e74c3c;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    font-size: 12px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+.remove-img-btn:hover {
+    background: #c0392b;
 }
