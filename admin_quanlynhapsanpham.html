@@ -7,7 +7,7 @@
   <title>Quản lý nhập sản phẩm - Guitar Xì Gòn</title>
   <meta name="description" content="">
   <meta name="keywords" content="">
-   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
   <!-- Favicons -->
   <link href="assets/img/favicon.png" rel="icon">
@@ -42,30 +42,6 @@
 </head>
 
 <body class="login-page">
-  <script>
-    const currentUserJSON = sessionStorage.getItem('isLoggedIn');
-    if (currentUserJSON) {
-      document.body.classList.remove('page-loading');
-    } else {
-      Swal.fire({
-        icon: 'warning',
-        title: 'Yêu cầu đăng nhập',
-        text: 'Bạn cần đăng nhập để có thể truy cập tính năng của admin.',
-        confirmButtonText: 'Đến trang đăng nhập',
-        allowOutsideClick: false,
-        customClass: {
-          container: 'blurred-login-alert', // Thêm class container riêng cho alert này
-          popup: 'my-swal-popup',
-          title: 'my-swal-title',
-          htmlContainer: 'my-swal-html-container',
-          confirmButton: 'my-swal-confirm-button'
-        }
-      }).then(() => {
-        window.location.href = 'admin_login.html';
-      });
-    }
-  </script>
-
   <header id="header" class="header sticky-top">
 
 
@@ -113,42 +89,6 @@
                   <button class="btn btn-outline-primary w-100" id="admin-logout-button">Đăng
                     xuất</button>
                 </div>
-                <script>
-                  document.addEventListener('DOMContentLoaded', function () {
-                    const logoutBtn = document.getElementById('admin-logout-button');
-
-                    if (logoutBtn) {
-                      logoutBtn.addEventListener('click', function () {
-                        Swal.fire({
-                          icon: 'question',
-                          title: 'Xác nhận đăng xuất?',
-                          text: 'Bạn có chắc muốn đăng xuất khỏi hệ thống?',
-                          showCancelButton: true,
-                          confirmButtonText: 'Đăng xuất',
-                          cancelButtonText: 'Hủy',
-                          customClass: {
-                            popup: 'my-swal-popup',
-                            confirmButton: 'my-swal-confirm-button',
-                            cancelButton: 'my-swal-cancel-button'
-                          }
-                        }).then((result) => {
-                          if (result.isConfirmed) {
-                            sessionStorage.removeItem('isLoggedIn'); 
-                            Swal.fire({
-                              icon: 'success',
-                              title: 'Đăng xuất thành công!',
-                              showConfirmButton: false,
-                              timer: 1200,
-                              customClass: { popup: 'my-swal-popup' }
-                            }).then(() => {
-                              window.location.href = 'admin_login.html';
-                            });
-                          }
-                        });
-                      });
-                    }
-                  });
-                </script>
               </div>
             </div>
 
@@ -458,7 +398,7 @@
         </div>
       </section><!-- /Category Pagination Section -->
     </div>
-    
+
 
 
 

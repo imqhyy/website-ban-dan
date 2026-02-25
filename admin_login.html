@@ -184,17 +184,6 @@
                         timerProgressBar: true,
                         customClass: { popup: 'my-swal-popup' },
                       });
-
-                      document.getElementById('login-form').addEventListener('submit', function (event) {
-                        event.preventDefault();
-                        Toast.fire({
-                          icon: 'success',
-                          title: 'Đăng nhập thành công!',
-                        }).then(() => {
-                          sessionStorage.setItem('isLoggedIn', 'true');
-                          window.location.href = 'admin.html';
-                        });
-                      });
                     });
                   </script>
                 </form>
