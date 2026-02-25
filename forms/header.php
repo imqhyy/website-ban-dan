@@ -1,5 +1,5 @@
 
-    <header id="header" class="header">
+    <header id="header" class="header sticky-top">
       <!-- Top Bar -->
       <div class="top-bar py-2">
         <div class="container-fluid container-xl">
@@ -55,7 +55,10 @@
             </a>
 
             <!-- Search -->
-            <form class="search-form desktop-search-form" action="search-results.php">
+            <form
+              class="search-form desktop-search-form"
+              action="search-results.php"
+            >
               <div class="input-group">
                 <input
                   type="text"
@@ -143,7 +146,7 @@
       </div>
 
       <!-- Navigation -->
-      <div class="header-nav" style="position: sticky; top: 0;">
+      <div class="header-nav">
         <div class="container-fluid container-xl position-relative">
           <nav id="navmenu" class="navmenu">
             <ul>
@@ -168,7 +171,7 @@
                   <li class="dropdown">
                     <a href="category_detail.php"
                       ><span>Guitar Acoustic</span
-                      ><i class="bi bi-chevron-right toggle-dropdown"></i
+                      ><i class="bi bi-chevron-right toggle-drop"></i
                     ></a>
                     <ul>
                       <li><a href="brand.php">Saga</a></li>
