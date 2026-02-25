@@ -76,7 +76,7 @@ document.addEventListener("DOMContentLoaded", function () {
         confirmButton: "my-swal-confirm-button",
       },
     }).then(() => {
-      window.location.href = "login.html";
+      window.location.href = "login.php";
     });
   }
   const currentUser = JSON.parse(currentUserJSON);
@@ -217,7 +217,7 @@ document.addEventListener("DOMContentLoaded", function () {
       updateCartIcon(0); // Gọi hàm từ auth.js
       Toast.fire({ icon: "success", title: "Đăng xuất thành công!" }).then(
         () => {
-          window.location.href = "index.html";
+          window.location.href = "index.php";
         }
       );
     });
@@ -293,7 +293,7 @@ document.addEventListener("DOMContentLoaded", function () {
 //         showConfirmButton: false,
 //         timer: 2000,
 //       }).then((result) => {
-//         window.location.href = "login.html";
+//         window.location.href = "login.php";
 //       });
 //     }
 //   });
@@ -322,7 +322,7 @@ if (deleteAccountButton) { // Thêm kiểm tra an toàn
           showConfirmButton: false,
           timer: 2000,
         }).then((result) => {
-          window.location.href = "login.html";
+          window.location.href = "login.php";
         });
       }
     });
@@ -335,5 +335,5 @@ const button = document.getElementById("reorder-btn");
 // Thêm một hàm để thực thi khi nút được nhấn
 button.addEventListener("click", function () {
   // Thay đổi URL của cửa sổ hiện tại
-  window.location.href = "checkout.html"; // Thay thế bằng đường dẫn trang bạn muốn
+  window.location.href = "checkout.php"; // Thay thế bằng đường dẫn trang bạn muốn
 });

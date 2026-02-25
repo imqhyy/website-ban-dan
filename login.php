@@ -60,7 +60,7 @@
           <h1 class="mb-2 mb-lg-0">Đăng nhập</h1>
           <nav class="breadcrumbs">
             <ol>
-              <li><a href="index.html">Trang chủ</a></li>
+              <li><a href="index.php">Trang chủ</a></li>
               <li class="current">Đăng nhập</li>
             </ol>
           </nav>
@@ -139,7 +139,7 @@
 
                     <div class="switch-form">
                       <span>Bạn chưa có tài khoản?</span>
-                      <a href="register.html" class="switch-btn"
+                      <a href="register.php" class="switch-btn"
                         >Tạo tài khoản</a
                       >
                     </div>

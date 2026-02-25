@@ -22,7 +22,7 @@ document.addEventListener("DOMContentLoaded", function () {
         confirmButton: "my-swal-confirm-button",
       },
     }).then(() => {
-      window.location.href = "login.html";
+      window.location.href = "login.php";
     });
   }
 
@@ -127,7 +127,7 @@ document.addEventListener("DOMContentLoaded", function () {
       icon: "success",
       title: "Đặt hàng thành công!",
     }).then(() => {
-      window.location.href = "order-confirmation.html";
+      window.location.href = "order-confirmation.php";
     });
   });
 

@@ -55,7 +55,7 @@
           <h1 class="mb-2 mb-lg-0">404</h1>
           <nav class="breadcrumbs">
             <ol>
-              <li><a href="index.html">Trang chủ</a></li>
+              <li><a href="index.php">Trang chủ</a></li>
               <li class="current">404</li>
             </ol>
           </nav>
@@ -83,7 +83,7 @@
 
 
             <div class="error-action" data-aos="fade-up" data-aos-delay="700">
-              <a href="index.html" class="btn btn-primary">Trở về Trang chủ</a>
+              <a href="index.php" class="btn btn-primary">Trở về Trang chủ</a>
             </div>
           </div>
 

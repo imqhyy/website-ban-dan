@@ -59,7 +59,7 @@
           <h1 class="mb-2 mb-lg-0">Xác nhận đơn hàng</h1>
           <nav class="breadcrumbs">
             <ol>
-              <li><a href="index.html">Trang chủ</a></li>
+              <li><a href="index.php">Trang chủ</a></li>
               <li class="current">Xác nhận đơn hàng</li>
             </ol>
           </nav>
@@ -134,12 +134,12 @@
                 <div class="action-area" data-aos="fade-up">
                   <div class="row g-3">
                     <div class="col-md-6">
-                      <a href="all.html" class="btn btn-back"
+                      <a href="all.php" class="btn btn-back"
                         ><i class="bi bi-arrow-left"></i>Tiếp tục mua sắm</a
                       >
                     </div>
                     <div class="col-md-6">
-                      <a href="account.html#" class="btn btn-account"
+                      <a href="account.php#" class="btn btn-account"
                         ><span>Xem trong Tài khoản</span
                         ><i class="bi bi-arrow-right"></i
                       ></a>

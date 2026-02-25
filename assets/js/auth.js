@@ -31,7 +31,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const currentUserJSON = sessionStorage.getItem('currentUser');
 
     // Thêm class chung cho tất cả icon giỏ hàng
-    const allCartIcons = document.querySelectorAll('.header-actions a[href="cart.html"] .badge, .floating-icon.cart .notification-dot');
+    const allCartIcons = document.querySelectorAll('.header-actions a[href="cart.php"] .badge, .floating-icon.cart .notification-dot');
     allCartIcons.forEach(icon => icon.classList.add('cart-item-count-badge'));
 
     if (currentUserJSON) {
@@ -57,7 +57,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     updateCartIcon(0);
                     Toast.fire({ icon: 'success', title: 'Đăng xuất thành công!' })
                         .then(() => {
-                            window.location.href = 'index.html';
+                            window.location.href = 'index.php';
                         });
                 });
             }
@@ -73,8 +73,8 @@ document.addEventListener('DOMContentLoaded', function () {
         }
         if (userSessionDiv) {
             userSessionDiv.innerHTML = `
-                <a href="login.html" class="btn btn-primary w-100 mb-2">Đăng nhập</a>
-                <a href="register.html" class="btn btn-outline-primary w-100">Đăng ký</a>
+                <a href="login.php" class="btn btn-primary w-100 mb-2">Đăng nhập</a>
+                <a href="register.php" class="btn btn-outline-primary w-100">Đăng ký</a>
             `;
         }
     }

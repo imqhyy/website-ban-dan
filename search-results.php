@@ -329,7 +329,7 @@
                     <div class="col-6 col-xl-4">
                       <div class="product-card" data-aos="zoom-in" data-aos-delay="500">
                         <div class="product-image">
-                          <a href="product-details.html">
+                          <a href="product-details.php">
                             <img
                               src="assets/img/product/guitar/acoustic/enya/enya ega-x0-pro-sp1/dan-guitar-acoustic-enya-ega-x0-pro-sp1-acousticplus-smart-guitar-2-1536x1536.jpg"
                               class="main-image img-fluid"
@@ -347,7 +347,7 @@
                         <div class="product-details">
                           <div class="product-category">Acoustic</div>
                           <h4 class="product-title">
-                            <a href="product-details.html">Enya EGA X0 PRO SP1</a>
+                            <a href="product-details.php">Enya EGA X0 PRO SP1</a>
                           </h4>
                           <div class="product-meta">
                             <div class="product-price">
@@ -370,7 +370,7 @@
                     <div class="col-6 col-xl-4">
                       <div class="product-card" data-aos="zoom-in" data-aos-delay="500">
                         <div class="product-image">
-                          <a href="product-details.html">
+                          <a href="product-details.php">
                             <img
                               src="assets/img/product/guitar/acoustic/enya/enya-ea-x2/1.jpg"
                               class="main-image img-fluid"
@@ -388,7 +388,7 @@
                         <div class="product-details">
                           <div class="product-category">Acoustic</div>
                           <h4 class="product-title">
-                            <a href="product-details.html">Enya EA X2</a>
+                            <a href="product-details.php">Enya EA X2</a>
                           </h4>
                           <div class="product-meta">
                             <div class="product-price">
@@ -411,7 +411,7 @@
                     <div class="col-6 col-xl-4">
                       <div class="product-card" data-aos="zoom-in" data-aos-delay="500">
                         <div class="product-image">
-                          <a href="product-details.html">
+                          <a href="product-details.php">
                             <img
                               src="assets/img/product/guitar/acoustic/enya/enya em-x1-sp1/dan-guitar-acoustic-enya-em-x1-sp1-acousticplus-smart-guitar-3-1000x1000.jpg"
                               class="main-image img-fluid"
@@ -429,7 +429,7 @@
                         <div class="product-details">
                           <div class="product-category">Acoustic</div>
                           <h4 class="product-title">
-                            <a href="product-details.html">Enya EM X1 SP1</a>
+                            <a href="product-details.php">Enya EM X1 SP1</a>
                           </h4>
                           <div class="product-meta">
                             <div class="product-price">

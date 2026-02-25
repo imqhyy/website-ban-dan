@@ -60,7 +60,7 @@
           <h1 class="mb-2 mb-lg-0">Chi tiết sản phẩm</h1>
           <nav class="breadcrumbs">
             <ol>
-              <li><a href="index.html">Trang chủ</a></li>
+              <li><a href="index.php">Trang chủ</a></li>
               <li class="current">Chi tiết sản phẩm</li>
             </ol>
           </nav>
@@ -263,7 +263,7 @@
                                 title: 'Vui lòng đăng nhập để thêm sản phẩm vào giỏ!'
                               }).then(() => {
                                 // Chuyển hướng đến trang đăng nhập
-                                window.location.href = 'login.html';
+                                window.location.href = 'login.php';
                               });
                               return;
                             }
@@ -282,7 +282,7 @@
                       });</script>
                     <button
                       class="btn secondary-action"
-                      onclick="window.location.href='cart.html'"
+                      onclick="window.location.href='cart.php'"
                     >
                       <i class="bi bi-lightning"></i>
                       Mua ngay

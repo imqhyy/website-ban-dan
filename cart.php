@@ -59,7 +59,7 @@
         <h1 class="mb-2 mb-lg-0">Giỏ hàng</h1>
         <nav class="breadcrumbs">
           <ol>
-            <li><a href="index.html">Trang chủ</a></li>
+            <li><a href="index.php">Trang chủ</a></li>
             <li class="current">Giỏ hàng</li>
           </ol>
         </nav>
@@ -95,12 +95,12 @@
                     <div class="col-lg-6 col-12 mt-3 mt-lg-0 mb-lg-0 mb-3">
                       <div class="product-info d-flex align-items-center">
                         <div class="product-image">
-                          <a href="product-details.html"><img
+                          <a href="product-details.php"><img
                               src="assets/img/product/guitar/acoustic/saga/saga-a1-de-pro/dan-guitar-acoustic-saga-a1-de-pro--1000x1000.jpg"
                               alt="Saga A1" class="img-fluid"></a>
                         </div>
                         <div class="product-details">
-                          <a href="product-details.html">
+                          <a href="product-details.php">
                             <h6 class="product-title">Saga A1 DE PRO</h6>
                           </a>
 
@@ -129,13 +129,13 @@
                     <div class="col-lg-6 col-12 mt-3 mt-lg-0 mb-lg-0 mb-3">
                       <div class="product-info d-flex align-items-center">
                         <div class="product-image">
-                          <a href="product-details.html">
+                          <a href="product-details.php">
                             <img
                               src="assets/img/product/guitar/classic/badon/dan-guitar-classic-ba-don-c100/dan-guitar-classic-ba-don-c100-.jpg"
                               alt="Ba đờn C100" class="img-fluid"></a>
                         </div>
                         <div class="product-details">
-                          <a href="product-details.html">
+                          <a href="product-details.php">
                             <h6 class="product-title">Ba đờn C100</h6>
                           </a>
 
@@ -163,11 +163,11 @@
                   <div class="row align-items-center">
                     <div class="col-lg-6 col-12 mt-3 mt-lg-0 mb-lg-0 mb-3">
                       <div class="product-info d-flex align-items-center">
-                        <div class="product-image"> <a href="product-details.html"><img
+                        <div class="product-image"> <a href="product-details.php"><img
                               src="assets/img/product/guitar/acoustic/taylor/taylor-a12e/dan-guitar-acoustic-taylor-academy-12e-grand-concert-wbag-.jpg"
                               alt="Taylor A12E" class="img-fluid"></a></div>
                         <div class="product-details">
-                          <a href="product-details.html">
+                          <a href="product-details.php">
                             <h6 class="product-title">Taylor A12E</h6>
                           </a>
 
@@ -207,7 +207,7 @@
                 <span class="summary-value" id="cart-total">0 VNĐ</span>
               </div>
               <div class="checkout-button">
-                <a href="checkout.html" class="btn btn-accent w-100">Tiến hành thanh toán <i
+                <a href="checkout.php" class="btn btn-accent w-100">Tiến hành thanh toán <i
                     class="bi bi-arrow-right"></i></a>
               </div>
             </div>
@@ -260,7 +260,7 @@
           confirmButton: 'my-swal-confirm-button'
         }
       }).then(() => {
-        window.location.href = 'login.html';
+        window.location.href = 'login.php';
       });
     }
   </script>

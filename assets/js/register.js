@@ -81,7 +81,7 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         }).then((result) => {
             if (result.isConfirmed) {
-                window.location.href = 'login.html';
+                window.location.href = 'login.php';
             }
         });
     });

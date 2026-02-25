@@ -60,7 +60,7 @@
           <h1 class="mb-2 mb-lg-0">Trang bắt đầu</h1>
           <nav class="breadcrumbs">
             <ol>
-              <li><a href="index.html">Trang chủ</a></li>
+              <li><a href="index.php">Trang chủ</a></li>
               <li class="current">Trang bắt đầu</li>
             </ol>
           </nav>

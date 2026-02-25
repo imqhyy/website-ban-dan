@@ -51,7 +51,7 @@
         <h1 class="mb-2 mb-lg-0">Đăng ký</h1>
         <nav class="breadcrumbs">
           <ol>
-            <li><a href="index.html">Trang chủ</a></li>
+            <li><a href="index.php">Trang chủ</a></li>
             <li class="current">Đăng ký</li>
           </ol>
         </nav>
@@ -115,7 +115,7 @@
                 <div class="form-check mb-4" style="margin-left: 20px;">
                   <input class="form-check-input" type="checkbox" id="termsCheck" name="termsCheck" required="">
                   <label class="form-check-label" for="termsCheck">
-                    Tôi đồng ý với <a href="tos.html">Điều khoản dịch vụ</a> và <a href="privacy.html">Chính sách bảo
+                    Tôi đồng ý với <a href="tos.php">Điều khoản dịch vụ</a> và <a href="privacy.php">Chính sách bảo
                       mật</a>
                   </label>
                 </div>
@@ -132,7 +132,7 @@
                 </div>
 
                 <div class="login-link text-center">
-                  <p>Bạn đã có tài khoản? <a href="login.html">Đăng nhập</a></p>
+                  <p>Bạn đã có tài khoản? <a href="login.php">Đăng nhập</a></p>
                 </div>
                 </form>
               </div>

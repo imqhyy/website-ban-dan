@@ -23,7 +23,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 <div class="col-6 col-xl-4">
                     <div class="product-card" data-aos="zoom-in">
                         <div class="product-image">
-                            <a href="product-details.html">
+                            <a href="product-details.php">
                                 <img src="${product.image}" class="main-image img-fluid" alt="${product.name}">
                                 <img src="${product.hoverImage}" class="hover-image img-fluid" alt="${product.name}">
                             </a>
@@ -38,7 +38,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         <div class="product-details">
                             <div class="product-category">${product.category}</div>
                             <h4 class="product-title">
-                                <a href="product-details.html">${product.name}</a>
+                                <a href="product-details.php">${product.name}</a>
                             </h4>
                             <div class="product-meta">
                                 <div class="product-price">

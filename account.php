@@ -52,7 +52,7 @@
         <h1 class="mb-2 mb-lg-0">Tài khoản</h1>
         <nav class="breadcrumbs">
           <ol>
-            <li><a href="index.html">Trang chủ</a></li>
+            <li><a href="index.php">Trang chủ</a></li>
             <li class="current">Tài khoản</li>
           </ol>
         </nav>
@@ -133,7 +133,7 @@
                 </ul>
 
                 <div class="menu-footer">
-                  <a href="support.html" class="help-link">
+                  <a href="support.php" class="help-link">
                     <i class="bi bi-question-circle"></i>
                     <span>Trung tâm hỗ trợ</span>
                   </a>
@@ -192,16 +192,16 @@
                       </div>
                       <div class="order-content">
                         <div class="product-grid">
-                          <a href="product-details.html">
+                          <a href="product-details.php">
                             <img src="assets/img/product/guitar/acoustic/enya/enya-ea-x2/1.jpg" alt="Product"
                               loading="lazy">
                           </a>
-                          <a href="product-details.html">
+                          <a href="product-details.php">
                             <img
                               src="assets/img/product/guitar/acoustic/saga/saga-a1-de-pro/dan-guitar-acoustic-saga-a1-de-pro--1000x1000.jpg"
                               alt="Product" loading="lazy">
                           </a>
-                          <a href="product-details.html">
+                          <a href="product-details.php">
                             <img src="assets/img/product/guitar/acoustic/taylor/taylor-110e/1.jpg" alt="Product"
                               loading="lazy">
                           </a>
@@ -307,7 +307,7 @@
                             <h5>Mặt hàng (3)</h5>
                             <div class="order-items">
                               <div class="item">
-                                <a href="product-details.html">
+                                <a href="product-details.php">
                                   <img src="assets/img/product/guitar/acoustic/enya/enya-ea-x2/1.jpg" alt="Product"
                                     loading="lazy">
                                 </a>
@@ -322,7 +322,7 @@
                               </div>
 
                               <div class="item">
-                                <a href="product-details.html">
+                                <a href="product-details.php">
                                   <img
                                     src="assets/img/product/guitar/acoustic/saga/saga-a1-de-pro/dan-guitar-acoustic-saga-a1-de-pro--1000x1000.jpg"
                                     alt="Product" loading="lazy">
@@ -338,7 +338,7 @@
                               </div>
 
                               <div class="item">
-                                <a href="product-details.html">
+                                <a href="product-details.php">
                                   <img src="assets/img/product/guitar/acoustic/taylor/taylor-110e/1.jpg" alt="Product"
                                     loading="lazy">
                                 </a>
@@ -399,11 +399,11 @@
                       </div>
                       <div class="order-content">
                         <div class="product-grid">
-                          <a href="product-details.html">
+                          <a href="product-details.php">
                             <img src="assets/img/product/guitar/acoustic/enya/enya-ea-x2/1.jpg" alt="Product"
                               loading="lazy">
                           </a>
-                          <a href="product-details.html">
+                          <a href="product-details.php">
                             <img
                               src="assets/img/product/guitar/acoustic/saga/saga-a1-de-pro/dan-guitar-acoustic-saga-a1-de-pro--1000x1000.jpg"
                               alt="Product" loading="lazy">
@@ -516,7 +516,7 @@
                             <h5>Mặt hàng (2)</h5>
                             <div class="order-items">
                               <div class="item">
-                                <a href="product-details.html">
+                                <a href="product-details.php">
                                   <img src="assets/img/product/guitar/acoustic/enya/enya-ea-x2/1.jpg" alt="Product"
                                     loading="lazy">
                                 </a>
@@ -531,7 +531,7 @@
                               </div>
 
                               <div class="item">
-                                <a href="product-details.html">
+                                <a href="product-details.php">
                                   <img
                                     src="assets/img/product/guitar/acoustic/saga/saga-a1-de-pro/dan-guitar-acoustic-saga-a1-de-pro--1000x1000.jpg"
                                     alt="Product" loading="lazy">
@@ -593,7 +593,7 @@
                       </div>
                       <div class="order-content">
                         <div class="product-grid">
-                          <a href="product-details.html">
+                          <a href="product-details.php">
                             <img
                               src="assets/img/product/guitar/acoustic/enya/enya-ea-x2/1.jpg"
                               alt="Product" loading="lazy">
@@ -716,7 +716,7 @@
                             <h5>Mặt hàng (2)</h5>
                             <div class="order-items">
                               <div class="item">
-                                <a href="product-details.html">
+                                <a href="product-details.php">
                                   <img src="assets/img/product/guitar/acoustic/enya/enya-ea-x2/1.jpg" alt="Product"
                                     loading="lazy">
                                 </a>
@@ -731,7 +731,7 @@
                               </div>
 
                               <div class="item">
-                                <a href="product-details.html">
+                                <a href="product-details.php">
                                   <img
                                     src="assets/img/product/guitar/acoustic/saga/saga-a1-de-pro/dan-guitar-acoustic-saga-a1-de-pro--1000x1000.jpg"
                                     alt="Product" loading="lazy">
@@ -795,16 +795,16 @@
                       </div>
                       <div class="order-content">
                         <div class="product-grid">
-                          <a href="product-details.html">
+                          <a href="product-details.php">
                             <img src="assets/img/product/guitar/acoustic/enya/enya-ea-x2/1.jpg" alt="Product"
                               loading="lazy">
                           </a>
-                          <a href="product-details.html">
+                          <a href="product-details.php">
                             <img
                               src="assets/img/product/guitar/acoustic/saga/saga-a1-de-pro/dan-guitar-acoustic-saga-a1-de-pro--1000x1000.jpg"
                               alt="Product" loading="lazy">
                           </a>
-                          <a href="product-details.html">
+                          <a href="product-details.php">
                             <img src="assets/img/product/guitar/acoustic/taylor/taylor-110e/1.jpg" alt="Product"
                               loading="lazy">
                           </a>
@@ -852,7 +852,7 @@
                             <h5>Mặt hàng (3)</h5>
                             <div class="order-items">
                               <div class="item">
-                                <a href="product-details.html">
+                                <a href="product-details.php">
                                   <img src="assets/img/product/guitar/acoustic/enya/enya-ea-x2/1.jpg" alt="Product"
                                     loading="lazy">
                                 </a>
@@ -867,7 +867,7 @@
                               </div>
 
                               <div class="item">
-                                <a href="product-details.html">
+                                <a href="product-details.php">
                                   <img
                                     src="assets/img/product/guitar/acoustic/saga/saga-a1-de-pro/dan-guitar-acoustic-saga-a1-de-pro--1000x1000.jpg"
                                     alt="Product" loading="lazy">
@@ -883,7 +883,7 @@
                               </div>
 
                               <div class="item">
-                                <a href="product-details.html">
+                                <a href="product-details.php">
                                   <img src="assets/img/product/guitar/acoustic/taylor/taylor-110e/1.jpg" alt="Product"
                                     loading="lazy">
                                 </a>
@@ -897,7 +897,7 @@
                                 <div class="item-price">100.000.000 VND</div>
                               </div>
                               <div class="item">
-                                <a href="product-details.html">
+                                <a href="product-details.php">
                                   <img
                                     src="assets/img/product/guitar/acoustic/yamaha/yamaha-apx1200ii/dan-guitar-acoustic-yamaha-apx1200ii-apx-series--1536x1536.jpg"
                                     alt="Product" loading="lazy">
@@ -913,7 +913,7 @@
                               </div>
 
                               <div class="item">
-                                <a href="product-details.html">
+                                <a href="product-details.php">
                                   <img
                                     src="assets/img/product/guitar/acoustic/yamaha/yamaha-cpx600/dan-guitar-acoustic-yamaha-cpx600-cpx-series-.jpg"
                                     alt="Product" loading="lazy">

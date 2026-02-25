@@ -65,7 +65,7 @@ document.addEventListener('DOMContentLoaded', function () {
             title: 'Đăng nhập thành công!'
         }).then(() => {
             sessionStorage.setItem('currentUser', JSON.stringify(testUserAccount));
-            window.location.href = 'admin.html';
+            window.location.href = 'admin.php';
         });
     });
 

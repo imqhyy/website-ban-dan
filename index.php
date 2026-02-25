@@ -68,7 +68,7 @@
                 đãi độc quyền và giao hàng nhanh chóng.
               </p>
               <div class="hero-actions" data-aos="fade-up" data-aos-delay="200">
-                <a href="all.html" class="btn-secondary">Xem toàn bộ đàn</a>
+                <a href="all.php" class="btn-secondary">Xem toàn bộ đàn</a>
               </div>
               <div
                 class="features-list"
@@ -98,7 +98,7 @@
               data-aos-delay="200"
             >
               <div class="product-card featured">
-                <a href="product-details.html">
+                <a href="product-details.php">
                   <img
                     src="assets/img/product/guitar/classic/badon/dan-guitar-classic-ba-don-c250/1.jpg"
                     alt="Featured Product"
@@ -108,7 +108,7 @@
                 <div class="product-badge">Bán chạy nhất</div>
                 <div class="product-info">
                   <a
-                    href="product-details.html"
+                    href="product-details.php"
                     class="product-title"
                     style="font-size: 25px"
                     >Guitar Classic Ba Đờn C250</a
@@ -129,14 +129,14 @@
               <!-- Ân 2 sản phẩm mini hiện lên sản phẩm to hơn, đẹp v xoá uổng -->
               <!-- <div class="product-grid">
               <div class="product-mini" data-aos="zoom-in" data-aos-delay="400">
-                <a href="all.html">
+                <a href="all.php">
                   <img src="assets\img\product\guitar\acoustic\yamaha\yamaha-apx600fm\1.jpg" alt="Product"
                     class="img-fluid">
                 </a>
                 <span class="mini-price">2.300.000 VND</span>
               </div>
               <div class="product-mini" data-aos="zoom-in" data-aos-delay="500">
-                <a href="all.html">
+                <a href="all.php">
                   <img src="assets\img\product\guitar\acoustic\enya\enya ega-x0-pro-sp1\8.jpg" alt="Product"
                     class="img-fluid">
                 </a>
@@ -147,7 +147,7 @@
 
             <div class="floating-elements">
               <a
-                href="cart.html"
+                href="cart.php"
                 class="floating-icon cart"
                 data-aos="fade-up"
                 data-aos-delay="600"
@@ -186,7 +186,7 @@
               <div class="product-item">
                 <div class="product-image">
                   <div class="product-badge">Giới hạn</div>
-                  <a href="product-details.html"
+                  <a href="product-details.php"
                     ><img
                       src="assets\img\product\guitar\classic\badon\dan-guitar-classic-ba-don-c250\1.jpg"
                       alt="Product Image"
@@ -197,7 +197,7 @@
                 <div class="product-info">
                   <div class="product-category">Sản phẩm cao cấp</div>
                   <h4 class="product-title">
-                    <a href="product-details.html"
+                    <a href="product-details.php"
                       >Guitar Classic Ba Đờn C250</a
                     >
                   </h4>
@@ -223,7 +223,7 @@
               <div class="product-item">
                 <div class="product-image">
                   <div class="product-badge sale-badge">-25%</div>
-                  <a href="product-details.html"
+                  <a href="product-details.php"
                     ><img
                       src="assets/img/product/guitar/acoustic/enya/enya-ea-x2/1.jpg"
                       alt="Product Image"
@@ -234,7 +234,7 @@
                 <div class="product-info">
                   <div class="product-category">Bán chạy</div>
                   <h4 class="product-title">
-                    <a href="product-details.html"
+                    <a href="product-details.php"
                       >Guitar Acoustic Enya EA-X2</a
                     >
                   </h4>
@@ -259,7 +259,7 @@
             <div class="col-lg-3 col-md-6">
               <div class="product-item">
                 <div class="product-image">
-                  <a href="product-details.html"
+                  <a href="product-details.php"
                     ><img
                       src="assets/img/product/guitar/classic/yamaha/dan-guitar-classic-yamaha-ncx700-nx-series/1.jpg"
                       alt="Product Image"
@@ -270,7 +270,7 @@
                 <div class="product-info">
                   <div class="product-category">Mới ra mắt</div>
                   <h4 class="product-title">
-                    <a href="product-details.html"
+                    <a href="product-details.php"
                       >Guitar Classic Yamaha NCX-700</a
                     >
                   </h4>
@@ -291,7 +291,7 @@
             <div class="col-lg-3 col-md-6">
               <div class="product-item">
                 <div class="product-image">
-                  <a href="product-details.html"
+                  <a href="product-details.php"
                     ><img
                       src="assets/img/product/guitar/acoustic/yamaha/yamaha-ls36-are/1.jpg"
                       alt="Product Image"
@@ -302,7 +302,7 @@
                 <div class="product-info">
                   <div class="product-category">Hợp cho người nghèo</div>
                   <h4 class="product-title">
-                    <a href="product-details.html"
+                    <a href="product-details.php"
                       >Guitar Acoustic Yamaha LS36 ARE Series 3</a
                     >
                   </h4>
@@ -388,7 +388,7 @@
                   data-aos="fade-up"
                   data-aos-delay="450"
                 >
-                  <a href="all.html" class="btn-shop-now">Mua sắm ngay</a>
+                  <a href="all.php" class="btn-shop-now">Mua sắm ngay</a>
                 </div>
               </div>
             </div>

@@ -38,7 +38,7 @@
                 <h1 class="mb-2 mb-lg-0">Phân loại: Acoustic</h1>
                 <nav class="breadcrumbs">
                     <ol>
-                        <li><a href="index.html">Trang chủ</a></li>
+                        <li><a href="index.php">Trang chủ</a></li>
                         <li class="current">Acoustic</li>
                     </ol>
                 </nav>
@@ -153,7 +153,7 @@
                                 <div class="col-6 col-xl-4">
                                     <div class="product-card" data-aos="zoom-in" data-aos-delay="0">
                                         <div class="product-image">
-                                            <a href="product-details.html">
+                                            <a href="product-details.php">
                                                 <img src="assets/img/product/guitar/acoustic/saga/saga-a1-de-pro/dan-guitar-acoustic-saga-a1-de-pro--1000x1000.jpg"
                                                     class="main-image img-fluid" alt="Saga A1 DE PRO">
 
@@ -165,7 +165,7 @@
                                         <div class="product-details">
                                             <div class="product-category">Acoustic</div>
                                             <h4 class="product-title">
-                                                <a href="product-details.html">Saga Tinh Hệ</a>
+                                                <a href="product-details.php">Saga Tinh Hệ</a>
                                             </h4>
                                             <div class="product-meta">
                                                 <div class="product-price">
@@ -187,7 +187,7 @@
                                 <div class="col-6 col-xl-4">
                                     <div class="product-card" data-aos="zoom-in" data-aos-delay="100">
                                         <div class="product-image">
-                                            <a href="product-details.html">
+                                            <a href="product-details.php">
                                                 <img src="assets/img/product/guitar/acoustic/saga/saga-cc1/dan-guitar-acoustic-saga-cc1-.jpg"
                                                     class="main-image img-fluid" alt="Saga CC1">
                                                 <img src="assets/img/product/guitar/acoustic/saga/saga-cc1/dan-guitar-acoustic-saga-cc1-3-1536x1536.jpg"
@@ -197,7 +197,7 @@
                                         <div class="product-details">
                                             <div class="product-category">Acoustic</div>
                                             <h4 class="product-title">
-                                                <a href="product-details.html">Enya Tiệc Bãi Biển</a>
+                                                <a href="product-details.php">Enya Tiệc Bãi Biển</a>
                                             </h4>
                                             <div class="product-meta">
                                                 <div class="product-price">
@@ -219,7 +219,7 @@
                                 <div class="col-6 col-xl-4">
                                     <div class="product-card" data-aos="zoom-in" data-aos-delay="200">
                                         <div class="product-image">
-                                            <a href="product-details.html">
+                                            <a href="product-details.php">
                                                 <img src="assets/img/product/guitar/acoustic/saga/saga-cl65/dan-guitar-acoustic-saga-cl65-.jpg"
                                                     class="main-image img-fluid" alt="Saga CL65">
                                                 <img src="assets/img/product/guitar/acoustic/saga/saga-cl65/dan-guitar-acoustic-saga-cl65-4-1536x1536.jpg"
@@ -231,7 +231,7 @@
                                         <div class="product-details">
                                             <div class="product-category">Acoustic</div>
                                             <h4 class="product-title">
-                                                <a href="product-details.html">Saga Siêu Việt 2.0</a>
+                                                <a href="product-details.php">Saga Siêu Việt 2.0</a>
                                             </h4>
                                             <div class="product-meta">
                                                 <div class="product-price">

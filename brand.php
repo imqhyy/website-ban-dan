@@ -38,7 +38,7 @@
 				<h1 class="mb-2 mb-lg-0">Thương hiệu: Saga</h1>
 				<nav class="breadcrumbs">
 					<ol>
-						<li><a href="index.html">Trang chủ</a></li>
+						<li><a href="index.php">Trang chủ</a></li>
 						<li class="current">Saga</li>
 					</ol>
 				</nav>
@@ -135,7 +135,7 @@
 								<div class="col-6 col-xl-4">
 									<div class="product-card" data-aos="zoom-in" data-aos-delay="0">
 										<div class="product-image">
-											<a href="product-details.html">
+											<a href="product-details.php">
 												<img src="assets/img/product/guitar/acoustic/saga/saga-a1-de-pro/dan-guitar-acoustic-saga-a1-de-pro--1000x1000.jpg"
 													class="main-image img-fluid" alt="Saga A1 DE PRO">
 
@@ -147,7 +147,7 @@
 										<div class="product-details">
 											<div class="product-category">Acoustic</div>
 											<h4 class="product-title">
-												<a href="product-details.html">Saga A1 DE PRO</a>
+												<a href="product-details.php">Saga A1 DE PRO</a>
 											</h4>
 											<div class="product-meta">
 												<div class="product-price">
@@ -169,7 +169,7 @@
 								<div class="col-6 col-xl-4">
 									<div class="product-card" data-aos="zoom-in" data-aos-delay="100">
 										<div class="product-image">
-											<a href="product-details.html">
+											<a href="product-details.php">
 												<img src="assets/img/product/guitar/acoustic/saga/saga-cc1/dan-guitar-acoustic-saga-cc1-.jpg"
 													class="main-image img-fluid" alt="Saga CC1">
 												<img src="assets/img/product/guitar/acoustic/saga/saga-cc1/dan-guitar-acoustic-saga-cc1-3-1536x1536.jpg"
@@ -179,7 +179,7 @@
 										<div class="product-details">
 											<div class="product-category">Acoustic</div>
 											<h4 class="product-title">
-												<a href="product-details.html">Saga CC1</a>
+												<a href="product-details.php">Saga CC1</a>
 											</h4>
 											<div class="product-meta">
 												<div class="product-price">
@@ -201,7 +201,7 @@
 								<div class="col-6 col-xl-4">
 									<div class="product-card" data-aos="zoom-in" data-aos-delay="200">
 										<div class="product-image">
-											<a href="product-details.html">
+											<a href="product-details.php">
 												<img src="assets/img/product/guitar/acoustic/saga/saga-cl65/dan-guitar-acoustic-saga-cl65-.jpg"
 													class="main-image img-fluid" alt="Saga CL65">
 												<img src="assets/img/product/guitar/acoustic/saga/saga-cl65/dan-guitar-acoustic-saga-cl65-4-1536x1536.jpg"
@@ -213,7 +213,7 @@
 										<div class="product-details">
 											<div class="product-category">Acoustic</div>
 											<h4 class="product-title">
-												<a href="product-details.html">Saga CL65</a>
+												<a href="product-details.php">Saga CL65</a>
 											</h4>
 											<div class="product-meta">
 												<div class="product-price">
@@ -235,7 +235,7 @@
 								<div class="col-6 col-xl-4">
 									<div class="product-card" data-aos="zoom-in" data-aos-delay="300">
 										<div class="product-image">
-											<a href="product-details.html">
+											<a href="product-details.php">
 												<img src="assets/img/product/guitar/acoustic/saga/saga-ss-8ce/dan-guitar-acoustic-saga-ss-8ce-.jpg"
 													class="main-image img-fluid" alt="Saga CL65">
 												<img src="assets/img/product/guitar/acoustic/saga/saga-ss-8ce/dan-guitar-acoustic-saga-ss-8ce-2-1536x1536.jpg"
@@ -246,7 +246,7 @@
 										<div class="product-details">
 											<div class="product-category">Classic</div>
 											<h4 class="product-title">
-												<a href="product-details.html">Saga SS 8CE</a>
+												<a href="product-details.php">Saga SS 8CE</a>
 											</h4>
 											<div class="product-meta">
 												<div class="product-price">
