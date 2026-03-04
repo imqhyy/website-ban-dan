@@ -49,7 +49,7 @@ require_once 'forms/init.php'; ?>
         <div class="container">
             <div class="row">
                 <div class="col-lg-4 sidebar">
-                    <div class="widgets-container"> 
+                    <div class="widgets-container">
                         <!-- Pricing Range Widget -->
                         <div class="pricing-range-widget widget-item">
                             <h3 class="widget-title">Khoảng giá</h3>
@@ -92,48 +92,48 @@ require_once 'forms/init.php'; ?>
                         <!--/Pricing Range Widget -->
                         <!-- Brand Filter Widget -->
                         <div class="brand-filter-widget widget-item">
-                        <h3 class="widget-title">Lọc theo thương hiệu</h3>
-                        <div class="brand-filter-content">
-                            <div class="brand-search"> <input type="text" class="form-control"
-                                placeholder="Tìm kiếm thương hiệu...">
-                            <i class="bi bi-search"></i>
+                            <h3 class="widget-title">Lọc theo thương hiệu</h3>
+                            <div class="brand-filter-content">
+                                <div class="brand-search"> <input type="text" class="form-control"
+                                        placeholder="Tìm kiếm thương hiệu...">
+                                    <i class="bi bi-search"></i>
+                                </div>
+                                <div class="brand-list">
+                                    <div class="brand-item">
+                                        <div class="form-check"> <input class="form-check-input" type="checkbox"
+                                                id="brand1"> <label class="form-check-label" for="brand1"> Ba đờn <span
+                                                    class="brand-count">(23)</span>
+                                            </label> </div>
+                                    </div>
+                                    <div class="brand-item">
+                                        <div class="form-check"> <input class="form-check-input" type="checkbox"
+                                                id="brand1"> <label class="form-check-label" for="brand1"> Saga <span
+                                                    class="brand-count">(24)</span>
+                                            </label> </div>
+                                    </div>
+                                    <div class="brand-item">
+                                        <div class="form-check"> <input class="form-check-input" type="checkbox"
+                                                id="brand2"> <label class="form-check-label" for="brand2"> Tayor
+                                                <span class="brand-count">(18)</span>
+                                            </label> </div>
+                                    </div>
+                                    <div class="brand-item">
+                                        <div class="form-check"> <input class="form-check-input" type="checkbox"
+                                                id="brand3"> <label class="form-check-label" for="brand3"> Enya
+                                                <span class="brand-count">(12)</span>
+                                            </label> </div>
+                                    </div>
+                                    <div class="brand-item">
+                                        <div class="form-check"> <input class="form-check-input" type="checkbox"
+                                                id="brand4"> <label class="form-check-label" for="brand4"> Yamaha
+                                                <span class="brand-count">(9)</span>
+                                            </label> </div>
+                                    </div>
+                                </div>
+                                <div class="brand-actions"> <button class="btn btn-sm btn-outline-primary">Áp
+                                        dụng bộ lọc</button> <button class="btn btn-sm btn-link">Xóa tất
+                                        cả</button> </div>
                             </div>
-                            <div class="brand-list">
-                            <div class="brand-item">
-                                <div class="form-check"> <input class="form-check-input" type="checkbox"
-                                    id="brand1"> <label class="form-check-label" for="brand1"> Ba đờn <span
-                                    class="brand-count">(23)</span>
-                                </label> </div>
-                            </div>
-                            <div class="brand-item">
-                                <div class="form-check"> <input class="form-check-input" type="checkbox"
-                                    id="brand1"> <label class="form-check-label" for="brand1"> Saga <span
-                                    class="brand-count">(24)</span>
-                                </label> </div>
-                            </div>
-                            <div class="brand-item">
-                                <div class="form-check"> <input class="form-check-input" type="checkbox"
-                                    id="brand2"> <label class="form-check-label" for="brand2"> Tayor
-                                    <span class="brand-count">(18)</span>
-                                </label> </div>
-                            </div>
-                            <div class="brand-item">
-                                <div class="form-check"> <input class="form-check-input" type="checkbox"
-                                    id="brand3"> <label class="form-check-label" for="brand3"> Enya
-                                    <span class="brand-count">(12)</span>
-                                </label> </div>
-                            </div>
-                            <div class="brand-item">
-                                <div class="form-check"> <input class="form-check-input" type="checkbox"
-                                    id="brand4"> <label class="form-check-label" for="brand4"> Yamaha
-                                    <span class="brand-count">(9)</span>
-                                </label> </div>
-                            </div>
-                            </div>
-                            <div class="brand-actions"> <button class="btn btn-sm btn-outline-primary">Áp
-                                dụng bộ lọc</button> <button class="btn btn-sm btn-link">Xóa tất
-                                cả</button> </div>
-                        </div>
                         </div>
                         <!--/Brand Filter Widget -->
 
@@ -277,8 +277,7 @@ require_once 'forms/init.php'; ?>
                                     <li><a href="#">8</a></li>
                                     <li><a href="#">9</a></li>
                                     <li><a href="#">10</a></li>
-                                    <li> <a href="#" aria-label="Next page"> <span
-                                                class="d-none d-sm-inline">Sau</span>
+                                    <li> <a href="#" aria-label="Next page"> <span class="d-none d-sm-inline">Sau</span>
                                             <i class="bi bi-arrow-right"></i>
                                         </a> </li>
                                 </ul>
@@ -290,18 +289,6 @@ require_once 'forms/init.php'; ?>
         </div>
     </main>
     <?php include 'forms/footer.php' ?>
-    <!-- Scroll Top --> <a href="#" id="scroll-top"
-        class="scroll-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
-    <!-- Preloader -->
-    <div id="preloader"></div> <!-- Vendor JS Files -->
-    <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <script src="assets/vendor/php-email-form/validate.js"></script>
-    <script src="assets/vendor/swiper/swiper-bundle.min.js"></script>
-    <script src="assets/vendor/aos/aos.js"></script>
-    <script src="assets/vendor/glightbox/js/glightbox.min.js"></script>
-    <script src="assets/vendor/drift-zoom/Drift.min.js"></script>
-    <script src="assets/vendor/purecounter/purecounter_vanilla.js"></script> <!-- Main JS File -->
-    <script src="assets/js/main.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <?php include 'forms/scripts.php' ?>
     <script src="assets/js/auth.js"></script>
 </body>

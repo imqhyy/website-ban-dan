@@ -27,4 +27,20 @@
     <link href="assets/vendor/drift-zoom/drift-basic.css" rel="stylesheet" />
 
     <link href="assets/css/main.css" rel="stylesheet" />
+    <?php
+    /*
+        //biến này dùng khi muốn import riêng file css cho file riêng, chỉ cần 
+$extra_css = '
+    <link href="assets/css/login-custom.css" rel="stylesheet" />
+    <link href="assets/css/admin.css" rel="stylesheet" />
+';
+    //rồi 
+    include 'forms/head.php';// Khi gọi dòng này, biến $extra_css ở trên sẽ tự động được chui vào thẻ <head>
+?>
+    */
+    if (isset($extra_css)) {
+        echo $extra_css;
+    }
+    
+    ?>
 </head>
