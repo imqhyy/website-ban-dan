@@ -1,13 +1,11 @@
-// --- KHUÔN MẪU TOAST ---
+// --- KHUÔN MẪU TOAST
 const Toast = Swal.mixin({
     toast: true,
     position: 'top-end',
     showConfirmButton: false,
     timer: 1200,
     timerProgressBar: true,
-    customClass: {
-        popup: 'my-swal-popup'
-    },
+    customClass: { popup: 'my-swal-popup' },
     didOpen: (toast) => {
         toast.onmouseenter = Swal.stopTimer;
         toast.onmouseleave = Swal.resumeTimer;
@@ -15,50 +13,68 @@ const Toast = Swal.mixin({
 });
 
 document.addEventListener('DOMContentLoaded', function () {
-    const loginForm = document.getElementById('login-form');
-    const emailInput = document.getElementById('email');
-
-    // --- ĐÃ XÓA: Tự động thêm @gmail.com ---
-
-    // --- XỬ LÝ ĐĂNG NHẬP ---
-    loginForm.addEventListener('submit', function (event) {
-        event.preventDefault();
-        const email = document.getElementById('email').value;
-        const password = document.getElementById('password').value;
-
-        // --- TÀI KHOẢN TEST USER ĐƯỢC TẠO TRỰC TIẾP TRONG SESSION ---
-        const testUserAccount = {
-            fullName: "Test User",
-            email: "test@gmail.com",
-            password: "123",
-            phone: "0123456789",
-            orders: []
-        };
-
-        // --- ĐĂNG NHẬP THÀNH CÔNG VỚI TÀI KHOẢN TEST ---
-        Toast.fire({
-            icon: 'success',
-            title: 'Đăng nhập thành công!'
-        }).then(() => {
-            sessionStorage.setItem('currentUser', JSON.stringify(testUserAccount));
-            window.location.href = 'index.php';
-        });
-    });
-
-    // --- XỬ LÝ NÚT XEM MẬT KHẨU ---
     const passwordInput = document.getElementById('password');
     const toggleButton = document.querySelector('.password-toggle');
-    const eyeIcon = toggleButton.querySelector('i');
+    if (toggleButton && passwordInput) {
+        const eyeIcon = toggleButton.querySelector('i');
+        toggleButton.addEventListener('click', function () {
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                eyeIcon.classList.replace('bi-eye', 'bi-eye-slash');
+            } else {
+                passwordInput.type = 'password';
+                eyeIcon.classList.replace('bi-eye-slash', 'bi-eye');
+            }
+        });
+    }
 
-    toggleButton.addEventListener('click', function () {
-        if (passwordInput.type === 'password') {
-            passwordInput.type = 'text';
-            eyeIcon.classList.remove('bi-eye');
-            eyeIcon.classList.add('bi-eye-slash');
-        } else {
-            passwordInput.type = 'password';
-            eyeIcon.classList.remove('bi-eye-slash');
-            eyeIcon.classList.add('bi-eye');
-        }
-    });
+    //--- Xử lý Đăng nhập bằng AJAX ---
+    const loginForm = document.getElementById('login-form');
+    if (loginForm) {
+        loginForm.addEventListener('submit', function (e) {
+            e.preventDefault();
+            //Kiểm tra rỗng
+            const usernameValue = document.getElementById('username').value.trim();
+            const passwordValue = document.getElementById('password').value.trim();
+
+            if (usernameValue === '') {
+                Toast.fire({
+                    icon: 'warning',
+                    title: 'Bạn chưa nhập tên đăng nhập'
+                });
+                return;
+            }
+
+            if (passwordValue === '') {
+                Toast.fire({
+                    icon: 'warning',
+                    title: 'Bạn chưa nhập mật khẩu'
+                });
+                return;
+            }
+            const formData = new FormData(this);
+            fetch('login.php', {
+                method: 'POST',
+                body: formData
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.status === 'success') {
+                        window.location.href = 'index.php';
+                    } else {
+                        Toast.fire({
+                            icon: 'error',
+                            title: data.message
+                        });
+                    }
+                })
+                .catch(error => console.error('Error:', error));
+        });
+    }
+    if (typeof window.loginSuccess !== 'undefined') {
+        Toast.fire({
+            icon: 'success',
+            title: window.loginSuccess
+        });
+    }
 });
