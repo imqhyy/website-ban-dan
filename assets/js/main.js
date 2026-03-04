@@ -1,10 +1,26 @@
-/**
- * Template Name: NiceShop
- * Template URL: https://bootstrapmade.com/niceshop-bootstrap-ecommerce-template/
- * Updated: Aug 26 2025 with Bootstrap v5.3.7
- * Author: BootstrapMade.com
- * License: https://bootstrapmade.com/license/
- */
+// Khai báo khuôn mẫu Toast toàn cục
+const Toast = Swal.mixin({
+  toast: true,
+  position: 'top-end',
+  showConfirmButton: false,
+  timer: 1500,
+  timerProgressBar: true,
+  customClass: { popup: 'my-swal-popup' },
+  didOpen: (toast) => {
+    toast.onmouseenter = Swal.stopTimer;
+    toast.onmouseleave = Swal.resumeTimer;
+  }
+});
+
+// Lắng nghe lệnh gọi Toast từ PHP (Global)
+document.addEventListener('DOMContentLoaded', function () {
+  if (typeof window.globalToast !== 'undefined') {
+    Toast.fire({
+      icon: window.globalToast.type,
+      title: window.globalToast.message
+    });
+  }
+});
 
 (function () {
   "use strict";

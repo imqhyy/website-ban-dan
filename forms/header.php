@@ -106,8 +106,16 @@
                                 </a>
                             </div>
                             <div class="dropdown-footer" id="user-session">
-                                <a href="login.php" class="btn btn-primary w-100 mb-2">Đăng nhập</a>
-                                <a href="register.php" class="btn btn-outline-primary w-100">Đăng ký</a>
+                                <?php if (isset($_SESSION['user'])): ?>
+                                    <div class="text-center mb-2">
+                                        <span class="d-block text-muted" style="font-size: 0.85rem;">Xin chào,</span>
+                                        <strong><?php echo htmlspecialchars($_SESSION['fullname']); ?></strong>
+                                    </div>
+                                    <a href="logout.php" class="btn btn-danger w-100">Đăng xuất</a>
+                                <?php else: ?>
+                                    <a href="login.php" class="btn btn-primary w-100 mb-2">Đăng nhập</a>
+                                    <a href="register.php" class="btn btn-outline-primary w-100">Đăng ký</a>
+                                <?php endif; ?>
                             </div>
                         </div>
                     </div>
@@ -178,3 +186,18 @@
         </div>
     </div>
 </header>
+<?php
+// Kiểm tra nếu có lệnh gọi Toast từ bất kỳ trang nào
+if (isset($_SESSION['toast_message']) && isset($_SESSION['toast_type'])) {
+    echo "<script>
+        window.globalToast = {
+            type: '" . $_SESSION['toast_type'] . "',
+            message: '" . $_SESSION['toast_message'] . "'
+        };
+    </script>";
+
+    // Đọc xong thì xóa đi để không hiện lại khi F5
+    unset($_SESSION['toast_message']);
+    unset($_SESSION['toast_type']);
+}
+?>

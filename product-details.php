@@ -1,3 +1,5 @@
+<?php
+require_once 'forms/init.php'; ?>
 <!DOCTYPE html>
 <html lang="vi">
   <head>

@@ -1,16 +1,3 @@
-// --- KHUÔN MẪU TOAST
-const Toast = Swal.mixin({
-    toast: true,
-    position: 'top-end',
-    showConfirmButton: false,
-    timer: 1200,
-    timerProgressBar: true,
-    customClass: { popup: 'my-swal-popup' },
-    didOpen: (toast) => {
-        toast.onmouseenter = Swal.stopTimer;
-        toast.onmouseleave = Swal.resumeTimer;
-    }
-});
 
 document.addEventListener('DOMContentLoaded', function () {
     const passwordInput = document.getElementById('password');
@@ -69,12 +56,6 @@ document.addEventListener('DOMContentLoaded', function () {
                     }
                 })
                 .catch(error => console.error('Error:', error));
-        });
-    }
-    if (typeof window.loginSuccess !== 'undefined') {
-        Toast.fire({
-            icon: 'success',
-            title: window.loginSuccess
         });
     }
 });
