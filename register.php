@@ -1,21 +1,38 @@
 <?php
 require_once("forms/db.php");
-
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-  header('Content-Type: application/json'); // Khai báo trả về JSON
-
+  header('Content-Type: application/json');
   $fullname = $_POST['fullname'];
   $username = $_POST['username'];
   $email = $_POST['email'];
   $phone = $_POST['phone'];
   $password = $_POST['password'];
   $confirmPassword = $_POST['confirmPassword'];
-
+  // 1. Kiểm tra mật khẩu khớp nhau
   if ($password !== $confirmPassword) {
-    echo json_encode(['status' => 'error', 'message' => 'Mật khẩu không khớp']);
+    echo json_encode(['status' => 'error', 'message' => 'Mật khẩu không khớp', 'field' => 'confirmPassword']);
     exit;
   }
 
+  // 2. Kiểm tra xem username hoặc email đã tồn tại trong database chưa
+  $checkStmt = $pdo->prepare("SELECT username, email FROM users WHERE username = ? OR email = ?");
+  $checkStmt->execute([$username, $email]);
+  $existingUser = $checkStmt->fetch();
+
+  if ($existingUser) {
+    if ($existingUser['username'] === $username) {
+      // Thêm 'field' => 'username' để JS biết lỗi ở ô nào
+      echo json_encode(['status' => 'error', 'message' => 'Tên đăng nhập này đã tồn tại!', 'field' => 'username']);
+      exit;
+    }
+    if ($existingUser['email'] === $email) {
+      // Thêm 'field' => 'email'
+      echo json_encode(['status' => 'error', 'message' => 'Email này đã được sử dụng!', 'field' => 'email']);
+      exit;
+    }
+  }
+
+  //Nếu không trùng, tiến hành lưu vào database
   $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
   $stmt = $pdo->prepare("
         INSERT INTO users (fullname, username, email, phone, password)
