@@ -6,185 +6,13 @@ include 'forms/head.php' ?>
 <body>
 
   <?php include 'forms/header.php' ?>
+  <?php if (!isset($_SESSION['user'])): ?>
 
-  <main class="main">
+    <div style="min-height: 60vh;"></div>
+    <?php include 'forms/footer.php'; ?>
+    <?php include 'forms/scripts.php'; ?>
 
-    <!-- Page Title -->
-    <div class="page-title light-background">
-      <div class="container d-lg-flex justify-content-between align-items-center">
-        <h1 class="mb-2 mb-lg-0">Giỏ hàng</h1>
-        <nav class="breadcrumbs">
-          <ol>
-            <li><a href="index.php">Trang chủ</a></li>
-            <li class="current">Giỏ hàng</li>
-          </ol>
-        </nav>
-      </div>
-    </div><!-- End Page Title -->
-
-    <!-- Cart Section -->
-    <section id="cart" class="cart section">
-      <div class="container" data-aos="fade-up" data-aos-delay="100">
-        <div class="row">
-          <div class="col-lg-8" data-aos="fade-up" data-aos-delay="200">
-            <div class="cart-items">
-              <div class="cart-header d-none d-lg-block">
-                <div class="row align-items-center">
-                  <div class="col-lg-6">
-                    <h5>Sản phẩm</h5>
-                  </div>
-                  <div class="col-lg-2 text-center">
-                    <h5>Đơn giá</h5>
-                  </div>
-                  <div class="col-lg-2 text-center">
-                    <h5>Số lượng</h5>
-                  </div>
-                  <div class="col-lg-2 text-center">
-                    <h5>Thành tiền</h5>
-                  </div>
-                </div>
-              </div>
-
-              <div id="cart-items-container-demo">
-                <div class="cart-item" data-price="2000000">
-                  <div class="row align-items-center">
-                    <div class="col-lg-6 col-12 mt-3 mt-lg-0 mb-lg-0 mb-3">
-                      <div class="product-info d-flex align-items-center">
-                        <div class="product-image">
-                          <a href="product-details.php"><img
-                              src="assets/img/product/guitar/acoustic/saga/saga-a1-de-pro/dan-guitar-acoustic-saga-a1-de-pro--1000x1000.jpg"
-                              alt="Saga A1" class="img-fluid"></a>
-                        </div>
-                        <div class="product-details">
-                          <a href="product-details.php">
-                            <h6 class="product-title">Saga A1 DE PRO</h6>
-                          </a>
-
-                          <button class="remove-item" type="button" disabled style="opacity: 0.5; cursor: click;"><i
-                              class="bi bi-trash"></i> Xóa</button>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="col-lg-2 col-12 mt-3 mt-lg-0 text-center">
-                      <div class="price-tag"><span class="current-price">2.000.000 VNĐ</span></div>
-                    </div>
-                    <div class="col-lg-2 col-12 mt-3 mt-lg-0 text-center">
-                      <div class="quantity-selector">
-                        <button class="quantity-btn decrease" type="button"><i class="bi bi-dash"></i></button>
-                        <input type="number" class="quantity-input" value="1" min="1">
-                        <button class="quantity-btn increase" type="button"><i class="bi bi-plus"></i></button>
-                      </div>
-                    </div>
-                    <div class="col-lg-2 col-12 mt-3 mt-lg-0 text-center">
-                      <div class="item-total"><strong>2.000.000 VNĐ</strong></div>
-                    </div>
-                  </div>
-                </div>
-                <div class="cart-item" data-price="5000000">
-                  <div class="row align-items-center">
-                    <div class="col-lg-6 col-12 mt-3 mt-lg-0 mb-lg-0 mb-3">
-                      <div class="product-info d-flex align-items-center">
-                        <div class="product-image">
-                          <a href="product-details.php">
-                            <img
-                              src="assets/img/product/guitar/classic/badon/dan-guitar-classic-ba-don-c100/dan-guitar-classic-ba-don-c100-.jpg"
-                              alt="Ba đờn C100" class="img-fluid"></a>
-                        </div>
-                        <div class="product-details">
-                          <a href="product-details.php">
-                            <h6 class="product-title">Ba đờn C100</h6>
-                          </a>
-
-                          <button class="remove-item" type="button" disabled style="opacity: 0.5; cursor: click;"><i
-                              class="bi bi-trash"></i> Xóa</button>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="col-lg-2 col-12 mt-3 mt-lg-0 text-center">
-                      <div class="price-tag"><span class="current-price">5.000.000 VNĐ</span></div>
-                    </div>
-                    <div class="col-lg-2 col-12 mt-3 mt-lg-0 text-center">
-                      <div class="quantity-selector">
-                        <button class="quantity-btn decrease" type="button"><i class="bi bi-dash"></i></button>
-                        <input type="number" class="quantity-input" value="1" min="1">
-                        <button class="quantity-btn increase" type="button"><i class="bi bi-plus"></i></button>
-                      </div>
-                    </div>
-                    <div class="col-lg-2 col-12 mt-3 mt-lg-0 text-center">
-                      <div class="item-total"><strong>5.000.000 VNĐ</strong></div>
-                    </div>
-                  </div>
-                </div>
-                <div class="cart-item" data-price="85000000">
-                  <div class="row align-items-center">
-                    <div class="col-lg-6 col-12 mt-3 mt-lg-0 mb-lg-0 mb-3">
-                      <div class="product-info d-flex align-items-center">
-                        <div class="product-image"> <a href="product-details.php"><img
-                              src="assets/img/product/guitar/acoustic/taylor/taylor-a12e/dan-guitar-acoustic-taylor-academy-12e-grand-concert-wbag-.jpg"
-                              alt="Taylor A12E" class="img-fluid"></a></div>
-                        <div class="product-details">
-                          <a href="product-details.php">
-                            <h6 class="product-title">Taylor A12E</h6>
-                          </a>
-
-                          <button class="remove-item" type="button" disabled style="opacity: 0.5; cursor: click;"><i
-                              class="bi bi-trash"></i> Xóa</button>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="col-lg-2 col-12 mt-3 mt-lg-0 text-center">
-                      <div class="price-tag"><span class="current-price">85.000.000 VNĐ</span></div>
-                    </div>
-                    <div class="col-lg-2 col-12 mt-3 mt-lg-0 text-center">
-                      <div class="quantity-selector">
-                        <button class="quantity-btn decrease" type="button"><i class="bi bi-dash"></i></button>
-                        <input type="number" class="quantity-input" value="1" min="1">
-                        <button class="quantity-btn increase" type="button"><i class="bi bi-plus"></i></button>
-                      </div>
-                    </div>
-                    <div class="col-lg-2 col-12 mt-3 mt-lg-0 text-center">
-                      <div class="item-total"><strong>85.000.000 VNĐ</strong></div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-lg-4 mt-4 mt-lg-0" data-aos="fade-up" data-aos-delay="300">
-            <div class="cart-summary">
-              <h4 class="summary-title">Tóm tắt đơn hàng</h4>
-              <div class="summary-item">
-                <span class="summary-label">Tạm tính</span>
-                <span class="summary-value" id="cart-subtotal">0 VNĐ</span>
-              </div>
-              <div class="summary-total">
-                <span class="summary-label">Tổng cộng</span>
-                <span class="summary-value" id="cart-total">0 VNĐ</span>
-              </div>
-              <div class="checkout-button">
-                <a href="checkout.php" class="btn btn-accent w-100">Tiến hành thanh toán <i
-                    class="bi bi-arrow-right"></i></a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-  </main>
-
-  <?php include 'forms/footer.php' ?>
-
-  <?php include 'forms/scripts.php' ?>
-  
-  <script src="assets/js/cart.js"></script>
-  <script>
-    const currentUserJSON = sessionStorage.getItem('currentUser');
-
-    if (currentUserJSON) {
-      document.body.classList.remove('page-loading');
-    } else {
+    <script>
       Swal.fire({
         icon: 'warning',
         title: 'Yêu cầu đăng nhập',
@@ -192,7 +20,7 @@ include 'forms/head.php' ?>
         confirmButtonText: 'Đến trang đăng nhập',
         allowOutsideClick: false,
         customClass: {
-          container: 'blurred-login-alert', // Thêm class container riêng cho alert này
+          container: 'blurred-login-alert',
           popup: 'my-swal-popup',
           title: 'my-swal-title',
           htmlContainer: 'my-swal-html-container',
@@ -201,11 +29,180 @@ include 'forms/head.php' ?>
       }).then(() => {
         window.location.href = 'login.php';
       });
-    }
-  </script>
+    </script>
+  </body>
 
+  </html>
+  <?php exit(); // DỪNG TOÀN BỘ CODE TẠI ĐÂY, KHÔNG CHO CHẠY XUỐNG DƯỚI ?>
+<?php endif; ?>
+<main class="main">
+
+  <!-- Page Title -->
+  <div class="page-title light-background">
+    <div class="container d-lg-flex justify-content-between align-items-center">
+      <h1 class="mb-2 mb-lg-0">Giỏ hàng</h1>
+      <nav class="breadcrumbs">
+        <ol>
+          <li><a href="index.php">Trang chủ</a></li>
+          <li class="current">Giỏ hàng</li>
+        </ol>
+      </nav>
+    </div>
+  </div><!-- End Page Title -->
+
+  <!-- Cart Section -->
+  <section id="cart" class="cart section">
+    <div class="container" data-aos="fade-up" data-aos-delay="100">
+      <div class="row">
+        <div class="col-lg-8" data-aos="fade-up" data-aos-delay="200">
+          <div class="cart-items">
+            <div class="cart-header d-none d-lg-block">
+              <div class="row align-items-center">
+                <div class="col-lg-6">
+                  <h5>Sản phẩm</h5>
+                </div>
+                <div class="col-lg-2 text-center">
+                  <h5>Đơn giá</h5>
+                </div>
+                <div class="col-lg-2 text-center">
+                  <h5>Số lượng</h5>
+                </div>
+                <div class="col-lg-2 text-center">
+                  <h5>Thành tiền</h5>
+                </div>
+              </div>
+            </div>
+
+            <div id="cart-items-container-demo">
+              <div class="cart-item" data-price="2000000">
+                <div class="row align-items-center">
+                  <div class="col-lg-6 col-12 mt-3 mt-lg-0 mb-lg-0 mb-3">
+                    <div class="product-info d-flex align-items-center">
+                      <div class="product-image">
+                        <a href="product-details.php"><img
+                            src="assets/img/product/guitar/acoustic/saga/saga-a1-de-pro/dan-guitar-acoustic-saga-a1-de-pro--1000x1000.jpg"
+                            alt="Saga A1" class="img-fluid"></a>
+                      </div>
+                      <div class="product-details">
+                        <a href="product-details.php">
+                          <h6 class="product-title">Saga A1 DE PRO</h6>
+                        </a>
+
+                        <button class="remove-item" type="button" disabled style="opacity: 0.5; cursor: click;"><i
+                            class="bi bi-trash"></i> Xóa</button>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-lg-2 col-12 mt-3 mt-lg-0 text-center">
+                    <div class="price-tag"><span class="current-price">2.000.000 VNĐ</span></div>
+                  </div>
+                  <div class="col-lg-2 col-12 mt-3 mt-lg-0 text-center">
+                    <div class="quantity-selector">
+                      <button class="quantity-btn decrease" type="button"><i class="bi bi-dash"></i></button>
+                      <input type="number" class="quantity-input" value="1" min="1">
+                      <button class="quantity-btn increase" type="button"><i class="bi bi-plus"></i></button>
+                    </div>
+                  </div>
+                  <div class="col-lg-2 col-12 mt-3 mt-lg-0 text-center">
+                    <div class="item-total"><strong>2.000.000 VNĐ</strong></div>
+                  </div>
+                </div>
+              </div>
+              <div class="cart-item" data-price="5000000">
+                <div class="row align-items-center">
+                  <div class="col-lg-6 col-12 mt-3 mt-lg-0 mb-lg-0 mb-3">
+                    <div class="product-info d-flex align-items-center">
+                      <div class="product-image">
+                        <a href="product-details.php">
+                          <img
+                            src="assets/img/product/guitar/classic/badon/dan-guitar-classic-ba-don-c100/dan-guitar-classic-ba-don-c100-.jpg"
+                            alt="Ba đờn C100" class="img-fluid"></a>
+                      </div>
+                      <div class="product-details">
+                        <a href="product-details.php">
+                          <h6 class="product-title">Ba đờn C100</h6>
+                        </a>
+
+                        <button class="remove-item" type="button" disabled style="opacity: 0.5; cursor: click;"><i
+                            class="bi bi-trash"></i> Xóa</button>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-lg-2 col-12 mt-3 mt-lg-0 text-center">
+                    <div class="price-tag"><span class="current-price">5.000.000 VNĐ</span></div>
+                  </div>
+                  <div class="col-lg-2 col-12 mt-3 mt-lg-0 text-center">
+                    <div class="quantity-selector">
+                      <button class="quantity-btn decrease" type="button"><i class="bi bi-dash"></i></button>
+                      <input type="number" class="quantity-input" value="1" min="1">
+                      <button class="quantity-btn increase" type="button"><i class="bi bi-plus"></i></button>
+                    </div>
+                  </div>
+                  <div class="col-lg-2 col-12 mt-3 mt-lg-0 text-center">
+                    <div class="item-total"><strong>5.000.000 VNĐ</strong></div>
+                  </div>
+                </div>
+              </div>
+              <div class="cart-item" data-price="85000000">
+                <div class="row align-items-center">
+                  <div class="col-lg-6 col-12 mt-3 mt-lg-0 mb-lg-0 mb-3">
+                    <div class="product-info d-flex align-items-center">
+                      <div class="product-image"> <a href="product-details.php"><img
+                            src="assets/img/product/guitar/acoustic/taylor/taylor-a12e/dan-guitar-acoustic-taylor-academy-12e-grand-concert-wbag-.jpg"
+                            alt="Taylor A12E" class="img-fluid"></a></div>
+                      <div class="product-details">
+                        <a href="product-details.php">
+                          <h6 class="product-title">Taylor A12E</h6>
+                        </a>
+
+                        <button class="remove-item" type="button" disabled style="opacity: 0.5; cursor: click;"><i
+                            class="bi bi-trash"></i> Xóa</button>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-lg-2 col-12 mt-3 mt-lg-0 text-center">
+                    <div class="price-tag"><span class="current-price">85.000.000 VNĐ</span></div>
+                  </div>
+                  <div class="col-lg-2 col-12 mt-3 mt-lg-0 text-center">
+                    <div class="quantity-selector">
+                      <button class="quantity-btn decrease" type="button"><i class="bi bi-dash"></i></button>
+                      <input type="number" class="quantity-input" value="1" min="1">
+                      <button class="quantity-btn increase" type="button"><i class="bi bi-plus"></i></button>
+                    </div>
+                  </div>
+                  <div class="col-lg-2 col-12 mt-3 mt-lg-0 text-center">
+                    <div class="item-total"><strong>85.000.000 VNĐ</strong></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-lg-4 mt-4 mt-lg-0" data-aos="fade-up" data-aos-delay="300">
+          <div class="cart-summary">
+            <h4 class="summary-title">Tóm tắt đơn hàng</h4>
+            <div class="summary-item">
+              <span class="summary-label">Tạm tính</span>
+              <span class="summary-value" id="cart-subtotal">0 VNĐ</span>
+            </div>
+            <div class="summary-total">
+              <span class="summary-label">Tổng cộng</span>
+              <span class="summary-value" id="cart-total">0 VNĐ</span>
+            </div>
+            <div class="checkout-button">
+              <a href="checkout.php" class="btn btn-accent w-100">Tiến hành thanh toán <i
+                  class="bi bi-arrow-right"></i></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+<?php include 'forms/footer.php' ?>
+<?php include 'forms/scripts.php' ?>
+<script src="assets/js/cart.js"></script>
 </body>
-
-</html>
 
 </html>

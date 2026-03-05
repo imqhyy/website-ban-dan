@@ -59,26 +59,26 @@ const sampleOrders = [
 document.addEventListener("DOMContentLoaded", function () {
   const currentUserJSON = sessionStorage.getItem("currentUser");
 
-  if (currentUserJSON) {
-    document.body.classList.remove("page-loading");
-  } else {
-    Swal.fire({
-      icon: "warning",
-      title: "Yêu cầu đăng nhập",
-      text: "Bạn cần đăng nhập để có thể xem hồ sơ.",
-      confirmButtonText: "Đến trang đăng nhập",
-      allowOutsideClick: false,
-      customClass: {
-        container: "blurred-login-alert", // Thêm class container riêng cho alert này
-        popup: "my-swal-popup",
-        title: "my-swal-title",
-        htmlContainer: "my-swal-html-container",
-        confirmButton: "my-swal-confirm-button",
-      },
-    }).then(() => {
-      window.location.href = "login.php";
-    });
-  }
+  // if (currentUserJSON) {
+  //   document.body.classList.remove("page-loading");
+  // } else {
+  //   Swal.fire({
+  //     icon: "warning",
+  //     title: "Yêu cầu đăng nhập",
+  //     text: "Bạn cần đăng nhập để có thể xem hồ sơ.",
+  //     confirmButtonText: "Đến trang đăng nhập",
+  //     allowOutsideClick: false,
+  //     customClass: {
+  //       container: "blurred-login-alert", // Thêm class container riêng cho alert này
+  //       popup: "my-swal-popup",
+  //       title: "my-swal-title",
+  //       htmlContainer: "my-swal-html-container",
+  //       confirmButton: "my-swal-confirm-button",
+  //     },
+  //   }).then(() => {
+  //     window.location.href = "login.php";
+  //   });
+  // }
   const currentUser = JSON.parse(currentUserJSON);
 
   // --- Lấy các phần tử HTML ---
@@ -154,35 +154,35 @@ document.addEventListener("DOMContentLoaded", function () {
   // }
 
   // --- XỬ LÝ LƯU THÔNG TIN CÁ NHÂN ---
-  if (settingsForm) {
-    settingsForm.addEventListener("submit", function (event) {
-      event.preventDefault();
-      const newFirstName = firstNameInput.value;
-      const newLastName = lastNameInput.value;
-      const newFullName = (newFirstName + " " + newLastName).trim();
-      const newEmail = emailInput.value;
-      const newPhone = phoneInput.value;
-      let allUsers = JSON.parse(localStorage.getItem("users")) || [];
-      const userIndex = allUsers.findIndex(
-        (user) => user.email === currentUser.email
-      );
-      if (userIndex !== -1) {
-        allUsers[userIndex].fullName = newFullName;
-        allUsers[userIndex].email = newEmail;
-        allUsers[userIndex].phone = newPhone;
-        localStorage.setItem("users", JSON.stringify(allUsers));
-      }
-      const updatedCurrentUser = {
-        ...currentUser,
-        fullName: newFullName,
-        email: newEmail,
-        phone: newPhone,
-      };
-      sessionStorage.setItem("currentUser", JSON.stringify(updatedCurrentUser));
-      if (userDisplayName) userDisplayName.textContent = newFullName;
-      Toast.fire({ icon: "success", title: "Cập nhật thông tin thành công!" });
-    });
-  }
+  // if (settingsForm) {
+  //   settingsForm.addEventListener("submit", function (event) {
+  //     event.preventDefault();
+  //     const newFirstName = firstNameInput.value;
+  //     const newLastName = lastNameInput.value;
+  //     const newFullName = (newFirstName + " " + newLastName).trim();
+  //     const newEmail = emailInput.value;
+  //     const newPhone = phoneInput.value;
+  //     let allUsers = JSON.parse(localStorage.getItem("users")) || [];
+  //     const userIndex = allUsers.findIndex(
+  //       (user) => user.email === currentUser.email
+  //     );
+  //     if (userIndex !== -1) {
+  //       allUsers[userIndex].fullName = newFullName;
+  //       allUsers[userIndex].email = newEmail;
+  //       allUsers[userIndex].phone = newPhone;
+  //       localStorage.setItem("users", JSON.stringify(allUsers));
+  //     }
+  //     const updatedCurrentUser = {
+  //       ...currentUser,
+  //       fullName: newFullName,
+  //       email: newEmail,
+  //       phone: newPhone,
+  //     };
+  //     sessionStorage.setItem("currentUser", JSON.stringify(updatedCurrentUser));
+  //     if (userDisplayName) userDisplayName.textContent = newFullName;
+  //     Toast.fire({ icon: "success", title: "Cập nhật thông tin thành công!" });
+  //   });
+  // }
 
   // --- XỬ LÝ ĐỔI MẬT KHẨU ---
   if (passwordUpdateForm) {
@@ -336,4 +336,149 @@ const button = document.getElementById("reorder-btn");
 button.addEventListener("click", function () {
   // Thay đổi URL của cửa sổ hiện tại
   window.location.href = "checkout.php"; // Thay thế bằng đường dẫn trang bạn muốn
+});
+
+
+// < !--script này dùng để tạo thông báo và thực hiện 1 số thao tác trong đánh giá đơn hàng-- >
+document.addEventListener('DOMContentLoaded', function () {
+  const ratingSelectors = document.querySelectorAll('.star-rating-selector');
+
+  ratingSelectors.forEach(selector => {
+    const stars = selector.querySelectorAll('.star-icon');
+    const input = selector.querySelector('.rating-input');
+    const ratingText = selector.querySelector('.rating-text');
+
+    const messages = {
+      1: "Rất tệ",
+      2: "Tệ",
+      3: "Trung bình",
+      4: "Tốt",
+      5: "Rất tốt"
+    };
+
+    // Hàm cập nhật trạng thái các ngôi sao và input
+    function updateRating(value) {
+      stars.forEach(star => {
+        const starValue = parseInt(star.getAttribute('data-value'));
+        if (starValue <= value) {
+          star.classList.add('filled');
+          star.classList.remove('bi-star');
+          star.classList.add('bi-star-fill');
+        } else {
+          star.classList.remove('filled');
+          star.classList.remove('bi-star-fill');
+          star.classList.add('bi-star');
+        }
+      });
+      input.value = value;
+      ratingText.textContent = value > 0 ? `(${value}/5) - ${messages[value]}` : '';
+    }
+
+    // Khởi tạo ban đầu (ví dụ: 0 sao)
+    updateRating(0);
+
+    // Xử lý sự kiện click
+    stars.forEach(star => {
+      star.addEventListener('click', function () {
+        const value = parseInt(this.getAttribute('data-value'));
+        updateRating(value);
+      });
+    });
+
+    // Xử lý sự kiện hover (Rê chuột)
+    selector.addEventListener('mouseover', function (e) {
+      if (e.target.classList.contains('star-icon')) {
+        const hoverValue = parseInt(e.target.getAttribute('data-value'));
+        stars.forEach(star => {
+          const starValue = parseInt(star.getAttribute('data-value'));
+          if (starValue <= hoverValue) {
+            star.classList.add('filled');
+            star.classList.remove('bi-star');
+            star.classList.add('bi-star-fill');
+          } else {
+            star.classList.remove('filled');
+            star.classList.remove('bi-star-fill');
+            star.classList.add('bi-star');
+          }
+        });
+        ratingText.textContent = hoverValue > 0 ? `(${hoverValue}/5) - ${messages[hoverValue]}` : '';
+      }
+    });
+
+    // Xử lý sự kiện mouseout (Rời chuột)
+    selector.addEventListener('mouseout', function () {
+      const currentValue = parseInt(input.value);
+      updateRating(currentValue);
+    });
+  });
+
+  // Xử lý sự kiện click nút Gửi đánh giá (chỉ là demo, không có chức năng backend)
+  document.querySelectorAll('.review-submit-btn').forEach(button => {
+    button.addEventListener('click', function () {
+      const itemContainer = this.closest('.review-product-item');
+      const productId = itemContainer.querySelector('.star-rating-selector').getAttribute('data-product-id');
+      const rating = itemContainer.querySelector('.rating-input').value;
+      const reviewText = itemContainer.querySelector('textarea').value;
+
+
+      // *** LUÔN LUÔN THÔNG BÁO THÀNH CÔNG CHO MỤC ĐÍCH GIAO DIỆN ***
+
+      // Lấy rating để hiển thị trong thông báo
+      const displayRating = rating > 0 ? `${rating} sao` : 'Chưa có sao';
+      const productName = itemContainer.querySelector('h6').textContent;
+
+      // SỬ DỤNG SWEETALERT2 CHO THÔNG BÁO THÀNH CÔNG
+      Swal.fire({
+        title: 'Đánh giá thành công! 🎉',
+        html: `Cảm ơn bạn đã đánh giá sản phẩm <strong>${productName}</strong>.`,
+        icon: 'success',
+        confirmButtonText: 'Tuyệt vời',
+        customClass: {
+          popup: 'my-swal-popup',
+          title: 'my-swal-title',
+          confirmButton: 'my-swal-confirm-button',
+          htmlContainer: 'my-swal-html-container'
+        }
+      }).then(() => {
+        // Ẩn form đánh giá sau khi người dùng nhấn nút xác nhận
+        itemContainer.innerHTML = `
+                    <div class="alert alert-success" role="alert">
+                        Đánh giá của bạn cho sản phẩm <strong>${productId}</strong> đã được gửi! Cảm ơn bạn.
+                    </div>`;
+      });
+    });
+  });
+
+});
+
+
+/*========================================= */
+/* JS khi ấn vào nút tải lên nó sẽ kích hoạt chức năng input ảnh */
+/* =========================================*/
+document.addEventListener('DOMContentLoaded', function () {
+  // 1. Lấy các phần tử cần thiết
+  const uploadButton = document.getElementById('uploadAvatarButton');
+  const fileInput = document.getElementById('profilePicture');
+  const fileNameDisplay = document.getElementById('fileNameDisplay');
+
+  // 2. Kích hoạt input file khi nhấn nút "Tải lên"
+  uploadButton.addEventListener('click', function () {
+    fileInput.click(); // Kích hoạt hành động chọn file
+  });
+
+  // 3. Kích hoạt input file khi nhấn vào ô hiển thị tên file (Cải thiện UX)
+  fileNameDisplay.addEventListener('click', function () {
+    fileInput.click();
+  });
+
+  // 4. Cập nhật tên file đã chọn vào ô hiển thị
+  fileInput.addEventListener('change', function () {
+    if (fileInput.files.length > 0) {
+      // Hiển thị tên file đầu tiên được chọn
+      fileNameDisplay.value = fileInput.files[0].name;
+    } else {
+      // Nếu không có file nào được chọn
+      fileNameDisplay.value = "Chưa có tệp nào được chọn";
+    }
+  });
 });
