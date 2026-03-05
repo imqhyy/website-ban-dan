@@ -177,7 +177,7 @@ include 'forms/head.php' ?>
   <?php include 'forms/footer.php' ?>
 
   <?php include 'forms/scripts.php' ?>
-  <script src="assets/js/auth.js"></script>
+  
   <script src="assets/js/cart.js"></script>
   <script>
     const currentUserJSON = sessionStorage.getItem('currentUser');

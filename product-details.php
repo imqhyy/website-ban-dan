@@ -682,7 +682,6 @@ include 'forms/head.php' ?>
 
   <?php include 'forms/footer.php' ?>
   <?php include 'forms/scripts.php' ?>
-  <script src="assets/js/auth.js"></script>
   <script src="assets/js/products.js"></script>
   <!-- <script src="assets/js/product-details.js"></script> -->
 </body>

@@ -236,5 +236,5 @@ include 'forms/head.php' ?>
     </main>
     <?php include 'forms/footer.php';
     include 'forms/scripts.php' ?>
-    <script src="assets/js/auth.js"></script>
+    
 </body>
