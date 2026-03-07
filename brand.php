@@ -103,173 +103,106 @@ include 'forms/head.php' ?>
 
 
 					<!-- Danh sách sản phẩm -->
+                    <?php
+                        require_once "forms/modules/products/list.php";
+                    ?>
 					<section id="category-product-list" class="category-product-list section">
-						<div class="container" data-aos="fade-up" data-aos-delay="100">
-							<div class="row">
-								<!--Sản phẩm 1-->
-								<div class="col-6 col-xl-4">
-									<div class="product-card" data-aos="zoom-in" data-aos-delay="0">
-										<div class="product-image">
-											<a href="product-details.php">
-												<img src="assets/img/product/guitar/acoustic/saga/saga-a1-de-pro/dan-guitar-acoustic-saga-a1-de-pro--1000x1000.jpg"
-													class="main-image img-fluid" alt="Saga A1 DE PRO">
+                        <div class="container" data-aos="fade-up" data-aos-delay="100">
+                            <div class="row">
+                                <?php if (!empty($products)): ?>
+                                    <?php foreach ($products as $product): 
+                                        // 1. Lấy danh sách tên file ảnh từ DB
+                                        $images = explode(',', $product['product_images']);
 
-												<img src="assets/img/product/guitar/acoustic/saga/saga-a1-de-pro/3.jpg"
-													class="hover-image img-fluid" alt="Saga A1 DE PRO">
-											</a>
-											<div class="product-badge sale">-20%</div>
-										</div>
-										<div class="product-details">
-											<div class="product-category">Acoustic</div>
-											<h4 class="product-title">
-												<a href="product-details.php">Saga A1 DE PRO</a>
-											</h4>
-											<div class="product-meta">
-												<div class="product-price">
-													2.000.000 VND
-													<span class="original-price">2.500.000 VND</span>
-												</div>
+                                        // 2. Tạo đường dẫn thư mục dựa trên quy tắc của bạn
+                                        // Ví dụ: "Guitar Classic" -> "guitar_classic", "Saga" -> "saga"
+                                        $type_folder    = create_slug($product['product_type']);
+                                        $brand_folder   = create_slug($product['brand_name']);
+                                        $product_folder = create_slug($product['product_name']);
 
-											</div>
-											<div class="product-rating"
-												style="display: flex; justify-content: flex-end;">
-												<i class="bi bi-star-fill"></i>
-												4.8 <span>(42)</span>
-											</div>
-										</div>
-									</div>
-								</div>
+                                        // Kết hợp lại: assets/img/product/guitar/guitar_classic/saga/ten_san_pham/
+                                        $base_path = $guitarimg_direct . $type_folder . '/' . $brand_folder . '/' . $product_folder . '/';
 
-								<!--Sản phẩm 2-->
-								<div class="col-6 col-xl-4">
-									<div class="product-card" data-aos="zoom-in" data-aos-delay="100">
-										<div class="product-image">
-											<a href="product-details.php">
-												<img src="assets/img/product/guitar/acoustic/saga/saga-cc1/dan-guitar-acoustic-saga-cc1-.jpg"
-													class="main-image img-fluid" alt="Saga CC1">
-												<img src="assets/img/product/guitar/acoustic/saga/saga-cc1/dan-guitar-acoustic-saga-cc1-3-1536x1536.jpg"
-													class="hover-image img-fluid" alt="Saga CC1">
-											</a>
-										</div>
-										<div class="product-details">
-											<div class="product-category">Acoustic</div>
-											<h4 class="product-title">
-												<a href="product-details.php">Saga CC1</a>
-											</h4>
-											<div class="product-meta">
-												<div class="product-price">
-													85.000.000 VND
-													<span class="original-price"><br></span>
-												</div>
+                                        // 3. Xác định 2 ảnh đầu tiên (Sử dụng cấu trúc thư mục phân cấp)
+                                        $main_img  = !empty($images[0]) ? $base_path . trim($images[0]) : 'assets/img/default.jpg';
+                                        $hover_img = !empty($images[1]) ? $base_path . trim($images[1]) : $main_img;
 
-											</div>
-											<div class="product-rating"
-												style="display: flex; justify-content: flex-end;">
-												<i class="bi bi-star-fill"></i>
-												4.6 <span>(28)</span>
-											</div>
-										</div>
-									</div>
-								</div>
-
-								<!--Sản phẩm 3-->
-								<div class="col-6 col-xl-4">
-									<div class="product-card" data-aos="zoom-in" data-aos-delay="200">
-										<div class="product-image">
-											<a href="product-details.php">
-												<img src="assets/img/product/guitar/acoustic/saga/saga-cl65/dan-guitar-acoustic-saga-cl65-.jpg"
-													class="main-image img-fluid" alt="Saga CL65">
-												<img src="assets/img/product/guitar/acoustic/saga/saga-cl65/dan-guitar-acoustic-saga-cl65-4-1536x1536.jpg"
-													class="hover-image img-fluid" alt="Saga CL65">
-											</a>
-
-											<div class="product-badge sale">-20%</div>
-										</div>
-										<div class="product-details">
-											<div class="product-category">Acoustic</div>
-											<h4 class="product-title">
-												<a href="product-details.php">Saga CL65</a>
-											</h4>
-											<div class="product-meta">
-												<div class="product-price">
-													2.000.000 VND
-													<span class="original-price">2.500.000 VND</span>
-												</div>
-
-											</div>
-											<div class="product-rating"
-												style="display: flex; justify-content: flex-end;">
-												<i class="bi bi-star-fill"></i>
-												4.9 <span>(56)</span>
-											</div>
-										</div>
-									</div>
-								</div>
-
-								<!--Sản phẩm 4-->
-								<div class="col-6 col-xl-4">
-									<div class="product-card" data-aos="zoom-in" data-aos-delay="300">
-										<div class="product-image">
-											<a href="product-details.php">
-												<img src="assets/img/product/guitar/acoustic/saga/saga-ss-8ce/dan-guitar-acoustic-saga-ss-8ce-.jpg"
-													class="main-image img-fluid" alt="Saga CL65">
-												<img src="assets/img/product/guitar/acoustic/saga/saga-ss-8ce/dan-guitar-acoustic-saga-ss-8ce-2-1536x1536.jpg"
-													class="hover-image img-fluid" alt="Saga CL65">
-											</a>
-
-										</div>
-										<div class="product-details">
-											<div class="product-category">Classic</div>
-											<h4 class="product-title">
-												<a href="product-details.php">Saga SS 8CE</a>
-											</h4>
-											<div class="product-meta">
-												<div class="product-price">
-													5.000.000 VND
-													<span class="original-price"><br></span>
-												</div>
-
-											</div>
-											<div class="product-rating"
-												style="display: flex; justify-content: flex-end;">
-												<i class="bi bi-star-fill"></i>
-												4.7 <span>(35)</span>
-											</div>
-										</div>
-									</div>
-								</div>
-
-
-
-
-							</div>
-						</div>
-					</section>
+                                        // 4. Tính toán giá hiển thị
+                                        $has_discount = ($product['discount_percent'] > 0);
+                                        $selling_price = $product['selling_price'];
+                                        $original_price = $has_discount ? ($selling_price / (1 - ($product['discount_percent'] / 100))) : 0;
+                                    ?>
+                                    
+                                    <div class="col-6 col-xl-4">
+                                        <div class="product-card" data-aos="zoom-in">
+                                            <div class="product-image">
+                                                <a href="product-details.php?id=<?= $product['id'] ?>">
+                                                    <img src="<?= $main_img ?>" class="main-image img-fluid" alt="<?= htmlspecialchars($product['product_name']) ?>">
+                                                    
+                                                    <img src="<?= $hover_img ?>" class="hover-image img-fluid" alt="<?= htmlspecialchars($product['product_name']) ?>">
+                                                </a>
+                                                
+                                                <?php if ($has_discount): ?>
+                                                    <div class="product-badge sale">-<?= round($product['discount_percent']) ?>%</div>
+                                                <?php endif; ?>
+                                            </div>
+                                            
+                                            <div class="product-details">
+                                                <div class="product-category"><?= htmlspecialchars($product['product_type']) ?></div>
+                                                <h4 class="product-title">
+                                                    <a href="product-details.php?id=<?= $product['id'] ?>"><?= htmlspecialchars($product['product_name']) ?></a>
+                                                </h4>
+                                                <div class="product-meta">
+                                                    <div class="product-price">
+                                                        <?= number_format($selling_price, 0, ',', '.') ?> VND
+                                                        <?php if ($has_discount): ?>
+                                                            <span class="original-price"><?= number_format($original_price, 0, ',', '.') ?> VND</span>
+                                                        <?php endif; ?>
+                                                    </div>
+                                                </div>
+                                                <div class="product-rating" style="display: flex; justify-content: flex-end;">
+                                                    <i class="bi bi-star-fill"></i> 5.0 <span>(0)</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <?php endforeach; ?>
+                                <?php else: ?>
+                                    <div class="col-12 text-center py-5">
+                                        <p class="text-muted">Hiện chưa có sản phẩm nào để hiển thị.</p>
+                                    </div>
+                                <?php endif; ?>
+                            </div>
+                        </div>
+                    </section>
 					<!-- Hết phần danh sách sản phẩm -->
 
 
 					<!-- Category Pagination Section -->
 					<section id="category-pagination" class="category-pagination section">
-						<div class="container">
-							<nav class="d-flex justify-content-center" aria-label="Page navigation">
-								<ul>
-									<li> <a href="#" aria-label="Previous page"> <i class="bi bi-arrow-left"></i>
-											<span class="d-none d-sm-inline">Trước</span>
-										</a> </li>
-									<li><a href="#" class="active">1</a></li>
-									<li><a href="#">2</a></li>
-									<li><a href="#">3</a></li>
-									<li class="ellipsis">...</li>
-									<li><a href="#">8</a></li>
-									<li><a href="#">9</a></li>
-									<li><a href="#">10</a></li>
-									<li> <a href="#" aria-label="Next page"> <span class="d-none d-sm-inline">Sau</span>
-											<i class="bi bi-arrow-right"></i>
-										</a> </li>
-								</ul>
-							</nav>
-						</div>
-					</section><!-- /Category Pagination Section -->
+                        <div class="container">
+                            <nav class="d-flex justify-content-center" aria-label="Page navigation">
+                                <ul>
+                                    <?php if ($currentPage > 1): ?>
+                                        <li><a href="?page=<?= $currentPage - 1 ?>"><i class="bi bi-arrow-left"></i></a></li>
+                                    <?php endif; ?>
+
+                                    <?php for ($i = 1; $i <= $maxPage; $i++): ?>
+                                        <li>
+                                            <a href="?page=<?= $i ?>" class="<?= ($i == $currentPage) ? 'active' : '' ?>">
+                                                <?= $i ?>
+                                            </a>
+                                        </li>
+                                    <?php endfor; ?>
+
+                                    <?php if ($currentPage < $maxPage): ?>
+                                        <li><a href="?page=<?= $currentPage + 1 ?>"><i class="bi bi-arrow-right"></i></a></li>
+                                    <?php endif; ?>
+                                </ul>
+                            </nav>
+                        </div>
+                    </section>
+					<!-- /Category Pagination Section -->
 				</div>
 			</div>
 		</div>

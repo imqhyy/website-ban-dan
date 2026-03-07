@@ -186,6 +186,52 @@
             </div>
 
             <hr>
+            <h4 class="fw-bold mb-3">Thông tin tài chính & Giá bán</h4>
+            <div class="row g-3">
+                <div class="col-md-3">
+                    <div class="mb-3">
+                        <label class="form-label fw-bold text-muted">Giá nhập (VNĐ):</label>
+                        <div class="input-group">
+                            <input type="number" id="modal-product-cost-price" class="form-control custom-input bg-light" 
+                                  placeholder="0" readonly>
+                            <span class="input-group-text"><i class="bi bi-lock-fill"></i></span>
+                        </div>
+                        <small class="text-info"><i>Lấy từ phiếu nhập gần nhất</i></small>
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">% Lợi nhuận mong muốn:</label>
+                        <div class="input-group">
+                            <input type="number" id="modal-product-profit-margin" class="form-control custom-input" value="20">
+                            <span class="input-group-text">%</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">% Giảm giá:</label>
+                        <div class="input-group">
+                            <input type="number" id="modal-product-discount" class="form-control custom-input text-danger" value="0">
+                            <span class="input-group-text text-danger">%</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="mb-3">
+                        <label class="form-label fw-bold text-primary">Giá bán niêm yết:</label>
+                        <input type="text" id="modal-product-selling-price" 
+                              class="form-control custom-input border-primary fw-bold text-primary" 
+                              value="0 VND" readonly>
+                        <small class="text-muted">Giá sau khi cộng lời & trừ giảm giá</small>
+                    </div>
+                </div>
+            </div>
+
+            <hr>
             <h4 class="fw-bold mb-3">Điểm nổi bật (Hiển thị 4 khối)</h4>
             <div class="row g-3">
               <script>
@@ -286,19 +332,78 @@
                   </div>
 
                   <hr>
-                  <h4 class="fw-bold mb-3">Điểm nổi bật</h4>
-                  <div class="row g-3" id="edit-highlights-container">
+                  <h4 class="fw-bold mb-3">Thông tin tài chính & Giá bán</h4>
+                  <div class="row g-3">
+                      <div class="col-md-3">
+                          <div class="mb-3">
+                              <label class="form-label fw-bold text-muted">Giá nhập (VNĐ):</label>
+                              <div class="input-group">
+                                  <input type="number" id="modal-product-cost-price" class="form-control custom-input bg-light" 
+                                        placeholder="0" readonly>
+                                  <span class="input-group-text"><i class="bi bi-lock-fill"></i></span>
+                              </div>
+                              <small class="text-info"><i>Lấy từ phiếu nhập gần nhất</i></small>
+                          </div>
                       </div>
+
+                      <div class="col-md-3">
+                          <div class="mb-3">
+                              <label class="form-label fw-bold">% Lợi nhuận mong muốn:</label>
+                              <div class="input-group">
+                                  <input type="number" id="modal-product-profit-margin" class="form-control custom-input" value="20">
+                                  <span class="input-group-text">%</span>
+                              </div>
+                          </div>
+                      </div>
+
+                      <div class="col-md-3">
+                          <div class="mb-3">
+                              <label class="form-label fw-bold">% Giảm giá:</label>
+                              <div class="input-group">
+                                  <input type="number" id="modal-product-discount" class="form-control custom-input text-danger" value="0">
+                                  <span class="input-group-text text-danger">%</span>
+                              </div>
+                          </div>
+                      </div>
+
+                      <div class="col-md-3">
+                          <div class="mb-3">
+                              <label class="form-label fw-bold text-primary">Giá bán niêm yết:</label>
+                              <input type="text" id="modal-product-selling-price" 
+                                    class="form-control custom-input border-primary fw-bold text-primary" 
+                                    value="0 VND" readonly>
+                              <small class="text-muted">Giá sau khi cộng lời & trừ giảm giá</small>
+                          </div>
+                      </div>
+                  </div>
 
                   <hr>
                   <h4 class="fw-bold mb-3">Phụ kiện kèm theo</h4>
-                  <div class="col-md-12">
-                      <textarea class="form-control custom-input" id="edit-product-accessories" rows="3"></textarea>
-                  </div>
-
-                  <div class="modal-footer-admin d-flex justify-content-between">
-                      <button type="button" class="btn btn-secondary action-btn-common nutsua" id="cancel-edit-product">Hủy bỏ</button>
-                      <button type="submit" class="save-all-brands-btn">Lưu thay đổi</button>
+                  <div class="row g-3" id="edit-accessories-container">
+                      <div class="col-12 d-flex flex-wrap gap-3 mb-2">
+                          <div class="form-check">
+                              <input class="form-check-input edit-accessory-checkbox" type="checkbox" value="Bao đàn chính hãng cao cấp (Gig Bag)" id="edit-acc1">
+                              <label class="form-check-label" for="edit-acc1">Bao đàn Gig Bag</label>
+                          </div>
+                          <div class="form-check">
+                              <input class="form-check-input edit-accessory-checkbox" type="checkbox" value="Lục giác chỉnh cần (Ty chỉnh cần)" id="edit-acc2">
+                              <label class="form-check-label" for="edit-acc2">Lục giác chỉnh cần</label>
+                          </div>
+                          <div class="form-check">
+                              <input class="form-check-input edit-accessory-checkbox" type="checkbox" value="Dây đàn dự phòng/Bộ dây đi kèm" id="edit-acc3">
+                              <label class="form-check-label" for="edit-acc3">Dây dự phòng</label>
+                          </div>
+                          <div class="form-check">
+                              <input class="form-check-input edit-accessory-checkbox" type="checkbox" value="Capo (Kẹp tăng tông) hoặc Pick (Miếng gảy đàn)" id="edit-acc4">
+                              <label class="form-check-label" for="edit-acc4">Capo/Pick</label>
+                          </div>
+                      </div>
+                      
+                      <div class="col-md-12">
+                          <label class="form-label text-muted small">Danh sách phụ kiện khác (mỗi dòng một món):</label>
+                          <textarea class="form-control custom-input" id="edit-product-accessories" rows="3" 
+                                    placeholder="Nhập thêm phụ kiện ngoài danh sách trên..."></textarea>
+                      </div>
                   </div>
               </form>
           </div>

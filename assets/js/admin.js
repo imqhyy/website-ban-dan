@@ -1,15 +1,4 @@
 
-const Toast = Swal.mixin({
-    toast: true,
-    position: 'top-end',
-    showConfirmButton: false,
-    timer: 1200,
-    timerProgressBar: true,
-    didOpen: (toast) => {
-        toast.addEventListener('mouseenter', Swal.stopTimer);
-        toast.addEventListener('mouseleave', Swal.resumeTimer);
-    }
-});
 /*DÀNH CHO QUẢN LÝ KHÁCH HÀNG*/
 // Lấy các phần tử
 var modal = document.getElementById("DetailModal");
@@ -93,17 +82,18 @@ if(manageButtons) {
     /*Hiệu ứng thông báo và đóng modal của nút lưu thay đổi*/
     document.addEventListener('DOMContentLoaded', function () {
         // 1. Khai báo Toast (Dùng lại cấu hình giống các phần trên của bạn)
-        const Toast = Swal.mixin({
-            toast: true,
-            position: 'top-end',
-            showConfirmButton: false,
-            timer: 2000,
-            timerProgressBar: true,
-            didOpen: (toast) => {
-                toast.addEventListener('mouseenter', Swal.stopTimer);
-                toast.addEventListener('mouseleave', Swal.resumeTimer);
-            }
-        });
+        // const Toast = Swal.mixin({
+        //     toast: true,
+        //     position: 'top-end',
+        //     showConfirmButton: false,
+        //     timer: 2000,
+        //     timerProgressBar: true,
+        //     didOpen: (toast) => {
+        //         toast.addEventListener('mouseenter', Swal.stopTimer);
+        //         toast.addEventListener('mouseleave', Swal.resumeTimer);
+        //     }
+        // });
+        // Đoạn code này đã được khai báo bên main.js vui lòng không khai báo lại để tránh lỗi
 
         // 2. Lấy các phần tử cần thiết
         const saveBtn = document.getElementById('save-brands-list-btn');
@@ -224,6 +214,22 @@ if (editButtons) {
                             /*DÀNH CHO QUẢN LÝ NHẬP SẢN PHẨM */
 
 
+
+window.addEventListener('click', function(event) {
+    // Lấy các phần tử modal (có thể null nếu trang đó không có)
+    const addModal = document.getElementById('addProductModal');
+    const editModal = document.getElementById('editProductModal');
+
+    // Kiểm tra addModal có tồn tại trên trang này KHÔNG và người dùng có bấm trúng nó KHÔNG
+    if (addModal && event.target == addModal) {
+        addModal.style.display = "none";
+    }
+    
+    // Tương tự cho editModal
+    if (editModal && event.target == editModal) {
+        editModal.style.display = "none";
+    }
+});
                             //Dữ liệu mẫu (Giả định bạn có cấu trúc dữ liệu như thế này)
 const brandData = {
     "Guitar Classic": [
@@ -451,11 +457,14 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     const initialProductTemplate = document.getElementsByClassName('product-fields-template')[0];
-    const initialRemoveBtn = initialProductTemplate.querySelector('.remove-product-btn');
-    if (initialRemoveBtn) {
-        // Ẩn nút xóa trên sản phẩm đầu tiên để đảm bảo luôn có ít nhất 1 sản phẩm
-        initialRemoveBtn.style.display = 'none';
+    if(initialProductTemplate) {
+        const initialRemoveBtn = initialProductTemplate.querySelector('.remove-product-btn');
+        if (initialRemoveBtn) {
+            // Ẩn nút xóa trên sản phẩm đầu tiên để đảm bảo luôn có ít nhất 1 sản phẩm
+            initialRemoveBtn.style.display = 'none';
+        }
     }
+    
 
 
     // 3. Xử lý nút THÊM SẢN PHẨM (Đảm bảo code này vẫn chạy sau khi bạn sửa HTML/JS thêm sản phẩm)
@@ -727,7 +736,7 @@ document.addEventListener('DOMContentLoaded', function () {
             // Điền một số dữ liệu mặc định/giả định cho các trường chi tiết
             document.getElementById('edit-product-summary').value = `Mô tả tóm tắt cho ${productName}`;
             document.getElementById('edit-product-overview').value = `Thông tin chi tiết về cấu tạo và chất liệu của dòng ${productName}...`;
-            document.getElementById('edit-product-accessories').value = "Bao đàn chính hãng\nLục giác chỉnh cần\nBộ dây dự phòng";
+            document.getElementById('edit-product-accessories').value = "";
 
             // 4. Hiển thị Modal
             if (editProductModal) {

@@ -144,21 +144,21 @@
                             <i class="bi bi-chevron-down toggle-dropdown"></i></a>
                         <ul>
                             <li class="dropdown">
-                                <a href="category_detail.php"><span>Guitar Classic</span><i
+                                <a href="category_detail.php?product_type=Guitar Classic"><span>Guitar Classic</span><i
                                         class="bi bi-chevron-right toggle-dropdown"></i></a>
                                 <ul>
-                                    <li><a href="brand.php">Ba đờn</a></li>
-                                    <li><a href="brand.php">Yamaha</a></li>
+                                    <li><a href="brand.php?brand=Ba Đờn">Ba đờn</a></li>
+                                    <li><a href="brand.php?brand=Yamaha">Yamaha</a></li>
                                 </ul>
                             </li>
                             <li class="dropdown">
-                                <a href="category_detail.php"><span>Guitar Acoustic</span><i
+                                <a href="category_detail.php?product_type=Guitar Acoustic"><span>Guitar Acoustic</span><i
                                         class="bi bi-chevron-right toggle-drop"></i></a>
                                 <ul>
-                                    <li><a href="brand.php">Saga</a></li>
-                                    <li><a href="brand.php">Taylor</a></li>
-                                    <li><a href="brand.php">Enya</a></li>
-                                    <li><a href="brand.php">Yamaha</a></li>
+                                    <li><a href="brand.php?brand=Saga">Saga</a></li>
+                                    <li><a href="brand.php?brand=Taylor">Taylor</a></li>
+                                    <li><a href="brand.php?brand=Enya">Enya</a></li>
+                                    <li><a href="brand.php?brand=Yamaha">Yamaha</a></li>
                                 </ul>
                             </li>
                         </ul>
