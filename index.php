@@ -272,7 +272,6 @@ include 'forms/head.php' ?>
   <?php include 'forms/footer.php';
   include 'forms/scripts.php' ?>
   <script src="assets/js/login.js"></script>
-  <script src="assets/js/auth.js"></script>
 </body>
 
 </html>

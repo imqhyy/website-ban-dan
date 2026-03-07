@@ -21,7 +21,14 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   }
 });
-
+function updateCartIcon(itemCount) {
+  const allCartBadges = document.querySelectorAll('.cart-item-count-badge');
+  allCartBadges.forEach(badge => {
+    if (badge) {
+      badge.textContent = itemCount;
+    }
+  });
+}
 (function () {
   "use strict";
 

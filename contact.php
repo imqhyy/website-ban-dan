@@ -178,7 +178,7 @@ require_once 'forms/init.php'; ?>
 
   <?php include 'forms/footer.php' ?>
   <?php include 'forms/scripts.php' ?>
-  <script src="assets/js/auth.js"></script>
+  
 </body>
 
 </html>

@@ -1,7 +1,17 @@
 <?php
-require_once 'forms/init.php'; ?>
-<?php $title = "Tài Khoản - Guitar Xì Gòn";
-include 'forms/head.php' ?>
+require_once 'forms/init.php';
+$stmt = $pdo->prepare("SELECT * FROM users WHERE username = ?");
+$stmt->execute([$_SESSION['user']]);
+$user = $stmt->fetch();
+
+// 3. Lấy lịch sử đơn hàng
+$orderStmt = $pdo->prepare("SELECT * FROM orders WHERE user_id = ? ORDER BY created_at DESC");
+$orderStmt->execute([$user['id']]);
+$orders = $orderStmt->fetchAll();
+
+$title = "Hồ sơ của tôi - Guitar Xì Gòn";
+include 'forms/head.php';
+?>
 
 <body class="account-page">
   <?php include 'forms/header.php' ?>
@@ -42,8 +52,8 @@ include 'forms/head.php' ?>
                   <img src="assets\img\person\images.jpg" alt="Profile" loading="lazy">
                   <span class="status-badge"><i class="bi bi-shield-check"></i></span>
                 </div>
-                <h4 id="user-display-name">Long G</h4>
-                <h6 style="color: rgb(129, 129, 128);">user: gnevadie</h6>
+                <h4 id="user-display-name"><?php echo htmlspecialchars($user['fullname']); ?></h4>
+                <h6 style="color: rgb(129, 129, 128);">user:<?php echo htmlspecialchars($user['username']); ?></h6>
                 <div class="user-status">
                   <i class="bi bi-award"></i>
                   <span>Thành viên phá phách</span>
@@ -1168,43 +1178,60 @@ include 'forms/head.php' ?>
                     <!-- Personal Information -->
                     <div class="settings-section" data-aos="fade-up">
                       <h3>Thông tin cá nhân</h3>
-                      <form class="settings-form" id="account-settings-form">
+                      <form class="settings-form" method="POST" action="update_profile.php" id="account-settings-form"
+                        enctype="multipart/form-data">
                         <div class="row g-3">
                           <div class="col-md-6">
                             <label for="username" class="form-label">Tên đăng nhập</label>
-                            <input type="text" class="form-control" id="username" value="Gnevadie">
+                            <input type="text" class="form-control" id="username" name="username"
+                              value="<?php echo htmlspecialchars($user['username']); ?>" readonly>
                           </div>
+
                           <div class="col-md-6">
-                            <label for="username" class="form-label">Họ và tên</label>
-                            <input type="text" class="form-control" id="name" value="Long G">
+                            <label for="fullname" class="form-label">Họ và tên</label>
+                            <input type="text" class="form-control" id="fullname" name="fullname"
+                              value="<?php echo htmlspecialchars($user['fullname']); ?>">
                           </div>
-                          <!-- <div class="col-md-6">
-                            <label for="firstName" class="form-label">Họ</label>
-                            <input type="text" class="form-control" id="firstName">
-                          </div>
-                          <div class="col-md-6">
-                            <label for="lastName" class="form-label">Tên</label>
-                            <input type="text" class="form-control" id="lastName">
-                          </div> -->
+
                           <div class="col-md-6">
                             <label for="email" class="form-label">Email</label>
-                            <input type="text" class="form-control" id="email" value="dragonG@gmai.com">
+                            <input type="email" class="form-control" id="email" name="email"
+                              value="<?php echo htmlspecialchars($user['email']); ?>">
                           </div>
+
                           <div class="col-md-6">
                             <label for="phone" class="form-label">Số điện thoại</label>
-                            <input type="phone" class="form-control" id="phone" value="(096) 969-6969">
+                            <input type="tel" class="form-control" id="phone" name="phone"
+                              value="<?php echo htmlspecialchars($user['phone']); ?>">
                           </div>
 
-                          <div class="input-new-avatar-image">
+                          <div class="col-md-4">
+                            <label for="city" class="form-label">Tỉnh / Thành phố</label>
+                            <input type="text" class="form-control" id="city" name="city"
+                              value="<?php echo htmlspecialchars($user['city'] ?? ''); ?>">
+                          </div>
+                          <div class="col-md-4">
+                            <label for="district" class="form-label">Quận / Huyện</label>
+                            <input type="text" class="form-control" id="district" name="district"
+                              value="<?php echo htmlspecialchars($user['district'] ?? ''); ?>">
+                          </div>
+                          <div class="col-md-4">
+                            <label for="ward" class="form-label">Phường / Xã</label>
+                            <input type="text" class="form-control" id="ward" name="ward"
+                              value="<?php echo htmlspecialchars($user['ward'] ?? ''); ?>">
+                          </div>
+                          <div class="col-md-12">
+                            <label for="address" class="form-label">Địa chỉ cụ thể (Số nhà, tên đường)</label>
+                            <input type="text" class="form-control" id="address" name="address"
+                              value="<?php echo htmlspecialchars($user['address'] ?? ''); ?>">
+                          </div>
+                          <div class="col-md-12 input-new-avatar-image">
                             <label for="profilePicture" class="form-label">Ảnh đại diện</label>
                             <div class="input-group">
-                              <input type="file" class="form-control file-input-hidden" id="profilePicture"
-                                accept="image/*">
-
+                              <input type="file" class="d-none" id="profilePicture" name="avatar" accept="image/*">
                               <input type="text" class="form-control" id="fileNameDisplay"
                                 placeholder="Chưa có tệp nào được chọn" readonly
                                 style="border-radius: 10px 0px 0px 10px;">
-
                               <button class="btn btn-outline-secondary custom-upload-btn" type="button"
                                 id="uploadAvatarButton">
                                 Tải lên
@@ -1214,11 +1241,10 @@ include 'forms/head.php' ?>
                               Kích thước tối đa: 2MB. Định dạng: JPG, PNG.
                             </div>
                           </div>
-                        </div>
 
-
-                        <div class="form-buttons">
-                          <button type="submit" class="btn-save">Lưu thay đổi</button>
+                          <div class="col-md-12 mt-4">
+                            <button type="submit" class="btn btn-primary">Lưu thay đổi</button>
+                          </div>
                         </div>
                       </form>
                     </div>
@@ -1307,175 +1333,12 @@ include 'forms/head.php' ?>
 
   <?php include 'forms/footer.php' ?>
   <?php include 'forms/scripts.php' ?>
-  <script src="assets/js/auth.js"></script>
   <script src="assets/js/account.js"></script>
 
-  <!--script này dùng để tạo thông báo và thực hiện 1 số thao tác trong đánh giá đơn hàng-->
-  <script>
-    document.addEventListener('DOMContentLoaded', function () {
-      const ratingSelectors = document.querySelectorAll('.star-rating-selector');
-
-      ratingSelectors.forEach(selector => {
-        const stars = selector.querySelectorAll('.star-icon');
-        const input = selector.querySelector('.rating-input');
-        const ratingText = selector.querySelector('.rating-text');
-
-        const messages = {
-          1: "Rất tệ",
-          2: "Tệ",
-          3: "Trung bình",
-          4: "Tốt",
-          5: "Rất tốt"
-        };
-
-        // Hàm cập nhật trạng thái các ngôi sao và input
-        function updateRating(value) {
-          stars.forEach(star => {
-            const starValue = parseInt(star.getAttribute('data-value'));
-            if (starValue <= value) {
-              star.classList.add('filled');
-              star.classList.remove('bi-star');
-              star.classList.add('bi-star-fill');
-            } else {
-              star.classList.remove('filled');
-              star.classList.remove('bi-star-fill');
-              star.classList.add('bi-star');
-            }
-          });
-          input.value = value;
-          ratingText.textContent = value > 0 ? `(${value}/5) - ${messages[value]}` : '';
-        }
-
-        // Khởi tạo ban đầu (ví dụ: 0 sao)
-        updateRating(0);
-
-        // Xử lý sự kiện click
-        stars.forEach(star => {
-          star.addEventListener('click', function () {
-            const value = parseInt(this.getAttribute('data-value'));
-            updateRating(value);
-          });
-        });
-
-        // Xử lý sự kiện hover (Rê chuột)
-        selector.addEventListener('mouseover', function (e) {
-          if (e.target.classList.contains('star-icon')) {
-            const hoverValue = parseInt(e.target.getAttribute('data-value'));
-            stars.forEach(star => {
-              const starValue = parseInt(star.getAttribute('data-value'));
-              if (starValue <= hoverValue) {
-                star.classList.add('filled');
-                star.classList.remove('bi-star');
-                star.classList.add('bi-star-fill');
-              } else {
-                star.classList.remove('filled');
-                star.classList.remove('bi-star-fill');
-                star.classList.add('bi-star');
-              }
-            });
-            ratingText.textContent = hoverValue > 0 ? `(${hoverValue}/5) - ${messages[hoverValue]}` : '';
-          }
-        });
-
-        // Xử lý sự kiện mouseout (Rời chuột)
-        selector.addEventListener('mouseout', function () {
-          const currentValue = parseInt(input.value);
-          updateRating(currentValue);
-        });
-      });
-
-      // Xử lý sự kiện click nút Gửi đánh giá (chỉ là demo, không có chức năng backend)
-      document.querySelectorAll('.review-submit-btn').forEach(button => {
-        button.addEventListener('click', function () {
-          const itemContainer = this.closest('.review-product-item');
-          const productId = itemContainer.querySelector('.star-rating-selector').getAttribute('data-product-id');
-          const rating = itemContainer.querySelector('.rating-input').value;
-          const reviewText = itemContainer.querySelector('textarea').value;
 
 
-          // *** LUÔN LUÔN THÔNG BÁO THÀNH CÔNG CHO MỤC ĐÍCH GIAO DIỆN ***
 
-          // Lấy rating để hiển thị trong thông báo
-          const displayRating = rating > 0 ? `${rating} sao` : 'Chưa có sao';
-          const productName = itemContainer.querySelector('h6').textContent;
-
-          // SỬ DỤNG SWEETALERT2 CHO THÔNG BÁO THÀNH CÔNG
-          Swal.fire({
-            title: 'Đánh giá thành công! 🎉',
-            html: `Cảm ơn bạn đã đánh giá sản phẩm <strong>${productName}</strong>.`,
-            icon: 'success',
-            confirmButtonText: 'Tuyệt vời',
-            customClass: {
-              popup: 'my-swal-popup',
-              title: 'my-swal-title',
-              confirmButton: 'my-swal-confirm-button',
-              htmlContainer: 'my-swal-html-container'
-            }
-          }).then(() => {
-            // Ẩn form đánh giá sau khi người dùng nhấn nút xác nhận
-            itemContainer.innerHTML = `
-                    <div class="alert alert-success" role="alert">
-                        Đánh giá của bạn cho sản phẩm <strong>${productId}</strong> đã được gửi! Cảm ơn bạn.
-                    </div>`;
-          });
-
-          // Nếu ẩn cái trên chọn cái này, thì phải nhập đánh giá và số sao mới cho gửi
-          // if (rating === '0' || reviewText.trim() === '') {
-          //     alert('Vui lòng chọn số sao và nhập nhận xét của bạn.');
-          //     return;
-          // }
-
-          // // Gửi dữ liệu đi (Demo)
-          // console.log(`Đánh giá cho sản phẩm ${productId}:`);
-          // console.log(`- Số sao: ${rating}`);
-          // console.log(`- Nhận xét: "${reviewText}"`);
-
-          // // Hiển thị thông báo thành công (Có thể dùng SweetAlert2 nếu đã cài)
-          // alert(`Đánh giá của bạn cho sản phẩm ${productId} đã được gửi thành công!`);
-
-          // // Ẩn form đánh giá sau khi gửi (hoặc cập nhật trạng thái)
-          // itemContainer.innerHTML = `<div class="alert alert-success" role="alert">
-          //     Đánh giá của bạn cho sản phẩm <strong>${productId}</strong> đã được gửi! Cảm ơn bạn.
-          // </div>`;
-        });
-      });
-
-    });
-  </script>
-
-
-  <!--/*========================================= */
-      /* JS khi ấn vào nút tải lên nó sẽ kích hoạt chức năng input ảnh */
-      /* =========================================*/-->
-  <script>
-    document.addEventListener('DOMContentLoaded', function () {
-      // 1. Lấy các phần tử cần thiết
-      const uploadButton = document.getElementById('uploadAvatarButton');
-      const fileInput = document.getElementById('profilePicture');
-      const fileNameDisplay = document.getElementById('fileNameDisplay');
-
-      // 2. Kích hoạt input file khi nhấn nút "Tải lên"
-      uploadButton.addEventListener('click', function () {
-        fileInput.click(); // Kích hoạt hành động chọn file
-      });
-
-      // 3. Kích hoạt input file khi nhấn vào ô hiển thị tên file (Cải thiện UX)
-      fileNameDisplay.addEventListener('click', function () {
-        fileInput.click();
-      });
-
-      // 4. Cập nhật tên file đã chọn vào ô hiển thị
-      fileInput.addEventListener('change', function () {
-        if (fileInput.files.length > 0) {
-          // Hiển thị tên file đầu tiên được chọn
-          fileNameDisplay.value = fileInput.files[0].name;
-        } else {
-          // Nếu không có file nào được chọn
-          fileNameDisplay.value = "Chưa có tệp nào được chọn";
-        }
-      });
-    });
-  </script>
+  
 
 </body>
 
