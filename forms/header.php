@@ -143,29 +143,44 @@
                         <a href="#"><span>Phân loại</span>
                             <i class="bi bi-chevron-down toggle-dropdown"></i></a>
                         <ul>
-                            <li class="dropdown">
-                                <a href="category_detail.php?product_type=Guitar Classic"><span>Guitar Classic</span><i
-                                        class="bi bi-chevron-right toggle-dropdown"></i></a>
-                                <ul>
-                                    <li><a href="brand.php?brand=Ba Đờn">Ba đờn</a></li>
-                                    <li><a href="brand.php?brand=Yamaha">Yamaha</a></li>
-                                </ul>
-                            </li>
-                            <li class="dropdown">
-                                <a href="category_detail.php?product_type=Guitar Acoustic"><span>Guitar Acoustic</span><i
-                                        class="bi bi-chevron-right toggle-drop"></i></a>
-                                <ul>
-                                    <li><a href="brand.php?brand=Saga">Saga</a></li>
-                                    <li><a href="brand.php?brand=Taylor">Taylor</a></li>
-                                    <li><a href="brand.php?brand=Enya">Enya</a></li>
-                                    <li><a href="brand.php?brand=Yamaha">Yamaha</a></li>
-                                </ul>
-                            </li>
+                            <?php
+                            // 1. Lấy tất cả Phân loại duy nhất từ bảng products
+                            $header_types = getAll("SELECT DISTINCT product_type FROM products WHERE product_type IS NOT NULL");
+                            
+                            // 2. Lấy tất cả Thương hiệu từ bảng brands
+                            $header_brands = getAll("SELECT * FROM brands ORDER BY brand_name ASC");
+
+                            if (!empty($header_types)):
+                                foreach ($header_types as $type):
+                                    $typeName = $type['product_type'];
+                            ?>
+                                <li class="dropdown">
+                                    <a href="category_detail.php?product_type=<?= urlencode($typeName) ?>">
+                                        <span><?= htmlspecialchars($typeName) ?></span>
+                                        <i class="bi bi-chevron-right toggle-dropdown"></i>
+                                    </a>
+                                    <ul>
+                                        <?php 
+                                        // 3. Với mỗi loại đàn, chúng ta hiển thị danh sách tất cả thương hiệu
+                                        // Huy có thể lọc thêm: Chỉ hiện thương hiệu có bán loại đàn này (Dùng JOIN)
+                                        foreach ($header_brands as $brand): 
+                                        ?>
+                                            <li>
+                                                <a href="brand.php?brand[]=<?= $brand['id'] ?>&brand_name=<?= urlencode($brand['brand_name']) ?>&type[]=<?= urlencode($typeName) ?>">
+                                                    <?= htmlspecialchars($brand['brand_name']) ?>
+                                                </a>
+                                            </li>
+                                        <?php endforeach; ?>
+                                    </ul>
+                                </li>
+                            <?php 
+                                endforeach;
+                            endif; 
+                            ?>
                         </ul>
                     </li>
                     <li><a href="cart.php">Giỏ Hàng</a></li>
                     <li><a href="checkout.php">Thanh toán</a></li>
-                    <!-- <li><a href="contact.php">Liên hệ</a></li> -->
                     <li><a href="about.php">Về chúng tôi</a></li>
                 </ul>
             </nav>

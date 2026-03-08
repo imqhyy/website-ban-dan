@@ -1,7 +1,12 @@
 <?php
-require_once 'forms/init.php'; ?>
-<?php $title = "Thương Hiệu Saga - Guitar Xì Gòn";
-include 'forms/head.php' ?>
+require_once 'forms/init.php'; 
+
+// Lấy tên thương hiệu từ biến brand_name trên URL
+$current_brand = $_GET['brand_name'] ?? 'Thương hiệu';
+
+$title = "Thương hiệu $current_brand - Guitar Xì Gòn";
+include 'forms/head.php'; 
+?>
 
 <body class="page-all">
 	<?php include 'forms/header.php' ?>
@@ -20,79 +25,95 @@ include 'forms/head.php' ?>
 		<div class="container">
 			<div class="row">
 				<div class="col-lg-4 sidebar">
-					<div class="widgets-container"> <!-- Product Categories Widget -->
-						<div class="product-categories-widget widget-item">
-							<h3 class="widget-title">Phân loại</h3>
-							<ul class="category-tree list-unstyled mb-0">
-								<!-- Guitar Category -->
-								<li class="category-item">
-									<div class="d-flex justify-content-between align-items-center category-header collapsed"
-										data-bs-toggle="collapse" data-bs-target="#categories-1-clothing-subcategories"
-										aria-expanded="false" aria-controls="categories-1-clothing-subcategories">
-										<a href="javascript:void(0)" class="category-link"><input
-												class="form-check-input" type="checkbox" id="brand1"> <label
-												class="form-check-label" for="brand1">Guitar
-												Classic</a>
-									</div>
+					<form method="GET" action="brand.php">
+                        <div class="widgets-container">
+                            <!--Tránh để mất lọc thương hiệu dành cho trang brand khi áp dụng các bộ lọc khác-->
+                            <?php if(isset($_GET['brand'])): foreach((array)$_GET['brand'] as $id): ?>
+                                <input type="hidden" name="brand[]" value="<?= htmlspecialchars($id) ?>">
+                            <?php endforeach; endif; ?>
 
-								</li> <!-- Electronics Category -->
-								<li class="category-item">
-									<div class="d-flex justify-content-between align-items-center category-header collapsed"
-										data-bs-toggle="collapse"
-										data-bs-target="#categories-1-electronics-subcategories" aria-expanded="false"
-										aria-controls="categories-1-electronics-subcategories">
-										<a href="javascript:void(0)" class="category-link"><input
-												class="form-check-input" type="checkbox" id="brand1"> <label
-												class="form-check-label" for="brand1">Guitar
-												Acoustic</a>
-									</div>
+                            <input type="hidden" name="brand_name" value="<?= htmlspecialchars($current_brand) ?>">
+                            <!-- Product Categories Widget -->
+                            <div class="product-categories-widget widget-item">
+                                <h3 class="widget-title">Phân loại</h3>
+                                <ul class="category-tree list-unstyled mb-0">
+                                    <?php
+                                    // 1. Lấy danh sách phân loại duy nhất từ bảng products
+                                    $sql_types = "SELECT DISTINCT product_type FROM products WHERE product_type IS NOT NULL";
+                                    $all_types = getAll($sql_types);
 
-								</li>
-							</ul>
-						</div>
-						<!--/Product Categories Widget -->
-						<!-- Pricing Range Widget -->
-						<div class="pricing-range-widget widget-item">
-							<h3 class="widget-title">Khoảng giá</h3>
-							<div class="price-range-container">
-								<div class="current-range mb-3">
-									<span class="min-price">0 VND</span>
-									<span class="max-price float-end">50.000.000 VND</span>
-								</div>
-								<div class="range-slider">
-									<div class="slider-track"></div>
-									<div class="slider-progress"></div>
-									<input type="range" class="min-range" min="0" max="100000000" value="0">
-									<input type="range" class="max-range" min="0" max="100000000" value="5000000">
-								</div>
-								<div class="price-inputs mt-3">
-									<div class="row g-2">
-										<div class="col-6">
-											<div class="input-group input-group-sm">
-												<span class="input-group-text">VND</span>
-												<!-- ĐỔI type="number" → type="text" -->
-												<input type="text" class="form-control min-price-input"
-													placeholder="Min" value="0">
-											</div>
-										</div>
-										<div class="col-6">
-											<div class="input-group input-group-sm">
-												<span class="input-group-text">VND</span>
-												<!-- ĐỔI type="number" → type="text" -->
-												<input type="text" class="form-control max-price-input"
-													placeholder="Max" value="5.000.000">
-											</div>
-										</div>
-									</div>
-								</div>
-								<div class="filter-actions mt-3">
-									<button type="button" class="btn btn-sm btn-primary w-100">Áp dụng bộ lọc</button>
-								</div>
-							</div>
-						</div>
-						<!--/Pricing Range Widget -->
+                                    // 2. Lấy các loại đang được chọn từ URL (nếu có) để giữ trạng thái checked
+                                    $selected_types = isset($_GET['type']) ? (array)$_GET['type'] : [];
 
-					</div>
+                                    // 3. Vòng lặp hiển thị từng loại
+                                    if (!empty($all_types)):
+                                        foreach ($all_types as $t):
+                                            $type_name = $t['product_type'];
+                                            // Tạo ID an toàn cho thẻ label (ví dụ: Guitar Acoustic -> type_guitar_acoustic)
+                                            $type_id = 'type_' . create_slug($type_name);
+                                    ?>
+                                        <li class="category-item">
+                                            <div class="category-header">
+                                                <input class="form-check-input" type="checkbox" name="type[]" 
+                                                    value="<?= htmlspecialchars($type_name) ?>" 
+                                                    id="<?= $type_id ?>"
+                                                    <?= in_array($type_name, $selected_types) ? 'checked' : '' ?>> 
+                                                <label class="form-check-label" for="<?= $type_id ?>">
+                                                    <?= htmlspecialchars($type_name) ?>
+                                                </label>
+                                            </div>
+                                        </li>
+                                    <?php 
+                                        endforeach;
+                                    endif; 
+                                    ?>
+                                </ul>
+                            </div>
+                            <!--/Product Categories Widget -->
+                            
+                            <!-- Pricing Range Widget -->
+                            <div class="pricing-range-widget widget-item">
+                                <h3 class="widget-title">Khoảng giá</h3>
+                                <div class="price-range-container">
+                                    <div class="current-range mb-3">
+                                        <span class="min-price">0 VND</span>
+                                        <span class="max-price float-end">50.000.000 VND</span>
+                                    </div>
+                                    <div class="range-slider">
+                                        <div class="slider-track"></div>
+                                        <div class="slider-progress"></div>
+                                        <input type="range" class="min-range" min="0" max="100000000" value="<?= str_replace('.', '', $_GET['min_price'] ?? 0) ?>">
+                                        <input type="range" class="max-range" min="0" max="100000000" value="<?= str_replace('.', '', $_GET['max_price'] ?? 50000000) ?>">
+                                    </div>
+                                    <div class="price-inputs mt-3">
+                                        <div class="row g-2">
+                                            <div class="col-6">
+                                                <div class="input-group input-group-sm">
+                                                    <span class="input-group-text">VND</span>
+                                                    <!-- ĐỔI type="number" → type="text" -->
+                                                    <input type="text" name="min_price" class="form-control min-price-input"
+                                                        placeholder="Min" value="<?= $_GET['min_price'] ?? '' ?>">
+                                                </div>
+                                            </div>
+                                            <div class="col-6">
+                                                <div class="input-group input-group-sm">
+                                                    <span class="input-group-text">VND</span>
+                                                    <!-- ĐỔI type="number" → type="text" -->
+                                                    <input type="text" name="max_price"class="form-control max-price-input"
+                                                        placeholder="Max" value="<?= $_GET['max_price'] ?? '' ?>">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="filter-actions mt-3">
+                                        <button type="submit" class="btn btn-sm btn-primary w-100">Áp dụng bộ lọc</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--/Pricing Range Widget -->
+
+                        </div>
+                    </form>
 				</div>
 				<div class="col-lg-8"> <!-- Category Header Section -->
 					<section id="category-header" class="category-header section">
@@ -184,19 +205,73 @@ include 'forms/head.php' ?>
                             <nav class="d-flex justify-content-center" aria-label="Page navigation">
                                 <ul>
                                     <?php if ($currentPage > 1): ?>
-                                        <li><a href="?page=<?= $currentPage - 1 ?>"><i class="bi bi-arrow-left"></i></a></li>
+                                    <li><a href="?page=<?= $currentPage - 1 ?>"><i class="bi bi-arrow-left"></i></a>
+                                    </li>
                                     <?php endif; ?>
 
+                                    <!--Nếu $maxPage <= phân trang tối đa thì hiện hết phân trang -->
+                                    <?php if($maxPage <= $maxPanigation): ?>
                                     <?php for ($i = 1; $i <= $maxPage; $i++): ?>
-                                        <li>
-                                            <a href="?page=<?= $i ?>" class="<?= ($i == $currentPage) ? 'active' : '' ?>">
-                                                <?= $i ?>
-                                            </a>
-                                        </li>
+                                    <li>
+                                        <a href="?page=<?= $i ?>" class="<?= ($i == $currentPage) ? 'active' : '' ?>">
+                                            <?= $i ?>
+                                        </a>
+                                    </li>
+                                    <?php endfor; ?>
+                                    <!--Nếu &maxPage > phân trang tối đa thì rút gọn phân trang -->
+                                    <?php else: ?>
+                                    <?php 
+                                        $startPage = 1;
+                                        $endPage = $maxPanigation;
+                                        if($currentPage > $maxPanigation) {
+                                            echo "<li class='ellipsis'>...</li>";
+                                            
+                                            /**
+                                             *  $currentPage -1 và (currentPage + $maxPanigation -1) -1 
+                                             *  để đảm bảo $current luôn nằm giữa thay vì ở 2 bên đầu phân trang
+                                             *  nếu currentPage không phải trang 1 và trang cuối
+                                             *  VD: <- .., [7], 8, 9, ... -> và <- ..., 5, 6, [7], ... ->
+                                             *  sẽ thành: <- ..., 6, [7], 8, ... ->
+                                             * 
+                                             *  Nếu số lượng trang hiển thị còn lại nhỏ hơn $maxPanigation
+                                             *  thì đặt $startPage và &endPage sao cho hiện đủ số lượng $maxPanigation
+                                             * */    
+                                            $startPage = ($maxPage - $currentPage + 1) < $maxPanigation ? ($maxPage - $maxPanigation + 1): $currentPage - 1;
+                                            $endPage = ($currentPage + $maxPanigation - 1) > $maxPage ? $maxPage : ($currentPage + $maxPanigation - 1) -1;
+                                        }
+                                        else if($currentPage == $maxPanigation) {
+                                            echo "<li class='ellipsis'>...</li>";
+                                            // Nếu currentPage = maxPagination thì hiện thị trang kế tiếp của currentPage
+                                            // vd: <- 1, 2, 3, ... ->
+                                            // sẽ thành <- ..., 2, 3, 4, ... ->
+                                            $startPage++;
+                                            $endPage++;
+                                        }
+                
+                                        for ($i = $startPage; $i <= $endPage; $i++): 
+                                    ?>
+
+                                    <li>
+                                        <a href="?page=<?= $i ?>" class="<?= ($i == $currentPage) ? 'active' : '' ?>">
+                                            <?= $i ?>
+                                        </a>
+                                    </li>
                                     <?php endfor; ?>
 
+                                    <?php
+                                        if($endPage < $maxPage) {
+                                            echo "<li class='ellipsis'>...</li>";
+                                        }
+                                        
+                                    ?>
+
+
+
+                                    <?php endif; ?>
+
                                     <?php if ($currentPage < $maxPage): ?>
-                                        <li><a href="?page=<?= $currentPage + 1 ?>"><i class="bi bi-arrow-right"></i></a></li>
+                                    <li><a href="?page=<?= $currentPage + 1 ?>"><i class="bi bi-arrow-right"></i></a>
+                                    </li>
                                     <?php endif; ?>
                                 </ul>
                             </nav>

@@ -2,7 +2,9 @@
 require_once 'forms/init.php';
 
 // Truy vấn lấy danh sách sản phẩm
-$stmt = $pdo->query("SELECT * FROM products ORDER BY id DESC");
+$stmt = $pdo->query("SELECT p.*, b.brand_name 
+        FROM products p 
+        LEFT JOIN brands b ON p.brand_id = b.id ");
 $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 foreach ($products as $product) {
@@ -21,10 +23,6 @@ foreach ($products as $product) {
     $main_img  = !empty($images[0]) ? $base_path . trim($images[0]) : 'assets/img/default.jpg';
     $hover_img = !empty($images[1]) ? $base_path . trim($images[1]) : $main_img;
 
-    // HIỂN THỊ RA MÀN HÌNH ĐỂ KIỂM TRA
-    echo "<b>Sản phẩm:</b> " . $product['product_name'] . "<br>";
-    echo "Đường dẫn ảnh 1: " . $main_img . "<br>";
-    echo "Đường dẫn ảnh 2: " . $hover_img . "<br>";
-    echo "------------------------------------<br>";
+    var_dump($product);
 }
 ?>

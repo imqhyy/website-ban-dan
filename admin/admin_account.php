@@ -1,185 +1,10 @@
-<!DOCTYPE html>
-<html lang="vi">
-
-<head>
-  <meta charset="utf-8">
-  <meta content="width=device-width, initial-scale=1.0" name="viewport">
-  <title>Tài khoản - Guitar Xì Gòn</title>
-  <meta name="description" content="">
-  <meta name="keywords" content="">
-  <!-- Script -->
-  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-  <!-- Favicons -->
-  <link href="assets/img/favicon.png" rel="icon">
-  <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
-
-  <!-- Fonts -->
-  <link href="https://fonts.googleapis.com" rel="preconnect">
-  <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
-  <link
-    href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
-    rel="stylesheet">
-
-  <!-- Vendor CSS Files -->
-  <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-  <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
-  <link href="assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
-  <link href="assets/vendor/aos/aos.css" rel="stylesheet">
-  <link href="assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
-  <link href="assets/vendor/drift-zoom/drift-basic.css" rel="stylesheet">
-
-  <!-- Main CSS File -->
-  <link href="assets/css/main.css" rel="stylesheet">
-  <link href="assets/css/account_admin.css" rel="stylesheet">
-
-  <!-- =======================================================
-  * Template Name: NiceShop
-  * Template URL: https://bootstrapmade.com/niceshop-bootstrap-ecommerce-template/
-  * Updated: Aug 26 2025 with Bootstrap v5.3.7
-  * Author: BootstrapMade.com
-  * License: https://bootstrapmade.com/license/
-  ======================================================== -->
-</head>
+<?php
+$title = "Tài khoản";
+include __DIR__ . "/forms/head.php";
+?>
 
 <body class="account-page">
-  <header id="header" class="header sticky-top">
-    <!-- Top Bar -->
-    <div class="top-bar py-2">
-      <div class="container-fluid container-xl">
-        <div class="row align-items-center">
-          <div class="col-lg-4 d-none d-lg-flex">
-            <div class="top-bar-item">
-              <i class="bi bi-telephone-fill me-2"></i>
-              <span>Cần giúp đỡ? Liên hệ chúng tôi: </span>
-              <a href="tel:+1234567890">0123456789</a>
-            </div>
-          </div>
-
-          <div class="col-lg-4 col-md-12 text-center">
-            <div class="announcement-slider swiper init-swiper">
-              <script type="application/json" class="swiper-config">
-                {
-                  "loop": true,
-                  "speed": 600,
-                  "autoplay": {
-                    "delay": 5000
-                  },
-                  "slidesPerView": 1,
-                  "direction": "vertical",
-                  "effect": "slide"
-                }
-              </script>
-              <div class="swiper-wrapper">
-                <div class="swiper-slide">🚚 Miễn phí giao hàng cho đơn hàng trên 2.000.000VND</div>
-                <div class="swiper-slide">💰 Đảm bảo hoàn tiền trong 30 ngày.</div>
-                <div class="swiper-slide">🎁 Giảm giá 20% cho đơn hàng đầu tiên</div>
-              </div>
-            </div>
-          </div>
-
-
-        </div>
-      </div>
-    </div>
-
-    <!-- Main Header -->
-    <div class="main-header">
-      <div class="container-fluid container-xl">
-        <div class="d-flex py-3 align-items-center justify-content-between">
-
-          <!-- Logo -->
-          <a href="admin.html" class="logo d-flex align-items-center">
-            <!-- Uncomment the line below if you also wish to use an image logo -->
-            <!-- <img src="assets/img/logo.webp" alt=""> -->
-            <h1 class="sitename">Guitar Xì Gòn</h1>
-          </a>
-
-          <!-- Search -->
-          <form class="search-form desktop-search-form" action="search-results.html">
-            <div class="input-group">
-              <input type="text" class="form-control" placeholder="Tìm kiếm sản phẩm">
-              <button class="btn" type="submit">
-                <i class="bi bi-search"></i>
-              </button>
-            </div>
-          </form>
-
-          <!-- Actions -->
-          <div class="header-actions d-flex align-items-center justify-content-end">
-
-            <!-- Mobile Search Toggle -->
-            <button class="header-action-btn mobile-search-toggle d-xl-none" type="button" data-bs-toggle="collapse"
-              data-bs-target="#mobileSearch" aria-expanded="false" aria-controls="mobileSearch">
-              <i class="bi bi-search"></i>
-            </button>
-
-            <!-- Account -->
-            <div class="dropdown account-dropdown">
-              <button class="header-action-btn" data-bs-toggle="dropdown">
-                <i class="bi bi-person"></i>
-              </button>
-              <div class="dropdown-menu">
-                <div class="dropdown-header">
-                  <h6>Chào mừng đến với <span class="sitename">Guitar Xì Gòn</span></h6>
-                  <p class="mb-0">Truy cập tài khoản &amp; quản lý đơn hàng</p>
-                </div>
-                <div class="dropdown-body">
-                  <a class="dropdown-item d-flex align-items-center" href="account.html#">
-                    <i class="bi bi-person-circle me-2"></i>
-                    <span>Hồ sơ của tôi</span>
-                  </a>
-                  <a class="dropdown-item d-flex align-items-center" href="admin_account.html#settings">
-                    <i class="bi bi-gear me-2"></i>
-                    <span>Cài đặt</span>
-                  </a>
-                </div>
-                <div class="dropdown-footer">
-                  <button class="btn btn-outline-primary w-100" id="admin-logout-button">Đăng
-                    xuất</button>
-                </div>
-              </div>
-            </div>
-
-
-            <!-- Mobile Navigation Toggle -->
-            <i class="mobile-nav-toggle d-xl-none bi bi-list me-0"></i>
-
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Navigation -->
-    <div class="header-nav">
-      <div class="container-fluid container-xl position-relative">
-        <nav id="navmenu" class="navmenu">
-          <ul>
-            <li><a href="admin.html">Trang chủ</a></li>
-            <li><a href="admin_quanlykhachhang.html">Quản lý khách hàng</a></li>
-            <li><a href="admin_quanlyloaisanpham.html">Quản lý loại sản phẩm</a></li>
-            <li><a href="admin_danhmucsanpham.html">Quản lý danh mục sản phẩm</a></li>
-            <li><a href="admin_quanlynhapsanpham.html">Quản lý nhập sản phẩm</a></li>
-            <li><a href="admin_quanlydonhang.html">Quản lý đơn hàng</a></li>
-            <li><a href="admin_quanlytonkho.html">Quản lý tồn kho</a></li>
-          </ul>
-        </nav>
-      </div>
-    </div>
-    <!-- Mobile Search Form -->
-    <div class="collapse" id="mobileSearch">
-      <div class="container">
-        <form class="search-form">
-          <div class="input-group">
-            <input type="text" class="form-control" placeholder="Tìm kiếm sản phẩm">
-            <button class="btn" type="submit">
-              <i class="bi bi-search"></i>
-            </button>
-          </div>
-        </form>
-      </div>
-    </div>
-
-  </header>
+  <?php require_once __DIR__ . "/forms/header.php" ?>
 
   <main class="main">
 
@@ -189,7 +14,7 @@
         <h1 class="mb-2 mb-lg-0">Tài khoản</h1>
         <nav class="breadcrumbs">
           <ol>
-            <li><a href="index.html">Trang chủ</a></li>
+            <li><a href="index.php">Trang chủ</a></li>
             <li class="current">Tài khoản</li>
           </ol>
         </nav>
@@ -247,7 +72,7 @@
                 </ul>
 
                 <!-- <div class="menu-footer">
-                  <a href="support.html" class="help-link">
+                  <a href="support.php" class="help-link">
                     <i class="bi bi-question-circle"></i>
                     <span>Trung tâm hỗ trợ</span>
                   </a>
@@ -395,119 +220,7 @@
 
   </main>
 
-  <footer id="footer" class="footer dark-background">
-    <div class="footer-main">
-      <div class="container">
-        <div class="row gy-4">
-          <div class="col-lg-4 col-md-6">
-            <div class="footer-widget footer-about">
-              <a href="index.html" class="logo">
-                <span class="sitename">Guitar Xì Gòn</span>
-              </a>
-              <p>Guitar Xì Gòn là nhà phân phối nhạc cụ guitar, thiết bị guitar chuyên nghiệp hàng đầu tại Việt Nam.</p>
-
-              <div class="social-links mt-4">
-                <h5>Kết nối với chúng tôi</h5>
-                <div class="social-icons">
-                  <a href="#" aria-label="Facebook"><i class="bi bi-facebook"></i></a>
-                  <a href="#" aria-label="Instagram"><i class="bi bi-instagram"></i></a>
-                  <a href="#" aria-label="Twitter"><i class="bi bi-twitter-x"></i></a>
-                  <a href="#" aria-label="TikTok"><i class="bi bi-tiktok"></i></a>
-                  <a href="#" aria-label="Pinterest"><i class="bi bi-pinterest"></i></a>
-                  <a href="#" aria-label="YouTube"><i class="bi bi-youtube"></i></a>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-lg-2 col-md-6 col-sm-6">
-            <div class="footer-widget">
-              <h4>Sản phẩm</h4>
-              <ul class="footer-links">
-                <li><a href="all.html">Sản phẩm mới</a></li>
-                <li><a href="all.html">Đang bán chạy</a></li>
-                <li><a href="category_detail.html">Guitar Classic</a></li>
-                <li><a href="category_detail.html">Guitar Acoustic</a></li>
-                <li><a href="all.html">Đang khuyến mãi</a></li>
-              </ul>
-            </div>
-          </div>
-
-          <div class="col-lg-2 col-md-6 col-sm-6">
-            <div class="footer-widget">
-              <h4>Hỗ trợ</h4>
-              <ul class="footer-links">
-                <li><a href="support.html">Trung tâm hỗ trợ</a></li>
-                <li><a href="account.html">Trạng thái đặt hàng</a></li>
-                <li><a href="shiping-info.html">Thông tin giao hàng</a></li>
-                <li><a href="return-policy.html">Yêu cầu trả hàng</a></li>
-                <!-- <li><a href="contact.html">Liên hệ với chúng tôi</a></li> -->
-              </ul>
-            </div>
-          </div>
-
-          <div class="col-lg-4 col-md-6">
-            <div class="footer-widget">
-              <h4>Thông tin liên hệ</h4>
-              <div class="footer-contact">
-                <div class="contact-item">
-                  <i class="bi bi-geo-alt"></i>
-                  <span> 273 An Dương Vương, Phường, Chợ Quán, Hồ Chí Minh 700000</span>
-                </div>
-                <div class="contact-item">
-                  <i class="bi bi-telephone"></i>
-                  <span>0123456789</span>
-                </div>
-                <div class="contact-item">
-                  <i class="bi bi-envelope"></i>
-                  <span>guitarxigon@gmail.com</span>
-                </div>
-                <div class="contact-item">
-                  <i class="bi bi-clock"></i>
-                  <span>Thứ 2 - Chủ Nhật: 6h-23h<br>Ngày lễ: Đóng cửa</span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="footer-bottom">
-      <div class="container">
-        <div class="row gy-3 align-items-center">
-          <div class="col-lg-6 col-md-12">
-            <div class="copyright">
-              <p>© <span>Copyright</span> <strong class="sitename">Guitar Xì Gòn</strong>. All Rights Reserved.</p>
-            </div>
-            <div class="credits mt-1">
-              Designed by <span>Quốc Huy - Hồng Nhân - Xuân Tâm</span>
-            </div>
-          </div>
-          <div class="col-lg-6 col-md-12">
-            <div class="d-flex flex-wrap justify-content-lg-end justify-content-center align-items-center gap-4">
-              <div class="payment-methods">
-                <div class="payment-icons">
-                  <i class="bi bi-credit-card" aria-label="Credit Card"></i>
-                  <i class="bi bi-paypal" aria-label="PayPal"></i>
-                  <i class="bi bi-apple" aria-label="Apple Pay"></i>
-                  <i class="bi bi-google" aria-label="Google Pay"></i>
-                  <i class="bi bi-shop" aria-label="Shop Pay"></i>
-                  <i class="bi bi-cash" aria-label="Cash on Delivery"></i>
-                </div>
-              </div>
-              <div class="legal-links">
-                <a href="tos.html">Điều khoản</a>
-                <a href="privacy.html">Riêng tư</a>
-                <a href="tos.html">Cookies</a>
-              </div>
-            </div>
-          </div>
-        </div>
-
-      </div>
-    </div>
-  </footer>
+  <?php require_once __DIR__ . "/forms/footer.php" ?>
 
   <!-- Scroll Top -->
   <a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center"><i
@@ -516,20 +229,10 @@
   <!-- Preloader -->
   <div id="preloader"></div>
 
-  <!-- Vendor JS Files -->
-  <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-  <script src="assets/vendor/php-email-form/validate.js"></script>
-  <script src="assets/vendor/swiper/swiper-bundle.min.js"></script>
-  <script src="assets/vendor/aos/aos.js"></script>
-  <script src="assets/vendor/glightbox/js/glightbox.min.js"></script>
-  <script src="assets/vendor/drift-zoom/Drift.min.js"></script>
-  <script src="assets/vendor/purecounter/purecounter_vanilla.js"></script>
+  <?php 
+  require_once __DIR__ . "/forms/scripts.php";
+  ?>
 
-  <!-- Main JS File -->
-  <script src="assets/js/main.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-  <!-- <script src="assets/js/auth.js"></script>
-  <script src="assets/js/account_admin.js"></script> -->
 
   <!--script này dùng để tạo thông báo và thực hiện 1 số thao tác trong đánh giá đơn hàng-->
   <script>
