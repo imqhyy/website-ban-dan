@@ -49,7 +49,7 @@ require_once 'forms/init.php'; ?>
         <div class="container">
             <div class="row">
                 <div class="col-lg-4 sidebar">
-                    <form method="GET" action="category_detail.php">
+                    <form method="GET" action="category_detail.php" id="filter-product-form">
                         <div class="widgets-container">
                             <!--Đảm bảo khi áp dụng các bộ lọc sẽ không làm mất phân loại sẵn có dành riêng cho trang category_detail-->
                             <input type="hidden" name="product_type" value="<?= htmlspecialchars($_GET['product_type'] ?? '') ?>">
@@ -73,7 +73,7 @@ require_once 'forms/init.php'; ?>
                                                 <div class="input-group input-group-sm">
                                                     <span class="input-group-text">VND</span>
                                                     <!-- ĐỔI type="number" → type="text" -->
-                                                    <input type="text" name="min_price" class="form-control min-price-input"
+                                                    <input type="text" class="form-control min-price-input"
                                                         placeholder="Min" value="<?= $_GET['min_price'] ?? '' ?>">
                                                 </div>
                                             </div>
@@ -81,15 +81,15 @@ require_once 'forms/init.php'; ?>
                                                 <div class="input-group input-group-sm">
                                                     <span class="input-group-text">VND</span>
                                                     <!-- ĐỔI type="number" → type="text" -->
-                                                    <input type="text" name="max_price"class="form-control max-price-input"
+                                                    <input type="text" class="form-control max-price-input"
                                                         placeholder="Max" value="<?= $_GET['max_price'] ?? '' ?>">
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                    <!-- <div class="filter-actions mt-3">
-                                        <button type="submit" class="btn btn-sm btn-primary w-100">Áp dụng bộ lọc</button>
-                                    </div> -->
+                                    <div class="filter-actions mt-3">
+                                        <button type="button" id="btn-apply-price" class="btn btn-sm btn-primary w-100">Áp dụng bộ lọc</button>
+                                    </div>
                                 </div>
                             </div>
                             <!--/Pricing Range Widget -->
@@ -167,8 +167,8 @@ require_once 'forms/init.php'; ?>
                                         $base_path = $guitarimg_direct . $type_folder . '/' . $brand_folder . '/' . $product_folder . '/';
 
                                         // 3. Xác định 2 ảnh đầu tiên (Sử dụng cấu trúc thư mục phân cấp)
-                                        $main_img  = !empty($images[0]) ? $base_path . trim($images[0]) : 'assets/img/default.jpg';
-                                        $hover_img = !empty($images[1]) ? $base_path . trim($images[1]) : $main_img;
+                                        $main_img  = !empty($images[0]) ? $base_path . trim($images[0]) : 'assets/img/default-1.jpg';
+                                        $hover_img = !empty($images[1]) ? $base_path . trim($images[1]) : 'assets/img/default-2.jpg';
 
                                         // 4. Tính toán giá hiển thị
                                         $has_discount = ($product['discount_percent'] > 0);

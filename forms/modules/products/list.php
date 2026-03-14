@@ -55,6 +55,49 @@ if ($max_price !== null) {
     $conditions[] = "p.selling_price <= $max_price";
 }
 
+
+
+// 2.3. Lọc theo từ khóa tìm kiếm (Search) trang search-result.php
+$search = isset($_GET['search']) ? trim($_GET['search']) : '';
+
+if ($search !== '') {
+    // Sử dụng addslashes để bảo mật và LIKE để tìm kiếm tương đối
+    $search_safe = addslashes($search);
+    $conditions[] = "(p.product_name LIKE '%$search_safe%' OR p.summary_description LIKE '%$search_safe%')";
+}
+
+// Lọc theo Dáng đàn
+if (!empty($_GET['body_shape'])) {
+    $conditions[] = "p.body_shape = '" . addslashes($_GET['body_shape']) . "'";
+}
+
+// Lọc theo Loại gỗ
+if (!empty($_GET['wood_type'])) {
+    $conditions[] = "p.wood_type = '" . addslashes($_GET['wood_type']) . "'";
+}
+
+// Lọc theo Cấu tạo
+if (!empty($_GET['construction'])) {
+    $conditions[] = "p.construction = '" . addslashes($_GET['construction']) . "'";
+}
+
+// Lọc theo Kích thước
+if (!empty($_GET['product_size'])) {
+    $conditions[] = "p.product_size = '" . addslashes($_GET['product_size']) . "'";
+}
+
+// Xử lý Sắp xếp (Cần thay đổi câu lệnh ORDER BY cuối file)
+$order_by = "p.id DESC"; // Mặc định
+if (isset($_GET['sort'])) {
+    switch ($_GET['sort']) {
+        case 'price_asc':  $order_by = "p.selling_price ASC"; break;
+        case 'price_desc': $order_by = "p.selling_price DESC"; break;
+        case 'name_asc':   $order_by = "p.product_name ASC"; break;
+        // Thêm trường hợp Z-A ở đây
+        case 'name_desc':  $order_by = "p.product_name DESC"; break;
+        default:           $order_by = "p.id DESC"; break;
+    }
+}
 //Tạo điều kiện WHERE cho sql
 $where = "";
 if (!empty($conditions)) {
@@ -83,7 +126,7 @@ $sql = "SELECT p.*, b.brand_name
         FROM products p 
         LEFT JOIN brands b ON p.brand_id = b.id 
         $where 
-        ORDER BY p.id DESC 
+        ORDER BY $order_by 
         LIMIT $perPage OFFSET $offset";
 $products = getAll($sql); 
 ?>

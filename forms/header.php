@@ -54,9 +54,13 @@
                 </a>
 
                 <!-- Search -->
-                <form class="search-form desktop-search-form" action="search-results.php">
+                <form class="search-form desktop-search-form" action="search-results.php" method="GET">
                     <div class="input-group">
-                        <input type="text" class="form-control" placeholder="Tìm kiếm sản phẩm" />
+                        <input type="text" 
+                            name="search" 
+                            class="form-control" 
+                            placeholder="Tìm kiếm sản phẩm" 
+                            value="<?php echo isset($_GET['search']) ? htmlspecialchars($_GET['search']) : ''; ?>" />
                         <button class="btn" type="submit">
                             <i class="bi bi-search"></i>
                         </button>
@@ -190,9 +194,9 @@
     <!-- Mobile Search Form -->
     <div class="collapse" id="mobileSearch">
         <div class="container">
-            <form class="search-form">
+            <form class="search-form" method="GET">
                 <div class="input-group">
-                    <input type="text" class="form-control" placeholder="Tìm kiếm sản phẩm" />
+                    <input type="text" name="search" class="form-control" placeholder="Tìm kiếm sản phẩm" />
                     <button class="btn" type="submit">
                         <i class="bi bi-search"></i>
                     </button>

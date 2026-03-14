@@ -1171,3 +1171,107 @@ document.addEventListener("DOMContentLoaded", function () {
     updateDisplay();
   }
 });
+
+
+
+// Đảm bảo đoạn này nằm ở cuối file main.js
+document.addEventListener("DOMContentLoaded", function () {
+    const btnApplyPrice = document.getElementById('btn-apply-price');
+    
+    if (btnApplyPrice) {
+        btnApplyPrice.addEventListener('click', function (e) {
+            e.preventDefault();
+            
+            // Tìm form bao quanh nút bấm này
+            const filterForm = btnApplyPrice.closest('form');
+            const minInput = filterForm.querySelector(".min-price-input");
+            const maxInput = filterForm.querySelector(".max-price-input");
+
+            if (filterForm) {
+                // 1. Gán name để PHP nhận được dữ liệu
+                if (minInput) minInput.name = "min_price";
+                if (maxInput) maxInput.name = "max_price";
+
+                // 2. Làm sạch dữ liệu: Bỏ dấu chấm (5.000.000 -> 5000000)
+                // Điều này giúp file list.php của bạn không bị lỗi khi xử lý SQL
+                if (minInput) minInput.value = minInput.value.replace(/\./g, "");
+                if (maxInput) maxInput.value = maxInput.value.replace(/\./g, "");
+
+                console.log("🚀 Đang gửi form lọc giá...");
+                filterForm.submit();
+            } else {
+                console.error("❌ Không tìm thấy thẻ <form> nào bao quanh nút bấm!");
+            }
+        });
+    } else {
+        console.warn("⚠️ Không tìm thấy nút #btn-apply-price trên trang này.");
+    }
+});
+
+/**
+ * HÀM GỘP BỘ LỌC AN TOÀN (Dùng cho search-results.php và all.php, brand, category-details)
+ */
+document.addEventListener("DOMContentLoaded", function () {
+    const sidebarForm = document.getElementById('filter-product-form');
+    const advancedBar = document.querySelector('.advanced-search-bar');
+
+    // Hàm thu thập tất cả dữ liệu từ cả 2 khu vực lọc
+    function applyCombinedFilters() {
+        // Lấy các tham số hiện có trên URL làm gốc (để giữ lại từ khóa search)
+        let params = new URLSearchParams(window.location.search);
+        
+        // 1. Thu thập từ Advanced Bar (Dáng đàn, Gỗ, Cấu tạo, Sắp xếp...)
+        if (advancedBar) {
+            advancedBar.querySelectorAll('select, input').forEach(el => {
+                if (el.name) {
+                    if (el.value) params.set(el.name, el.value);
+                    else params.delete(el.name); // Nếu chọn "Tất cả" thì xóa khỏi URL
+                }
+            });
+        }
+
+        // 2. Thu thập từ Sidebar Form (Thương hiệu, Phân loại, Giá...)
+        if (sidebarForm) {
+            // Xóa các mảng cũ để tránh bị lặp khi nhấn nút nhiều lần
+            params.delete('brand[]');
+            params.delete('type[]');
+            
+            const formData = new FormData(sidebarForm);
+            for (let [key, value] of formData.entries()) {
+                if (value) {
+                    // Làm sạch dấu chấm cho giá tiền (5.000.000 -> 5000000)
+                    if (key === 'min_price' || key === 'max_price') {
+                        value = value.replace(/\./g, "");
+                    }
+                    
+                    // Nếu là mảng (checkbox) thì append, nếu là giá trị đơn thì set
+                    if (key.includes('[]')) params.append(key, value);
+                    else params.set(key, value);
+                }
+            }
+        }
+
+        // Reset về trang 1 mỗi khi lọc mới để tránh lỗi không có sản phẩm
+        params.delete('page');
+
+        // Chuyển hướng trang với chuỗi query đã gộp
+        window.location.href = window.location.pathname + '?' + params.toString();
+    }
+
+    // Gán sự kiện cho TẤT CẢ các nút có nhiệm vụ lọc trên trang
+    const filterSelectors = [
+        '#btn-apply-price',              // Nút lọc giá
+        '.btn-tra-cuu',                  // Nút Tra cứu nâng cao
+        '.brand-actions button'          // Nút Áp dụng của thương hiệu
+    ];
+
+    filterSelectors.forEach(selector => {
+        const btn = document.querySelector(selector);
+        if (btn) {
+            btn.addEventListener('click', function (e) {
+                e.preventDefault(); // Chặn form submit mặc định
+                applyCombinedFilters();
+            });
+        }
+    });
+});
