@@ -49,7 +49,10 @@ include 'forms/head.php';
               <!-- User Info -->
               <div class="user-info" data-aos="fade-right">
                 <div class="user-avatar">
-                  <img src="assets\img\person\images.jpg" alt="Profile" loading="lazy">
+                  <?php
+                  $avatarSrc = (!empty($user['avatar'])) ? $user['avatar'] : 'assets/img/person/images.jpg';
+                  ?>
+                  <img src="<?php echo htmlspecialchars($avatarSrc); ?>" alt="Profile" loading="lazy">
                   <span class="status-badge"><i class="bi bi-shield-check"></i></span>
                 </div>
                 <h4 id="user-display-name"><?php echo htmlspecialchars($user['fullname']); ?></h4>

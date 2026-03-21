@@ -14,10 +14,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $fullname = trim($_POST['fullname'] ?? '');
     $email = trim($_POST['email'] ?? '');
     $phone = trim($_POST['phone'] ?? '');
-    $city = trim($_POST['city'] ?? '');
-    $district = trim($_POST['district'] ?? '');
-    $ward = trim($_POST['ward'] ?? '');
-    $address = trim($_POST['address'] ?? '');
+    $city = !empty(trim($_POST['city'])) ? trim($_POST['city']) : null;
+    $district = !empty(trim($_POST['district'])) ? trim($_POST['district']) : null;
+    $ward = !empty(trim($_POST['ward'])) ? trim($_POST['ward']) : null;
+    $address = !empty(trim($_POST['address'])) ? trim($_POST['address']) : null;
 
     $avatarPath = null; // Mặc định không có ảnh mới
 
@@ -91,7 +91,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $_SESSION['toast_message'] = 'Lỗi hệ thống: Không thể cập nhật.';
     }
 
-    // 5. Chuyển hướng về lại trang account
+    // 5. Chuyển hướng về lại trang acc ount
     header("Location: account.php");
     exit();
 } else {
