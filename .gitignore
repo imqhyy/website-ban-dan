@@ -1,0 +1,32 @@
+# --- OpenSpec (Dành riêng cho nhánh của Tâm) ---
+openspec/
+.gemini/
+.opsx/
+
+# --- XAMPP & OS cụ thể ---
+.htaccess
+Thumbs.db
+desktop.ini
+.DS_Store
+
+# --- IDE Config (VS Code) ---
+.vscode/
+*.code-workspace
+
+# --- PHP & Dependencies ---
+vendor/
+composer.lock
+*.log
+error_log
+php_errors.log
+
+# --- Database & Uploads ---
+# Tránh đẩy các file backup database hoặc file người dùng upload lên
+*.sql
+uploads/
+assets/images/products/temp/
+
+# --- Environment & Credentials ---
+# Quan trọng: Không đẩy file chứa mật khẩu database
+.env
+config.php.backup
