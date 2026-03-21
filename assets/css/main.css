@@ -13131,3 +13131,30 @@ section,
   line-height: 1;
   /* Thêm line-height cho dễ đọc */
 }
+
+
+.filter-group-actions {
+    position: sticky;
+    bottom: 20px; /* Nổi lên trên nếu sidebar dài */
+    background: var(--surface-color);
+    padding: 15px;
+    border-radius: 12px;
+    box-shadow: 0 -5px 15px rgba(0,0,0,0.05);
+    z-index: 10;
+}
+
+.filter-group-actions .btn-primary {
+    background-color: #333; /* Màu đen xám cho đồng bộ thiết kế của bạn */
+    border: none;
+    transition: all 0.3s ease;
+}
+
+.filter-group-actions .btn-primary:hover {
+    background-color: #000;
+    transform: translateY(-2px);
+}
+
+.filter-group-actions .btn-outline-secondary:hover {
+    background-color: #f8f9fa;
+    color: #333;
+}

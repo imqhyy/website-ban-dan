@@ -13,7 +13,10 @@ include 'forms/head.php';
 	<main class="main"> <!-- Page Title -->
 		<div class="page-title light-background">
 			<div class="container d-lg-flex justify-content-between align-items-center">
-				<h1 class="mb-2 mb-lg-0">Thương hiệu: Saga</h1>
+                <?php 
+                $current_brand = $_GET['brand_name'];
+                ?>
+				<h1 class="mb-2 mb-lg-0">Thương hiệu: <?= $current_brand ?></h1>
 				<nav class="breadcrumbs">
 					<ol>
 						<li><a href="index.php">Trang chủ</a></li>
@@ -39,7 +42,7 @@ include 'forms/head.php';
                                 <ul class="category-tree list-unstyled mb-0">
                                     <?php
                                     // 1. Lấy danh sách phân loại duy nhất từ bảng products
-                                    $sql_types = "SELECT DISTINCT product_type FROM products WHERE product_type IS NOT NULL";
+                                    $sql_types = "SELECT * FROM categories ORDER BY category_name ASC";
                                     $all_types = getAll($sql_types);
 
                                     // 2. Lấy các loại đang được chọn từ URL (nếu có) để giữ trạng thái checked
@@ -48,8 +51,7 @@ include 'forms/head.php';
                                     // 3. Vòng lặp hiển thị từng loại
                                     if (!empty($all_types)):
                                         foreach ($all_types as $t):
-                                            $type_name = $t['product_type'];
-                                            // Tạo ID an toàn cho thẻ label (ví dụ: Guitar Acoustic -> type_guitar_acoustic)
+                                            $type_name = $t['category_name']; // Chú ý: dùng category_name thay vì product_type
                                             $type_id = 'type_' . create_slug($type_name);
                                     ?>
                                         <li class="category-item">
@@ -112,6 +114,37 @@ include 'forms/head.php';
                             </div>
                             <!--/Pricing Range Widget -->
 
+                        </div>
+                        <div class="filter-group-actions mt-4">
+                            <button type="submit" class="btn btn-primary w-100 mb-2 py-2 fw-bold">
+                                <i class="bi bi-funnel"></i> Tra cứu
+                            </button>
+                            <?php 
+                            // Khởi tạo mảng các tham số gốc cần giữ lại
+                            $reset_params = [];
+
+                            // 1. Giữ lại ID thương hiệu
+                            if (isset($_GET['brand'])) {
+                                $reset_params['brand'] = $_GET['brand'];
+                            }
+
+                            // 2. Giữ lại tên thương hiệu (để hiển thị tiêu đề trang)
+                            if (isset($_GET['brand_name'])) {
+                                $reset_params['brand_name'] = $_GET['brand_name'];
+                            }
+
+                            // 3. Giữ lại phân loại (Type) - Đáp ứng yêu cầu của Huy
+                            if (isset($_GET['type'])) {
+                                $reset_params['type'] = $_GET['type'];
+                            }
+
+                            // Tạo chuỗi truy vấn: brand[]=...&brand_name=...&type[]=...
+                            $reset_url = "brand.php?" . http_build_query($reset_params);
+                            ?>
+
+                            <a href="<?= $reset_url ?>" class="btn btn-outline-secondary w-100 py-2">
+                                <i class="bi bi-arrow-counterclockwise"></i> Xóa tất cả
+                            </a>
                         </div>
                     </form>
 				</div>

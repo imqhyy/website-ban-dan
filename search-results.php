@@ -140,10 +140,6 @@ $list_sizes     = getAll("SELECT DISTINCT product_size FROM products WHERE produ
                                     <option value="name_desc" <?= (isset($_GET['sort']) && $_GET['sort'] == 'name_desc') ? 'selected' : '' ?>>Tên Z-A</option>
                                 </select>
                             </div>
-
-                            <button type="submit" class="btn-tra-cuu">
-                                <i class="bi bi-funnel"></i> Tra cứu
-                            </button>
                         </form>
                     </div>
                 </div>
@@ -165,7 +161,7 @@ $list_sizes     = getAll("SELECT DISTINCT product_size FROM products WHERE produ
                                 <ul class="category-tree list-unstyled mb-0">
                                     <?php
                                     // 1. Lấy danh sách phân loại duy nhất từ bảng products
-                                    $sql_types = "SELECT DISTINCT product_type FROM products WHERE product_type IS NOT NULL";
+                                    $sql_types = "SELECT * FROM categories ORDER BY category_name ASC";
                                     $all_types = getAll($sql_types);
 
                                     // 2. Lấy các loại đang được chọn từ URL (nếu có) để giữ trạng thái checked
@@ -174,8 +170,7 @@ $list_sizes     = getAll("SELECT DISTINCT product_size FROM products WHERE produ
                                     // 3. Vòng lặp hiển thị từng loại
                                     if (!empty($all_types)):
                                         foreach ($all_types as $t):
-                                            $type_name = $t['product_type'];
-                                            // Tạo ID an toàn cho thẻ label (ví dụ: Guitar Acoustic -> type_guitar_acoustic)
+                                            $type_name = $t['category_name']; // Chú ý: dùng category_name thay vì product_type
                                             $type_id = 'type_' . create_slug($type_name);
                                     ?>
                                         <li class="category-item">
@@ -231,9 +226,9 @@ $list_sizes     = getAll("SELECT DISTINCT product_size FROM products WHERE produ
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="filter-actions mt-3">
+                                    <!-- <div class="filter-actions mt-3">
                                         <button type="button" id="btn-apply-price" class="btn btn-sm btn-primary w-100">Áp dụng bộ lọc</button>
-                                    </div>
+                                    </div> -->
                                 </div>
                             </div>
                             <!--/Pricing Range Widget -->
@@ -267,13 +262,21 @@ $list_sizes     = getAll("SELECT DISTINCT product_size FROM products WHERE produ
                                         </div>
                                         <?php endforeach; ?>
                                     </div>
-                                    <div class="brand-actions">
+                                    <!-- <div class="brand-actions">
                                         <button type="button" class="btn btn-sm btn-outline-primary">Áp dụng bộ lọc</button>
                                         <a href="search-results.php?search=<?= urlencode($_GET['search'] ?? '') ?>" class="btn btn-sm btn-link">Xóa tất cả</a>
-                                    </div>
+                                    </div> -->
                                 </div>
                             </div>
                             <!--/Brand Filter Widget -->
+                        </div>
+                        <div class="filter-group-actions mt-4">
+                            <button type="submit" class="btn btn-primary w-100 mb-2 py-2 fw-bold">
+                                <i class="bi bi-funnel"></i> Tra cứu
+                            </button>
+                            <a href="search-results.php?search=<?= urlencode($_GET['search'] ?? '') ?>" class="btn btn-outline-secondary w-100 py-2">
+                                <i class="bi bi-arrow-counterclockwise"></i> Xóa tất cả
+                            </a>
                         </div>
                     </form>
                 </div>
