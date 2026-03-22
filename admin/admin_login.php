@@ -27,7 +27,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   }
 
   $_SESSION['admin'] = $loginUser['username'];
-  $_SESSION['admin_role'] = $loginUser['role'];
+  // $_SESSION['admin_role'] = $loginUser['role'];
   echo json_encode(['status' => 'success']);
   exit();
 }
