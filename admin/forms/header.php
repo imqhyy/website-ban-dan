@@ -50,15 +50,7 @@
             <h1 class="sitename">Guitar Xì Gòn</h1>
           </a>
 
-          <!-- Search -->
-          <form class="search-form desktop-search-form" action="search-results.php">
-            <div class="input-group">
-              <input type="text" class="form-control" placeholder="Tìm kiếm sản phẩm">
-              <button class="btn" type="submit">
-                <i class="bi bi-search"></i>
-              </button>
-            </div>
-          </form>
+          
 
           <!-- Actions -->
           <div class="header-actions d-flex align-items-center justify-content-end">
