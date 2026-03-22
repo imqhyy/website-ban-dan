@@ -3,7 +3,11 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
+<<<<<<< HEAD
 -- Thời gian đã tạo: Th3 22, 2026 lúc 07:08 PM
+=======
+-- Thời gian đã tạo: Th3 22, 2026 lúc 09:06 PM
+>>>>>>> 0313758680694f78cc239ec1d173b2363c4a1ff3
 -- Phiên bản máy phục vụ: 10.4.32-MariaDB
 -- Phiên bản PHP: 8.2.12
 
@@ -76,7 +80,12 @@ INSERT INTO `products` (`id`, `product_name`, `product_type`, `brand_id`, `produ
 (17, 'Yamaha APX1200ii', 'Guitar Acoustic', 4, 'yamaha-apx1200ii-1.jpg,yamaha-apx1200ii-2.jpg,yamaha-apx1200ii-3.jpg,yamaha-apx1200ii-4.jpg,yamaha-apx1200ii-5.jpg,yamaha-apx1200ii-6.jpg', NULL, NULL, 0.00, 20.00, 0.00, 0.00, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2026-03-07 19:29:25', '2026-03-08 13:38:37'),
 (23, 'Jack', 'Guitar Acoustic', 5, NULL, NULL, NULL, 0.00, 20.00, 0.00, 3500000.00, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2026-03-09 07:53:46', '2026-03-09 07:53:46'),
 (26, 'jack', 'Guitar Acoustic', 2, 'jack-1.png,jack-2.png,jack-3.png,jack-4.png,jack-5.png,jack-6.png', '', '', 0.00, 20.00, 0.00, 0.00, '', '', '', '', '', '', '', '', '[]', '2026-03-22 17:08:03', '2026-03-22 17:08:03'),
+<<<<<<< HEAD
 (27, 'tày enzo', 'Guitar Acoustic', 2, 'tay-enzo-1.png,tay-enzo-2.png,tay-enzo-3.png,tay-enzo-4.png,tay-enzo-5.png,tay-enzo-6.png', '', '', 0.00, 20.00, 0.00, 0.00, '', '', '', '', '', '', '', '', '[]', '2026-03-22 17:08:39', '2026-03-22 17:08:39');
+=======
+(27, 'tày enzoo', 'Guitar Acoustic', 2, 'tay-enzo-1.png,tay-enzo-2.png,tay-enzo-3.png,tay-enzo-4.png,tay-enzo-5.png,tay-enzo-6.png', '', '', 0.00, 20.00, 0.00, 0.00, '', '', '', '', '', '', '', '', '[]', '2026-03-22 17:08:39', '2026-03-22 20:03:16'),
+(29, 'akkakaka', 'Guitar Acoustic', 1, 'akkakaka-1.jpeg,akkakaka-2.jpg,akkakaka-3.jpg,akkakaka-4.jpg,akkakaka-17742063870.jpg,akkakaka-17742096540.png', 'hih', 'hihihi', 0.00, 20.00, 0.00, 0.00, 'a', 'a', '', '', '', '', '', '', '[]', '2026-03-22 18:54:23', '2026-03-22 20:00:54');
+>>>>>>> 0313758680694f78cc239ec1d173b2363c4a1ff3
 
 --
 -- Chỉ mục cho các bảng đã đổ

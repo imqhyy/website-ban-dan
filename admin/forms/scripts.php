@@ -12,16 +12,17 @@
 <script src="../assets/js/admin.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
-  var Toast = Swal.mixin({
-    toast: true,
-    position: "top-end",
-    showConfirmButton: false,
-    timer: 1200,
-    timerProgressBar: true,
-    customClass: { popup: "my-swal-popup" },
-    didOpen: (toast) => {
-      toast.onmouseenter = Swal.stopTimer;
-      toast.onmouseleave = Swal.resumeTimer;
-    }
-  });
+    // Sử dụng window.Toast để tránh lỗi "Already declared" vĩnh viễn
+    window.Toast = Swal.mixin({
+        toast: true,
+        position: "top-end",
+        showConfirmButton: false,
+        timer: 1200,
+        timerProgressBar: true,
+        customClass: { popup: "my-swal-popup" },
+        didOpen: (toast) => {
+            toast.onmouseenter = Swal.stopTimer;
+            toast.onmouseleave = Swal.resumeTimer;
+        }
+    });
 </script>
