@@ -37,7 +37,11 @@ require_once 'forms/init.php'; ?>
     <main class="main"> <!-- Page Title -->
         <div class="page-title light-background">
             <div class="container d-lg-flex justify-content-between align-items-center">
-                <h1 class="mb-2 mb-lg-0">Phân loại: Acoustic</h1>
+                <?php 
+                // Lấy loại sản phẩm hiện tại từ URL
+                $current_type = $_GET['product_type'] ?? ''; 
+                ?>
+                <h1 class="mb-2 mb-lg-0">Phân loại: <?= urldecode($current_type) ?></h1>
                 <nav class="breadcrumbs">
                     <ol>
                         <li><a href="index.php">Trang chủ</a></li>
@@ -123,17 +127,21 @@ require_once 'forms/init.php'; ?>
                                         </div>
                                         <?php endforeach; ?>
                                     </div>
-                                    <div class="brand-actions">
-                                        <button class="btn btn-sm btn-outline-primary">Áp dụng bộ lọc</button>
-                                        <?php 
-                                        // Lấy loại sản phẩm hiện tại từ URL
-                                        $current_type = $_GET['product_type'] ?? ''; 
-                                        ?>
-                                        <a href="category_detail.php?product_type=<?= urlencode($current_type) ?>" class="btn btn-sm btn-link">Xóa tất cả</a>
-                                    </div>
                                 </div>
                             </div>
                             <!--/Brand Filter Widget -->
+                        </div>
+                        <div class="filter-group-actions mt-4">
+                            <button type="submit" class="btn btn-primary w-100 mb-2 py-2 fw-bold">
+                                <i class="bi bi-funnel"></i> Tra cứu
+                            </button>
+                            <?php 
+                            // Lấy loại sản phẩm hiện tại từ URL
+                            $current_type = $_GET['product_type'] ?? ''; 
+                            ?>
+                            <a href="category_detail.php?product_type=<?= urlencode($current_type) ?>" class="btn btn-outline-secondary w-100 py-2">
+                                <i class="bi bi-arrow-counterclockwise"></i> Xóa tất cả
+                            </a>
                         </div>
                     </form>
                 </div>

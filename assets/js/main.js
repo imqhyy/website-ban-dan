@@ -13,14 +13,29 @@ const Toast = Swal.mixin({
 });
 
 // Lắng nghe lệnh gọi Toast từ PHP (Global)
-document.addEventListener('DOMContentLoaded', function () {
+// document.addEventListener('DOMContentLoadedload', function () {
+//   if (typeof window.globalToast !== 'undefined') {
+//     Toast.fire({
+//       icon: window.globalToast.type,
+//       title: window.globalToast.message
+//     });
+//   }
+// });
+
+window.addEventListener('load', function () {
+  // Kiểm tra xem PHP có gửi biến globalToast qua không
   if (typeof window.globalToast !== 'undefined') {
     Toast.fire({
       icon: window.globalToast.type,
       title: window.globalToast.message
     });
+    
+    // Xóa biến sau khi hiện để tránh hiện lại khi nhấn Back trang
+    delete window.globalToast;
   }
 });
+
+
 function updateCartIcon(itemCount) {
   const allCartBadges = document.querySelectorAll('.cart-item-count-badge');
   allCartBadges.forEach(badge => {
@@ -1174,104 +1189,85 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 
-// Đảm bảo đoạn này nằm ở cuối file main.js
-document.addEventListener("DOMContentLoaded", function () {
-    const btnApplyPrice = document.getElementById('btn-apply-price');
-    
-    if (btnApplyPrice) {
-        btnApplyPrice.addEventListener('click', function (e) {
-            e.preventDefault();
-            
-            // Tìm form bao quanh nút bấm này
-            const filterForm = btnApplyPrice.closest('form');
-            const minInput = filterForm.querySelector(".min-price-input");
-            const maxInput = filterForm.querySelector(".max-price-input");
-
-            if (filterForm) {
-                // 1. Gán name để PHP nhận được dữ liệu
-                if (minInput) minInput.name = "min_price";
-                if (maxInput) maxInput.name = "max_price";
-
-                // 2. Làm sạch dữ liệu: Bỏ dấu chấm (5.000.000 -> 5000000)
-                // Điều này giúp file list.php của bạn không bị lỗi khi xử lý SQL
-                if (minInput) minInput.value = minInput.value.replace(/\./g, "");
-                if (maxInput) maxInput.value = maxInput.value.replace(/\./g, "");
-
-                console.log("🚀 Đang gửi form lọc giá...");
-                filterForm.submit();
-            } else {
-                console.error("❌ Không tìm thấy thẻ <form> nào bao quanh nút bấm!");
-            }
-        });
-    } else {
-        console.warn("⚠️ Không tìm thấy nút #btn-apply-price trên trang này.");
-    }
-});
 
 /**
- * HÀM GỘP BỘ LỌC AN TOÀN (Dùng cho search-results.php và all.php, brand, category-details)
+ * XỬ LÝ BỘ LỌC TỔNG HỢP (SIDEBAR + ADVANCED BAR)
  */
 document.addEventListener("DOMContentLoaded", function () {
-    const sidebarForm = document.getElementById('filter-product-form');
-    const advancedBar = document.querySelector('.advanced-search-bar');
+    const filterForm = document.getElementById('filter-product-form');
+    const advancedBar = document.querySelector('.advanced-search-bar'); // cái này dùng trong search-result để chọn dáng đàn,....
+    
+    // Biến cờ để kiểm tra xem người dùng có thực sự đụng vào filter giá không
+    let isPriceTouched = false;
 
-    // Hàm thu thập tất cả dữ liệu từ cả 2 khu vực lọc
-    function applyCombinedFilters() {
-        // Lấy các tham số hiện có trên URL làm gốc (để giữ lại từ khóa search)
-        let params = new URLSearchParams(window.location.search);
-        
-        // 1. Thu thập từ Advanced Bar (Dáng đàn, Gỗ, Cấu tạo, Sắp xếp...)
-        if (advancedBar) {
-            advancedBar.querySelectorAll('select, input').forEach(el => {
-                if (el.name) {
-                    if (el.value) params.set(el.name, el.value);
-                    else params.delete(el.name); // Nếu chọn "Tất cả" thì xóa khỏi URL
-                }
-            });
-        }
+    if (filterForm) {
+        const minInput = filterForm.querySelector(".min-price-input");
+        const maxInput = filterForm.querySelector(".max-price-input");
+        const priceRanges = filterForm.querySelectorAll('input[type="range"]');
 
-        // 2. Thu thập từ Sidebar Form (Thương hiệu, Phân loại, Giá...)
-        if (sidebarForm) {
-            // Xóa các mảng cũ để tránh bị lặp khi nhấn nút nhiều lần
+        // Lắng nghe sự kiện thay đổi trên các ô nhập và thanh kéo
+        const markAsTouched = () => { isPriceTouched = true; };
+        if(minInput) minInput.addEventListener('input', markAsTouched);
+        if(maxInput) maxInput.addEventListener('input', markAsTouched);
+        priceRanges.forEach(range => range.addEventListener('input', markAsTouched));
+
+        filterForm.addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            // 1. Lấy tham số hiện tại trên URL làm gốc
+            let params = new URLSearchParams(window.location.search);
+            
+            // 2. Xử lý Advanced Bar (Dáng đàn, Gỗ...)
+            if (advancedBar) {
+                advancedBar.querySelectorAll('select, input').forEach(el => {
+                    if (el.name) {
+                        if (el.value) params.set(el.name, el.value);
+                        else params.delete(el.name);
+                    }
+                });
+            }
+
+            // 3. Xử lý Sidebar (Checkbox Thương hiệu & Phân loại)
             params.delete('brand[]');
             params.delete('type[]');
-            
-            const formData = new FormData(sidebarForm);
+            const formData = new FormData(filterForm);
             for (let [key, value] of formData.entries()) {
-                if (value) {
-                    // Làm sạch dấu chấm cho giá tiền (5.000.000 -> 5000000)
-                    if (key === 'min_price' || key === 'max_price') {
-                        value = value.replace(/\./g, "");
-                    }
-                    
-                    // Nếu là mảng (checkbox) thì append, nếu là giá trị đơn thì set
-                    if (key.includes('[]')) params.append(key, value);
-                    else params.set(key, value);
+                if (key.includes('[]') && value) {
+                    params.append(key, value);
                 }
             }
-        }
 
-        // Reset về trang 1 mỗi khi lọc mới để tránh lỗi không có sản phẩm
-        params.delete('page');
+            // 4. LOGIC QUAN TRỌNG: Chỉ xử lý giá khi biến isPriceTouched = true
+            if (isPriceTouched) {
+                if (minInput && minInput.value.trim() !== "") {
+                    minInput.name = "min_price"; // Thêm name để đánh dấu
+                    let minVal = minInput.value.replace(/\./g, ""); 
+                    params.set("min_price", minVal);
+                } else {
+                    minInput.removeAttribute('name');
+                    params.delete("min_price");
+                }
 
-        // Chuyển hướng trang với chuỗi query đã gộp
-        window.location.href = window.location.pathname + '?' + params.toString();
+                if (maxInput && maxInput.value.trim() !== "") {
+                    maxInput.name = "max_price"; // Thêm name để đánh dấu
+                    let maxVal = maxInput.value.replace(/\./g, "");
+                    params.set("max_price", maxVal);
+                } else {
+                    maxInput.removeAttribute('name');
+                    params.delete("max_price");
+                }
+            } else {
+                // Nếu chưa từng chạm vào giá, đảm bảo không có name và không có trên URL
+                if(minInput) minInput.removeAttribute('name');
+                if(maxInput) maxInput.removeAttribute('name');
+                params.delete("min_price");
+                params.delete("max_price");
+            }
+
+            // 5. Reset trang và chuyển hướng
+            params.delete('page');
+            window.location.href = window.location.pathname + '?' + params.toString();
+        });
     }
-
-    // Gán sự kiện cho TẤT CẢ các nút có nhiệm vụ lọc trên trang
-    const filterSelectors = [
-        '#btn-apply-price',              // Nút lọc giá
-        '.btn-tra-cuu',                  // Nút Tra cứu nâng cao
-        '.brand-actions button'          // Nút Áp dụng của thương hiệu
-    ];
-
-    filterSelectors.forEach(selector => {
-        const btn = document.querySelector(selector);
-        if (btn) {
-            btn.addEventListener('click', function (e) {
-                e.preventDefault(); // Chặn form submit mặc định
-                applyCombinedFilters();
-            });
-        }
-    });
 });
+

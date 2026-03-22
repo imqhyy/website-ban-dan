@@ -148,33 +148,38 @@
                             <i class="bi bi-chevron-down toggle-dropdown"></i></a>
                         <ul>
                             <?php
-                            // 1. Lấy tất cả Phân loại duy nhất từ bảng products
-                            $header_types = getAll("SELECT DISTINCT product_type FROM products WHERE product_type IS NOT NULL");
-                            
-                            // 2. Lấy tất cả Thương hiệu từ bảng brands
-                            $header_brands = getAll("SELECT * FROM brands ORDER BY brand_name ASC");
+                            // 1. Lấy tất cả Phân loại từ bảng categories mới
+                            $header_categories = getAll("SELECT * FROM categories ORDER BY category_name ASC");
 
-                            if (!empty($header_types)):
-                                foreach ($header_types as $type):
-                                    $typeName = $type['product_type'];
+                            if (!empty($header_categories)):
+                                foreach ($header_categories as $cat):
+                                    $catID = $cat['id'];
+                                    $catName = $cat['category_name'];
+                                    
+                                    // 2. Lấy thương hiệu thông qua bảng trung gian (Chỉ lấy hãng có bán loại đàn này)
+                                    $sql_brands = "SELECT b.* FROM brands b 
+                                                JOIN brand_category bc ON b.id = bc.brand_id 
+                                                WHERE bc.category_id = $catID 
+                                                ORDER BY b.brand_name ASC";
+                                    $brands_by_type = getAll($sql_brands);
                             ?>
                                 <li class="dropdown">
-                                    <a href="category_detail.php?product_type=<?= urlencode($typeName) ?>">
-                                        <span><?= htmlspecialchars($typeName) ?></span>
+                                    <a href="all.php?type[]=<?= urlencode($catName) ?>">
+                                        <span><?= htmlspecialchars($catName) ?></span>
                                         <i class="bi bi-chevron-right toggle-dropdown"></i>
                                     </a>
                                     <ul>
-                                        <?php 
-                                        // 3. Với mỗi loại đàn, chúng ta hiển thị danh sách tất cả thương hiệu
-                                        // Huy có thể lọc thêm: Chỉ hiện thương hiệu có bán loại đàn này (Dùng JOIN)
-                                        foreach ($header_brands as $brand): 
-                                        ?>
-                                            <li>
-                                                <a href="brand.php?brand[]=<?= $brand['id'] ?>&brand_name=<?= urlencode($brand['brand_name']) ?>&type[]=<?= urlencode($typeName) ?>">
-                                                    <?= htmlspecialchars($brand['brand_name']) ?>
-                                                </a>
-                                            </li>
-                                        <?php endforeach; ?>
+                                        <?php if (!empty($brands_by_type)): ?>
+                                            <?php foreach ($brands_by_type as $brand): ?>
+                                                <li>
+                                                    <a href="brand.php?brand[]=<?= $brand['id'] ?>&brand_name=<?= urlencode($brand['brand_name']) ?>&type[]=<?= urlencode($catName) ?>">
+                                                        <?= htmlspecialchars($brand['brand_name']) ?>
+                                                    </a>
+                                                </li>
+                                            <?php endforeach; ?>
+                                        <?php else: ?>
+                                            <li><a href="#">Đang cập nhật...</a></li>
+                                        <?php endif; ?>
                                     </ul>
                                 </li>
                             <?php 

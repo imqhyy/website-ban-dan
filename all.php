@@ -33,7 +33,7 @@ include 'forms/head.php' ?>
                                 <ul class="category-tree list-unstyled mb-0">
                                     <?php
                                     // 1. Lấy danh sách phân loại duy nhất từ bảng products
-                                    $sql_types = "SELECT DISTINCT product_type FROM products WHERE product_type IS NOT NULL";
+                                    $sql_types = "SELECT * FROM categories ORDER BY category_name ASC";
                                     $all_types = getAll($sql_types);
 
                                     // 2. Lấy các loại đang được chọn từ URL (nếu có) để giữ trạng thái checked
@@ -42,21 +42,19 @@ include 'forms/head.php' ?>
                                     // 3. Vòng lặp hiển thị từng loại
                                     if (!empty($all_types)):
                                         foreach ($all_types as $t):
-                                            $type_name = $t['product_type'];
-                                            // Tạo ID an toàn cho thẻ label (ví dụ: Guitar Acoustic -> type_guitar_acoustic)
+                                            $type_name = $t['category_name']; // Chú ý: dùng category_name thay vì product_type
                                             $type_id = 'type_' . create_slug($type_name);
                                     ?>
-                                        <li class="category-item">
-                                            <div class="category-header">
-                                                <input class="form-check-input" type="checkbox" name="type[]" 
-                                                    value="<?= htmlspecialchars($type_name) ?>" 
-                                                    id="<?= $type_id ?>"
-                                                    <?= in_array($type_name, $selected_types) ? 'checked' : '' ?>> 
-                                                <label class="form-check-label" for="<?= $type_id ?>">
-                                                    <?= htmlspecialchars($type_name) ?>
-                                                </label>
-                                            </div>
-                                        </li>
+                                    <li class="category-item">
+                                        <div class="category-header">
+                                            <input class="form-check-input" type="checkbox" name="type[]"
+                                                value="<?= htmlspecialchars($type_name) ?>" id="<?= $type_id ?>"
+                                                <?= in_array($type_name, $selected_types) ? 'checked' : '' ?>>
+                                            <label class="form-check-label" for="<?= $type_id ?>">
+                                                <?= htmlspecialchars($type_name) ?>
+                                            </label>
+                                        </div>
+                                    </li>
                                     <?php 
                                         endforeach;
                                     endif; 
@@ -64,7 +62,7 @@ include 'forms/head.php' ?>
                                 </ul>
                             </div>
                             <!--/Product Categories Widget -->
-                            
+
                             <!-- Pricing Range Widget -->
                             <div class="pricing-range-widget widget-item">
                                 <h3 class="widget-title">Khoảng giá</h3>
@@ -76,8 +74,10 @@ include 'forms/head.php' ?>
                                     <div class="range-slider">
                                         <div class="slider-track"></div>
                                         <div class="slider-progress"></div>
-                                        <input type="range" class="min-range" min="0" max="100000000" value="<?= str_replace('.', '', $_GET['min_price'] ?? 0) ?>">
-                                        <input type="range" class="max-range" min="0" max="100000000" value="<?= str_replace('.', '', $_GET['max_price'] ?? 50000000) ?>">
+                                        <input type="range" class="min-range" min="0" max="100000000"
+                                            value="<?= str_replace('.', '', $_GET['min_price'] ?? 0) ?>">
+                                        <input type="range" class="max-range" min="0" max="100000000"
+                                            value="<?= str_replace('.', '', $_GET['max_price'] ?? 50000000) ?>">
                                     </div>
                                     <div class="price-inputs mt-3">
                                         <div class="row g-2">
@@ -99,9 +99,10 @@ include 'forms/head.php' ?>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="filter-actions mt-3">
-                                        <button type="button" id="btn-apply-price"   class="btn btn-sm btn-primary w-100">Áp dụng bộ lọc</button>
-                                    </div>
+                                    <!-- <div class="filter-actions mt-3">
+                                        <button type="button" id="btn-apply-price"
+                                            class="btn btn-sm btn-primary w-100">Áp dụng bộ lọc</button>
+                                    </div> -->
                                 </div>
                             </div>
                             <!--/Pricing Range Widget -->
@@ -123,10 +124,8 @@ include 'forms/head.php' ?>
                                         ?>
                                         <div class="brand-item">
                                             <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" 
-                                                    name="brand[]" 
-                                                    value="<?= $b['id'] ?>" 
-                                                    id="brand_<?= $b['id'] ?>"
+                                                <input class="form-check-input" type="checkbox" name="brand[]"
+                                                    value="<?= $b['id'] ?>" id="brand_<?= $b['id'] ?>"
                                                     <?= in_array($b['id'], $selected_brands) ? 'checked' : '' ?>>
                                                 <label class="form-check-label" for="brand_<?= $b['id'] ?>">
                                                     <?= $b['brand_name'] ?>
@@ -135,13 +134,21 @@ include 'forms/head.php' ?>
                                         </div>
                                         <?php endforeach; ?>
                                     </div>
-                                    <div class="brand-actions">
+                                    <!-- <div class="brand-actions">
                                         <button class="btn btn-sm btn-outline-primary">Áp dụng bộ lọc</button>
                                         <a href="all.php" class="btn btn-sm btn-link">Xóa tất cả</a>
-                                    </div>
+                                    </div> -->
                                 </div>
                             </div>
                             <!--/Brand Filter Widget -->
+                        </div>
+                        <div class="filter-group-actions mt-4">
+                            <button type="submit" class="btn btn-primary w-100 mb-2 py-2 fw-bold">
+                                <i class="bi bi-funnel"></i> Tra cứu
+                            </button>
+                            <a href="all.php" class="btn btn-outline-secondary w-100 py-2">
+                                <i class="bi bi-arrow-counterclockwise"></i> Xóa tất cả
+                            </a>
                         </div>
                     </form>
                 </div>
@@ -249,19 +256,21 @@ include 'forms/head.php' ?>
                                     ?>
 
                                     <?php if ($currentPage > 1): ?>
-                                    <li><a href="<?= $base_url ?>page=<?= $currentPage - 1 ?>"><i class="bi bi-arrow-left"></i></a></li>
+                                    <li><a href="<?= $base_url ?>page=<?= $currentPage - 1 ?>"><i
+                                                class="bi bi-arrow-left"></i></a></li>
                                     <?php endif; ?>
 
                                     <?php if($maxPage <= $maxPanigation): ?>
-                                        <?php for ($i = 1; $i <= $maxPage; $i++): ?>
-                                        <li>
-                                            <a href="<?= $base_url ?>page=<?= $i ?>" class="<?= ($i == $currentPage) ? 'active' : '' ?>">
-                                                <?= $i ?>
-                                            </a>
-                                        </li>
-                                        <?php endfor; ?>
+                                    <?php for ($i = 1; $i <= $maxPage; $i++): ?>
+                                    <li>
+                                        <a href="<?= $base_url ?>page=<?= $i ?>"
+                                            class="<?= ($i == $currentPage) ? 'active' : '' ?>">
+                                            <?= $i ?>
+                                        </a>
+                                    </li>
+                                    <?php endfor; ?>
                                     <?php else: ?>
-                                        <?php 
+                                    <?php 
                                             $startPage = 1;
                                             $endPage = $maxPanigation;
                                             if($currentPage > $maxPanigation) {
@@ -277,18 +286,20 @@ include 'forms/head.php' ?>
 
                                             for ($i = $startPage; $i <= $endPage; $i++): 
                                         ?>
-                                        <li>
-                                            <a href="<?= $base_url ?>page=<?= $i ?>" class="<?= ($i == $currentPage) ? 'active' : '' ?>">
-                                                <?= $i ?>
-                                            </a>
-                                        </li>
-                                        <?php endfor; ?>
+                                    <li>
+                                        <a href="<?= $base_url ?>page=<?= $i ?>"
+                                            class="<?= ($i == $currentPage) ? 'active' : '' ?>">
+                                            <?= $i ?>
+                                        </a>
+                                    </li>
+                                    <?php endfor; ?>
 
-                                        <?php if($endPage < $maxPage) echo "<li class='ellipsis'>...</li>"; ?>
+                                    <?php if($endPage < $maxPage) echo "<li class='ellipsis'>...</li>"; ?>
                                     <?php endif; ?>
 
                                     <?php if ($currentPage < $maxPage): ?>
-                                    <li><a href="<?= $base_url ?>page=<?= $currentPage + 1 ?>"><i class="bi bi-arrow-right"></i></a></li>
+                                    <li><a href="<?= $base_url ?>page=<?= $currentPage + 1 ?>"><i
+                                                class="bi bi-arrow-right"></i></a></li>
                                     <?php endif; ?>
                                 </ul>
                             </nav>
