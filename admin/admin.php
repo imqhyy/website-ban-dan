@@ -1,5 +1,6 @@
 <?php
 $title = "Admin";
+require_once(__DIR__ . '/forms/init.php');
 include __DIR__ . "/forms/head.php";
 ?>
 
@@ -251,9 +252,9 @@ include __DIR__ . "/forms/head.php";
   <!-- Preloader -->
   <div id="preloader"></div>
 
-  <?php 
-    require_once __DIR__ . "/forms/scripts.php"
-  ?>
+  <?php
+  require_once __DIR__ . "/forms/scripts.php"
+    ?>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script>
     document.addEventListener('DOMContentLoaded', function () {

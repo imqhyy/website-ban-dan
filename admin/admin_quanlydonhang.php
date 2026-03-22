@@ -1,5 +1,6 @@
 <?php
 $title = "Quản lý đơn hàng";
+require_once(__DIR__ . '/forms/init.php');
 include __DIR__ . "/forms/head.php";
 ?>
 

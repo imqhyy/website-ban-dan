@@ -1,5 +1,6 @@
 <?php
 $title = "Quản lý loại sản phẩm";
+require_once(__DIR__ . '/forms/init.php');
 include __DIR__ . "/forms/head.php";
 ?>
 
@@ -216,44 +217,9 @@ include __DIR__ . "/forms/head.php";
     require_once __DIR__ . "/forms/scripts.php"
   ?>
 </body>
-<!-- Xử lý nếu đăng xuát xoá local storage -->
-<script>
-  document.addEventListener('DOMContentLoaded', function () {
-    // Toàn bộ code bên trong sẽ chỉ chạy sau khi DOM đã được tải hoàn toàn
-
-    // 1. Lấy ra phần tử nút Đăng xuất
-    const logoutButton = document.getElementById('admin-logout-button');
-
-    // 2. Thêm trình lắng nghe sự kiện khi nhấp chuột
-    if (logoutButton) { // Thêm kiểm tra an toàn
-      logoutButton.addEventListener('click', function (event) {
-        event.preventDefault(); // Ngăn hành vi mặc định của liên kết/nút
-
-        // 3. XÓA TRẠNG THÁI ĐĂNG NHẬP KHỎI LOCALSTORAGE
-        localStorage.removeItem('admin_isLoggedIn');
-
-        // 4. CHUYỂN HƯỚNG người dùng về trang đăng nhập
-        window.location.href = 'admin_login.html';
-      });
-    }
-  });
-</script>
 
 <script>
   document.addEventListener('DOMContentLoaded', function () {
-    // === TOAST ĐỊNH NGHĨA ===
-    const Toast = Swal.mixin({
-      toast: true,
-      position: 'top-end',
-      showConfirmButton: false,
-      timer: 2000,
-      timerProgressBar: true,
-      didOpen: (toast) => {
-        toast.addEventListener('mouseenter', Swal.stopTimer);
-        toast.addEventListener('mouseleave', Swal.resumeTimer);
-      }
-    });
-
     const eyeIconSrc = 'assets/img/iconbutton/eye.png';
     const eyeCrossedIconSrc = 'assets/img/iconbutton/eye-crossed.png';
 

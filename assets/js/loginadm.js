@@ -1,87 +1,52 @@
-const Toast = Swal.mixin({
-    toast: true,
-    position: 'top-end',
-    showConfirmButton: false,
-    timer: 1000,
-    timerProgressBar: true,
-    customClass: {
-        popup: 'my-swal-popup'
-    },
-    didOpen: (toast) => {
-        toast.onmouseenter = Swal.stopTimer;
-        toast.onmouseleave = Swal.resumeTimer;
-    }
-});
-
 document.addEventListener('DOMContentLoaded', function () {
-    const loginForm = document.getElementById('login-form');
-    const emailInput = document.getElementById('email');
 
-    if (emailInput) {
-        emailInput.addEventListener('blur', function () {
-            const emailValue = emailInput.value;
-            if (emailValue.length > 0 && !emailValue.includes('@')) {
-                emailInput.value = emailValue + '@gmail.com';
+    // Toggle hiện/ẩn mật khẩu
+    const passwordInput = document.getElementById('password');
+    const toggleButton = document.querySelector('.password-toggle');
+    if (toggleButton && passwordInput) {
+        const eyeIcon = toggleButton.querySelector('i');
+        toggleButton.addEventListener('click', function () {
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                eyeIcon.classList.replace('bi-eye', 'bi-eye-slash');
+            } else {
+                passwordInput.type = 'password';
+                eyeIcon.classList.replace('bi-eye-slash', 'bi-eye');
             }
         });
     }
 
-    loginForm.addEventListener('submit', function (event) {
-        event.preventDefault();
+    // Xử lý submit
+    const loginForm = document.getElementById('login-form');
+    if (!loginForm) return;
 
-        const email = document.getElementById('email').value;
-        const password = document.getElementById('password').value;
+    loginForm.addEventListener('submit', function (e) {
+        e.preventDefault();
+        e.stopPropagation();
 
-        if (!email || !password) {
-            Toast.fire({
-                icon: 'error',
-                title: 'Vui lòng nhập thông tin!'
-            });
+        const usernameValue = document.getElementById('username').value.trim();
+        const passwordValue = document.getElementById('password').value.trim();
+
+        if (usernameValue === '') {
+            Toast.fire({ icon: 'warning', title: 'Bạn chưa nhập tên đăng nhập' });
+            return;
+        }
+        if (passwordValue === '') {
+            Toast.fire({ icon: 'warning', title: 'Bạn chưa nhập mật khẩu' });
             return;
         }
 
-        let users = JSON.parse(localStorage.getItem('users')) || [];
-        const validUser = users.find(user => user.email === email && user.password === password);
-
-        let allUsers = JSON.parse(localStorage.getItem('users')) || [];
-        const testUserEmail = "test@gmail.com";
-
-        let testUserAccount = allUsers.find(user => user.email === testUserEmail);
-
-        if (!testUserAccount) {
-            testUserAccount = {
-                fullName: "Admin",
-                email: "admin@gmail.com",
-                password: "admin",
-                phone: "0123456789",
-                orders: []
-            };
-            allUsers.push(testUserAccount);
-            localStorage.setItem('users', JSON.stringify(allUsers));
-        }
-
-        Toast.fire({
-            icon: 'success',
-            title: 'Đăng nhập thành công!'
-        }).then(() => {
-            sessionStorage.setItem('currentUser', JSON.stringify(testUserAccount));
-            window.location.href = 'admin.php';
-        });
-    });
-
-    const passwordInput = document.getElementById('password');
-    const toggleButton = document.querySelector('.password-toggle');
-    const eyeIcon = toggleButton.querySelector('i');
-
-    toggleButton.addEventListener('click', function () {
-        if (passwordInput.type === 'password') {
-            passwordInput.type = 'text';
-            eyeIcon.classList.remove('bi-eye');
-            eyeIcon.classList.add('bi-eye-slash');
-        } else {
-            passwordInput.type = 'password';
-            eyeIcon.classList.remove('bi-eye-slash');
-            eyeIcon.classList.add('bi-eye');
-        }
+        const formData = new FormData(this);
+        fetch('admin_login.php', { method: 'POST', body: formData })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 'success') {
+                    Toast.fire({ icon: 'success', title: 'Đăng nhập thành công!' })
+                        .then(() => { window.location.href = 'admin.php'; });
+                } else {
+                    Toast.fire({ icon: 'error', title: data.message });
+                }
+            })
+            .catch(() => Toast.fire({ icon: 'error', title: 'Có lỗi xảy ra, vui lòng thử lại' }));
     });
 });

@@ -1,5 +1,6 @@
 <?php
 $title = "Quản lý khách hàng";
+require_once(__DIR__ . '/forms/init.php');
 include __DIR__ . "/forms/head.php";
 ?>
 
@@ -192,9 +193,7 @@ include __DIR__ . "/forms/head.php";
   <?php 
     require_once __DIR__ . "/forms/scripts.php"
   ?>
-</body>
-<!-- xu ly thong bao cho cac nut chuc nang trong quan ly khach hang -->
-<script>
+  <script>
 
   function resetPassword(text) {
     Swal.fire({
@@ -220,5 +219,5 @@ include __DIR__ . "/forms/head.php";
     });
   }
 </script>
-
+</body>
 </html>
