@@ -24,37 +24,31 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `brands`
+-- Cấu trúc bảng cho bảng `categories`
 --
 
-CREATE TABLE `brands` (
+CREATE TABLE `categories` (
   `id` int(11) NOT NULL,
-  `brand_name` varchar(100) NOT NULL,
-  `profit_margin` decimal(5,2) DEFAULT 20.00,
-  `description` text DEFAULT NULL,
-  `brand_slug` varchar(100) DEFAULT NULL,
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+  `category_name` varchar(100) NOT NULL,
+  `category_slug` varchar(100) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Đang đổ dữ liệu cho bảng `brands`
+-- Đang đổ dữ liệu cho bảng `categories`
 --
 
-INSERT INTO `brands` (`id`, `brand_name`, `profit_margin`, `description`, `brand_slug`, `created_at`) VALUES
-(1, 'Saga', 20.00, NULL, 'saga', '2026-03-08 13:38:37'),
-(2, 'Taylor', 20.00, NULL, 'taylor', '2026-03-08 13:38:37'),
-(3, 'Ba Đờn', 20.00, NULL, 'ba-don', '2026-03-08 13:38:37'),
-(4, 'Yamaha', 20.00, NULL, 'yamaha', '2026-03-08 13:38:37'),
-(5, 'Enya', 20.00, NULL, 'enya', '2026-03-08 13:38:37');
+INSERT INTO `categories` (`id`, `category_name`, `category_slug`) VALUES
+(1, 'Guitar Acoustic', 'guitar-acoustic'),
+(2, 'Guitar Classic', 'guitar-classic');
 
 --
 -- Chỉ mục cho các bảng đã đổ
 --
 
 --
--- Chỉ mục cho bảng `brands`
+-- Chỉ mục cho bảng `categories`
 --
-ALTER TABLE `brands`
+ALTER TABLE `categories`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -62,10 +56,10 @@ ALTER TABLE `brands`
 --
 
 --
--- AUTO_INCREMENT cho bảng `brands`
+-- AUTO_INCREMENT cho bảng `categories`
 --
-ALTER TABLE `brands`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+ALTER TABLE `categories`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

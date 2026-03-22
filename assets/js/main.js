@@ -13,14 +13,29 @@ const Toast = Swal.mixin({
 });
 
 // Lắng nghe lệnh gọi Toast từ PHP (Global)
-document.addEventListener('DOMContentLoaded', function () {
+// document.addEventListener('DOMContentLoadedload', function () {
+//   if (typeof window.globalToast !== 'undefined') {
+//     Toast.fire({
+//       icon: window.globalToast.type,
+//       title: window.globalToast.message
+//     });
+//   }
+// });
+
+window.addEventListener('load', function () {
+  // Kiểm tra xem PHP có gửi biến globalToast qua không
   if (typeof window.globalToast !== 'undefined') {
     Toast.fire({
       icon: window.globalToast.type,
       title: window.globalToast.message
     });
+    
+    // Xóa biến sau khi hiện để tránh hiện lại khi nhấn Back trang
+    delete window.globalToast;
   }
 });
+
+
 function updateCartIcon(itemCount) {
   const allCartBadges = document.querySelectorAll('.cart-item-count-badge');
   allCartBadges.forEach(badge => {

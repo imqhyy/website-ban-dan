@@ -337,50 +337,28 @@
     display: flex;
     justify-content: space-evenly;
 }
-.data-table button {
-    padding: 8px 12px;
-    margin-right: 5px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    color: white;
-    background-color: transparent;
-}
-        
 
-.data-table .action-icon-btn {
-    /* Đảm bảo nút nhỏ gọn */
-    width: 34px; 
-    height: 34px;
-    padding: 0; /* Loại bỏ padding mặc định */
-    display: inline-flex; /* Sử dụng Flexbox để căn giữa biểu tượng */
-    align-items: center;
-    justify-content: center;
-    border-radius: 4px; /* Làm nút vuông vắn, bạn có thể dùng 50% để làm tròn */
-    font-size: 14px; /* Điều chỉnh kích thước icon */
-}
 
-.button-icon {
-    /* Đảm bảo ảnh lấp đầy nút mà không bị tràn */
-    width: 100%; 
-    height: 100%;
-    object-fit: contain; /* Giữ tỷ lệ ảnh */
-    vertical-align: middle; /* Loại bỏ khoảng trắng không mong muốn */
 
-    /* Thêm Transition để chuyển động mượt mà */
-    transition: transform 0.2s ease-in-out;
-}
+
+
+
+/* Màu cho các icon chức năng */
+.edit-category-btn i { color: #ffc107; } /* Vàng */
+.delete-btn i { color: #dc3545; }        /* Đỏ */
+.hide-btn i { color: #6c757d; }          /* Xám */
+.manage-brands-btn i { color: #0d6efd; }  /* Xanh biển */
 
 .action-icon-btn {
-    background-size: 70%;
-    background-repeat: no-repeat;
-    background-position: center;
-            
+    background: transparent;
+    border: none;
+    font-size: 1.2rem; /* Chỉnh kích thước icon */
+    padding: 5px 10px;
+    transition: transform 0.2s;
 }
-/* Hiệu ứng khi di chuột qua */
-.action-icon-btn:hover .button-icon {
-    /* Phóng to icon lên 1.2 lần (20%) */
-    transform: scale(1.2); 
+
+.action-icon-btn:hover {
+    transform: scale(1.2); /* Phóng to nhẹ khi rê chuột vào */
 }
 
 
@@ -416,7 +394,7 @@
     margin-right: 5px;
 }
 
-.close-button-for-edit-info-category, .close-button-for-edit-brands {
+.close-button-for-edit-info-category, .close-button-for-edit-brands, .close-button-for-edit-info-brand {
     color: #aaa;
     float: right;
     font-size: 28px;
@@ -426,8 +404,8 @@
     
 }
 
-.close-button-for-edit-info-category:hover, .close-button-for-edit-brands:hover,
-.close-button-for-edit-info-category:focus, .close-button-for-edit-brands:focus {
+.close-button-for-edit-info-category:hover, .close-button-for-edit-brands:hover, .close-button-for-edit-info-brand:hover,
+.close-button-for-edit-info-category:focus, .close-button-for-edit-brands:focus, .close-button-for-edit-info-brand:focus {
     color: #000;
     text-decoration: none;
     cursor: pointer;
@@ -1009,14 +987,14 @@
     font-weight: 700; /* Giữ style hover của bạn */
 }
 
-#close-detail-order-container, #close-edit-category-container {
+#close-detail-order-container, #close-edit-category-container, #close-edit-info-brand-container {
     display: flex;
     justify-content: flex-end; 
     margin-top: 20px; /* Khoảng cách lớn hơn với khối sản phẩm phía trên */
 }
 
 
-#close-detail-order-container button, #close-edit-category-container button {
+#close-detail-order-container button, #close-edit-category-container button, #close-edit-info-brand-container button {
     padding: 10px 25px;
     border: none;
     border-radius: 25px; /* Bo tròn tương tự các nút khác của bạn */
@@ -1032,7 +1010,7 @@
 
 
 
-#close-detail-order-container button:hover, #close-edit-category-container button:hover {
+#close-detail-order-container button:hover, #close-edit-category-container button:hover, #close-edit-info-brand-container button:hover {
     background-color: #252223;
     transform: translateY(-1px);
 }
