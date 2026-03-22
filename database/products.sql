@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th3 22, 2026 lúc 05:02 PM
+-- Thời gian đã tạo: Th3 22, 2026 lúc 07:08 PM
 -- Phiên bản máy phục vụ: 10.4.32-MariaDB
 -- Phiên bản PHP: 8.2.12
 
@@ -74,7 +74,9 @@ INSERT INTO `products` (`id`, `product_name`, `product_type`, `brand_id`, `produ
 (15, 'Enya EM X1 SP1', 'Guitar Acoustic', 5, 'enya-em-x1-sp1-1.jpg,enya-em-x1-sp1-2.jpg,enya-em-x1-sp1-3.jpg,enya-em-x1-sp1-4.jpg,enya-em-x1-sp1-5.jpg,enya-em-x1-sp1-6.jpg', NULL, NULL, 0.00, 20.00, 0.00, 0.00, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2026-03-07 19:27:38', '2026-03-08 13:38:37'),
 (16, 'Taylor 110E', 'Guitar Acoustic', 2, 'taylor-110e-1.jpg,taylor-110e-2.jpg,taylor-110e-3.jpg,taylor-110e-4.jpg,taylor-110e-5.jpg,taylor-110e-6.jpg', NULL, NULL, 0.00, 20.00, 0.00, 0.00, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2026-03-07 19:28:36', '2026-03-08 13:38:37'),
 (17, 'Yamaha APX1200ii', 'Guitar Acoustic', 4, 'yamaha-apx1200ii-1.jpg,yamaha-apx1200ii-2.jpg,yamaha-apx1200ii-3.jpg,yamaha-apx1200ii-4.jpg,yamaha-apx1200ii-5.jpg,yamaha-apx1200ii-6.jpg', NULL, NULL, 0.00, 20.00, 0.00, 0.00, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2026-03-07 19:29:25', '2026-03-08 13:38:37'),
-(23, 'Jack', 'Guitar Acoustic', 5, NULL, NULL, NULL, 0.00, 20.00, 0.00, 3500000.00, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2026-03-09 07:53:46', '2026-03-09 07:53:46');
+(23, 'Jack', 'Guitar Acoustic', 5, NULL, NULL, NULL, 0.00, 20.00, 0.00, 3500000.00, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2026-03-09 07:53:46', '2026-03-09 07:53:46'),
+(26, 'jack', 'Guitar Acoustic', 2, 'jack-1.png,jack-2.png,jack-3.png,jack-4.png,jack-5.png,jack-6.png', '', '', 0.00, 20.00, 0.00, 0.00, '', '', '', '', '', '', '', '', '[]', '2026-03-22 17:08:03', '2026-03-22 17:08:03'),
+(27, 'tày enzo', 'Guitar Acoustic', 2, 'tay-enzo-1.png,tay-enzo-2.png,tay-enzo-3.png,tay-enzo-4.png,tay-enzo-5.png,tay-enzo-6.png', '', '', 0.00, 20.00, 0.00, 0.00, '', '', '', '', '', '', '', '', '[]', '2026-03-22 17:08:39', '2026-03-22 17:08:39');
 
 --
 -- Chỉ mục cho các bảng đã đổ
@@ -95,7 +97,7 @@ ALTER TABLE `products`
 -- AUTO_INCREMENT cho bảng `products`
 --
 ALTER TABLE `products`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
 
 --
 -- Các ràng buộc cho các bảng đã đổ

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th3 21, 2026 lúc 07:09 PM
+-- Thời gian đã tạo: Th3 22, 2026 lúc 07:08 PM
 -- Phiên bản máy phục vụ: 10.4.32-MariaDB
 -- Phiên bản PHP: 8.2.12
 
@@ -29,20 +29,21 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `brand_category` (
   `brand_id` int(11) NOT NULL,
-  `category_id` int(11) NOT NULL
+  `category_id` int(11) NOT NULL,
+  `brand_profit` decimal(5,2) DEFAULT 0.00
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Đang đổ dữ liệu cho bảng `brand_category`
 --
 
-INSERT INTO `brand_category` (`brand_id`, `category_id`) VALUES
-(1, 1),
-(2, 1),
-(3, 2),
-(4, 1),
-(4, 2),
-(5, 1);
+INSERT INTO `brand_category` (`brand_id`, `category_id`, `brand_profit`) VALUES
+(1, 1, 20.00),
+(2, 1, 20.00),
+(3, 2, 20.00),
+(4, 1, 20.00),
+(4, 2, 20.00),
+(5, 1, 32.00);
 
 --
 -- Chỉ mục cho các bảng đã đổ

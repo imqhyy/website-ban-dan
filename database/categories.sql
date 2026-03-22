@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th3 21, 2026 lúc 07:09 PM
+-- Thời gian đã tạo: Th3 22, 2026 lúc 07:08 PM
 -- Phiên bản máy phục vụ: 10.4.32-MariaDB
 -- Phiên bản PHP: 8.2.12
 
@@ -30,16 +30,18 @@ SET time_zone = "+00:00";
 CREATE TABLE `categories` (
   `id` int(11) NOT NULL,
   `category_name` varchar(100) NOT NULL,
-  `category_slug` varchar(100) DEFAULT NULL
+  `profit_margin` decimal(5,2) DEFAULT 20.00,
+  `category_slug` varchar(100) DEFAULT NULL,
+  `description` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Đang đổ dữ liệu cho bảng `categories`
 --
 
-INSERT INTO `categories` (`id`, `category_name`, `category_slug`) VALUES
-(1, 'Guitar Acoustic', 'guitar-acoustic'),
-(2, 'Guitar Classic', 'guitar-classic');
+INSERT INTO `categories` (`id`, `category_name`, `profit_margin`, `category_slug`, `description`) VALUES
+(1, 'Guitar Acoustic', 25.00, 'guitar-acoustic', 'Dòng guitar thùng sử dụng dây kim loại.'),
+(2, 'Guitar Classic', 30.00, 'guitar-classic', 'Dòng guitar thùng sử dụng dây nylon.');
 
 --
 -- Chỉ mục cho các bảng đã đổ
@@ -59,7 +61,7 @@ ALTER TABLE `categories`
 -- AUTO_INCREMENT cho bảng `categories`
 --
 ALTER TABLE `categories`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=89;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

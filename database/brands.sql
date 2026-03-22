@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th3 21, 2026 lúc 07:09 PM
+-- Thời gian đã tạo: Th3 22, 2026 lúc 07:08 PM
 -- Phiên bản máy phục vụ: 10.4.32-MariaDB
 -- Phiên bản PHP: 8.2.12
 
@@ -30,7 +30,6 @@ SET time_zone = "+00:00";
 CREATE TABLE `brands` (
   `id` int(11) NOT NULL,
   `brand_name` varchar(100) NOT NULL,
-  `profit_margin` decimal(5,2) DEFAULT 20.00,
   `description` text DEFAULT NULL,
   `brand_slug` varchar(100) DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp()
@@ -40,12 +39,12 @@ CREATE TABLE `brands` (
 -- Đang đổ dữ liệu cho bảng `brands`
 --
 
-INSERT INTO `brands` (`id`, `brand_name`, `profit_margin`, `description`, `brand_slug`, `created_at`) VALUES
-(1, 'Saga', 20.00, NULL, 'saga', '2026-03-08 13:38:37'),
-(2, 'Taylor', 20.00, NULL, 'taylor', '2026-03-08 13:38:37'),
-(3, 'Ba Đờn', 20.00, NULL, 'ba-don', '2026-03-08 13:38:37'),
-(4, 'Yamaha', 20.00, NULL, 'yamaha', '2026-03-08 13:38:37'),
-(5, 'Enya', 20.00, NULL, 'enya', '2026-03-08 13:38:37');
+INSERT INTO `brands` (`id`, `brand_name`, `description`, `brand_slug`, `created_at`) VALUES
+(1, 'Saga', NULL, 'saga', '2026-03-08 13:38:37'),
+(2, 'Taylor', NULL, 'taylor', '2026-03-08 13:38:37'),
+(3, 'Ba Đờn', NULL, 'ba-don', '2026-03-08 13:38:37'),
+(4, 'Yamaha', NULL, 'yamaha', '2026-03-08 13:38:37'),
+(5, 'Enya', 'đàn cho nhà giàuu', 'enya', '2026-03-08 13:38:37');
 
 --
 -- Chỉ mục cho các bảng đã đổ
@@ -65,7 +64,7 @@ ALTER TABLE `brands`
 -- AUTO_INCREMENT cho bảng `brands`
 --
 ALTER TABLE `brands`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

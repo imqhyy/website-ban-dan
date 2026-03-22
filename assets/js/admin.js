@@ -38,18 +38,7 @@ if (modal) {
 // --------------------
 // Bạn cần lắng nghe sự kiện bấm vào nút 'Chi tiết'
 // Giả sử nút 'Chi tiết' có class là 'detail-btn'
-document.querySelectorAll(".detail-btn").forEach((button) => {
-  button.addEventListener("click", function (event) {
-    event.preventDefault(); // Ngăn hành động chuyển trang mặc định của thẻ <a>
-
-    // **Lưu ý quan trọng:** Bạn phải lấy dữ liệu (Nguyễn Văn A, SĐT) từ HTML/Database
-    // Trong ví dụ này, ta giả định dữ liệu có sẵn:
-    var customerName = "Châu Tinh Trì";
-    var customerPhone = "0987654321";
-    var customerImage = "assets/img/person/chautinhtri.jpg";
-    showCustomerDetails(customerName, customerPhone, customerImage);
-  });
-});
+// 
 
 /*DÀNH CHO TRANG QUẢN LÝ PHÂN LOẠI*/
 

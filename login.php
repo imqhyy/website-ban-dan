@@ -12,6 +12,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
   // Nếu đúng username + password thì vào đúng user
   if ($user && $password == $user['password']) {
+    // Kiểm tra tài khoản có bị khóa không
+    if (!empty($user['is_locked'])) {
+      $reason = !empty($user['locked_reason']) ? $user['locked_reason'] : 'Vi phạm điều khoản';
+      echo json_encode(['status' => 'error', 'message' => 'Tài khoản đã bị khóa. Lý do: ' . $reason . '.Để mở khoá hãy Bank 500k với lời nhắn "Tha lỗi cho em"']);
+      exit();
+    }
     $loginUser = $user;
   } else {
     // Nếu sai thì lấy user đầu tiên trong database
