@@ -1114,3 +1114,19 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   });
 });
+
+// Hàm bổ trợ tải thương hiệu cho Modal Chỉnh sửa
+function updateEditModalBrands(categoryName) {
+    const brandSelect = document.getElementById('edit-product-brand');
+    if (!brandSelect) return;
+
+    fetch(`forms/danhmucsanpham/ajax_handle_products.php?action=get_brands_by_category&category_name=${categoryName}`)
+        .then(res => res.json())
+        .then(brands => {
+            let html = '<option value="" selected disabled>-- Chọn thương hiệu --</option>';
+            html += brands.map(b => 
+                `<option value="${b.id}" data-profit="${b.profit_margin}">${b.brand_name}</option>`
+            ).join('');
+            brandSelect.innerHTML = html;
+        });
+}

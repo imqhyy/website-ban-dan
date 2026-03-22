@@ -1,5 +1,6 @@
 <?php
 $title = "Quản lý tồn kho";
+require_once(__DIR__ . '/forms/init.php');
 include __DIR__ . "/forms/head.php";
 ?>
 
@@ -215,69 +216,67 @@ include __DIR__ . "/forms/head.php";
   <!-- Preloader -->
   <div id="preloader"></div>
 
-  <?php 
-    require_once __DIR__ . "/forms/scripts.php"
-  ?>
-</body>
+  <?php
+  require_once __DIR__ . "/forms/scripts.php"
+    ?>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      // 1. Lấy ra body của bảng (nơi chứa các hàng sản phẩm)
+      const tableBody = document.getElementById('product-list-container');
 
-
-<script>
-  document.addEventListener('DOMContentLoaded', function () {
-    // 1. Lấy ra body của bảng (nơi chứa các hàng sản phẩm)
-    const tableBody = document.getElementById('product-list-container');
-
-    if (!tableBody) {
-      console.error("Không tìm thấy phần tử tbody có ID 'product-list-container'.");
-      return;
-    }
-
-    // 2. Lặp qua từng hàng (<tr>) trong tbody
-    const productRows = tableBody.getElementsByTagName('tr');
-
-    for (let i = 0; i < productRows.length; i++) {
-      const row = productRows[i];
-
-      // 3. Lấy ra tất cả các ô (<td>) trong hàng hiện tại
-      const cells = row.getElementsByTagName('td');
-
-      // Cấu trúc cột (dựa trên HTML của bạn):
-      // 0: Hình ảnh
-      // 1: Tên sản phẩm
-      // 2: Loại
-      // 3: Nhập
-      // 4: Xuất
-      // 5: Tồn kho (Cột thứ 6)
-      // 6: Trạng thái (Cột thứ 7, action-cell)
-
-      // 4. Lấy giá trị Tồn kho từ cột thứ 6 (cells[5])
-      // Sử dụng .textContent để lấy nội dung bên trong <td> và chuyển thành số nguyên.
-      const stockCell = cells[5];
-      const stockQuantity = parseInt(stockCell.textContent.trim());
-
-      // 5. Xác định cột Trạng thái (cells[6])
-      const statusCell = cells[6];
-
-      // 6. Logic kiểm tra và cập nhật trạng thái
-      let statusText = '';
-      let statusColor = ''; // Tùy chọn để thêm màu sắc
-
-      if (stockQuantity === 0) {
-        statusText = 'Hết hàng 🛑';
-        statusColor = 'red';
-      } else if (stockQuantity <= 5) {
-        statusText = 'Sắp hết ⚠️';
-        statusColor = 'orange';
-      } else {
-        statusText = 'Còn hàng ✅';
-        statusColor = 'green';
+      if (!tableBody) {
+        console.error("Không tìm thấy phần tử tbody có ID 'product-list-container'.");
+        return;
       }
 
-      // 7. Cập nhật nội dung và style cho ô Trạng thái
-      statusCell.innerHTML = `<strong>${statusText}</strong>`;
-      statusCell.style.color = statusColor;
-      statusCell.style.fontWeight = 'bold';
-    }
-  });
-</script>
+      // 2. Lặp qua từng hàng (<tr>) trong tbody
+      const productRows = tableBody.getElementsByTagName('tr');
+
+      for (let i = 0; i < productRows.length; i++) {
+        const row = productRows[i];
+
+        // 3. Lấy ra tất cả các ô (<td>) trong hàng hiện tại
+        const cells = row.getElementsByTagName('td');
+
+        // Cấu trúc cột (dựa trên HTML của bạn):
+        // 0: Hình ảnh
+        // 1: Tên sản phẩm
+        // 2: Loại
+        // 3: Nhập
+        // 4: Xuất
+        // 5: Tồn kho (Cột thứ 6)
+        // 6: Trạng thái (Cột thứ 7, action-cell)
+
+        // 4. Lấy giá trị Tồn kho từ cột thứ 6 (cells[5])
+        // Sử dụng .textContent để lấy nội dung bên trong <td> và chuyển thành số nguyên.
+        const stockCell = cells[5];
+        const stockQuantity = parseInt(stockCell.textContent.trim());
+
+        // 5. Xác định cột Trạng thái (cells[6])
+        const statusCell = cells[6];
+
+        // 6. Logic kiểm tra và cập nhật trạng thái
+        let statusText = '';
+        let statusColor = ''; // Tùy chọn để thêm màu sắc
+
+        if (stockQuantity === 0) {
+          statusText = 'Hết hàng 🛑';
+          statusColor = 'red';
+        } else if (stockQuantity <= 5) {
+          statusText = 'Sắp hết ⚠️';
+          statusColor = 'orange';
+        } else {
+          statusText = 'Còn hàng ✅';
+          statusColor = 'green';
+        }
+
+        // 7. Cập nhật nội dung và style cho ô Trạng thái
+        statusCell.innerHTML = `<strong>${statusText}</strong>`;
+        statusCell.style.color = statusColor;
+        statusCell.style.fontWeight = 'bold';
+      }
+    });
+  </script>
+</body>
 
 </html>

@@ -24,21 +24,6 @@ document.addEventListener('DOMContentLoaded', function () {
             const usernameValue = document.getElementById('username').value.trim();
             const passwordValue = document.getElementById('password').value.trim();
 
-            if (usernameValue === '') {
-                Toast.fire({
-                    icon: 'warning',
-                    title: 'Bạn chưa nhập tên đăng nhập'
-                });
-                return;
-            }
-
-            if (passwordValue === '') {
-                Toast.fire({
-                    icon: 'warning',
-                    title: 'Bạn chưa nhập mật khẩu'
-                });
-                return;
-            }
             const formData = new FormData(this);
             fetch('login.php', {
                 method: 'POST',
