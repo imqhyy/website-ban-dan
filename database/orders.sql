@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th3 23, 2026 lúc 07:09 PM
+-- Thời gian đã tạo: Th3 23, 2026 lúc 07:18 PM
 -- Phiên bản máy phục vụ: 10.4.32-MariaDB
 -- Phiên bản PHP: 8.2.12
 
@@ -37,8 +37,9 @@ CREATE TABLE `orders` (
   `shipping_address` text NOT NULL,
   `order_notes` text DEFAULT NULL,
   `total_amount` decimal(15,2) NOT NULL,
-  `order_status` enum('pending','confirmed','shipping','completed','cancelled') DEFAULT 'pending',
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+  `order_status` enum('newest','processed','deliveried','cancel') DEFAULT 'newest',
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
