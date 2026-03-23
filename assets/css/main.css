@@ -6816,61 +6816,63 @@ section,
 
 /* Container tổng */
 .advanced-search-bar {
-    margin-top: 15px;
-    background: #fff;
-    padding: 0px;
-    border-radius: 15px;
+  margin-top: 15px;
+  background: #fff;
+  padding: 0px;
+  border-radius: 15px;
 }
 
 /* Label tiêu đề cho mỗi hộp chọn */
 .search-item label {
-    font-size: 14px;
-    font-weight: 600;
-    margin-right: 8px;
-    color: #333;
+  font-size: 14px;
+  font-weight: 600;
+  margin-right: 8px;
+  color: #333;
 }
 
 /* Hộp chọn kiểu Pill (giống hình mẫu) */
 .custom-pill-select {
-    border: 1px solid #ccc;
-    border-radius: 50px; /* Bo tròn hoàn toàn */
-    padding: 8px 35px 8px 15px;
-    font-size: 14px;
-    appearance: none; /* Ẩn mũi tên mặc định */
-    background: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23333' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m2 5 6 6 6-6'/%3e%3c/svg%3e") no-repeat right 12px center;
-    background-size: 12px;
-    cursor: pointer;
-    transition: all 0.3s;
-    min-width: 120px;
+  border: 1px solid #ccc;
+  border-radius: 50px;
+  /* Bo tròn hoàn toàn */
+  padding: 8px 35px 8px 15px;
+  font-size: 14px;
+  appearance: none;
+  /* Ẩn mũi tên mặc định */
+  background: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23333' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m2 5 6 6 6-6'/%3e%3c/svg%3e") no-repeat right 12px center;
+  background-size: 12px;
+  cursor: pointer;
+  transition: all 0.3s;
+  min-width: 120px;
 }
 
 .custom-pill-select:focus {
-    outline: none;
-    border-color: var(--accent-color);
-    box-shadow: 0 0 5px rgba(0,0,0,0.1);
+  outline: none;
+  border-color: var(--accent-color);
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
 }
 
 /* Nút Tra cứu màu xám đen giống hình mẫu */
 .btn-tra-cuu {
-    background-color: #333;
-    color: #fff;
-    border: none;
-    padding: 10px 25px;
-    border-radius: 50px;
-    font-weight: 500;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    transition: all 0.3s;
+  background-color: #333;
+  color: #fff;
+  border: none;
+  padding: 10px 25px;
+  border-radius: 50px;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.3s;
 }
 
 .btn-tra-cuu:hover {
-    background-color: #000;
-    transform: translateY(-2px);
+  background-color: #000;
+  transform: translateY(-2px);
 }
 
 .btn-tra-cuu i {
-    font-size: 16px;
+  font-size: 16px;
 }
 
 @media (max-width: 991.98px) {
@@ -12634,13 +12636,15 @@ section,
   cursor: pointer;
 }
 
-.brand-filter-widget .brand-item .form-check-input:checked, .category-item .form-check-input:checked {
+.brand-filter-widget .brand-item .form-check-input:checked,
+.category-item .form-check-input:checked {
   background-color: var(--accent-color);
   border-color: var(--accent-color);
   box-shadow: none;
 }
 
-.brand-filter-widget .brand-item .form-check-input:focus, .category-item .form-check-input:focus {
+.brand-filter-widget .brand-item .form-check-input:focus,
+.category-item .form-check-input:focus {
   border-color: var(--accent-color);
   box-shadow: none;
 }
@@ -13094,6 +13098,7 @@ section,
   margin: 0;
   padding: 0;
 }
+
 .info-card h7 {
   font-size: 20px;
   color: #01163a;
@@ -13101,6 +13106,7 @@ section,
   margin: 0;
   padding: 0;
 }
+
 /* ============================================
   == CSS CHO PHẦN FILTER (3 CHẤM) ==
   ============================================
@@ -13134,27 +13140,39 @@ section,
 
 
 .filter-group-actions {
-    position: sticky;
-    bottom: 20px; /* Nổi lên trên nếu sidebar dài */
-    background: var(--surface-color);
-    padding: 15px;
-    border-radius: 12px;
-    box-shadow: 0 -5px 15px rgba(0,0,0,0.05);
-    z-index: 10;
+  position: sticky;
+  bottom: 20px;
+  /* Nổi lên trên nếu sidebar dài */
+  background: var(--surface-color);
+  padding: 15px;
+  border-radius: 12px;
+  box-shadow: 0 -5px 15px rgba(0, 0, 0, 0.05);
+  z-index: 10;
 }
 
 .filter-group-actions .btn-primary {
-    background-color: #333; /* Màu đen xám cho đồng bộ thiết kế của bạn */
-    border: none;
-    transition: all 0.3s ease;
+  background-color: #333;
+  /* Màu đen xám cho đồng bộ thiết kế của bạn */
+  border: none;
+  transition: all 0.3s ease;
 }
 
 .filter-group-actions .btn-primary:hover {
-    background-color: #000;
-    transform: translateY(-2px);
+  background-color: #000;
+  transform: translateY(-2px);
 }
 
 .filter-group-actions .btn-outline-secondary:hover {
-    background-color: #f8f9fa;
-    color: #333;
+  background-color: #f8f9fa;
+  color: #333;
+}
+
+/* Fix checkbox lệch trong giỏ hàng */
+.cart .cart-header .form-check-input,
+.cart .cart-item .form-check-input {
+  margin-top: 0 !important;
+  float: none !important;
+  display: inline-block;
+  vertical-align: middle;
+  position: static !important;
 }

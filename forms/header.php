@@ -56,10 +56,7 @@
                 <!-- Search -->
                 <form class="search-form desktop-search-form" action="search-results.php" method="GET">
                     <div class="input-group">
-                        <input type="text" 
-                            name="search" 
-                            class="form-control" 
-                            placeholder="Tìm kiếm sản phẩm" 
+                        <input type="text" name="search" class="form-control" placeholder="Tìm kiếm sản phẩm"
                             value="<?php echo isset($_GET['search']) ? htmlspecialchars($_GET['search']) : ''; ?>" />
                         <button class="btn" type="submit">
                             <i class="bi bi-search"></i>
@@ -126,7 +123,38 @@
                     <!-- Cart -->
                     <a href="cart.php" class="header-action-btn">
                         <i class="bi bi-cart3"></i>
-                        <span class="badge">3</span>
+                        <span class="badge" id="cart-badge">
+                            <?php
+                            $cart_count = 0;
+                            if (isset($_SESSION['user'])) {
+                                $session_user = is_array($_SESSION['user']) ? $_SESSION['user']['id'] : $_SESSION['user'];
+                                try {
+                                    $uid = 0;
+                                    if (!is_numeric($session_user)) {
+                                        $stmt_u = $pdo->prepare("SELECT id FROM users WHERE username = ?");
+                                        $stmt_u->execute([$session_user]);
+                                        $u = $stmt_u->fetch();
+                                        if ($u)
+                                            $uid = $u['id'];
+                                    } else {
+                                        $uid = $session_user;
+                                    }
+
+                                    if ($uid > 0) {
+                                        $stmt_c = $pdo->prepare("SELECT COUNT(*) as total FROM cart WHERE user_id = ?");
+                                        $stmt_c->execute([$uid]);
+                                        $result = $stmt_c->fetch();
+                                        if ($result && $result['total']) {
+                                            $cart_count = $result['total'];
+                                        }
+                                    }
+                                } catch (Exception $e) {
+                                    $cart_count = 0;
+                                }
+                            }
+                            echo $cart_count;
+                            ?>
+                        </span>
                     </a>
 
                     <!-- Mobile Navigation Toggle -->
@@ -155,36 +183,37 @@
                                 foreach ($header_categories as $cat):
                                     $catID = $cat['id'];
                                     $catName = $cat['category_name'];
-                                    
+
                                     // 2. Lấy thương hiệu thông qua bảng trung gian (Chỉ lấy hãng có bán loại đàn này)
                                     $sql_brands = "SELECT b.* FROM brands b 
                                                 JOIN brand_category bc ON b.id = bc.brand_id 
                                                 WHERE bc.category_id = $catID 
                                                 ORDER BY b.brand_name ASC";
                                     $brands_by_type = getAll($sql_brands);
-                            ?>
-                                <li class="dropdown">
-                                    <a href="all.php?type[]=<?= $catID ?>">
-                                        <span><?= htmlspecialchars($catName) ?></span>
-                                        <i class="bi bi-chevron-right toggle-dropdown"></i>
-                                    </a>
-                                    <ul>
-                                        <?php if (!empty($brands_by_type)): ?>
-                                            <?php foreach ($brands_by_type as $brand): ?>
-                                                <li>
-                                                    <a href="brand.php?brand[]=<?= $brand['id'] ?>&brand_name=<?= urlencode($brand['brand_name']) ?>&type[]=<?= $catID ?>">
-                                                        <?= htmlspecialchars($brand['brand_name']) ?>
-                                                    </a>
-                                                </li>
-                                            <?php endforeach; ?>
-                                        <?php else: ?>
-                                            <li><a href="#">Đang cập nhật...</a></li>
-                                        <?php endif; ?>
-                                    </ul>
-                                </li>
-                            <?php 
+                                    ?>
+                                    <li class="dropdown">
+                                        <a href="all.php?type[]=<?= $catID ?>">
+                                            <span><?= htmlspecialchars($catName) ?></span>
+                                            <i class="bi bi-chevron-right toggle-dropdown"></i>
+                                        </a>
+                                        <ul>
+                                            <?php if (!empty($brands_by_type)): ?>
+                                                <?php foreach ($brands_by_type as $brand): ?>
+                                                    <li>
+                                                        <a
+                                                            href="brand.php?brand[]=<?= $brand['id'] ?>&brand_name=<?= urlencode($brand['brand_name']) ?>&type[]=<?= $catID ?>">
+                                                            <?= htmlspecialchars($brand['brand_name']) ?>
+                                                        </a>
+                                                    </li>
+                                                <?php endforeach; ?>
+                                            <?php else: ?>
+                                                <li><a href="#">Đang cập nhật...</a></li>
+                                            <?php endif; ?>
+                                        </ul>
+                                    </li>
+                                    <?php
                                 endforeach;
-                            endif; 
+                            endif;
                             ?>
                         </ul>
                     </li>

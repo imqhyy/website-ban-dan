@@ -1,174 +1,199 @@
-// Thay thế toàn bộ file assets/js/checkout.js
-
 document.addEventListener("DOMContentLoaded", function () {
-  // --- BẢO VỆ TRANG ---
-  const currentUser = JSON.parse(sessionStorage.getItem("currentUser"));
-  // KHÔNG KIỂM TRA GIỎ HÀNG THẬT NỮA
+  const checkoutForm = document.getElementById("checkout-form");
 
-  if (currentUser) {
-    document.body.classList.remove("page-loading");
-  } else {
-    Swal.fire({
-      icon: "warning",
-      title: "Yêu cầu đăng nhập",
-      text: "Bạn cần đăng nhập để có thể thanh toán!",
-      confirmButtonText: "Đến trang đăng nhập",
-      allowOutsideClick: false,
-      customClass: {
-        container: "blurred-login-alert", // Thêm class container riêng cho alert này
-        popup: "my-swal-popup",
-        title: "my-swal-title",
-        htmlContainer: "my-swal-html-container",
-        confirmButton: "my-swal-confirm-button",
-      },
-    }).then(() => {
-      window.location.href = "login.php";
+  // Dữ liệu giả (hardcode) thay cho API
+  const addressData = {
+    "Hà Nội": {
+      "Quận Hoàn Kiếm": ["Phường Phúc Tân", "Phường Đồng Xuân", "Phường Hàng Bạc"],
+      "Quận Cầu Giấy": ["Phường Dịch Vọng", "Phường Quan Hoa", "Phường Trung Hòa"],
+      "Quận Đống Đa": ["Phường Cát Linh", "Phường Láng Hạ", "Phường Ô Chợ Dừa"]
+    },
+    "Thành phố Hồ Chí Minh": {
+      "Quận 1": ["Phường Bến Nghé", "Phường Bến Thành", "Phường Đa Kao"],
+      "Quận 3": ["Phường Võ Thị Sáu", "Phường 14", "Phường 11"],
+      "Quận Tân Bình": ["Phường 1", "Phường 2", "Phường 4"]
+    }
+  };
+
+  // Các phần tử xử lý địa chỉ mặc định/mới
+  const finalAddressInput = document.getElementById("final-address");
+  const defaultAddressRadio = document.getElementById("default-address");
+  const newAddressRadio = document.getElementById("new-address");
+  const defaultAddressDisplay = document.getElementById("default-address-display");
+  const defaultAddressValue = defaultAddressDisplay ? defaultAddressDisplay.getAttribute("data-address") : "";
+
+  // Các phần tử trong khối nhập địa chỉ mới
+  const newAddressGroup = document.getElementById("new-address-group");
+  const citySelect = document.getElementById("new-city");
+  const districtSelect = document.getElementById("new-district");
+  const wardSelect = document.getElementById("new-ward");
+  const streetInput = document.getElementById("new-street");
+  const btnApplyAddress = document.getElementById("btn-apply-address");
+  const applySuccessMsg = document.getElementById("apply-success-msg");
+
+  let isNewAddressApplied = false;
+
+  // ==========================================
+  // 1. ĐỔ DỮ LIỆU ĐỊA CHỈ TỪ BIẾN TĨNH
+  // ==========================================
+
+  // Tải danh sách Tỉnh/Thành phố khi vừa vào trang
+  if (citySelect) {
+    Object.keys(addressData).forEach(city => {
+      let option = document.createElement("option");
+      option.value = city;
+      option.textContent = city;
+      citySelect.appendChild(option);
     });
   }
 
-  // --- LẤY CÁC PHẦN TỬ HTML ---
-  const firstNameInput = document.getElementById("first-name");
-  const lastNameInput = document.getElementById("last-name");
-  const emailInput = document.getElementById("email");
-  const phoneInput = document.getElementById("phone");
-  const addressInput = document.getElementById("address");
-  const summaryItemsContainer = document.getElementById("order-summary-items");
-  const itemCountElement = document.getElementById("item-count");
-  const orderSubtotalElement = document.getElementById("order-subtotal");
-  const orderTotalElement = document.getElementById("order-total");
-  const placeOrderBtnPrice = document.getElementById("place-order-btn-price");
-  const checkoutForm = document.getElementById("checkout-form");
+  // Khi chọn Tỉnh/Thành -> Load Quận/Huyện
+  if (citySelect) {
+    citySelect.addEventListener("change", function () {
+      // Reset tuyến dưới
+      districtSelect.innerHTML = '<option value="">-- Chọn Quận/Huyện --</option>';
+      wardSelect.innerHTML = '<option value="">-- Chọn Phường/Xã --</option>';
+      districtSelect.disabled = true;
+      wardSelect.disabled = true;
+      resetApplyState();
 
-  // --- ĐIỀN THÔNG TIN CÓ SẴN CỦA NGƯỜI DÙNG ---
-  // if (currentUser.fullName) {
-  //   const nameParts = currentUser.fullName.split(" ");
-  //   firstNameInput.value = nameParts.shift();
-  //   lastNameInput.value = nameParts.join(" ");
-  // }
-  // emailInput.value = currentUser.email || "";
-  // phoneInput.value = currentUser.phone || "";
-
-  // --- HIỂN THỊ TÓM TẮT ĐƠN HÀNG (DEMO) ---
-  const demoCart = [
-    {
-      name: "Saga A1 DE PRO",
-      quantity: 1,
-      price: 2000000,
-      image:
-        "assets/img/product/guitar/acoustic/saga/saga-a1-de-pro/dan-guitar-acoustic-saga-a1-de-pro--1000x1000.jpg",
-    },
-    {
-      name: "Ba đờn C100",
-      quantity: 1,
-      price: 5000000,
-      image:
-        "assets/img/product/guitar/classic/badon/dan-guitar-classic-ba-don-c100/dan-guitar-classic-ba-don-c100-.jpg",
-    },
-    {
-      name: "Taylor A12E",
-      quantity: 1,
-      price: 85000000,
-      image:
-        "assets/img/product/guitar/acoustic/taylor/taylor-a12e/dan-guitar-acoustic-taylor-academy-12e-grand-concert-wbag-.jpg",
-    },
-  ];
-
-  let total = 0;
-  let totalItems = 0;
-  summaryItemsContainer.innerHTML = "";
-  demoCart.forEach((item) => {
-    const itemTotal = item.price * item.quantity;
-    total += itemTotal;
-    totalItems += item.quantity;
-    const itemHTML = `
-            <div class="order-item">
-                <div class="order-item-image"><img src="${item.image}" alt="${
-      item.name
-    }" class="img-fluid"></div>
-                <div class="order-item-details">
-                    <h4>${item.name}</h4>
-                    <div class="order-item-price">
-                        <span class="quantity">${item.quantity} ×</span>
-                        <span class="price">${item.price.toLocaleString(
-                          "vi-VN"
-                        )} VND</span>
-                    </div>
-                </div>
-            </div>`;
-    summaryItemsContainer.innerHTML += itemHTML;
-  });
-
-  itemCountElement.textContent = `${totalItems} sản phẩm`;
-  const formattedTotal = `${total.toLocaleString("vi-VN")} VND`;
-  orderSubtotalElement.textContent = formattedTotal;
-  orderTotalElement.textContent = formattedTotal;
-  placeOrderBtnPrice.textContent = formattedTotal;
-  // --- KHUÔN MẪU TOAST ---
-  const Toast = Swal.mixin({
-    toast: true,
-    position: "top-end",
-    showConfirmButton: false,
-    timer: 1200,
-    timerProgressBar: true,
-    customClass: {
-      popup: "my-swal-popup",
-    },
-    didOpen: (toast) => {
-      // toast.onmouseenter = Swal.stopTimer;
-      // toast.onmouseleave = Swal.resumeTimer;
-    },
-  });
-  // --- XỬ LÝ SỰ KIỆN ĐẶT HÀNG (DEMO) ---
-  checkoutForm.addEventListener("submit", function (event) {
-    event.preventDefault();
-
-    // Toast thông báo thành công
-    Toast.fire({
-      icon: "success",
-      title: "Đặt hàng thành công!",
-    }).then(() => {
-      window.location.href = "order-confirmation.php";
+      const selectedCity = this.value;
+      if (selectedCity && addressData[selectedCity]) {
+        Object.keys(addressData[selectedCity]).forEach(district => {
+          let option = document.createElement("option");
+          option.value = district;
+          option.textContent = district;
+          districtSelect.appendChild(option);
+        });
+        districtSelect.disabled = false; // Mở khóa ô Quận/Huyện
+      }
     });
-  });
+  }
 
-  // --- XỬ LÝ CHỌN ĐỊA CHỈ ---
-  const defaultAddressRadio = document.getElementById("default-address");
-  const newAddressRadio = document.getElementById("new-address");
+  // Khi chọn Quận/Huyện -> Load Phường/Xã
+  if (districtSelect) {
+    districtSelect.addEventListener("change", function () {
+      wardSelect.innerHTML = '<option value="">-- Chọn Phường/Xã --</option>';
+      wardSelect.disabled = true;
+      resetApplyState();
 
-  const defaultAddressDisplay = document
-    .getElementById("default-address-display")
-    .textContent.trim();
+      const selectedCity = citySelect.value;
+      const selectedDistrict = this.value;
 
-  // Hàm xử lý thay đổi lựa chọn địa chỉ
-  function handleAddressChange() {
-    if (defaultAddressRadio.checked) {
-      // 1. Nếu chọn Địa chỉ Mặc định
-      addressInput.value = defaultAddressDisplay;
-      addressInput.classList.remove("is-new-address"); // (Tùy chọn: xóa class)
-      Toast.fire({
-        icon: "info",
-        title: "Đã chọn địa chỉ mặc định",
-        timer: 1000,
-      });
-    } else if (newAddressRadio.checked) {
-      // 2. Nếu chọn Thêm địa chỉ mới
-      addressInput.value = "";
-      addressInput.classList.add("is-new-address"); // (Tùy chọn: thêm class)
-      addressInput.focus();
-      Toast.fire({
-        icon: "info",
-        title: "Vui lòng nhập địa chỉ mới",
-        timer: 1000,
-      });
+      if (selectedCity && selectedDistrict && addressData[selectedCity][selectedDistrict]) {
+        addressData[selectedCity][selectedDistrict].forEach(ward => {
+          let option = document.createElement("option");
+          option.value = ward;
+          option.textContent = ward;
+          wardSelect.appendChild(option);
+        });
+        wardSelect.disabled = false; // Mở khóa ô Phường/Xã
+      }
+    });
+  }
+
+  // Khi thay đổi Phường/Xã hoặc gõ số nhà -> Yêu cầu ấn Apply lại
+  if (wardSelect) wardSelect.addEventListener("change", resetApplyState);
+  if (streetInput) streetInput.addEventListener("input", resetApplyState);
+
+  // ==========================================
+  // 2. LOGIC ẨN/HIỆN & NÚT HOÀN THÀNH
+  // ==========================================
+
+  function resetApplyState() {
+    isNewAddressApplied = false;
+    if (finalAddressInput) finalAddressInput.value = "";
+    if (applySuccessMsg) applySuccessMsg.style.display = "none";
+    if (btnApplyAddress) {
+      btnApplyAddress.classList.replace("btn-success", "btn-dark");
+      btnApplyAddress.innerHTML = '<i class="bi bi-check-circle"></i> Hoàn thành';
     }
   }
 
-  // Lắng nghe sự kiện thay đổi trên cả hai radio button
-  defaultAddressRadio.addEventListener("change", handleAddressChange);
-  newAddressRadio.addEventListener("change", handleAddressChange);
+  function handleAddressChange() {
+    if (defaultAddressRadio?.checked) {
+      if (newAddressGroup) newAddressGroup.style.display = "none";
+      if (finalAddressInput) finalAddressInput.value = defaultAddressValue;
+    } else if (newAddressRadio?.checked) {
+      if (newAddressGroup) newAddressGroup.style.display = "block";
+      if (!isNewAddressApplied && finalAddressInput) {
+        finalAddressInput.value = ""; // Phải bấm hoàn thành mới có data
+      }
+    }
+  }
 
-  // Khởi tạo trạng thái ban đầu (đảm bảo địa chỉ mặc định được điền sẵn khi tải trang)
-  // Không cần gọi handleAddressChange() vì input đã có sẵn value mặc định.
-  // Nhưng nếu bạn muốn đảm bảo, hãy gọi nó.
-  // handleAddressChange();
+  if (defaultAddressRadio && newAddressRadio) {
+    defaultAddressRadio.addEventListener("change", handleAddressChange);
+    newAddressRadio.addEventListener("change", handleAddressChange);
+    handleAddressChange();
+  }
+
+  if (btnApplyAddress) {
+    btnApplyAddress.addEventListener("click", function () {
+      const city = citySelect.value;
+      const district = districtSelect.value;
+      const ward = wardSelect.value;
+      const street = streetInput.value.trim();
+
+      if (!city || !district || !ward || !street) {
+        Swal.fire('Opps!', 'Vui lòng chọn Tỉnh/Thành, Quận/Huyện, Phường/Xã và nhập Tên đường/Số nhà!', 'warning');
+        return;
+      }
+
+      // Ghép chuỗi gửi xuống DB
+      const fullNewAddress = `${street}, ${ward}, ${district}, ${city}`;
+      finalAddressInput.value = fullNewAddress;
+      isNewAddressApplied = true;
+
+      applySuccessMsg.style.display = "inline-block";
+      btnApplyAddress.classList.replace("btn-dark", "btn-success");
+      btnApplyAddress.innerHTML = '<i class="bi bi-check-all"></i> Đã lưu';
+    });
+  }
+
+  // ==========================================
+  // 3. XỬ LÝ SUBMIT FORM
+  // ==========================================
+  if (checkoutForm) {
+    checkoutForm.addEventListener("submit", function (event) {
+      event.preventDefault();
+
+      if (defaultAddressRadio?.checked && defaultAddressValue.trim() === "") {
+        Swal.fire('Lỗi', 'Bạn chưa có địa chỉ mặc định. Vui lòng chọn "Thêm địa chỉ mới"!', 'error');
+        return;
+      }
+
+      if (newAddressRadio?.checked && !isNewAddressApplied) {
+        Swal.fire('Lỗi', 'Vui lòng nhấn nút "Hoàn thành" để xác nhận địa chỉ mới!', 'warning');
+        return;
+      }
+
+      const submitBtn = checkoutForm.querySelector('button[type="submit"]');
+      const originalText = submitBtn.innerHTML;
+
+      submitBtn.innerHTML = '<i class="bi bi-hourglass-split"></i> Đang xử lý...';
+      submitBtn.disabled = true;
+
+      fetch('forms/ajax/ajax_checkout.php', {
+        method: 'POST',
+        body: new FormData(checkoutForm)
+      })
+        .then(res => res.json())
+        .then(data => {
+          if (data.status === 'success') {
+            Swal.fire({ toast: true, position: "top-end", icon: "success", title: data.message, showConfirmButton: false, timer: 1500 })
+              .then(() => window.location.href = "order-confirmation.php?order=" + data.order_code);
+          } else {
+            Swal.fire('Lỗi', data.message, 'error');
+            submitBtn.innerHTML = originalText;
+            submitBtn.disabled = false;
+          }
+        })
+        .catch(error => {
+          Swal.fire('Lỗi', 'Lỗi kết nối mạng!', 'error');
+          submitBtn.innerHTML = originalText;
+          submitBtn.disabled = false;
+        });
+    });
+  }
 });

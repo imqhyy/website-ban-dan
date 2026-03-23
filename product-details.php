@@ -102,10 +102,8 @@ include 'forms/head.php';
             <div class="product-gallery">
               <div class="main-showcase">
                 <div class="image-zoom-container">
-                  <img src="<?= $main_img ?>"
-                    alt="<?= htmlspecialchars($product['product_name']) ?>"
-                    class="img-fluid main-product-image drift-zoom"
-                    id="main-product-image"
+                  <img src="<?= $main_img ?>" alt="<?= htmlspecialchars($product['product_name']) ?>"
+                    class="img-fluid main-product-image drift-zoom" id="main-product-image"
                     data-zoom="<?= $main_img ?>" />
                   <div class="image-navigation">
                     <button class="nav-arrow prev-image image-nav-btn prev-image" type="button">
@@ -120,11 +118,10 @@ include 'forms/head.php';
 
               <div class="thumbnail-grid">
                 <?php foreach ($images as $i => $img): ?>
-                    <div class="thumbnail-wrapper thumbnail-item <?= $i === 0 ? 'active' : '' ?>"
-                      data-image="<?= $base_path . $img ?>">
-                      <img src="<?= $base_path . $img ?>"
-                        alt="View <?= $i + 1 ?>" class="img-fluid" />
-                    </div>
+                  <div class="thumbnail-wrapper thumbnail-item <?= $i === 0 ? 'active' : '' ?>"
+                    data-image="<?= $base_path . $img ?>">
+                    <img src="<?= $base_path . $img ?>" alt="View <?= $i + 1 ?>" class="img-fluid" />
+                  </div>
                 <?php endforeach; ?>
               </div>
             </div>
@@ -153,21 +150,21 @@ include 'forms/head.php';
                 <div class="price-display">
                   <span class="sale-price"><?= number_format($selling_price, 0, ',', '.') ?> VND</span>
                   <?php if ($original_price): ?>
-                      <span class="regular-price"><?= number_format($original_price, 0, ',', '.') ?> VND</span>
+                    <span class="regular-price"><?= number_format($original_price, 0, ',', '.') ?> VND</span>
                   <?php endif; ?>
                 </div>
                 <?php if ($discount > 0): ?>
-                    <div class="savings-info">
-                      <span class="save-amount">Tiết kiệm <?= number_format($save_amount, 0, ',', '.') ?> VND</span>
-                      <span class="discount-percent">(Giảm <?= $discount ?>%)</span>
-                    </div>
+                  <div class="savings-info">
+                    <span class="save-amount">Tiết kiệm <?= number_format($save_amount, 0, ',', '.') ?> VND</span>
+                    <span class="discount-percent">(Giảm <?= $discount ?>%)</span>
+                  </div>
                 <?php endif; ?>
               </div>
 
               <?php if (!empty($product['summary_description'])): ?>
-                  <div class="product-description">
-                    <p><?= htmlspecialchars($product['summary_description']) ?></p>
-                  </div>
+                <div class="product-description">
+                  <p><?= htmlspecialchars($product['summary_description']) ?></p>
+                </div>
               <?php endif; ?>
 
               <div class="availability-status">
@@ -197,8 +194,7 @@ include 'forms/head.php';
                 </div>
 
                 <div class="action-buttons">
-                  <button class="btn primary-action" id="add-to-cart-btn"
-                    data-product-id="<?= $product['id'] ?>"
+                  <button class="btn primary-action" id="add-to-cart-btn" data-product-id="<?= $product['id'] ?>"
                     data-product-name="<?= htmlspecialchars($product['product_name']) ?>">
                     <i class="bi bi-bag-plus"></i>
                     Thêm vào giỏ hàng
@@ -212,7 +208,8 @@ include 'forms/head.php';
 
               <!-- Benefits -->
               <div class="benefits-list">
-                <div class="benefit-item"><i class="bi bi-truck"></i><span>Free ship cho đơn từ 1 triệu đồng</span></div>
+                <div class="benefit-item"><i class="bi bi-truck"></i><span>Free ship cho đơn từ 1 triệu đồng</span>
+                </div>
                 <div class="benefit-item"><i class="bi bi-arrow-clockwise"></i><span>45 ngày đổi trả</span></div>
                 <div class="benefit-item"><i class="bi bi-shield-check"></i><span>Bảo hành lên đến 3 năm</span></div>
                 <div class="benefit-item"><i class="bi bi-headset"></i><span>Hỗ trợ 24/7</span></div>
@@ -246,45 +243,46 @@ include 'forms/head.php';
                         <div class="content-section">
                           <h3>Tổng quan sản phẩm</h3>
                           <?php if (!empty($product['detailed_overview'])): ?>
-                              <p><?= nl2br(htmlspecialchars($product['detailed_overview'])) ?></p>
+                            <p><?= nl2br(htmlspecialchars($product['detailed_overview'])) ?></p>
                           <?php endif; ?>
 
                           <?php if (!empty($highlights)): ?>
-                              <h4>Điểm nổi bật</h4>
-                              <div class="highlights-grid">
-                                <?php foreach ($highlights as $hl): ?>
-                                    <div class="highlight-card">
-                                      <i class="bi bi-star"></i>
-                                      <h5><?= htmlspecialchars($hl['title']) ?></h5>
-                                      <p><?= htmlspecialchars($hl['content']) ?></p>
-                                    </div>
-                                <?php endforeach; ?>
-                              </div>
+                            <h4>Điểm nổi bật</h4>
+                            <div class="highlights-grid">
+                              <?php foreach ($highlights as $hl): ?>
+                                <div class="highlight-card">
+                                  <i class="bi bi-star"></i>
+                                  <h5><?= htmlspecialchars($hl['title']) ?></h5>
+                                  <p><?= htmlspecialchars($hl['content']) ?></p>
+                                </div>
+                              <?php endforeach; ?>
+                            </div>
                           <?php endif; ?>
                         </div>
                       </div>
 
                       <?php if (!empty($accessories_fixed) || !empty($accessories_others)): ?>
-                          <div class="col-lg-4">
-                            <div class="package-contents">
-                              <h4>Phụ kiện kèm theo</h4>
-                              <ul class="contents-list">
-                                <?php foreach ($accessories_fixed as $item): ?>
-                                    <li><i class="bi bi-check-circle"></i><?= htmlspecialchars($item) ?></li>
-                                <?php endforeach; ?>
-                                <?php if ($accessories_others): ?>
-                                    <li><i class="bi bi-check-circle"></i><?= htmlspecialchars($accessories_others) ?></li>
-                                <?php endif; ?>
-                              </ul>
-                            </div>
+                        <div class="col-lg-4">
+                          <div class="package-contents">
+                            <h4>Phụ kiện kèm theo</h4>
+                            <ul class="contents-list">
+                              <?php foreach ($accessories_fixed as $item): ?>
+                                <li><i class="bi bi-check-circle"></i><?= htmlspecialchars($item) ?></li>
+                              <?php endforeach; ?>
+                              <?php if ($accessories_others): ?>
+                                <li><i class="bi bi-check-circle"></i><?= htmlspecialchars($accessories_others) ?></li>
+                              <?php endif; ?>
+                            </ul>
                           </div>
+                        </div>
                       <?php endif; ?>
                     </div>
                   </div>
                 </div>
 
                 <!-- Tab Đánh giá (giữ nguyên tĩnh) -->
-                <div class="tab-pane fade" id="ecommerce-product-details-5-customer-reviews" style="padding-bottom:0px;">
+                <div class="tab-pane fade" id="ecommerce-product-details-5-customer-reviews"
+                  style="padding-bottom:0px;">
                   <div class="reviews-content">
                     <div class="reviews-header">
                       <div class="rating-overview">
@@ -298,11 +296,31 @@ include 'forms/head.php';
                           <div class="total-reviews">127 Khách hàng đã... mua lại sau khi đập!</div>
                         </div>
                         <div class="rating-distribution">
-                          <div class="rating-row"><span class="stars-label">5★</span><div class="progress-container"><div class="progress-fill" style="width:68%"></div></div><span class="count-label">86</span></div>
-                          <div class="rating-row"><span class="stars-label">4★</span><div class="progress-container"><div class="progress-fill" style="width:22%"></div></div><span class="count-label">28</span></div>
-                          <div class="rating-row"><span class="stars-label">3★</span><div class="progress-container"><div class="progress-fill" style="width:6%"></div></div><span class="count-label">8</span></div>
-                          <div class="rating-row"><span class="stars-label">2★</span><div class="progress-container"><div class="progress-fill" style="width:3%"></div></div><span class="count-label">4</span></div>
-                          <div class="rating-row"><span class="stars-label">1★</span><div class="progress-container"><div class="progress-fill" style="width:1%"></div></div><span class="count-label">1</span></div>
+                          <div class="rating-row"><span class="stars-label">5★</span>
+                            <div class="progress-container">
+                              <div class="progress-fill" style="width:68%"></div>
+                            </div><span class="count-label">86</span>
+                          </div>
+                          <div class="rating-row"><span class="stars-label">4★</span>
+                            <div class="progress-container">
+                              <div class="progress-fill" style="width:22%"></div>
+                            </div><span class="count-label">28</span>
+                          </div>
+                          <div class="rating-row"><span class="stars-label">3★</span>
+                            <div class="progress-container">
+                              <div class="progress-fill" style="width:6%"></div>
+                            </div><span class="count-label">8</span>
+                          </div>
+                          <div class="rating-row"><span class="stars-label">2★</span>
+                            <div class="progress-container">
+                              <div class="progress-fill" style="width:3%"></div>
+                            </div><span class="count-label">4</span>
+                          </div>
+                          <div class="rating-row"><span class="stars-label">1★</span>
+                            <div class="progress-container">
+                              <div class="progress-fill" style="width:1%"></div>
+                            </div><span class="count-label">1</span>
+                          </div>
                         </div>
                       </div>
                       <div class="write-review-cta">
@@ -318,13 +336,19 @@ include 'forms/head.php';
                           <div class="profile-details">
                             <div class="customer-name">Nam Vui Tính (Đã đập 3 cây)</div>
                             <div class="review-meta">
-                              <div class="review-stars"><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i></div>
+                              <div class="review-stars"><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i
+                                  class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i
+                                  class="bi bi-star-fill"></i></div>
                               <span class="review-date">Đập vỡ lần cuối: 28/03/2024</span>
                             </div>
                           </div>
                         </div>
                         <h5 class="review-headline">Quá bền! Nhưng tôi đã thành công mua cây thứ 4.</h5>
-                        <div class="review-text"><p>Tôi đã phải dùng búa tạ mới làm nó bung ra được. Gỗ Full Solid gì mà dai dẳng quá! Cây đàn này là một thách thức lớn. Nhưng sau khi đập, tôi thấy nhẹ nhõm và đã đặt mua ngay cây mới!</p></div>
+                        <div class="review-text">
+                          <p>Tôi đã phải dùng búa tạ mới làm nó bung ra được. Gỗ Full Solid gì mà dai dẳng quá! Cây đàn
+                            này là một thách thức lớn. Nhưng sau khi đập, tôi thấy nhẹ nhõm và đã đặt mua ngay cây mới!
+                          </p>
+                        </div>
                         <div class="review-actions">
                           <button class="action-btn"><i class="bi bi-hand-thumbs-up"></i> Chiến thắng (12)</button>
                           <button class="action-btn"><i class="bi bi-chat-dots"></i> Đặt mua tiếp</button>
@@ -337,13 +361,19 @@ include 'forms/head.php';
                           <div class="profile-details">
                             <div class="customer-name">Nger Không Nân (Chơi hệ Lo-Fi)</div>
                             <div class="review-meta">
-                              <div class="review-stars"><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star"></i></div>
+                              <div class="review-stars"><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i
+                                  class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star"></i>
+                              </div>
                               <span class="review-date">Ngày 15 tháng 3, 2024</span>
                             </div>
                           </div>
                         </div>
                         <h5 class="review-headline">Đàn quá mới, không có vết xước Lo-Fi nào hết. Tệ!</h5>
-                        <div class="review-text"><p>Tôi muốn cây đàn có chất âm mộc mạc, hơi rè rè. Nhưng cây này quá hoàn hảo! Tôi phải tự tay tạo ra vài vết nứt để đạt được chất Lo-Fi mong muốn. Vẫn cho 4 sao vì âm thanh cơ bản quá tốt!</p></div>
+                        <div class="review-text">
+                          <p>Tôi muốn cây đàn có chất âm mộc mạc, hơi rè rè. Nhưng cây này quá hoàn hảo! Tôi phải tự tay
+                            tạo ra vài vết nứt để đạt được chất Lo-Fi mong muốn. Vẫn cho 4 sao vì âm thanh cơ bản quá
+                            tốt!</p>
+                        </div>
                         <div class="review-actions">
                           <button class="action-btn"><i class="bi bi-hand-thumbs-up"></i> Có cảm hứng đập (8)</button>
                           <button class="action-btn"><i class="bi bi-chat-dots"></i> Yêu cầu đổi đàn cũ</button>
@@ -356,13 +386,18 @@ include 'forms/head.php';
                           <div class="profile-details">
                             <div class="customer-name">Em Suy Kay Không Linh (Chiến binh DE1 Pro)</div>
                             <div class="review-meta">
-                              <div class="review-stars"><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i></div>
+                              <div class="review-stars"><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i
+                                  class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i
+                                  class="bi bi-star-fill"></i></div>
                               <span class="review-date">Ngày 22 tháng 2, 2024</span>
                             </div>
                           </div>
                         </div>
                         <h5 class="review-headline">Mới mua 2 tuần, đã thành công làm vỡ một góc cần đàn!</h5>
-                        <div class="review-text"><p>Mục tiêu của tôi đã hoàn thành! Cảm ơn đã cho tôi cảm giác cần đàn chắc chắn trước khi tôi làm gãy nó. Rất tuyệt vời!</p></div>
+                        <div class="review-text">
+                          <p>Mục tiêu của tôi đã hoàn thành! Cảm ơn đã cho tôi cảm giác cần đàn chắc chắn trước khi tôi
+                            làm gãy nó. Rất tuyệt vời!</p>
+                        </div>
                         <div class="review-actions">
                           <button class="action-btn"><i class="bi bi-hand-thumbs-up"></i> Hữu ích (15)</button>
                           <button class="action-btn"><i class="bi bi-chat-dots"></i> Trả lời và đặt hàng mới</button>
@@ -373,13 +408,15 @@ include 'forms/head.php';
                         <div class="container">
                           <nav class="d-flex justify-content-center" aria-label="Page navigation">
                             <ul>
-                              <li><a href="#top-comment"><i class="bi bi-arrow-left"></i><span class="d-none d-sm-inline">Trước</span></a></li>
+                              <li><a href="#top-comment"><i class="bi bi-arrow-left"></i><span
+                                    class="d-none d-sm-inline">Trước</span></a></li>
                               <li><a href="#top-comment" class="active">1</a></li>
                               <li><a href="#top-comment">2</a></li>
                               <li><a href="#top-comment">3</a></li>
                               <li class="ellipsis">...</li>
                               <li><a href="#top-comment">8</a></li>
-                              <li><a href="#top-comment" aria-label="Next page"><span class="d-none d-sm-inline">Sau</span><i class="bi bi-arrow-right"></i></a></li>
+                              <li><a href="#top-comment" aria-label="Next page"><span
+                                    class="d-none d-sm-inline">Sau</span><i class="bi bi-arrow-right"></i></a></li>
                             </ul>
                           </nav>
                         </div>
@@ -403,19 +440,64 @@ include 'forms/head.php';
   <script>
     document.addEventListener('DOMContentLoaded', function () {
       const addToCartBtn = document.getElementById('add-to-cart-btn');
+
       if (addToCartBtn) {
         addToCartBtn.addEventListener('click', function (e) {
           e.preventDefault();
+
           <?php if (!empty($_SESSION['user'])): ?>
-              const productName = this.getAttribute('data-product-name');
-              Toast.fire({ icon: 'success', title: 'Đã thêm ' + productName + ' vào giỏ!' });
+            // 1. Lấy thông tin sản phẩm và số lượng
+            const productId = this.getAttribute('data-product-id');
+            const productName = this.getAttribute('data-product-name');
+            const quantityInput = document.getElementById('quantity-input');
+            let quantity = quantityInput ? parseInt(quantityInput.value) : 1;
+
+            if (quantity < 1) quantity = 1; // Đề phòng lỗi nhập số âm
+
+            // 2. Đóng gói dữ liệu gửi đi
+            const formData = new FormData();
+            formData.append('action', 'add');
+            formData.append('product_id', productId);
+            formData.append('quantity', quantity);
+
+            // 3. Gọi AJAX đến file ajax_cart.php
+            fetch('forms/ajax/ajax_cart.php', {
+              method: 'POST',
+              body: formData
+            })
+              .then(response => response.json())
+              .then(data => {
+                if (data.status === 'success') {
+                  // Hiện thông báo thành công
+                  Toast.fire({ icon: 'success', title: 'Đã thêm ' + productName + ' vào giỏ!' });
+
+                  // Cập nhật ngay con số trên icon giỏ hàng ở header
+                  if (data.is_new_item) {
+                    const badge = document.getElementById('cart-badge');
+                    if (badge) {
+                      let currentCount = parseInt(badge.innerText) || 0;
+                      badge.innerText = currentCount + 1;
+                    }
+                  }
+                } else {
+                  // Nếu backend báo lỗi (ví dụ hết hàng, v.v.)
+                  Toast.fire({ icon: 'error', title: data.message });
+                }
+              })
+              .catch(error => {
+                console.error('Error:', error);
+                Toast.fire({ icon: 'error', title: 'Không thể kết nối đến máy chủ!' });
+              });
+
           <?php else: ?>
-              Toast.fire({ icon: 'warning', title: 'Vui lòng đăng nhập để thêm sản phẩm vào giỏ!' })
-                .then(() => { window.location.href = 'login.php'; });
+            // Xử lý khi chưa đăng nhập
+            Toast.fire({ icon: 'warning', title: 'Vui lòng đăng nhập để thêm sản phẩm vào giỏ!' })
+              .then(() => { window.location.href = 'login.php'; });
           <?php endif; ?>
         });
       }
     });
   </script>
 </body>
+
 </html>
