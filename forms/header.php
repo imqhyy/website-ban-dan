@@ -164,7 +164,7 @@
                                     $brands_by_type = getAll($sql_brands);
                             ?>
                                 <li class="dropdown">
-                                    <a href="all.php?type[]=<?= urlencode($catName) ?>">
+                                    <a href="all.php?type[]=<?= $catID ?>">
                                         <span><?= htmlspecialchars($catName) ?></span>
                                         <i class="bi bi-chevron-right toggle-dropdown"></i>
                                     </a>
@@ -172,7 +172,7 @@
                                         <?php if (!empty($brands_by_type)): ?>
                                             <?php foreach ($brands_by_type as $brand): ?>
                                                 <li>
-                                                    <a href="brand.php?brand[]=<?= $brand['id'] ?>&brand_name=<?= urlencode($brand['brand_name']) ?>&type[]=<?= urlencode($catName) ?>">
+                                                    <a href="brand.php?brand[]=<?= $brand['id'] ?>&brand_name=<?= urlencode($brand['brand_name']) ?>&type[]=<?= $catID ?>">
                                                         <?= htmlspecialchars($brand['brand_name']) ?>
                                                     </a>
                                                 </li>
