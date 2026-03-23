@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th3 23, 2026 lúc 06:02 PM
+-- Thời gian đã tạo: Th3 23, 2026 lúc 07:08 PM
 -- Phiên bản máy phục vụ: 10.4.32-MariaDB
--- Phiên bản PHP: 8.0.30
+-- Phiên bản PHP: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -44,7 +44,7 @@ CREATE TABLE `admin_users` (
 --
 
 INSERT INTO `admin_users` (`id`, `username`, `fullname`, `email`, `phone`, `avatar`, `password`, `created_at`, `last_login`) VALUES
-(1, 'admin', 'Trần Hà Linh', 'linhhatran@gmail.com', '0783445439', NULL, '123', '2026-03-22 04:53:02', NULL);
+(1, 'admin', 'Trần Hà Linh', 'linhhatran@gmail.com', '0783445439', NULL, '123', '2026-03-22 11:53:02', NULL);
 
 --
 -- Chỉ mục cho các bảng đã đổ
@@ -65,7 +65,7 @@ ALTER TABLE `admin_users`
 -- AUTO_INCREMENT cho bảng `admin_users`
 --
 ALTER TABLE `admin_users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

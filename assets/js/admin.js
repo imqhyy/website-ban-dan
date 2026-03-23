@@ -605,35 +605,79 @@ function updateBrandsForProduct(typeSelect) {
 }
 
 // 2. Gợi ý sản phẩm khi nhập (Autocomplete)
+// 1. Cập nhật hàm gợi ý sản phẩm (SỬA LỖI CLOSURE)
 function updateProductDatalist(productContainer) {
-  const type = productContainer.querySelector(".manage-product-type").value;
-  const brandId = productContainer.querySelector(
-    ".manage-product-brands",
-  ).value;
   const nameInput = productContainer.querySelector(".product-name-input");
-  const datalist = document.getElementById(nameInput.getAttribute("list"));
+  const datalist = productContainer.querySelector("datalist"); // Lấy datalist ngay trong container này
 
-  // Mỗi khi Huy gõ phím, sẽ gọi lên server để lấy danh sách gợi ý
   nameInput.oninput = function () {
-    if (this.value.length < 1) {
+    // QUAN TRỌNG: Lấy giá trị HIỆN TẠI bên trong sự kiện oninput
+    const type = productContainer.querySelector(".manage-product-type").value;
+    const brandId = productContainer.querySelector(".manage-product-brands").value;
+    const query = this.value;
+
+    if (query.length < 1) {
       datalist.innerHTML = "";
       return;
     }
 
-    fetch(
-      `forms/quanlynhapsanpham/ajax_handle_import.php?action=get_product_suggestions&type=${encodeURIComponent(type)}&brand_id=${brandId}&query=${encodeURIComponent(this.value)}`,
-    )
+    fetch(`forms/quanlynhapsanpham/ajax_handle_import.php?action=get_product_suggestions&type=${encodeURIComponent(type)}&brand_id=${brandId}&query=${encodeURIComponent(query)}`)
       .then((res) => res.json())
       .then((products) => {
-        // Vẽ lại danh sách option và lưu ID sản phẩm vào dataset để lúc lưu ta lấy được ID
         datalist.innerHTML = products
-          .map(
-            (p) =>
-              `<option value="${p.product_name}" data-id="${p.id}"></option>`,
-          )
+          .map((p) => `<option value="${p.product_name}" data-id="${p.id}"></option>`)
           .join("");
       });
   };
+}
+
+// 2. Sửa logic khi bấm nút "Thêm sản phẩm" (SỬA LỖI TRÙNG ID)
+// Huy tìm đoạn addProductButton.addEventListener("click", ...) và cập nhật:
+if (addProductButton && importFormContainer) {
+    addProductButton.addEventListener("click", function () {
+      const productTemplate = document.querySelector(".product-fields-template");
+      const actionContainer = document.getElementById("manage-add-and-save-container");
+
+      if (productTemplate && actionContainer) {
+        const newProductFields = productTemplate.cloneNode(true);
+        const timestamp = Date.now(); // Tạo mã duy nhất
+
+        // Xử lý Datalist để không bị trùng ID
+        const newInput = newProductFields.querySelector(".product-name-input");
+        const newDatalist = newProductFields.querySelector("datalist");
+        
+        newDatalist.id = "list_" + timestamp; // Gán ID mới: list_171123...
+        newInput.setAttribute("list", "list_" + timestamp); // Trỏ input vào ID mới này
+
+        // Reset giá trị
+        newProductFields.querySelectorAll("input, select").forEach((el) => {
+          if (el.tagName === "SELECT") el.selectedIndex = 0;
+          else el.value = "";
+        });
+
+        // Gán lại các sự kiện (Giữ nguyên logic cũ của Huy)
+        const removeBtn = newProductFields.querySelector(".remove-product-btn");
+        if (removeBtn) {
+          removeBtn.style.display = "block";
+          removeBtn.onclick = () => newProductFields.remove();
+        }
+
+        const newTypeSelect = newProductFields.querySelector(".manage-product-type");
+        newTypeSelect.addEventListener("change", function () {
+          updateBrandsForProduct(this);
+        });
+
+        const newBrandSelect = newProductFields.querySelector(".manage-product-brands");
+        newBrandSelect.addEventListener("change", function () {
+          updateProductDatalist(newProductFields);
+        });
+
+        attachPriceFormatter(newProductFields.querySelector(".unit-price-input"));
+
+        importFormContainer.insertBefore(newProductFields, actionContainer);
+        updateBrandsForProduct(newTypeSelect);
+      }
+    });
 }
 
 function formatCurrency(value) {

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th3 23, 2026 lúc 02:03 PM
+-- Thời gian đã tạo: Th3 23, 2026 lúc 07:09 PM
 -- Phiên bản máy phục vụ: 10.4.32-MariaDB
 -- Phiên bản PHP: 8.2.12
 
@@ -36,6 +36,13 @@ CREATE TABLE `import_receipt_details` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
+-- Đang đổ dữ liệu cho bảng `import_receipt_details`
+--
+
+INSERT INTO `import_receipt_details` (`id`, `receipt_id`, `product_id`, `quantity`, `unit_price`) VALUES
+(3, 3, 29, 2, 1000000.00);
+
+--
 -- Chỉ mục cho các bảng đã đổ
 --
 
@@ -55,7 +62,7 @@ ALTER TABLE `import_receipt_details`
 -- AUTO_INCREMENT cho bảng `import_receipt_details`
 --
 ALTER TABLE `import_receipt_details`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- Các ràng buộc cho các bảng đã đổ

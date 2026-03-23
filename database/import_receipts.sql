@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th3 23, 2026 lúc 02:03 PM
+-- Thời gian đã tạo: Th3 23, 2026 lúc 07:09 PM
 -- Phiên bản máy phục vụ: 10.4.32-MariaDB
 -- Phiên bản PHP: 8.2.12
 
@@ -37,6 +37,13 @@ CREATE TABLE `import_receipts` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
+-- Đang đổ dữ liệu cho bảng `import_receipts`
+--
+
+INSERT INTO `import_receipts` (`id`, `receipt_code`, `import_date`, `total_amount`, `note`, `created_at`) VALUES
+(3, 'PN-230326-001', '2026-03-24 00:00:00', 2000000.00, NULL, '2026-03-23 17:41:20');
+
+--
 -- Chỉ mục cho các bảng đã đổ
 --
 
@@ -55,7 +62,7 @@ ALTER TABLE `import_receipts`
 -- AUTO_INCREMENT cho bảng `import_receipts`
 --
 ALTER TABLE `import_receipts`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

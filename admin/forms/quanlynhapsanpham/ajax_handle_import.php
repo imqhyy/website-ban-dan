@@ -31,20 +31,24 @@ if ($action === 'get_brands') {
 
 // --- 3. Vừa nhập vừa đề xuất tên sản phẩm (Autocomplete) ---
 if ($action === 'get_product_suggestions') {
-    $type = $_GET['type'] ?? '';
+    $type_name = $_GET['type'] ?? ''; // Nhận tên loại (VD: 'Guitar Classic')
     $brand_id = (int)($_GET['brand_id'] ?? 0);
     $query = $_GET['query'] ?? '';
 
-    // Tìm sản phẩm đúng Loại và Hiệu, tên gần giống với từ khóa Huy gõ
-    $sql = "SELECT id, product_name FROM products 
-            WHERE product_type = " . $pdo->quote($type) . " 
-            AND brand_id = $brand_id 
-            AND product_name LIKE " . $pdo->quote("%$query%") . " LIMIT 10";
+    // Dùng JOIN với bảng categories để lọc chính xác theo tên loại sản phẩm
+    $sql = "SELECT p.id, p.product_name 
+            FROM products p
+            JOIN categories c ON p.category_id = c.id
+            WHERE c.category_name = " . $pdo->quote($type_name) . " 
+            AND p.brand_id = $brand_id 
+            AND p.product_name LIKE " . $pdo->quote("%$query%") . " 
+            LIMIT 10";
+            
     echo json_encode(getAll($sql));
     exit;
 }
 
-// --- 4. Lưu phiếu nhập ---
+// --- 4. Lưu phiếu nhập (Cập nhật bước 2: Tăng tồn kho) ---
 if ($action === 'save_import') {
     try {
         $pdo->beginTransaction();
@@ -52,18 +56,38 @@ if ($action === 'save_import') {
         $import_date  = $_POST['import_date'];
         $total_amount = str_replace(['.', ' VND'], '', $_POST['total_amount'] ?? '0');
 
+        // 1. Lưu thông tin chung của phiếu nhập
+        $stmt = $pdo->prepare("INSERT INTO import_receipt_details (receipt_id, product_id, quantity, unit_price) VALUES (?, ?, ?, ?)"); // Giữ nguyên code cũ
         $stmt = $pdo->prepare("INSERT INTO import_receipts (receipt_code, import_date, total_amount) VALUES (?, ?, ?)");
         $stmt->execute([$receipt_code, $import_date, $total_amount]);
         $receipt_id = $pdo->lastInsertId();
 
         $products = $_POST['products'] ?? [];
+        
+        // 2. Chuẩn bị câu lệnh lưu chi tiết và câu lệnh CẬP NHẬT KHO
+        $stmtDetail = $pdo->prepare("INSERT INTO import_receipt_receipt_details (receipt_id, product_id, quantity, unit_price) VALUES (?, ?, ?, ?)"); 
         $stmtDetail = $pdo->prepare("INSERT INTO import_receipt_details (receipt_id, product_id, quantity, unit_price) VALUES (?, ?, ?, ?)");
+        
+        // CÂU LỆNH MỚI: Cập nhật cột stock_quantity trong bảng products
+        $stmtUpdateStock = $pdo->prepare("UPDATE products SET stock_quantity = stock_quantity + ? WHERE id = ?");
         
         foreach ($products as $p) {
             $price = str_replace(['.', ' VND'], '', $p['price']);
-            $stmtDetail->execute([$receipt_id, $p['id'], $p['qty'], $price]);
+            $qty = (int)$p['qty'];
+            $p_id = (int)$p['id'];
+
+            // Lưu vào bảng chi tiết phiếu nhập
+            $stmtDetail->execute([$receipt_id, $p_id, $qty, $price]);
+
+            // THỰC HIỆN BƯỚC 2: Cộng dồn số lượng vào kho
+            $stmtUpdateStock->execute([$qty, $p_id]);
         }
-        $pdo->commit(); echo "success";
-    } catch (Exception $e) { $pdo->rollBack(); echo "Lỗi: " . $e->getMessage(); }
+
+        $pdo->commit(); 
+        echo "success";
+    } catch (Exception $e) { 
+        $pdo->rollBack(); 
+        echo "Lỗi: " . $e->getMessage(); 
+    }
     exit;
 }
