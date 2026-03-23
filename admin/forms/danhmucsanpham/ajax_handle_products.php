@@ -112,27 +112,34 @@ if ($action === 'fetch_list') {
             LEFT JOIN brands b ON p.brand_id = b.id 
             LEFT JOIN categories c ON p.category_id = c.id 
             $where ORDER BY p.id DESC LIMIT $perPage OFFSET $offset";
-    $products = getAll($sql);
 
     // Tạo HTML cho bảng (Giữ nguyên các cột của Huy)
-    $tableHtml = "";
+    $products = getAll($sql);
+    $tableHtml = ""; // PHẢI KHỞI TẠO BIẾN NÀY ĐẦU TIÊN
+
     if (empty($products)) {
-        $tableHtml = "<tr><td colspan='8' class='text-center'>Không tìm thấy sản phẩm.</td></tr>";
+        $tableHtml = "<tr><td colspan='8' class='text-center'>Chưa có sản phẩm nào.</td></tr>";
     } else {
         foreach ($products as $p) {
-            // SỬA: Dùng category_name thay cho product_type
             $type = str_replace('Guitar ', '', htmlspecialchars($p['category_name'] ?? 'N/A'));
+            $cost_display = number_format($p['cost_price'], 0, ',', '.') . " VND";
+            $selling_display = number_format($p['selling_price'], 0, ',', '.') . " VND";
+            $statusIcon = ($p['status'] === 'visible') ? 'bi-eye' : 'bi-eye-slash text-secondary';
+            $statusTitle = ($p['status'] === 'visible') ? 'Đang hiện - Bấm để ẩn' : 'Đang ẩn - Bấm để hiện';
+
             $tableHtml .= "<tr>
                 <td>{$p['id']}</td>
                 <td>" . htmlspecialchars($p['product_name']) . "</td>
                 <td>$type</td>
                 <td>" . htmlspecialchars($p['brand_name'] ?? 'N/A') . "</td>
-                <td><span class='text-muted'>Đang cập nhật...</span></td>
+                <td class='fw-bold'>$cost_display</td>
                 <td>" . (float)$p['profit_margin'] . "%</td>
-                <td><span class='text-muted'>Đang cập nhật...</span></td>
+                <td class='fw-bold text-primary'>$selling_display</td>
                 <td class='function-button-container'>
                     <button class='action-icon-btn edit-product-btn' title='Sửa' data-id='{$p['id']}'><i class='bi bi-pencil-square' style='color: #ffc107;'></i></button>
-                    <button class='action-icon-btn hide-btn' title='Ẩn'><i class='bi bi-eye'></i></button>
+                    <button class='action-icon-btn hide-btn' title='{$statusTitle}' data-id='{$p['id']}'>
+                        <i class='bi {$statusIcon}'></i>
+                    </button>
                     <button class='action-icon-btn delete-product-btn' title='Xóa' data-id='{$p['id']}'><i class='bi bi-trash3 text-danger'></i></button>
                 </td>
             </tr>";
@@ -294,37 +301,69 @@ if ($action === 'update_product') {
     exit;
 }
 
-// --- 6. XỬ LÝ XÓA SẢN PHẨM (HUY CHÈN THÊM ĐOẠN NÀY) ---
+// --- 6. XỬ LÝ XÓA SẢN PHẨM (Nâng cấp theo yêu cầu giảng viên) ---
 if ($action === 'delete_product') {
     try {
         $id = (int)$_POST['id'];
 
-        // 1. Lấy thông tin để tìm đường dẫn thư mục ảnh
-        $sqlInfo = "SELECT p.product_name, b.brand_name, c.category_name 
-                    FROM products p 
-                    JOIN brands b ON p.brand_id = b.id 
-                    JOIN categories c ON p.category_id = c.id 
-                    WHERE p.id = $id";
-        $p = getOne($sqlInfo);
+        // BƯỚC 1: Kiểm tra xem sản phẩm đã từng được nhập hàng chưa
+        // Chúng ta kiểm tra trong bảng chi tiết phiếu nhập (import_receipt_details)
+        $checkImport = getOne("SELECT COUNT(*) as total FROM import_receipt_details WHERE product_id = ?", [$id]);
+        
+        // Kiểm tra thêm cả trong chi tiết đơn hàng (Nếu Huy muốn an toàn tuyệt đối)
+        $checkOrder = getOne("SELECT COUNT(*) as total FROM order_details WHERE product_id = ?", [$id]);
 
-        if ($p) {
-            // 2. Xóa thư mục ảnh trên ổ cứng (XAMPP)
-            $dir = __DIR__ . "/../../../assets/img/products/guitar/" . create_slug($p['category_name']) . "/" . create_slug($p['brand_name']) . "/" . create_slug($p['product_name']) . "/";
+        if ($checkImport['total'] > 0 || $checkOrder['total'] > 0) {
+            // TRƯỜNG HỢP 1: Đã có dữ liệu liên quan -> Chỉ chuyển sang trạng thái 'hidden'
+            $pdo->prepare("UPDATE products SET status = 'hidden' WHERE id = ?")->execute([$id]);
+            echo "hidden_success"; // Gửi mã phản hồi riêng để JS hiện thông báo
+        } else {
+            // TRƯỜNG HỢP 2: Sản phẩm "sạch" (chưa bán, chưa nhập) -> Xóa vĩnh viễn
+            
+            // 1. Lấy thông tin để xóa thư mục ảnh trên ổ cứng
+            $p = getOne("SELECT p.product_name, b.brand_name, c.category_name 
+                        FROM products p 
+                        JOIN brands b ON p.brand_id = b.id 
+                        JOIN categories c ON p.category_id = c.id 
+                        WHERE p.id = ?", [$id]);
 
-            if (is_dir($dir)) {
-                $files = glob($dir . '*', GLOB_MARK);
-                foreach ($files as $file) {
-                    unlink($file);
+            if ($p) {
+                $dir = __DIR__ . "/../../../assets/img/products/guitar/" . create_slug($p['category_name']) . "/" . create_slug($p['brand_name']) . "/" . create_slug($p['product_name']) . "/";
+                if (is_dir($dir)) {
+                    $files = glob($dir . '*', GLOB_MARK);
+                    foreach ($files as $file) { unlink($file); }
+                    @rmdir($dir);
                 }
-                rmdir($dir);
             }
-        }
 
-        // 3. Xóa dòng dữ liệu trong Database
-        $pdo->prepare("DELETE FROM products WHERE id = ?")->execute([$id]);
+            // 2. Xóa dòng dữ liệu trong Database
+            $pdo->prepare("DELETE FROM products WHERE id = ?")->execute([$id]);
+            echo "delete_success";
+        }
+    } catch (Exception $e) {
+        echo "Lỗi: " . $e->getMessage();
+    }
+    exit;
+}
+
+
+// --- 7. XỬ LÝ ẨN/HIỆN SẢN PHẨM (Huy thêm đoạn này) ---
+if ($action === 'toggle_status') {
+    try {
+        $id = (int)$_POST['id'];
+
+        // 1. Lấy trạng thái hiện tại
+        $current = getOne("SELECT status FROM products WHERE id = ?", [$id]);
+
+        // 2. Đảo ngược trạng thái
+        $newStatus = ($current['status'] === 'visible') ? 'hidden' : 'visible';
+
+        // 3. Cập nhật vào Database
+        $pdo->prepare("UPDATE products SET status = ? WHERE id = ?")->execute([$newStatus, $id]);
+
         echo "success";
     } catch (Exception $e) {
-        echo "Lỗi xóa: " . $e->getMessage();
+        echo "Lỗi: " . $e->getMessage();
     }
     exit;
 }

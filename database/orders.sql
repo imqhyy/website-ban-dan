@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th3 23, 2026 lúc 07:09 PM
+-- Thời gian đã tạo: Th3 23, 2026 lúc 08:26 PM
 -- Phiên bản máy phục vụ: 10.4.32-MariaDB
 -- Phiên bản PHP: 8.2.12
 
@@ -37,9 +37,19 @@ CREATE TABLE `orders` (
   `shipping_address` text NOT NULL,
   `order_notes` text DEFAULT NULL,
   `total_amount` decimal(15,2) NOT NULL,
-  `order_status` enum('pending','confirmed','shipping','completed','cancelled') DEFAULT 'pending',
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+  `order_status` enum('newest','processed','deliveried','cancel') DEFAULT 'newest',
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Đang đổ dữ liệu cho bảng `orders`
+--
+
+INSERT INTO `orders` (`id`, `user_id`, `order_code`, `customer_name`, `phone`, `email`, `shipping_address`, `order_notes`, `total_amount`, `order_status`, `created_at`, `updated_at`) VALUES
+(1, 1, 'GXG-260324-001', 'Nghiêm Vũ Hoàng Long', '0123456789', 'nghiemtong@gmail.com', '123 Đường ABC, Quận 1, TP.HCM', 'Giao sau giờ hành chính giúp em', 85000000.00, 'newest', '2026-03-23 18:45:38', '2026-03-23 18:45:38'),
+(2, 22, 'GXG-260324-002', 'Phạm Nam Hải', '0123451111', 'wrxdie@gmail.com', 'Nhà của MCK, Hà Nội', 'Hàng dễ vỡ, xin nhẹ tay', 10000000.00, 'processed', '2026-03-23 18:45:39', '2026-03-23 18:45:39'),
+(3, 23, 'GXG-260324-003', 'Nguyễn Thảo Linh', '0123452222', 'tlinh@gmail.com', 'Quận Cầu Giấy, Hà Nội', NULL, 90000000.00, 'deliveried', '2026-03-23 18:45:39', '2026-03-23 18:45:39');
 
 --
 -- Chỉ mục cho các bảng đã đổ
@@ -61,7 +71,7 @@ ALTER TABLE `orders`
 -- AUTO_INCREMENT cho bảng `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- Các ràng buộc cho các bảng đã đổ

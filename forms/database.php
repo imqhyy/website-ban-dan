@@ -28,29 +28,24 @@ function create_slug($str) {
     return $str;
 }
 
-//Truy vấn nhiều dòng dữ liệu trong database
-function getAll($sql) {
+// Cập nhật lại các hàm trong database.php
+function getAll($sql, $params = []) {
     global $pdo;
-    $stm = $pdo -> prepare($sql);
-    $stm -> execute();
-    $result = $stm -> fetchAll(PDO::FETCH_ASSOC);
-    return $result;
+    $stm = $pdo->prepare($sql);
+    $stm->execute($params); // Truyền mảng tham số vào đây
+    return $stm->fetchAll(PDO::FETCH_ASSOC);
 }
 
-//Truy vấn 1 dòng dữ liệu trong database
-    function getOne($sql) {
+function getOne($sql, $params = []) {
     global $pdo;
-    $stm = $pdo -> prepare($sql);
-    $stm -> execute();
-    $result = $stm -> fetch(PDO::FETCH_ASSOC);
-    return $result;
+    $stm = $pdo->prepare($sql);
+    $stm->execute($params); // Truyền mảng tham số vào đây
+    return $stm->fetch(PDO::FETCH_ASSOC);
 }
 
-//Đếm số dòng dữ liệu trả về trong database
-function getRows($sql) {
+function getRows($sql, $params = []) {
     global $pdo;
-    $stm = $pdo -> prepare($sql);
-    $stm -> execute();
-    $result = $stm -> rowCount();
-    return $result;
+    $stm = $pdo->prepare($sql);
+    $stm->execute($params);
+    return $stm->rowCount();
 }

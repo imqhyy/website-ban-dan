@@ -48,7 +48,8 @@ if ($action === 'get_product_suggestions') {
     exit;
 }
 
-// --- 4. Lưu phiếu nhập (Cập nhật bước 2: Tăng tồn kho) ---
+
+// --- 4. Lưu phiếu nhập (Cập nhật: Tính giá bình quân gia quyền) ---
 if ($action === 'save_import') {
     try {
         $pdo->beginTransaction();
@@ -56,31 +57,48 @@ if ($action === 'save_import') {
         $import_date  = $_POST['import_date'];
         $total_amount = str_replace(['.', ' VND'], '', $_POST['total_amount'] ?? '0');
 
-        // 1. Lưu thông tin chung của phiếu nhập
-        $stmt = $pdo->prepare("INSERT INTO import_receipt_details (receipt_id, product_id, quantity, unit_price) VALUES (?, ?, ?, ?)"); // Giữ nguyên code cũ
-        $stmt = $pdo->prepare("INSERT INTO import_receipts (receipt_code, import_date, total_amount) VALUES (?, ?, ?)");
-        $stmt->execute([$receipt_code, $import_date, $total_amount]);
+        // Lưu thông tin chung của phiếu nhập
+        $stmtInsertReceipt = $pdo->prepare("INSERT INTO import_receipts (receipt_code, import_date, total_amount) VALUES (?, ?, ?)");
+        $stmtInsertReceipt->execute([$receipt_code, $import_date, $total_amount]);
         $receipt_id = $pdo->lastInsertId();
 
         $products = $_POST['products'] ?? [];
-        
-        // 2. Chuẩn bị câu lệnh lưu chi tiết và câu lệnh CẬP NHẬT KHO
-        $stmtDetail = $pdo->prepare("INSERT INTO import_receipt_receipt_details (receipt_id, product_id, quantity, unit_price) VALUES (?, ?, ?, ?)"); 
         $stmtDetail = $pdo->prepare("INSERT INTO import_receipt_details (receipt_id, product_id, quantity, unit_price) VALUES (?, ?, ?, ?)");
         
-        // CÂU LỆNH MỚI: Cập nhật cột stock_quantity trong bảng products
-        $stmtUpdateStock = $pdo->prepare("UPDATE products SET stock_quantity = stock_quantity + ? WHERE id = ?");
-        
         foreach ($products as $p) {
-            $price = str_replace(['.', ' VND'], '', $p['price']);
-            $qty = (int)$p['qty'];
             $p_id = (int)$p['id'];
+            $q_new = (int)$p['qty'];
+            $c_new = (float)str_replace(['.', ' VND'], '', $p['price']);
 
-            // Lưu vào bảng chi tiết phiếu nhập
-            $stmtDetail->execute([$receipt_id, $p_id, $qty, $price]);
+            // --- BƯỚC A: Lấy dữ liệu hiện tại từ bảng products ---
+            $current = getOne("SELECT stock_quantity, cost_price, profit_margin FROM products WHERE id = ?", [$p_id]);
+            $q_old = (int)$current['stock_quantity'];
+            $c_old = (float)$current['cost_price'];
+            $p_margin = (float)$current['profit_margin'];
 
-            // THỰC HIỆN BƯỚC 2: Cộng dồn số lượng vào kho
-            $stmtUpdateStock->execute([$qty, $p_id]);
+            // --- BƯỚC B: Tính giá nhập bình quân (Yêu cầu của giảng viên) ---
+            // Công thức: (Tồn cũ * Giá vốn cũ + Nhập mới * Giá nhập mới) / (Tổng tồn mới)
+            if (($q_old + $q_new) > 0) {
+                $c_final = (($q_old * $c_old) + ($q_new * $c_new)) / ($q_old + $q_new);
+            } else {
+                $c_final = $c_new;
+            }
+
+            // --- BƯỚC C: Tính giá bán mới dựa trên tỷ lệ lợi nhuận ---
+            // Công thức: Giá nhập bình quân * (1 + % Lợi nhuận / 100)
+            $s_new = $c_final * (1 + ($p_margin / 100));
+
+            // --- BƯỚC D: Cập nhật đồng thời Giá vốn, Giá bán và Số lượng tồn ---
+            $sql_update = "UPDATE products SET 
+                            cost_price = ?, 
+                            selling_price = ?, 
+                            stock_quantity = stock_quantity + ?,
+                            updated_at = CURRENT_TIMESTAMP
+                           WHERE id = ?";
+            $pdo->prepare($sql_update)->execute([$c_final, $s_new, $q_new, $p_id]);
+
+            // Lưu chi tiết sản phẩm vào phiếu nhập
+            $stmtDetail->execute([$receipt_id, $p_id, $q_new, $c_new]);
         }
 
         $pdo->commit(); 
