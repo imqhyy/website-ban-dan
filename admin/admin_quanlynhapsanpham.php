@@ -1,6 +1,7 @@
 <?php
 $title = "Quản lý nhập sản phẩm";
 require_once(__DIR__ . '/forms/init.php');
+require_once(__DIR__ . '/forms/quanlynhapsanpham/list.php');
 include __DIR__ . "/forms/head.php";
 ?>
 
@@ -86,36 +87,45 @@ include __DIR__ . "/forms/head.php";
             <h2>Danh Sách Phiếu Nhập Sản Phẩm</h2>
             <!-- Search -->
             <form action="" class="search-container" method="get">
-                <!-- Search box -->
-                <input type="text" id="search-input" placeholder="Tìm kiếm mã phiếu nhập" name="search">
-                <button id="search-button">
-                    <i class="fa fa-search"></i> Tìm kiếm
-                </button>
-            </form><!-- End Search box -->
+                <input type="text" id="search-input" placeholder="Tìm kiếm mã phiếu nhập" name="search"
+                    value="<?= $_GET['search'] ?? '' ?>">
+                <button type="submit" id="search-button"><i class="fa fa-search"></i> Tìm kiếm</button>
+            </form>
 
-            <div class="sort-container">
-                <!-- Sort-container -->
+            <form action="" method="get" class="sort-container">
                 <div class="sort-by-date-container">
-                    <label>Từ ngày:<input type="date" class="input-sort-date"></label>
-
-                    <label>Đến ngày:<input type="date" class="input-sort-date"></label>
+                    <label>Từ ngày:<input type="date" name="date_from" class="input-sort-date"
+                            value="<?= $_GET['date_from'] ?? '' ?>"></label>
+                    <label>Đến ngày:<input type="date" name="date_to" class="input-sort-date"
+                            value="<?= $_GET['date_to'] ?? '' ?>"></label>
                 </div>
                 <div class="sort-by-order-status">
-                    <label for="sort-order">Tình trạng:</label>
-                    <select id="sort-order" class="status-select-custom">
-                        <option value="newest">Mới nhất</option>
-                        <option value="oldest">Cũ nhất</option>
+                    <label for="sort-order">Sắp xếp:</label>
+                    <select id="sort-order" name="sort" class="status-select-custom">
+                        <option value="newest"
+                            <?= (isset($_GET['sort']) && $_GET['sort'] == 'newest') ? 'selected' : '' ?>>Mới nhất
+                        </option>
+                        <option value="oldest"
+                            <?= (isset($_GET['sort']) && $_GET['sort'] == 'oldest') ? 'selected' : '' ?>>Cũ nhất
+                        </option>
                     </select>
                 </div>
-                <button id="filter-button" class="status-button">
-                    <i class="bi bi-funnel"></i> Tra cứu
-                </button>
-            </div>
+                <button type="submit" class="status-button"><i class="bi bi-funnel"></i> Tra cứu</button>
+            </form>
 
-            <!-- Phiếu nhập thứ nhất -->
+            <?php if (!empty($receipts)): ?>
+            <?php foreach ($receipts as $r): 
+        // Lấy chi tiết sản phẩm cho từng phiếu
+        $sqlDetails = "SELECT d.*, p.product_name, c.category_name 
+                       FROM import_receipt_details d
+                       JOIN products p ON d.product_id = p.id
+                       JOIN categories c ON p.category_id = c.id
+                       WHERE d.receipt_id = " . $r['id'];
+        $details = getAll($sqlDetails);
+    ?>
             <hr>
-            <h3>Ngày nhập: 23/10/2025</h3>
-            <h3>Mã phiếu: 1234</h3>
+            <h3>Ngày nhập: <?= date("d/m/Y", strtotime($r['import_date'])) ?></h3>
+            <h3>Mã phiếu: <?= htmlspecialchars($r['receipt_code']) ?></h3>
             <table class="data-table">
                 <thead>
                     <tr>
@@ -123,123 +133,31 @@ include __DIR__ . "/forms/head.php";
                         <th style="width:10%">Loại</th>
                         <th style="width: 10%;">Số lượng</th>
                         <th style="width: 20%;">Đơn giá</th>
+                        <th style="width: 20%;">Thành tiền</th>
                     </tr>
                 </thead>
-                <tbody id="categoryList">
+                <tbody>
+                    <?php foreach ($details as $d): ?>
                     <tr>
-                        <td>Taloy A12E</td>
-                        <td>Acoustic</td>
-                        <td>2</td>
-                        <td>85.000.000 VND</td>
+                        <td><?= htmlspecialchars($d['product_name']) ?></td>
+                        <td><?= htmlspecialchars($d['category_name']) ?></td>
+                        <td><?= $d['quantity'] ?></td>
+                        <td><?= number_format($d['unit_price'], 0, ',', '.') ?> VND</td>
+                        <td><?= number_format($d['quantity'] * $d['unit_price'], 0, ',', '.') ?> VND</td>
                     </tr>
-                    <tr>
-                        <td>Ba Đờn</td>
-                        <td>Classic</td>
-                        <td>5</td>
-                        <td>5.000.000 VND</td>
-                    </tr>
-                    <tr>
-                        <td>Enya EGA X0 PRO SP1</td>
-                        <td>Acoustic</td>
-                        <td>1</td>
-                        <td>11.300.000 VND</td>
-                    </tr>
+                    <?php endforeach; ?>
                 </tbody>
                 <tfoot>
                     <tr>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <th>Tổng: 217.600.000 VND</th>
+                        <td colspan="4" style="text-align: right;"><strong>Tổng cộng:</strong></td>
+                        <th><?= number_format($r['total_amount'], 0, ',', '.') ?> VND</th>
                     </tr>
                 </tfoot>
             </table>
-
-            <!-- Phiếu nhập thứ hai -->
-            <hr>
-            <h3>Ngày nhập: 10/10/2025</h3>
-            <h3>Mã phiếu: 1233</h3>
-            <table class="data-table">
-                <thead>
-                    <tr>
-                        <th style="width: 40%;">Sản phẩm</th>
-                        <th style="width:10%">Loại</th>
-                        <th style="width: 10%;">Số lượng</th>
-                        <th style="width: 20%;">Đơn giá</th>
-                    </tr>
-                </thead>
-                <tbody id="categoryList">
-                    <tr>
-                        <td>Saga CL65</td>
-                        <td>Acoustic</td>
-                        <td>10</td>
-                        <td>2.000.000 VND</td>
-                    </tr>
-                    <tr>
-                        <td>Ba Đờn</td>
-                        <td>Classic</td>
-                        <td>3</td>
-                        <td>5.000.000 VND</td>
-                    </tr>
-                    <tr>
-                        <td>Yamaha LS36 ARE</td>
-                        <td>Acoustic</td>
-                        <td>7</td>
-                        <td>6.500.000 VND</td>
-                    </tr>
-                </tbody>
-                <tfoot>
-                    <tr>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <th>Tổng: 80.500.000 VND</th>
-                    </tr>
-                </tfoot>
-            </table>
-
-            <!-- Phiếu nhập thứ ba -->
-            <hr>
-            <h3>Ngày nhập: 12/6/2025</h3>
-            <h3>Mã phiếu: 1232</h3>
-            <table class="data-table" style="margin-bottom: 20px;">
-                <thead>
-                    <tr>
-                        <th style="width: 40%;">Sản phẩm</th>
-                        <th style="width:10%">Loại</th>
-                        <th style="width: 10%;">Số lượng</th>
-                        <th style="width: 20%;">Đơn giá</th>
-                    </tr>
-                </thead>
-                <tbody id="categoryList">
-                    <tr>
-                        <td>Saga SS 8CE</td>
-                        <td>Acoustic</td>
-                        <td>1</td>
-                        <td>6.500.000 VND</td>
-                    </tr>
-                    <tr>
-                        <td>Ba Đờn</td>
-                        <td>Classic</td>
-                        <td>3</td>
-                        <td>5.000.000 VND</td>
-                    </tr>
-                    <tr>
-                        <td>Enya EGA X0 PRO SP1</td>
-                        <td>Acoustic</td>
-                        <td>1</td>
-                        <td>11.300.000 VND</td>
-                    </tr>
-                </tbody>
-                <tfoot>
-                    <tr>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <th>Tổng: 32.800.000 VND</th>
-                    </tr>
-                </tfoot>
-            </table>
+            <?php endforeach; ?>
+            <?php else: ?>
+            <p style="text-align: center; margin-top: 20px;">Không tìm thấy phiếu nhập nào.</p>
+            <?php endif; ?>
 
 
 
@@ -250,24 +168,41 @@ include __DIR__ . "/forms/head.php";
                 <div class="container">
                     <nav class="d-flex justify-content-center" aria-label="Page navigation">
                         <ul>
-                            <li> <a href="#" aria-label="Previous page"> <i class="bi bi-arrow-left"></i>
-                                    <span class="d-none d-sm-inline">Trước</span>
-                                </a> </li>
-                            <li><a href="#" class="active">1</a></li>
-                            <li><a href="#">2</a></li>
-                            <li><a href="#">3</a></li>
-                            <li class="ellipsis">...</li>
-                            <li><a href="#">8</a></li>
-                            <li><a href="#">9</a></li>
-                            <li><a href="#">10</a></li>
-                            <li> <a href="#" aria-label="Next page">
-                                    <span class="d-none d-sm-inline">Sau</span>
-                                    <i class="bi bi-arrow-right"></i>
-                                </a> </li>
+                            <?php 
+                // Tạo URL giữ nguyên các tham số tìm kiếm
+                $queryData = $_GET;
+                unset($queryData['page']);
+                $queryString = http_build_query($queryData);
+                $baseUrl = "admin_quanlynhapsanpham.php?" . ($queryString ? $queryString . "&" : "");
+                ?>
+
+                            <?php if ($currentPage > 1): ?>
+                            <li><a href="<?= $baseUrl ?>page=<?= $currentPage - 1 ?>"><i
+                                        class="bi bi-arrow-left"></i></a></li>
+                            <?php endif; ?>
+
+                            <?php for ($i = 1; $i <= $maxPage; $i++): ?>
+                            <?php 
+                    // Logic hiển thị dấu ... nếu quá nhiều trang có thể thêm ở đây 
+                    // Hiện tại hiển thị đơn giản giống yêu cầu của Huy
+                    ?>
+                            <li>
+                                <a href="<?= $baseUrl ?>page=<?= $i ?>"
+                                    class="<?= ($i == $currentPage) ? 'active' : '' ?>">
+                                    <?= $i ?>
+                                </a>
+                            </li>
+                            <?php endfor; ?>
+
+                            <?php if ($currentPage < $maxPage): ?>
+                            <li><a href="<?= $baseUrl ?>page=<?= $currentPage + 1 ?>"><i
+                                        class="bi bi-arrow-right"></i></a></li>
+                            <?php endif; ?>
                         </ul>
                     </nav>
                 </div>
-            </section><!-- /Category Pagination Section -->
+            </section>
+            <!-- /Category Pagination Section -->
         </div>
 
 
