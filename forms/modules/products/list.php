@@ -31,7 +31,8 @@ $nav_type = isset($_GET['product_type']) ? $_GET['product_type'] : null;
 if (!empty($types)) {
     // Ưu tiên nếu người dùng tích chọn checkbox
     $type_list = "'" . implode("','", array_map('addslashes', $types)) . "'";
-    $conditions[] = "p.product_type IN ($type_list)";
+    $ids = implode(',', array_map('intval', $types)); 
+    $conditions[] = "p.category_id IN ($ids)";
 } elseif ($nav_type) {
     // Nếu không tích checkbox nhưng có giá trị từ Nav menu
     $conditions[] = "p.product_type = '" . addslashes($nav_type) . "'";
@@ -122,9 +123,10 @@ if ($currentPage > $maxPage && $maxPage > 0) $currentPage = $maxPage;
 $offset = ($currentPage - 1) * $perPage;
 
 // 5. Truy vấn dữ liệu: Lấy tất cả cột từ products và cột brand_name từ bảng brands
-$sql = "SELECT p.*, b.brand_name 
+$sql = "SELECT p.*, b.brand_name, c.category_name 
         FROM products p 
         LEFT JOIN brands b ON p.brand_id = b.id 
+        LEFT JOIN categories c ON p.category_id = c.id 
         $where 
         ORDER BY $order_by 
         LIMIT $perPage OFFSET $offset";

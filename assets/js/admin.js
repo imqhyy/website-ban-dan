@@ -38,55 +38,54 @@ if (modal) {
 // --------------------
 // Bạn cần lắng nghe sự kiện bấm vào nút 'Chi tiết'
 // Giả sử nút 'Chi tiết' có class là 'detail-btn'
-// 
+//
 
 /*DÀNH CHO TRANG QUẢN LÝ PHÂN LOẠI*/
 
-/* --- QUẢN LÝ PHÂN LOẠI BẰNG AJAX --- */
-
+/* --- QUẢN LÝ PHÂN LOẠI BẰNG AJAX (BẢN FIX MỞ/ĐÓNG MODAL) --- */
 function initializeCategoryEvents() {
-  // --- 1. Sự kiện cho nút SỬA ---
+  // --- 1. Sự kiện cho nút SỬA PHÂN LOẠI ---
   document.querySelectorAll(".edit-category-btn").forEach((button) => {
     button.addEventListener("click", function (event) {
       event.preventDefault();
       const editModal = document.getElementById("edit-info-category");
-      document.getElementById("input-edit-id-category").value =
-        this.getAttribute("data-id");
-      document.getElementById("input-edit-namecategory").value =
-        this.getAttribute("data-name");
-      document.getElementById("input-edit-profitcategory").value =
-        this.getAttribute("data-profit");
+      
+      // Nạp dữ liệu vào Modal
+      document.getElementById("input-edit-id-category").value = this.getAttribute("data-id");
+      document.getElementById("input-edit-namecategory").value = this.getAttribute("data-name");
+      document.getElementById("input-edit-profitcategory").value = this.getAttribute("data-profit");
       const rawDesc = this.getAttribute("data-desc");
-      document.getElementById("mo_ta").value =
-        rawDesc === "Chưa có mô tả" ? "" : rawDesc;
-      editModal.style.display = "block";
+      document.getElementById("mo_ta").value = (rawDesc === "Chưa có mô tả") ? "" : rawDesc;
+
+      // HIỆN MODAL
+      if(editModal) editModal.style.display = "block";
     });
   });
 
-  // --- 2. Sự kiện cho nút QUẢN LÝ THƯƠNG HIỆU (Huy đưa đoạn này vào đây) ---
+  // --- 2. Sự kiện cho nút QUẢN LÝ THƯƠNG HIỆU (FIX LỖI KHÔNG MỞ MODAL) ---
   document.querySelectorAll(".manage-brands-btn").forEach((button) => {
     button.addEventListener("click", function (event) {
       event.preventDefault();
       const catId = this.getAttribute("data-id");
+      const brandModal = document.getElementById("edit-brands-modal"); // Modal cần mở
       const row = this.closest("tr");
-      const catName =
-        row.querySelector(".manage-name-category")?.textContent || "Phân loại";
+      const catName = row.querySelector(".manage-name-category")?.textContent || "Phân loại";
 
       document.getElementById("current-category-id").value = catId;
-      document.getElementById("brand-modal-title").innerHTML =
-        `Danh sách thương hiệu: <strong>${catName}</strong>`;
+      document.getElementById("brand-modal-title").innerHTML = `Danh sách thương hiệu: <strong>${catName}</strong>`;
 
       fetchBrands(catId); // Tải danh sách brand qua AJAX
+      
+      // HIỆN MODAL (Huy bị thiếu dòng này nên Modal không mở)
+      if(brandModal) brandModal.style.display = "block"; 
     });
   });
 
-  // --- 3. Sự kiện cho nút XÓA ---
+  // --- 3. Sự kiện cho nút XÓA --- (Giữ nguyên logic của Huy)
   document.querySelectorAll(".delete-btn").forEach((button) => {
     button.addEventListener("click", function () {
       const row = this.closest("tr");
-      const categoryName = row
-        .querySelector(".manage-name-category")
-        .textContent.trim();
+      const categoryName = row.querySelector(".manage-name-category").textContent.trim();
       const categoryId = this.getAttribute("data-id");
 
       Swal.fire({
@@ -98,37 +97,23 @@ function initializeCategoryEvents() {
         confirmButtonText: "Xóa",
       }).then((result) => {
         if (result.isConfirmed) {
-          fetch(
-            `forms/quanlyloaisanpham/ajax_handle_categories.php?action=delete&id=${categoryId}`,
-          )
+          fetch(`forms/quanlyloaisanpham/ajax_handle_categories.php?action=delete&id=${categoryId}`)
             .then((res) => res.text())
             .then((data) => {
               if (data.trim() === "success") {
-                fetchCategories(); // Tải lại bảng và gán lại sự kiện
-                if (Swal.isVisible()) {
-                  // 2. PHẢI DỪNG TIMER TRƯỚC (Khi nó vẫn còn đang Visible)
-                  if (Swal.getTimerLeft() > 0) {
-                    Swal.stopTimer();
-                  }
-                  // 3. SAU ĐÓ MỚI ĐÓNG
-                  Swal.close();
-                }
+                fetchCategories(); 
                 Toast.fire({ icon: "success", title: "Đã xóa thành công!" });
               } else if (data.trim() === "error_constraint") {
-                Swal.fire(
-                  "Lỗi",
-                  "Không thể xóa loại đang có sản phẩm!",
-                  "error",
-                );
+                Swal.fire("Lỗi", "Không thể xóa loại đang có sản phẩm!", "error");
               }
             });
         }
       });
     });
   });
-
-  // --- 4. Sự kiện nút ẨN/HIỆN (Nếu cần dùng AJAX sau này) ---
 }
+
+
 
 // --- 3. Sự kiện SUBMIT FORM SỬA (AJAX) ---
 // Thêm đoạn này vào bên trong document.addEventListener('DOMContentLoaded', ...)
@@ -574,13 +559,14 @@ if (editButtons) {
 
 /*DÀNH CHO QUẢN LÝ NHẬP SẢN PHẨM */
 
-//Dữ liệu mẫu (Giả định bạn có cấu trúc dữ liệu như thế này)
+/* ==========================================================
+   DỮ LIỆU MẪU & CẤU HÌNH (GIỮ NGUYÊN)
+   ========================================================== */
 const brandData = {
   "Guitar Classic": ["Ba đờn", "Yamaha"],
   "Guitar Acoustic": ["Saga", "Taylor", "Enya", "Yamaha"],
-  // Thêm các loại khác nếu cần
 };
-// Dữ liệu mẫu tên sản phẩm (Bạn cần phải tùy chỉnh dữ liệu này)
+
 const productNamesData = {
   "Guitar Classic": {
     "Ba đờn": ["Ba Đờn N100", "Ba Đờn N250", "Ba Đờn C100"],
@@ -593,321 +579,333 @@ const productNamesData = {
     Yamaha: ["Yamaha FG800", "Yamaha FS820", "Yamaha LS36 ARE"],
   },
 };
-// ... (các const khác như brandData)
 
-function updateProductDatalist(productContainer) {
-  // 1. Lấy giá trị đang chọn: Loại sản phẩm và Thương hiệu
-  const typeSelect = productContainer.querySelector(".manage-product-type");
-  const brandSelect = productContainer.querySelector(".manage-product-brands");
-  const productNameInput = productContainer.querySelector(
-    ".product-name-input",
-  );
+/* ==========================================================
+   CÁC HÀM HỖ TRỢ LOGIC (DIALIST, BRAND, CURRENCY, RESET)
+   ========================================================== */
 
-  if (!typeSelect || !brandSelect || !productNameInput) return;
-
-  const selectedType = typeSelect.value;
-  const selectedBrand = brandSelect.value;
-
-  // 2. Lấy datalist tương ứng với input tên sản phẩm
-  //    (Lưu ý: datalist có thể có ID tĩnh, nhưng nên tạo/quản lý riêng cho từng sản phẩm)
-  //    Để đơn giản, ta sẽ chỉ tìm datalist ngay sau input Tên sản phẩm
-  const datalist = document.getElementById(
-    productNameInput.getAttribute("list"),
-  );
-  if (!datalist) return;
-
-  // 3. Xóa nội dung cũ
-  datalist.innerHTML = "";
-
-  // 4. Lấy danh sách tên sản phẩm từ dữ liệu mẫu
-  const productList = productNamesData[selectedType]?.[selectedBrand] || [];
-
-  // 5. Thêm các tùy chọn mới vào datalist
-  productList.forEach((productName) => {
-    const option = document.createElement("option");
-    option.value = productName;
-    datalist.appendChild(option);
-  });
-}
-
+// 1. Cập nhật Thương hiệu từ DB
 function updateBrandsForProduct(typeSelect) {
-  // khi chọn loại acoustic hay classic thì các brand cũng thay đổi
-  // 1. Lấy giá trị loại sản phẩm đang được chọn
   const selectedType = typeSelect.value;
-
-  // 2. Lấy thẻ select Thương hiệu tương ứng (là phần tử cùng cấp trong div cha)
-  //    Chúng ta tìm kiếm thẻ select có class 'manage-product-brands' bên trong thẻ DIV cha của typeSelect.
   const productContainer = typeSelect.closest(".product-fields-template");
-  if (!productContainer) return; // Bảo vệ nếu không tìm thấy container
-
   const brandSelect = productContainer.querySelector(".manage-product-brands");
-  if (!brandSelect) return; // Bảo vệ nếu không tìm thấy select Thương hiệu
 
-  // 3. Lấy danh sách thương hiệu tương ứng
-  const brands = brandData[selectedType] || []; // Thêm || [] để tránh lỗi nếu không tìm thấy loại
-
-  // 4. Xóa tất cả các tùy chọn cũ trong select Thương hiệu
-  brandSelect.innerHTML = "";
-
-  // 5. Lặp qua danh sách thương hiệu và thêm vào thẻ select
-  brands.forEach((brand) => {
-    const option = document.createElement("option");
-    option.value = brand;
-    option.textContent = brand;
-    brandSelect.appendChild(option);
-  });
-
-  // THAY ĐỔI MỚI: Gọi hàm cập nhật datalist sau khi Brand được cập nhật
-  updateProductDatalist(productContainer);
+  // Gọi AJAX để lấy thương hiệu thật từ Database
+  fetch(
+    `forms/quanlynhapsanpham/ajax_handle_import.php?action=get_brands&category_name=${encodeURIComponent(selectedType)}`,
+  )
+    .then((res) => res.json())
+    .then((brands) => {
+      brandSelect.innerHTML = brands
+        .map((b) => `<option value="${b.id}">${b.brand_name}</option>`)
+        .join("");
+      // Sau khi có brand, cập nhật luôn datalist gợi ý sản phẩm
+      updateProductDatalist(productContainer);
+    });
 }
 
-//Hàm xử lý tiền tệ khi nhập đơn giá (KHÔNG ĐỔI)
+// 2. Gợi ý sản phẩm khi nhập (Autocomplete)
+function updateProductDatalist(productContainer) {
+  const type = productContainer.querySelector(".manage-product-type").value;
+  const brandId = productContainer.querySelector(
+    ".manage-product-brands",
+  ).value;
+  const nameInput = productContainer.querySelector(".product-name-input");
+  const datalist = document.getElementById(nameInput.getAttribute("list"));
+
+  // Mỗi khi Huy gõ phím, sẽ gọi lên server để lấy danh sách gợi ý
+  nameInput.oninput = function () {
+    if (this.value.length < 1) {
+      datalist.innerHTML = "";
+      return;
+    }
+
+    fetch(
+      `forms/quanlynhapsanpham/ajax_handle_import.php?action=get_product_suggestions&type=${encodeURIComponent(type)}&brand_id=${brandId}&query=${encodeURIComponent(this.value)}`,
+    )
+      .then((res) => res.json())
+      .then((products) => {
+        // Vẽ lại danh sách option và lưu ID sản phẩm vào dataset để lúc lưu ta lấy được ID
+        datalist.innerHTML = products
+          .map(
+            (p) =>
+              `<option value="${p.product_name}" data-id="${p.id}"></option>`,
+          )
+          .join("");
+      });
+  };
+}
+
 function formatCurrency(value) {
-  // 1. Loại bỏ tất cả ký tự không phải số (trừ dấu chấm để tránh bị lỗi khi nhập liệu)
   const rawNumber = value.toString().replace(/[^0-9]/g, "");
-
-  // Nếu số lượng chữ số dưới 4, không định dạng dấu chấm
-  if (rawNumber.length < 4) {
-    return rawNumber;
-  }
-
-  // 2. Định dạng số với dấu chấm là dấu phân cách hàng nghìn (ví dụ: 12.345.678)
-  // RegExp: Tìm tất cả vị trí có 3 chữ số đứng sau, không phải ở đầu chuỗi và không có thêm chữ số nào sau nó.
-  const formatted = rawNumber.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
-
-  // 3. Thêm đơn vị VND
-  return formatted + " VND";
+  if (rawNumber.length < 4) return rawNumber;
+  return rawNumber.replace(/\B(?=(\d{3})+(?!\d))/g, ".") + " VND";
 }
 
-// HÀM MỚI: Gán sự kiện định dạng tiền tệ (Sử dụng BLUR và ENTER)
 function attachPriceFormatter(inputElement) {
   if (!inputElement) return;
 
-  // --- Định nghĩa hàm xử lý định dạng chung ---
   const handleFormatting = function () {
-    // Lấy giá trị hiện tại, loại bỏ tất cả ký tự không phải số
     const currentValue = this.value.replace(/[^0-9]/g, "");
-
-    // Chỉ định dạng nếu có giá trị
-    if (currentValue) {
-      // Gán lại giá trị đã được định dạng (có dấu chấm và VND)
-      this.value = formatCurrency(currentValue);
-    } else {
-      // Nếu người dùng xóa sạch, giữ lại ô trống
-      this.value = "";
-    }
+    this.value = currentValue ? formatCurrency(currentValue) : "";
   };
 
-  // --- Định nghĩa hàm xử lý khi nhấn phím ---
-  const handleKeydown = function (event) {
-    // Kiểm tra xem phím Enter (key code 13) có được nhấn không
-    if (event.key === "Enter") {
-      event.preventDefault(); // Ngăn trình duyệt gửi form hoặc hành động mặc định
-      handleFormatting.call(this); // Gọi hàm định dạng
-      this.blur(); // Tự động di chuyển khỏi ô nhập
-    }
-  };
-
-  // 1. Gán sự kiện BLUR (Click ra ngoài)
   inputElement.addEventListener("blur", handleFormatting);
+  inputElement.addEventListener("keydown", function (e) {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      handleFormatting.call(this);
+      this.blur();
+    }
+  });
 
-  // 2. Gán sự kiện KEYDOWN (Nhấn Enter)
-  inputElement.addEventListener("keydown", handleKeydown);
-
-  // QUAN TRỌNG: Gán sự kiện FOCUS để dọn dẹp định dạng khi BẮT ĐẦU nhập lại
   inputElement.addEventListener("focus", function () {
-    // Khi người dùng click vào ô, loại bỏ ' VND' và dấu chấm để họ nhập số thuần
     this.value = this.value.replace(/[^0-9]/g, "");
   });
 }
 
-// HÀM MỚI: Đặt lại toàn bộ form phiếu nhập về trạng thái ban đầu
 function resetImportForm() {
   const importFormContainer = document.getElementById("import-form-container");
   if (!importFormContainer) return;
 
-  // 1. Reset các trường Header (Ngày nhập, Mã phiếu)
-  const headerInputs = importFormContainer.querySelectorAll(
-    ".header-fields-row-manage-import input",
-  );
-  headerInputs.forEach((input) => {
-    input.value = "";
-  });
+  // 1. Reset Header
+  importFormContainer
+    .querySelectorAll(".header-fields-row-manage-import input")
+    .forEach((i) => (i.value = ""));
 
-  // 2. Chỉ giữ lại 1 sản phẩm duy nhất và reset nó
+  // 2. Dọn dẹp các dòng sản phẩm, chỉ giữ lại dòng đầu tiên
   const allProductFields = importFormContainer.querySelectorAll(
     ".product-fields-template",
   );
-
-  // Giữ lại phần tử đầu tiên (sản phẩm mặc định)
-  const initialProductFields = allProductFields[0];
-
-  // Xóa tất cả các phần tử sản phẩm thừa (từ phần tử thứ 2 trở đi)
   for (let i = 1; i < allProductFields.length; i++) {
     allProductFields[i].remove();
   }
 
-  // 3. Reset các trường của sản phẩm còn lại (sản phẩm đầu tiên)
-  initialProductFields.querySelectorAll("input, select").forEach((element) => {
-    if (element.tagName === "SELECT") {
-      element.selectedIndex = 0; // Đặt lại về option đầu tiên
-    } else {
-      element.value = ""; // Xóa giá trị input
-    }
+  // 3. Reset dòng đầu tiên
+  const initialFields = allProductFields[0];
+  initialFields.querySelectorAll("input, select").forEach((el) => {
+    if (el.tagName === "SELECT") el.selectedIndex = 0;
+    else el.value = "";
   });
 
-  // 4. Cập nhật lại danh sách Thương hiệu (và Datalist) cho sản phẩm đầu tiên
-  const typeSelect = initialProductFields.querySelector(".manage-product-type");
-  if (typeSelect) {
-    updateBrandsForProduct(typeSelect);
-  }
+  const typeSelect = initialFields.querySelector(".manage-product-type");
+  if (typeSelect) updateBrandsForProduct(typeSelect);
 }
 
+/* ==========================================================
+   QUẢN LÝ SỰ KIỆN (BẢN MERGE CHUẨN - KHÔNG TRÙNG LẶP)
+   ========================================================== */
+
 document.addEventListener("DOMContentLoaded", function () {
-  // 1. Gán sự kiện 'change' cho tất cả các select Loại sản phẩm hiện có
-  //    (Áp dụng cho sản phẩm mặc định ban đầu)
-  document.querySelectorAll(".manage-product-type").forEach((selectElement) => {
-    //khi thay đổi lựa chọn phân loại sẽ kích hoạt hàm thay đổi brand
-    selectElement.addEventListener("change", function () {
-      updateBrandsForProduct(this); // 'this' là select Loại sản phẩm vừa thay đổi
-    });
-    // Gọi hàm để thiết lập Thương hiệu ban đầu cho sản phẩm mặc định
-    updateBrandsForProduct(selectElement);
-  });
-
-  // THAY ĐỔI MỚI: Gán sự kiện 'change' cho tất cả các select Thương hiệu hiện có
-  document
-    .querySelectorAll(".manage-product-brands")
-    .forEach((selectElement) => {
-      selectElement.addEventListener("change", function () {
-        // Lấy div cha (.product-fields-template)
-        const productContainer = this.closest(".product-fields-template");
-        updateProductDatalist(productContainer);
-      });
-    });
-
-  // === GÁN SỰ KIỆN FORMAT CHO CÁC Ô ĐƠN GIÁ BAN ĐẦU ===
-  document.querySelectorAll(".unit-price-input").forEach((input) => {
-    attachPriceFormatter(input);
-  });
-  // ===================================================
-
-  document.querySelectorAll(".create-import-btn").forEach((button) => {
-    //hiện popup khi click vào nút thêm phiếu nhập
-    button.addEventListener("click", function (event) {
-      event.preventDefault();
-      // <<< THÊM: Reset form trước khi mở modal >>>
-      resetImportForm();
-      modal.style.display = "block";
-    });
-  });
-
-  const initialProductTemplate = document.getElementsByClassName(
-    "product-fields-template",
-  )[0];
-  if (initialProductTemplate) {
-    const initialRemoveBtn = initialProductTemplate.querySelector(
-      ".remove-product-btn",
-    );
-    if (initialRemoveBtn) {
-      // Ẩn nút xóa trên sản phẩm đầu tiên để đảm bảo luôn có ít nhất 1 sản phẩm
-      initialRemoveBtn.style.display = "none";
-    }
-  }
-
-  // 3. Xử lý nút THÊM SẢN PHẨM (Đảm bảo code này vẫn chạy sau khi bạn sửa HTML/JS thêm sản phẩm)
+  const importModal = document.getElementById("ImportReceiptModal");
+  const closeImportBtn = document.getElementById("close-import-modal");
+  const createImportBtns = document.querySelectorAll(".create-import-btn");
+  const importFormContainer = document.getElementById("import-form-container");
   const addProductButton = document.getElementById(
     "add-product-fields-template",
-  ); // ID của nút "Thêm sản phẩm"
-  const importFormContainer = document.getElementById("import-form-container");
-  const productTemplate = document.getElementsByClassName(
-    "product-fields-template",
-  )[0];
-  const actionButtonConatainer = document.getElementById(
-    "manage-add-and-save-container",
   );
+  const saveImportButton = document.getElementById("save-import-product");
 
-  if (addProductButton && actionButtonConatainer) {
-    addProductButton.addEventListener("click", function () {
-      const newProductFields = productTemplate.cloneNode(true);
+  if (!importModal) return;
 
-      // ... (Phần xóa giá trị và thêm HR như code trước) ...
+  // --- 1. KHỞI TẠO DÒNG ĐẦU TIÊN KHI TẢI TRANG ---
+  const initialRow = document.querySelector(".product-fields-template");
+  if (initialRow) {
+    // Ẩn nút xóa ở dòng đầu tiên
+    const initialRemoveBtn = initialRow.querySelector(".remove-product-btn");
+    if (initialRemoveBtn) initialRemoveBtn.style.display = "none";
 
-      // Xóa giá trị input và reset select
-      newProductFields.querySelectorAll("input, select").forEach((element) => {
-        if (element.tagName === "SELECT") {
-          element.selectedIndex = 0;
-        } else {
-          element.value = "";
-        }
-      });
+    // Gán sự kiện cho các select có sẵn
+    const typeSelect = initialRow.querySelector(".manage-product-type");
+    const brandSelect = initialRow.querySelector(".manage-product-brands");
+    const priceInput = initialRow.querySelector(".unit-price-input");
 
-      // 1. HIỆN NÚT XÓA TRÊN BẢN SAO
-      const newRemoveBtn = newProductFields.querySelector(
-        ".remove-product-btn",
-      );
-      if (newRemoveBtn) {
-        newRemoveBtn.style.display = "block"; // Đảm bảo nút này hiển thị
+    typeSelect?.addEventListener("change", function () {
+      updateBrandsForProduct(this);
+    });
+    brandSelect?.addEventListener("change", function () {
+      updateProductDatalist(initialRow);
+    });
+    attachPriceFormatter(priceInput);
 
-        // 2. GÁN SỰ KIỆN XÓA CHO NÚT MỚI
-        newRemoveBtn.addEventListener("click", function () {
-          // Xóa phần tử cha của nút (chính là .product-fields-template)
-          newProductFields.remove();
+    // Chạy khởi tạo brand mặc định
+    if (typeSelect) updateBrandsForProduct(typeSelect);
+  }
+
+  // --- 2. LOGIC ĐÓNG / MỞ MODAL ---
+  createImportBtns.forEach((btn) => {
+    btn.addEventListener("click", function (e) {
+      e.preventDefault();
+      resetImportForm(); // Xóa trắng form cũ
+
+      // GỌI AJAX LẤY MÃ PHIẾU TỰ ĐỘNG
+      fetch(
+        "forms/quanlynhapsanpham/ajax_handle_import.php?action=get_new_code",
+      )
+        .then((res) => res.text())
+        .then((code) => {
+          document.getElementById("import-receipt-code").value = code;
+          importModal.style.display = "block";
         });
+    });
+  });
+
+  if (closeImportBtn) {
+    closeImportBtn.onclick = () => (importModal.style.display = "none");
+  }
+
+  window.addEventListener("click", (e) => {
+    if (e.target == importModal) importModal.style.display = "none";
+  });
+
+  // --- 3. LOGIC THÊM DÒNG SẢN PHẨM MỚI ---
+  if (addProductButton && importFormContainer) {
+    addProductButton.addEventListener("click", function () {
+      const productTemplate = document.querySelector(
+        ".product-fields-template",
+      );
+      const actionContainer = document.getElementById(
+        "manage-add-and-save-container",
+      );
+
+      if (productTemplate && actionContainer) {
+        const newProductFields = productTemplate.cloneNode(true);
+
+        // Reset giá trị dòng mới
+        newProductFields.querySelectorAll("input, select").forEach((el) => {
+          if (el.tagName === "SELECT") el.selectedIndex = 0;
+          else el.value = "";
+        });
+
+        // Hiện và gán sự kiện nút Xóa
+        const removeBtn = newProductFields.querySelector(".remove-product-btn");
+        if (removeBtn) {
+          removeBtn.style.display = "block";
+          removeBtn.onclick = () => newProductFields.remove();
+        }
+
+        // Gán sự kiện cho Select Loại & Thương hiệu mới
+        const newTypeSelect = newProductFields.querySelector(
+          ".manage-product-type",
+        );
+        newTypeSelect.addEventListener("change", function () {
+          updateBrandsForProduct(this);
+        });
+
+        const newBrandSelect = newProductFields.querySelector(
+          ".manage-product-brands",
+        );
+        newBrandSelect.addEventListener("change", function () {
+          updateProductDatalist(newProductFields);
+        });
+
+        // Định dạng tiền tệ cho ô mới
+        attachPriceFormatter(
+          newProductFields.querySelector(".unit-price-input"),
+        );
+
+        // Chèn vào Form
+        importFormContainer.insertBefore(newProductFields, actionContainer);
+        updateBrandsForProduct(newTypeSelect);
       }
-
-      // CHỖ QUAN TRỌNG: Gán sự kiện 'change' cho select Loại sản phẩm MỚI
-      const newTypeSelect = newProductFields.querySelector(
-        ".manage-product-type",
-      );
-      newTypeSelect.addEventListener("change", function () {
-        updateBrandsForProduct(this);
-      });
-
-      // Gán sự kiện 'change' cho select Thương hiệu MỚI
-      const newBrandSelect = newProductFields.querySelector(
-        ".manage-product-brands",
-      );
-      newBrandSelect.addEventListener("change", function () {
-        const productContainer = this.closest(".product-fields-template");
-        updateProductDatalist(productContainer);
-      });
-
-      // THAY ĐỔI MỚI: Gán sự kiện format cho ô Đơn giá MỚI
-      const newPriceInput = newProductFields.querySelector(".unit-price-input");
-      attachPriceFormatter(newPriceInput);
-
-      // Gọi hàm cập nhật Thương hiệu cho sản phẩm mới (dựa trên giá trị mặc định)
-      updateBrandsForProduct(newTypeSelect);
-
-      importFormContainer.insertBefore(
-        newProductFields,
-        actionButtonConatainer,
-      );
     });
   }
 
-  const button_saveimportproduct = document.getElementById(
-    "save-import-product",
-  );
-  if (button_saveimportproduct) {
-    button_saveimportproduct.addEventListener("click", function (event) {
-      event.preventDefault(); // Ngăn submit form nếu có
+  // --- 4. LOGIC LƯU PHIẾU NHẬP (BẢN FIX - HUY) ---
+  if (saveImportButton) {
+    saveImportButton.addEventListener("click", function (e) {
+      e.preventDefault();
 
-      // 1. Đóng Modal
-      modal.style.display = "none";
+      const receiptCode = document.getElementById("import-receipt-code").value;
+      const importDate = document.querySelector(
+        '.header-fields-row-manage-import input[type="date"]',
+      ).value;
 
-      // 2. Reset form
-      resetImportForm();
+      if (!importDate) {
+        Swal.fire(
+          "Thông báo",
+          "Huy ơi, chọn ngày nhập giúp mình nhé!",
+          "warning",
+        );
+        return;
+      }
 
-      // 3. Hiện Toast thành công
-      Toast.fire({
-        icon: "success",
-        title: "Phiếu nhập đã được lưu thành công!",
-      });
+      let formData = new FormData();
+      formData.append("action", "save_import");
+      formData.append("receipt_code", receiptCode);
+      formData.append("import_date", importDate);
 
-      // TODO: Gọi API lưu dữ liệu ở đây
-      // saveImportData();
+      let totalAll = 0;
+      let hasProductError = false;
+      let productCount = 0;
+
+      // Duyệt qua từng dòng sản phẩm để thu thập dữ liệu
+      document
+        .querySelectorAll(".product-fields-template")
+        .forEach((row, index) => {
+          const nameInput = row.querySelector(".product-name-input");
+          const qtyInput = row.querySelector('input[type="number"]');
+          const priceInput = row.querySelector(".unit-price-input");
+
+          if (nameInput.value.trim() !== "") {
+            // Tìm ID sản phẩm từ Datalist
+            const datalist = document.getElementById(
+              nameInput.getAttribute("list"),
+            );
+            const option = Array.from(datalist.options).find(
+              (opt) => opt.value === nameInput.value,
+            );
+
+            if (option && option.dataset.id) {
+              const qty = parseInt(qtyInput.value) || 0;
+              const price =
+                parseInt(priceInput.value.replace(/[^0-9]/g, "")) || 0;
+
+              totalAll += qty * price;
+              productCount++;
+
+              formData.append(`products[${index}][id]`, option.dataset.id);
+              formData.append(`products[${index}][qty]`, qty);
+              formData.append(`products[${index}][price]`, price);
+            } else {
+              hasProductError = true; // Có tên nhưng không có trong DB
+            }
+          }
+        });
+
+      if (productCount === 0) {
+        Swal.fire("Lỗi", "Huy chưa nhập sản phẩm nào kìa!", "error");
+        return;
+      }
+
+      if (hasProductError) {
+        Swal.fire(
+          "Lỗi",
+          "Có sản phẩm không hợp lệ (Huy hãy chọn từ danh sách gợi ý nhé)!",
+          "error",
+        );
+        return;
+      }
+
+      formData.append("total_amount", totalAll); // Gửi tổng tiền để PHP không báo lỗi
+
+      // Gửi dữ liệu qua AJAX
+      fetch("forms/quanlynhapsanpham/ajax_handle_import.php", {
+        method: "POST",
+        body: formData,
+      })
+        .then((res) => res.text())
+        .then((data) => {
+          if (data.trim() === "success") {
+            Swal.fire("Thành công", "Đã lưu phiếu nhập thành công!", "success");
+            importModal.style.display = "none";
+            resetImportForm();
+            location.reload(); // Tải lại để cập nhật danh sách
+          } else {
+            Swal.fire("Lỗi Server", data, "error");
+          }
+        })
+        .catch((err) => Swal.fire("Lỗi kết nối", err.message, "error"));
     });
   }
 });
@@ -941,32 +939,39 @@ document.addEventListener("DOMContentLoaded", function () {
   if (!productTableBody) return;
 
   // --- 1. BIẾN QUẢN LÝ ẢNH ---
+  let addDataStorage = new DataTransfer(); // Thêm dòng này cho Add Modal
   let editDataStorage = new DataTransfer();
   let currentImagesToKeep = [];
   let currentBasePath = "";
 
   // --- 2. HÀM TẢI DANH SÁCH SẢN PHẨM (AJAX) ---
   // --- Cập nhật hàm fetchProductList trong admin.js ---
-    function fetchProductList(page = 1) {
-        const type = document.getElementById('filter-product-type')?.value || '';
-        const brand = document.getElementById('filter-product-brand')?.value || '';
-        const search = document.getElementById('search-input')?.value || ''; // Lấy giá trị từ ô tra cứu
+  function fetchProductList(page = 1) {
+    const type = document.getElementById("filter-product-type")?.value || ""; // Giờ là ID số
+    const brand = document.getElementById("filter-product-brand")?.value || "";
+    const search = document.getElementById("search-input")?.value || "";
 
-        // Sử dụng encodeURIComponent để tránh lỗi khi tìm kiếm tiếng Việt có dấu
-        const url = `forms/danhmucsanpham/ajax_handle_products.php?action=fetch_list&page=${page}&product_type=${encodeURIComponent(type)}&brand_id=${brand}&search=${encodeURIComponent(search)}`;
+    // Gửi yêu cầu lên server, dùng category_id (hoặc giữ key product_type nhưng giá trị là ID)
+    const url = `forms/danhmucsanpham/ajax_handle_products.php?action=fetch_list&page=${page}&product_type=${type}&brand_id=${brand}&search=${encodeURIComponent(search)}`;
 
-        fetch(url)
-            .then((res) => res.json())
-            .then((data) => {
-                const productTableBody = document.getElementById('product-list-container');
-                if (productTableBody) {
-                    productTableBody.innerHTML = data.table;
-                    const paginationUl = document.querySelector('#category-pagination ul');
-                    if (paginationUl) paginationUl.innerHTML = data.pagination;
-                    attachActionButtonsEvents(); // Gán lại sự kiện Sửa/Xóa cho bảng mới
-                }
-            });
-    }
+    fetch(url)
+      .then((res) => res.json())
+      .then((data) => {
+        const productTableBody = document.getElementById(
+          "product-list-container",
+        );
+        if (productTableBody) {
+          productTableBody.innerHTML = data.table;
+          // Cập nhật lại thanh phân trang AJAX
+          const paginationUl = document.querySelector(
+            "#category-pagination ul",
+          );
+          if (paginationUl) paginationUl.innerHTML = data.pagination;
+
+          attachActionButtonsEvents(); // Quan trọng: Gán lại sự kiện Sửa/Xóa
+        }
+      });
+  }
 
   // --- 3. LOGIC NẠP THƯƠNG HIỆU CHO MODAL THÊM ---
   const typeSelectAdd = document.getElementById("modal-product-type");
@@ -1000,6 +1005,39 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 
+  // --- HÀM VẼ PREVIEW ẢNH TRONG MODAL THÊM ---
+  function renderAddPreviews() {
+    const container = document.getElementById("image-preview-container");
+    if (!container) return;
+    container.innerHTML = ""; // Xóa các preview cũ để vẽ mới
+
+    Array.from(addDataStorage.files).forEach((file, index) => {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const div = document.createElement("div");
+        div.className = "preview-item new-img";
+        div.style.position = "relative";
+        div.innerHTML = `
+            <img src="${e.target.result}" style="width: 80px; height: 80px; object-fit: cover; border-radius: 5px; border: 1px solid #ddd;">
+            <button type="button" class="remove-img-btn bg-danger text-white rounded-circle position-absolute" 
+                    style="top: -5px; right: -5px; width: 20px; height: 20px; border: none; font-size: 12px; cursor: pointer;">&times;</button>
+        `;
+        // Xử lý nút xóa ảnh lẻ ngay khi đang thêm
+        div.querySelector(".remove-img-btn").onclick = () => {
+          const newData = new DataTransfer();
+          Array.from(addDataStorage.files).forEach((f, i) => {
+            if (i !== index) newData.items.add(f);
+          });
+          addDataStorage = newData;
+          document.getElementById("product-images-upload").files =
+            addDataStorage.files;
+          renderAddPreviews();
+        };
+        container.appendChild(div);
+      };
+      reader.readAsDataURL(file);
+    });
+  }
   // --- 4. HÀM VẼ PREVIEW ẢNH TRONG MODAL SỬA ---
   function renderEditPreviews() {
     const container = document.getElementById("edit-preview-container");
@@ -1066,7 +1104,7 @@ document.addEventListener("DOMContentLoaded", function () {
             Swal.close();
             document.getElementById("edit-product-id").value = p.id;
             document.getElementById("edit-product-name").value = p.product_name;
-            document.getElementById("edit-product-type").value = p.product_type;
+            document.getElementById("edit-product-type").value = p.category_id; // SỬA TẠI ĐÂY
             document.getElementById("edit-product-summary").value =
               p.summary_description;
             document.getElementById("edit-product-overview").value =
@@ -1087,7 +1125,7 @@ document.addEventListener("DOMContentLoaded", function () {
             }
 
             // Quan trọng: Nạp brand đúng cho Modal Sửa
-            loadBrandsForEdit(p.product_type, p.brand_id);
+            loadBrandsForEdit(p.category_id, p.brand_id); // SỬA TẠI ĐÂY
 
             currentBasePath = p.base_path;
             currentImagesToKeep = p.product_images
@@ -1111,7 +1149,8 @@ document.addEventListener("DOMContentLoaded", function () {
                 .getElementById("edit-product-form")
                 .appendChild(keepInput);
             }
-            keepInput.value = currentImagesToKeep.join(",");
+            // Gửi dưới dạng chuỗi JSON để PHP đọc được chính xác mảng
+            keepInput.value = JSON.stringify(currentImagesToKeep);
 
             renderEditPreviews();
             editModal.style.display = "block";
@@ -1185,6 +1224,8 @@ document.addEventListener("DOMContentLoaded", function () {
             Swal.fire("Thành công", "Đã thêm sản phẩm!", "success");
             addModal.style.display = "none";
             this.reset();
+            addDataStorage = new DataTransfer(); // Reset kho chứa ảnh
+            document.getElementById("image-preview-container").innerHTML = ""; // Xóa preview
             fetchProductList(1);
           } else {
             Swal.fire("Lỗi", data, "error");
@@ -1247,6 +1288,30 @@ document.addEventListener("DOMContentLoaded", function () {
       };
     });
 
+  // --- 8.1 XỬ LÝ CHỌN ẢNH Ở MODAL THÊM (BẢN FIX) ---
+  document
+    .getElementById("product-images-upload")
+    ?.addEventListener("change", function () {
+      const files = Array.from(this.files);
+
+      // Kiểm tra: Số ảnh đã chọn trước đó + số ảnh mới chọn có > 6 không
+      if (addDataStorage.files.length + files.length > 6) {
+        Swal.fire(
+          "Thông báo",
+          `Huy ơi, tối đa chỉ được 6 ảnh thôi! Bạn còn chọn thêm được ${6 - addDataStorage.files.length} tấm nữa.`,
+          "warning",
+        );
+        this.files = addDataStorage.files; // Ép input quay về danh sách hợp lệ cũ
+        return;
+      }
+
+      // Nếu hợp lệ thì nạp thêm vào storage
+      files.forEach((f) => addDataStorage.items.add(f));
+      this.files = addDataStorage.files; // Đồng bộ ngược lại input
+      renderAddPreviews(); // Giờ thì hàm này đã chạy được rồi!
+    });
+
+  // xử lí chỉ cho upload tối đa 6 ảnh
   document
     .getElementById("edit-images-upload")
     ?.addEventListener("change", function () {
@@ -1267,83 +1332,88 @@ document.addEventListener("DOMContentLoaded", function () {
       renderEditPreviews();
     });
 
-    // --- 9. SỰ KIỆN BỘ LỌC (PHÂN LOẠI & THƯƠNG HIỆU) ---
-    const filterType = document.getElementById('filter-product-type');
-    const filterBrand = document.getElementById('filter-product-brand');
+  // --- 9. SỰ KIỆN BỘ LỌC (PHÂN LOẠI & THƯƠNG HIỆU) ---
+  const filterType = document.getElementById("filter-product-type");
+  const filterBrand = document.getElementById("filter-product-brand");
 
-    if (filterType && filterBrand) {
-        // Khi đổi Loại sản phẩm ở bộ lọc
-        filterType.addEventListener('change', function () {
-            if (!this.value) {
-                filterBrand.innerHTML = '<option value="">-- Tất cả thương hiệu --</option>';
-                fetchProductList(1); // Tải lại toàn bộ
-                return;
-            }
-            // Tải danh sách thương hiệu tương ứng cho bộ lọc
-            fetch(`forms/danhmucsanpham/ajax_handle_products.php?action=get_brands_by_category&category_name=${this.value}`)
-                .then(res => res.json()).then(brands => {
-                    filterBrand.innerHTML = '<option value="">-- Tất cả thương hiệu --</option>' + 
-                        brands.map(b => `<option value="${b.id}">${b.brand_name}</option>`).join('');
-                    fetchProductList(1); // Chạy bộ lọc ngay
-                });
+  if (filterType && filterBrand) {
+    // Khi đổi Loại sản phẩm ở bộ lọc
+    filterType.addEventListener("change", function () {
+      if (!this.value) {
+        filterBrand.innerHTML =
+          '<option value="">-- Tất cả thương hiệu --</option>';
+        fetchProductList(1); // Tải lại toàn bộ
+        return;
+      }
+      // Tải danh sách thương hiệu tương ứng cho bộ lọc
+      fetch(
+        `forms/danhmucsanpham/ajax_handle_products.php?action=get_brands_by_category&category_name=${this.value}`,
+      )
+        .then((res) => res.json())
+        .then((brands) => {
+          filterBrand.innerHTML =
+            '<option value="">-- Tất cả thương hiệu --</option>' +
+            brands
+              .map((b) => `<option value="${b.id}">${b.brand_name}</option>`)
+              .join("");
+          fetchProductList(1); // Chạy bộ lọc ngay
         });
+    });
 
-        // Khi đổi Thương hiệu ở bộ lọc
-        filterBrand.addEventListener('change', () => fetchProductList(1));
-    }
+    // Khi đổi Thương hiệu ở bộ lọc
+    filterBrand.addEventListener("change", () => fetchProductList(1));
+  }
 
-    // --- 10. SỰ KIỆN TÌM KIẾM ---
-    const searchForm = document.querySelector('.search-container');
-    const searchInput = document.getElementById('search-input');
+  // --- 10. SỰ KIỆN TÌM KIẾM ---
+  const searchForm = document.querySelector(".search-container");
+  const searchInput = document.getElementById("search-input");
 
-    if (searchForm && searchInput) {
-        // 1. Tìm kiếm khi bấm nút hoặc nhấn Enter
-        searchForm.addEventListener('submit', function(e) {
-            e.preventDefault(); 
-            fetchProductList(1); 
-        });
+  if (searchForm && searchInput) {
+    // 1. Tìm kiếm khi bấm nút hoặc nhấn Enter
+    searchForm.addEventListener("submit", function (e) {
+      e.preventDefault();
+      fetchProductList(1);
+    });
 
-        // 2. Tìm kiếm "nóng" (vừa gõ vừa tìm) - Huy thêm đoạn này vào nhé
-        searchInput.addEventListener('input', function() {
-            // Chỉ tìm kiếm khi Huy dừng gõ khoảng 300ms để tránh gửi quá nhiều yêu cầu (Debounce)
-            clearTimeout(this.delayTimer);
-            this.delayTimer = setTimeout(function() {
-                fetchProductList(1);
-            }, 300);
-        });
-    }
+    // 2. Tìm kiếm "nóng" (vừa gõ vừa tìm) - Huy thêm đoạn này vào nhé
+    searchInput.addEventListener("input", function () {
+      // Chỉ tìm kiếm khi Huy dừng gõ khoảng 300ms để tránh gửi quá nhiều yêu cầu (Debounce)
+      clearTimeout(this.delayTimer);
+      this.delayTimer = setTimeout(function () {
+        fetchProductList(1);
+      }, 300);
+    });
+  }
 
-    // --- 11. SỰ KIỆN BẤM PHÂN TRANG ---
-    const paginationUl = document.querySelector('#category-pagination ul');
-    if (paginationUl) {
-        paginationUl.addEventListener('click', function(e) {
-            const link = e.target.closest('a');
-            if (link && link.dataset.page) {
-                e.preventDefault();
-                fetchProductList(link.dataset.page); // Chuyển trang
-            }
-        });
-    }
+  // --- 11. SỰ KIỆN BẤM PHÂN TRANG ---
+  const paginationUl = document.querySelector("#category-pagination ul");
+  if (paginationUl) {
+    paginationUl.addEventListener("click", function (e) {
+      const link = e.target.closest("a");
+      if (link && link.dataset.page) {
+        e.preventDefault();
+        fetchProductList(link.dataset.page); // Chuyển trang
+      }
+    });
+  }
 
   fetchProductList(1);
 });
 
 // Hàm hỗ trợ nạp Brand cho Modal Sửa
-function loadBrandsForEdit(categoryName, selectedBrandId) {
-  const brandEditSelect = document.getElementById("edit-product-brand");
-  if (!brandEditSelect) return;
-  fetch(
-    `forms/danhmucsanpham/ajax_handle_products.php?action=get_brands_by_category&category_name=${categoryName}`,
-  )
-    .then((res) => res.json())
-    .then((brands) => {
-      brandEditSelect.innerHTML =
-        '<option value="">-- Chọn thương hiệu --</option>' +
-        brands
-          .map(
-            (b) =>
-              `<option value="${b.id}" data-profit="${b.profit_margin}" ${b.id == selectedBrandId ? "selected" : ""}>${b.brand_name}</option>`,
-          )
-          .join("");
-    });
-}
+// Đổi tham số thành categoryId cho dễ hiểu
+function loadBrandsForEdit(categoryId, selectedBrandId) {
+    const brandEditSelect = document.getElementById("edit-product-brand");
+    if (!brandEditSelect) return;
+
+    // Gọi AJAX với ID phân loại
+    fetch(`forms/danhmucsanpham/ajax_handle_products.php?action=get_brands_by_category&category_name=${categoryId}`)
+        .then((res) => res.json())
+        .then((brands) => {
+            brandEditSelect.innerHTML =
+                '<option value="">-- Chọn thương hiệu --</option>' +
+                brands.map((b) =>
+                    `<option value="${b.id}" data-profit="${b.profit_margin}" ${b.id == selectedBrandId ? "selected" : ""}>${b.brand_name}</option>`
+                ).join("");
+        });
+} 

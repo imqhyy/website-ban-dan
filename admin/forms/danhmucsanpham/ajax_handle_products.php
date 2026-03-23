@@ -3,20 +3,20 @@ require_once __DIR__ . "/../../../forms/database.php";
 
 $action = $_POST['action'] ?? $_GET['action'] ?? '';
 
-// --- 1. Lấy thương hiệu & Lợi nhuận mặc định ---
+// --- 1. Lấy thương hiệu theo ID Phân loại (Sửa để fix lỗi Foreign Key) ---
 if ($action === 'get_brands_by_category') {
-    $category_name = $_GET['category_name'] ?? '';
+    $cat_id = (int)($_GET['category_name'] ?? 0); // Huy gửi ID lên thì ta ép kiểu int
+    // Phải lọc theo c.id mới ra được Brand đúng
     $sql = "SELECT b.id, b.brand_name, bc.brand_profit AS profit_margin 
             FROM brands b
             JOIN brand_category bc ON b.id = bc.brand_id
             JOIN categories c ON bc.category_id = c.id
-            WHERE c.category_name = " . $pdo->quote($category_name);
-    $brands = getAll($sql);
-    echo json_encode($brands);
+            WHERE c.id = $cat_id";
+    echo json_encode(getAll($sql));
     exit;
 }
 
-// --- 2. Xử lý THÊM SẢN PHẨM (BẢN FIX LỖI $stmt) ---
+// --- 2. Thêm sản phẩm mới (Sửa product_type thành category_id) ---
 if ($action === 'add_product') {
     try {
         $p_name = $_POST['product_name'];
@@ -27,8 +27,11 @@ if ($action === 'add_product') {
         $brand_info = getOne("SELECT brand_name FROM brands WHERE id = $brand_id");
         $b_name = $brand_info['brand_name'];
 
-        $type_slug = create_slug($p_type);
-        $brand_slug = create_slug($b_name);
+        $cat_info = getOne("SELECT category_name FROM categories WHERE id = $cat_id");
+        $brand_info = getOne("SELECT brand_name FROM brands WHERE id = $brand_id");
+
+        $type_slug = create_slug($cat_info['category_name']);
+        $brand_slug = create_slug($brand_info['brand_name']);
         $product_slug = create_slug($p_name);
 
         $relative_path = "assets/img/products/guitar/{$type_slug}/{$brand_slug}/{$product_slug}/";
@@ -37,7 +40,6 @@ if ($action === 'add_product') {
         if (!file_exists($upload_dir))
             mkdir($upload_dir, 0777, true);
 
-        // Xử lý upload ảnh (tối đa 6 ảnh)
         $uploaded_images = [];
         if (!empty($_FILES['product_images']['name'][0])) {
             foreach ($_FILES['product_images']['tmp_name'] as $key => $tmp_name) {
@@ -56,7 +58,7 @@ if ($action === 'add_product') {
         $acc_lines = array_values(array_filter(array_map('trim', explode("\n", $_POST['accessories'] ?? ''))));
         $acc_json = json_encode(['fixed' => $acc_lines, 'others' => ''], JSON_UNESCAPED_UNICODE);
 
-        $sql = "INSERT INTO products (product_name, product_type, brand_id, product_images, summary_description, detailed_overview, profit_margin, discount_percent, accessories, highlight_1_title, highlight_1_content, highlight_2_title, highlight_2_content, highlight_3_title, highlight_3_content, highlight_4_title, highlight_4_content) 
+        $sql = "INSERT INTO products (product_name, category_id, brand_id, product_images, summary_description, detailed_overview, profit_margin, discount_percent, accessories, highlight_1_title, highlight_1_content, highlight_2_title, highlight_2_content, highlight_3_title, highlight_3_content, highlight_4_title, highlight_4_content) 
                 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         // CHÈN THÊM DÒNG PREPARE (Đây là dòng Huy bị thiếu gây lỗi Fatal error)
@@ -82,6 +84,25 @@ if ($action === 'add_product') {
             $_POST['highlight_4_content'] ?? ''
         ]);
 
+        $pdo->prepare($sql)->execute([
+            $p_name,
+            $cat_id,
+            $brand_id,
+            $images_string,
+            $_POST['summary_description'] ?? '',
+            $_POST['detailed_overview'] ?? '',
+            $_POST['profit_margin'] ?? 0,
+            $_POST['discount_percent'] ?? 0,
+            $acc_json,
+            $_POST['highlight_1_title'] ?? '',
+            $_POST['highlight_1_content'] ?? '',
+            $_POST['highlight_2_title'] ?? '',
+            $_POST['highlight_2_content'] ?? '',
+            $_POST['highlight_3_title'] ?? '',
+            $_POST['highlight_3_content'] ?? '',
+            $_POST['highlight_4_title'] ?? '',
+            $_POST['highlight_4_content'] ?? ''
+        ]);
         echo "success";
     } catch (Exception $e) {
         echo "Lỗi: " . $e->getMessage();
@@ -89,7 +110,7 @@ if ($action === 'add_product') {
     exit;
 }
 
-// --- 3. AJAX TẢI LẠI DANH SÁCH (BỘ LỌC + PHÂN TRANG) ---
+// --- 3. AJAX TẢI LẠI DANH SÁCH (BẢN CHUẨN CATEGORY_ID - HUY COPY ĐOẠN NÀY) ---
 if ($action === 'fetch_list') {
     // Logic tương tự list_admin.php nhưng trả về chuỗi HTML
     $currentPage = isset($_GET['page']) ? (int) $_GET['page'] : 1;
@@ -112,15 +133,22 @@ if ($action === 'fetch_list') {
     $currentPage = max(1, min($currentPage, $maxPage));
     $offset = ($currentPage - 1) * $perPage;
 
-    $products = getAll("SELECT p.*, b.brand_name FROM products p LEFT JOIN brands b ON p.brand_id = b.id $where ORDER BY p.id DESC LIMIT $perPage OFFSET $offset");
+    // SỬA: JOIN thêm bảng categories để lấy category_name hiển thị ra bảng
+    $sql = "SELECT p.*, b.brand_name, c.category_name 
+            FROM products p 
+            LEFT JOIN brands b ON p.brand_id = b.id 
+            LEFT JOIN categories c ON p.category_id = c.id 
+            $where ORDER BY p.id DESC LIMIT $perPage OFFSET $offset";
+    $products = getAll($sql);
 
-    // Tạo HTML cho bảng
+    // Tạo HTML cho bảng (Giữ nguyên các cột của Huy)
     $tableHtml = "";
     if (empty($products)) {
         $tableHtml = "<tr><td colspan='8' class='text-center'>Không tìm thấy sản phẩm.</td></tr>";
     } else {
         foreach ($products as $p) {
-            $type = str_replace('Guitar ', '', htmlspecialchars($p['product_type']));
+            // SỬA: Dùng category_name thay cho product_type
+            $type = str_replace('Guitar ', '', htmlspecialchars($p['category_name'] ?? 'N/A'));
             $tableHtml .= "<tr>
                 <td>{$p['id']}</td>
                 <td>" . htmlspecialchars($p['product_name']) . "</td>
@@ -138,7 +166,7 @@ if ($action === 'fetch_list') {
         }
     }
 
-    // Tạo HTML cho phân trang
+    // Tạo HTML cho phân trang (Giữ nguyên logic vẽ nút của Huy)
     $pageHtml = "";
     if ($maxPage > 1) {
         if ($currentPage > 1)
@@ -155,14 +183,13 @@ if ($action === 'fetch_list') {
     exit;
 }
 
-
-
-// --- Action 4: Lấy chi tiết 1 sản phẩm để sửa (BẢN CHUẨN ĐƯỜNG DẪN) ---
+// --- 4. Lấy chi tiết để Sửa (PHẢI GIỮ LẠI TÊN LOẠI ĐỂ TẠO SLUG ẢNH) ---
 if ($action === 'get_product_detail') {
     $id = (int) $_GET['id'];
     $sql = "SELECT p.*, b.brand_name 
             FROM products p 
             LEFT JOIN brands b ON p.brand_id = b.id 
+            LEFT JOIN categories c ON p.category_id = c.id 
             WHERE p.id = $id";
     $product = getOne($sql);
 
@@ -175,18 +202,17 @@ if ($action === 'get_product_detail') {
         // Trả về đường dẫn chuẩn (đảm bảo không bị dư dấu / ở giữa)
         $product['base_path'] = "../assets/img/products/guitar/{$type_slug}/{$brand_slug}/{$product_slug}/";
 
-        // 2. Xử lý phụ kiện (nối lại thành văn bản cho textarea)
+        // Giữ nguyên logic xử lý phụ kiện JSON của Huy
         if (!empty($product['accessories'])) {
             $acc_arr = json_decode($product['accessories'], true);
-            $product['accessories_text'] = implode("\n", $acc_arr);
+            $product['accessories_text'] = is_array($acc_arr) ? implode("\n", $acc_arr) : "";
         }
         echo json_encode($product);
     }
     exit;
 }
 
-
-// --- Action 5: CẬP NHẬT SẢN PHẨM (BẢN FIX TRIỆT ĐỂ LỖI 7 ẢNH) ---
+// --- 5. LƯU CẬP NHẬT SẢN PHẨM (BẢN FIX LỖI MẤT ẢNH CŨ - HUY THAY THẾ) ---
 if ($action === 'update_product') {
     try {
         $p_id = (int) $_POST['product_id'];
@@ -204,14 +230,8 @@ if ($action === 'update_product') {
         ];
         $old_dir = __DIR__ . "/../../../assets/img/products/guitar/{$old_path_info['type']}/{$old_path_info['brand']}/{$old_path_info['name']}/";
 
-        // 2. Tính toán thư mục MỚI (phòng trường hợp Huy đổi tên/loại/hiệu)
+        $cat_info = getOne("SELECT category_name FROM categories WHERE id = $cat_id");
         $brand_info = getOne("SELECT brand_name FROM brands WHERE id = $brand_id");
-        $new_path_info = [
-            'type' => create_slug($p_type),
-            'brand' => create_slug($brand_info['brand_name']),
-            'name' => create_slug($p_name)
-        ];
-        $new_dir = __DIR__ . "/../../../assets/img/products/guitar/{$new_path_info['type']}/{$new_path_info['brand']}/{$new_path_info['name']}/";
 
         // 3. Lấy danh sách ảnh Huy muốn giữ (từ JS gửi lên)
         $images_to_keep_str = $_POST['images_to_keep'] ?? '';
@@ -226,6 +246,7 @@ if ($action === 'update_product') {
                     unlink($file_to_delete); // Xóa sạch dấu vết ảnh bị Huy bấm "X"
                 }
             }
+            $final_images_list[] = $new_name;
         }
 
         // 5. Nếu có đổi thông tin (Tên/Loại/Hiệu) -> Di chuyển các ảnh còn lại sang thư mục mới
@@ -250,16 +271,17 @@ if ($action === 'update_product') {
         $new_uploaded_images = [];
         if (!empty($_FILES['product_images']['name'][0])) {
             foreach ($_FILES['product_images']['tmp_name'] as $key => $tmp_name) {
-                $ext = pathinfo($_FILES['product_images']['name'][$key], PATHINFO_EXTENSION);
-                $new_file_name = "{$new_path_info['name']}-" . time() . "{$key}.{$ext}";
-                if (move_uploaded_file($tmp_name, $new_dir . $new_file_name)) {
-                    $new_uploaded_images[] = $new_file_name;
+                if (count($final_images_list) < 6) {
+                    $ext = pathinfo($_FILES['product_images']['name'][$key], PATHINFO_EXTENSION);
+                    $new_file_name = "{$product_slug_new}-" . (count($final_images_list) + 1) . ".{$ext}";
+                    if (move_uploaded_file($tmp_name, $upload_dir_new . $new_file_name)) {
+                        $final_images_list[] = $new_file_name;
+                    }
                 }
             }
         }
 
-        // 7. Tổng hợp danh sách ảnh cuối cùng (luôn <= 6 nhờ JS đã chặn)
-        $final_images_list = implode(',', array_merge($images_to_keep_arr, $new_uploaded_images));
+        $images_string = implode(',', $final_images_list);
 
         // 8. Cập nhật Database
         $acc_lines = array_values(array_filter(array_map('trim', explode("\n", $_POST['accessories'] ?? ''))));
@@ -292,6 +314,7 @@ if ($action === 'update_product') {
             $p_id
         ]);
 
+        $pdo->commit();
         echo "success";
     } catch (Exception $e) {
         echo "Lỗi: " . $e->getMessage();
@@ -299,21 +322,22 @@ if ($action === 'update_product') {
     exit;
 }
 
-// --- Action 6: XÓA SẢN PHẨM VÀ THƯ MỤC ẢNH ---
+// --- 6. XỬ LÝ XÓA SẢN PHẨM (HUY CHÈN THÊM ĐOẠN NÀY) ---
 if ($action === 'delete_product') {
     try {
         $id = (int) $_POST['id'];
 
-        // 1. Lấy thông tin sản phẩm để xác định thư mục cần xóa
-        $product = getOne("SELECT p.*, b.brand_name 
-                           FROM products p 
-                           LEFT JOIN brands b ON p.brand_id = b.id 
-                           WHERE p.id = $id");
+        // 1. Lấy thông tin để tìm đường dẫn thư mục ảnh
+        $sqlInfo = "SELECT p.product_name, b.brand_name, c.category_name 
+                    FROM products p 
+                    JOIN brands b ON p.brand_id = b.id 
+                    JOIN categories c ON p.category_id = c.id 
+                    WHERE p.id = $id";
+        $p = getOne($sqlInfo);
 
-        if (!$product) {
-            echo "Lỗi: Không tìm thấy sản phẩm.";
-            exit;
-        }
+        if ($p) {
+            // 2. Xóa thư mục ảnh trên ổ cứng (XAMPP)
+            $dir = __DIR__ . "/../../../assets/img/products/guitar/" . create_slug($p['category_name']) . "/" . create_slug($p['brand_name']) . "/" . create_slug($p['product_name']) . "/";
 
         // 2. Xóa bản ghi trong Database trước
         $stmt = $pdo->prepare("DELETE FROM products WHERE id = ?");
@@ -333,13 +357,13 @@ if ($action === 'delete_product') {
                 if (is_file($file))
                     unlink($file);
             }
-            // Xóa thư mục rỗng
-            rmdir($target_dir);
         }
 
+        // 3. Xóa dòng dữ liệu trong Database
+        $pdo->prepare("DELETE FROM products WHERE id = ?")->execute([$id]);
         echo "success";
     } catch (Exception $e) {
-        echo "Lỗi: " . $e->getMessage();
+        echo "Lỗi xóa: " . $e->getMessage();
     }
     exit;
 }

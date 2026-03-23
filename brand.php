@@ -170,7 +170,7 @@ include 'forms/head.php';
 
                                         // 2. Tạo đường dẫn thư mục dựa trên quy tắc của bạn
                                         // Ví dụ: "Guitar Classic" -> "guitar_classic", "Saga" -> "saga"
-                                        $type_folder    = create_slug($product['product_type']);
+                                        $type_folder = create_slug($product['category_name']);
                                         $brand_folder   = create_slug($product['brand_name']);
                                         $product_folder = create_slug($product['product_name']);
 
@@ -202,7 +202,7 @@ include 'forms/head.php';
                                             </div>
                                             
                                             <div class="product-details">
-                                                <div class="product-category"><?= htmlspecialchars($product['product_type']) ?></div>
+                                                <div class="product-category"><?= htmlspecialchars($product['category_name']) ?></div>
                                                 <h4 class="product-title">
                                                     <a href="product-details.php?id=<?= $product['id'] ?>"><?= htmlspecialchars($product['product_name']) ?></a>
                                                 </h4>

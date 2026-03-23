@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th3 23, 2026 lúc 05:20 PM
+-- Thời gian đã tạo: Th3 23, 2026 lúc 02:03 PM
 -- Phiên bản máy phục vụ: 10.4.32-MariaDB
 -- Phiên bản PHP: 8.2.12
 
@@ -24,44 +24,38 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `categories`
+-- Cấu trúc bảng cho bảng `import_receipts`
 --
 
-CREATE TABLE `categories` (
+CREATE TABLE `import_receipts` (
   `id` int(11) NOT NULL,
-  `category_name` varchar(100) NOT NULL,
-  `profit_margin` decimal(5,2) DEFAULT 20.00,
-  `category_slug` varchar(100) DEFAULT NULL,
-  `description` text DEFAULT NULL
+  `receipt_code` varchar(50) NOT NULL COMMENT 'Mã phiếu nhập (VD: PN001)',
+  `import_date` datetime NOT NULL DEFAULT current_timestamp(),
+  `total_amount` decimal(15,2) DEFAULT 0.00 COMMENT 'Tổng giá trị phiếu nhập',
+  `note` text DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Đang đổ dữ liệu cho bảng `categories`
---
-
-INSERT INTO `categories` (`id`, `category_name`, `profit_margin`, `category_slug`, `description`) VALUES
-(1, 'Guitar Acoustic', 25.00, 'guitar-acoustic', 'Dòng guitar thùng sử dụng dây kim loại.'),
-(2, 'Guitar Classic', 30.00, 'guitar-classic', 'Dòng guitar thùng sử dụng dây nylon.');
 
 --
 -- Chỉ mục cho các bảng đã đổ
 --
 
 --
--- Chỉ mục cho bảng `categories`
+-- Chỉ mục cho bảng `import_receipts`
 --
-ALTER TABLE `categories`
-  ADD PRIMARY KEY (`id`);
+ALTER TABLE `import_receipts`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `receipt_code` (`receipt_code`);
 
 --
 -- AUTO_INCREMENT cho các bảng đã đổ
 --
 
 --
--- AUTO_INCREMENT cho bảng `categories`
+-- AUTO_INCREMENT cho bảng `import_receipts`
 --
-ALTER TABLE `categories`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=106;
+ALTER TABLE `import_receipts`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

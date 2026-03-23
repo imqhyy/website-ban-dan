@@ -4,11 +4,6 @@ require_once "forms/modules/products/list.php";
 ?>
 <?php $title = "Kết Quả Tìm Kiếm - Guitar Xì Gòn";
 include 'forms/head.php';
-// Lấy các giá trị thực tế đang có trong Database
-$list_shapes    = getAll("SELECT DISTINCT body_shape FROM products WHERE body_shape IS NOT NULL AND body_shape != ''");
-$list_woods     = getAll("SELECT DISTINCT wood_type FROM products WHERE wood_type IS NOT NULL AND wood_type != ''");
-$list_construct = getAll("SELECT DISTINCT construction FROM products WHERE construction IS NOT NULL AND construction != ''");
-$list_sizes     = getAll("SELECT DISTINCT product_size FROM products WHERE product_size IS NOT NULL AND product_size != ''");
 ?>
 
 <body class="search-results-page">
@@ -83,57 +78,9 @@ $list_sizes     = getAll("SELECT DISTINCT product_size FROM products WHERE produ
                             <input type="hidden" name="search" value="<?= htmlspecialchars($_GET['search'] ?? '') ?>">
 
                             <div class="search-item">
-                                <label>Dáng đàn:</label>
-                                <select name="body_shape" class="custom-pill-select">
-                                    <option value="">Tất cả</option>
-                                    <?php foreach ($list_shapes as $row): $val = $row['body_shape']; ?>
-                                        <option value="<?= htmlspecialchars($val) ?>" <?= (isset($_GET['body_shape']) && $_GET['body_shape'] == $val) ? 'selected' : '' ?>>
-                                            <?= htmlspecialchars($val) ?>
-                                        </option>
-                                    <?php endforeach; ?>
-                                </select>
-                            </div>
-
-                            <div class="search-item">
-                                <label>Loại gỗ:</label>
-                                <select name="wood_type" class="custom-pill-select">
-                                    <option value="">Tất cả</option>
-                                    <?php foreach ($list_woods as $row): $val = $row['wood_type']; ?>
-                                        <option value="<?= htmlspecialchars($val) ?>" <?= (isset($_GET['wood_type']) && $_GET['wood_type'] == $val) ? 'selected' : '' ?>>
-                                            <?= htmlspecialchars($val) ?>
-                                        </option>
-                                    <?php endforeach; ?>
-                                </select>
-                            </div>
-
-                            <div class="search-item">
-                                <label>Cấu tạo:</label>
-                                <select name="construction" class="custom-pill-select">
-                                    <option value="">Tất cả</option>
-                                    <?php foreach ($list_construct as $row): $val = $row['construction']; ?>
-                                        <option value="<?= htmlspecialchars($val) ?>" <?= (isset($_GET['construction']) && $_GET['construction'] == $val) ? 'selected' : '' ?>>
-                                            <?= htmlspecialchars($val) ?>
-                                        </option>
-                                    <?php endforeach; ?>
-                                </select>
-                            </div>
-
-                            <div class="search-item">
-                                <label>Kích thước:</label>
-                                <select name="product_size" class="custom-pill-select">
-                                    <option value="">Tất cả</option>
-                                    <?php foreach ($list_sizes as $row): $val = $row['product_size']; ?>
-                                        <option value="<?= htmlspecialchars($val) ?>" <?= (isset($_GET['product_size']) && $_GET['product_size'] == $val) ? 'selected' : '' ?>>
-                                            <?= htmlspecialchars($val) ?>
-                                        </option>
-                                    <?php endforeach; ?>
-                                </select>
-                            </div>
-
-                            <div class="search-item">
                                 <label>Sắp xếp:</label>
                                 <select name="sort" class="custom-pill-select">
-                                    <option value="newest" <?= (isset($_GET['sort']) && $_GET['sort'] == 'newest') ? 'selected' : '' ?>>Mới nhất</option>
+                                    
                                     <option value="price_asc" <?= (isset($_GET['sort']) && $_GET['sort'] == 'price_asc') ? 'selected' : '' ?>>Giá tăng dần</option>
                                     <option value="price_desc" <?= (isset($_GET['sort']) && $_GET['sort'] == 'price_desc') ? 'selected' : '' ?>>Giá giảm dần</option>
                                     <option value="name_asc" <?= (isset($_GET['sort']) && $_GET['sort'] == 'name_asc') ? 'selected' : '' ?>>Tên A-Z</option>
@@ -175,10 +122,7 @@ $list_sizes     = getAll("SELECT DISTINCT product_size FROM products WHERE produ
                                     ?>
                                         <li class="category-item">
                                             <div class="category-header">
-                                                <input class="form-check-input" type="checkbox" name="type[]" 
-                                                    value="<?= htmlspecialchars($type_name) ?>" 
-                                                    id="<?= $type_id ?>"
-                                                    <?= in_array($type_name, $selected_types) ? 'checked' : '' ?>> 
+                                                <input class="form-check-input" type="checkbox" name="type[]" value="<?= $t['id'] ?>" id="<?= $type_id ?>" <?= in_array($t['id'], $selected_types) ? 'checked' : '' ?>>
                                                 <label class="form-check-label" for="<?= $type_id ?>">
                                                     <?= htmlspecialchars($type_name) ?>
                                                 </label>
@@ -300,7 +244,7 @@ $list_sizes     = getAll("SELECT DISTINCT product_size FROM products WHERE produ
 
                                         // 2. Tạo đường dẫn thư mục dựa trên quy tắc của bạn
                                         // Ví dụ: "Guitar Classic" -> "guitar_classic", "Saga" -> "saga"
-                                        $type_folder    = create_slug($product['product_type']);
+                                        $type_folder = create_slug($product['category_name']);
                                         $brand_folder   = create_slug($product['brand_name']);
                                         $product_folder = create_slug($product['product_name']);
 
@@ -335,8 +279,7 @@ $list_sizes     = getAll("SELECT DISTINCT product_size FROM products WHERE produ
                                         </div>
 
                                         <div class="product-details">
-                                            <div class="product-category">
-                                                <?= htmlspecialchars($product['product_type']) ?></div>
+                                            <div class="product-category"><?= htmlspecialchars($product['category_name']) ?></div>
                                             <h4 class="product-title">
                                                 <a
                                                     href="product-details.php?id=<?= $product['id'] ?>"><?= htmlspecialchars($product['product_name']) ?></a>

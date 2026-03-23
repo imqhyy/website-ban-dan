@@ -10,9 +10,10 @@ if ($id <= 0) {
 
 // Query sản phẩm + tên brand
 $stmt = $pdo->prepare("
-    SELECT p.*, b.brand_name, b.brand_slug
+    SELECT p.*, b.brand_name, b.brand_slug, c.category_name
     FROM products p
     LEFT JOIN brands b ON p.brand_id = b.id
+    LEFT JOIN categories c ON p.category_id = c.id
     WHERE p.id = ?
 ");
 $stmt->execute([$id]);
@@ -24,7 +25,7 @@ if (!$product) {
 }
 
 // Tạo đường dẫn ảnh theo đúng công thức của all.php
-$type_folder = create_slug($product['product_type']);
+$type_folder = create_slug($product['category_name']);
 $brand_folder = create_slug($product['brand_name']);
 $product_folder = create_slug($product['product_name']);
 $base_path = $guitarimg_direct . $type_folder . '/' . $brand_folder . '/' . $product_folder . '/';
@@ -133,7 +134,7 @@ include 'forms/head.php';
           <div class="col-lg-5" data-aos="fade-left" data-aos-delay="200">
             <div class="product-details">
               <div class="product-badge-container">
-                <span class="badge-category"><?= htmlspecialchars($product['product_type']) ?></span>
+                <span class="badge-category"><?= htmlspecialchars($product['category_name']) ?></span>
                 <div class="rating-group">
                   <div class="stars">
                     <i class="bi bi-star-fill"></i>

@@ -60,13 +60,10 @@ $filter_categories = getAll("SELECT * FROM categories ORDER BY category_name ASC
                                     <div class="row">
                                         <div class="col-md-6 mb-3">
                                             <label class="form-label fw-bold">Phân loại:</label>
-                                            <select class="form-select custom-input" id="modal-product-type"
-                                                name="product_type">
-                                                <option value="" selected disabled required>-- Chọn phân loại --
-                                                </option>
+                                            <select class="form-select custom-input" id="modal-product-type" name="product_type">
+                                                <option value="" selected disabled required>-- Chọn phân loại --</option>
                                                 <?php foreach($all_categories as $cat): ?>
-                                                <option value="<?= htmlspecialchars($cat['category_name']) ?>">
-                                                    <?= htmlspecialchars($cat['category_name']) ?></option>
+                                                <option value="<?= $cat['id'] ?>"> <?= htmlspecialchars($cat['category_name']) ?></option>
                                                 <?php endforeach; ?>
                                             </select>
                                         </div>
@@ -133,7 +130,7 @@ $filter_categories = getAll("SELECT * FROM categories ORDER BY category_name ASC
                             <div class="col-md-6">
                                 <div class="highlight-input-group p-3 border rounded shadow-sm">
                                     <span class="badge bg-secondary mb-2">Điểm 1</span>
-                                    <input type="text" name="h1_t" class="form-control mb-2 fw-bold"
+                                    <input type="text" name="highlight_1_title" class="form-control mb-2 fw-bold"
                                         placeholder="Tiêu đề điểm 1">
                                     <textarea name="highlight_1_content" class="form-control form-control-sm text-muted"
                                         placeholder="Nội dung điểm 1"></textarea>
@@ -142,7 +139,7 @@ $filter_categories = getAll("SELECT * FROM categories ORDER BY category_name ASC
                             <div class="col-md-6">
                                 <div class="highlight-input-group p-3 border rounded shadow-sm">
                                     <span class="badge bg-secondary mb-2">Điểm 2</span>
-                                    <input type="text" name="h2_t" class="form-control mb-2 fw-bold"
+                                    <input type="text" name="highlight_2_title" class="form-control mb-2 fw-bold"
                                         placeholder="Tiêu đề điểm 2">
                                     <textarea name="highlight_2_content" class="form-control form-control-sm text-muted"
                                         placeholder="Nội dung điểm 2"></textarea>
@@ -151,7 +148,7 @@ $filter_categories = getAll("SELECT * FROM categories ORDER BY category_name ASC
                             <div class="col-md-6">
                                 <div class="highlight-input-group p-3 border rounded shadow-sm">
                                     <span class="badge bg-secondary mb-2">Điểm 3</span>
-                                    <input type="text" name="h3_t" class="form-control mb-2 fw-bold"
+                                    <input type="text" name="highlight_3_title" class="form-control mb-2 fw-bold"
                                         placeholder="Tiêu đề điểm 3">
                                     <textarea name="highlight_3_content" class="form-control form-control-sm text-muted"
                                         placeholder="Nội dung điểm 3"></textarea>
@@ -160,7 +157,7 @@ $filter_categories = getAll("SELECT * FROM categories ORDER BY category_name ASC
                             <div class="col-md-6">
                                 <div class="highlight-input-group p-3 border rounded shadow-sm">
                                     <span class="badge bg-secondary mb-2">Điểm 4</span>
-                                    <input type="text" name="h4_t" class="form-control mb-2 fw-bold"
+                                    <input type="text" name="highlight_4_title" class="form-control mb-2 fw-bold"
                                         placeholder="Tiêu đề điểm 4">
                                     <textarea name="highlight_4_content" class="form-control form-control-sm text-muted"
                                         placeholder="Nội dung điểm 4"></textarea>
@@ -201,11 +198,11 @@ $filter_categories = getAll("SELECT * FROM categories ORDER BY category_name ASC
                               </div>
                               <div class="row">
                                   <div class="col-md-6 mb-3">
-                                      <label class="form-label fw-bold">Phân loại:</label>
-                                      <select class="form-select custom-input" id="edit-product-type" name="product_type">
-                                          <option value="Guitar Acoustic">Guitar Acoustic</option>
-                                          <option value="Guitar Classic">Guitar Classic</option>
-                                      </select>
+                                    <label class="form-label fw-bold">Phân loại:</label>
+                                    <select class="form-select custom-input" id="edit-product-type" name="product_type">
+                                        <option value="1">Guitar Acoustic</option> 
+                                        <option value="2">Guitar Classic</option>  
+                                    </select>
                                   </div>
                                   <div class="col-md-6 mb-3">
                                       <label class="form-label fw-bold">Thương hiệu:</label>
@@ -320,8 +317,7 @@ $filter_categories = getAll("SELECT * FROM categories ORDER BY category_name ASC
                         <select class="form-select custom-input" id="filter-product-type" name="product_type">
                             <option value="" selected>-- Tất cả loại --</option>
                             <?php foreach($filter_categories as $cat): ?>
-                            <option value="<?= htmlspecialchars($cat['category_name']) ?>">
-                                <?= htmlspecialchars($cat['category_name']) ?>
+                            <option value="<?= $cat['id'] ?>"> <?= htmlspecialchars($cat['category_name']) ?>
                             </option>
                             <?php endforeach; ?>
                         </select>
@@ -364,8 +360,8 @@ $filter_categories = getAll("SELECT * FROM categories ORDER BY category_name ASC
                                     <td><?= htmlspecialchars($product['product_name']) ?></td>
                                     <td>
                                         <?php 
-                        // Hiển thị Acoustic hoặc Classic cho gọn
-                        echo str_replace('Guitar ', '', htmlspecialchars($product['product_type'])); 
+                                    // Chú ý: list_admin.php cần phải JOIN thêm bảng categories để có key 'category_name'
+                                    echo str_replace('Guitar ', '', htmlspecialchars($product['category_name'] ?? 'N/A')); 
                     ?>
                                     </td>
                                     <td><?= htmlspecialchars($product['brand_name'] ?? 'N/A') ?></td>
@@ -401,6 +397,15 @@ $filter_categories = getAll("SELECT * FROM categories ORDER BY category_name ASC
             <!-- Category Pagination Section -->
             <section id="category-pagination" class="category-pagination section" style="padding-bottom: 0px;">
                 <ul class="d-flex justify-content-center">
+                    <?php if ($maxPage > 1): ?>
+                        <?php for ($i = 1; $i <= $maxPage; $i++): ?>
+                            <li>
+                                <a href="#" class="<?= ($i == $currentPage) ? 'active' : '' ?>" data-page="<?= $i ?>">
+                                    <?= $i ?>
+                                </a>
+                            </li>
+                        <?php endfor; ?>
+                    <?php endif; ?>
                 </ul>
             </section>
             <!-- /Category Pagination Section -->

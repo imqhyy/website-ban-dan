@@ -47,9 +47,7 @@ include 'forms/head.php' ?>
                                     ?>
                                     <li class="category-item">
                                         <div class="category-header">
-                                            <input class="form-check-input" type="checkbox" name="type[]"
-                                                value="<?= htmlspecialchars($type_name) ?>" id="<?= $type_id ?>"
-                                                <?= in_array($type_name, $selected_types) ? 'checked' : '' ?>>
+                                            <input class="form-check-input" type="checkbox" name="type[]" value="<?= $t['id'] ?>" id="<?= $type_id ?>" <?= in_array($t['id'], $selected_types) ? 'checked' : '' ?>>
                                             <label class="form-check-label" for="<?= $type_id ?>">
                                                 <?= htmlspecialchars($type_name) ?>
                                             </label>
@@ -172,7 +170,7 @@ include 'forms/head.php' ?>
 
                                         // 2. Tạo đường dẫn thư mục dựa trên quy tắc của bạn
                                         // Ví dụ: "Guitar Classic" -> "guitar_classic", "Saga" -> "saga"
-                                        $type_folder    = create_slug($product['product_type']);
+                                        $type_folder = create_slug($product['category_name']);
                                         $brand_folder   = create_slug($product['brand_name']);
                                         $product_folder = create_slug($product['product_name']);
 
@@ -207,8 +205,7 @@ include 'forms/head.php' ?>
                                         </div>
 
                                         <div class="product-details">
-                                            <div class="product-category">
-                                                <?= htmlspecialchars($product['product_type']) ?></div>
+                                            <div class="product-category"><?= htmlspecialchars($product['category_name']) ?></div>
                                             <h4 class="product-title">
                                                 <a
                                                     href="product-details.php?id=<?= $product['id'] ?>"><?= htmlspecialchars($product['product_name']) ?></a>

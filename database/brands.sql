@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th3 22, 2026 lúc 07:08 PM
+-- Thời gian đã tạo: Th3 23, 2026 lúc 05:20 PM
 -- Phiên bản máy phục vụ: 10.4.32-MariaDB
 -- Phiên bản PHP: 8.2.12
 
@@ -44,7 +44,7 @@ INSERT INTO `brands` (`id`, `brand_name`, `description`, `brand_slug`, `created_
 (2, 'Taylor', NULL, 'taylor', '2026-03-08 13:38:37'),
 (3, 'Ba Đờn', NULL, 'ba-don', '2026-03-08 13:38:37'),
 (4, 'Yamaha', NULL, 'yamaha', '2026-03-08 13:38:37'),
-(5, 'Enya', 'đàn cho nhà giàuu', 'enya', '2026-03-08 13:38:37');
+(5, 'Enya', 'đàn cho nhà giàu', 'enya', '2026-03-08 13:38:37');
 
 --
 -- Chỉ mục cho các bảng đã đổ
@@ -64,7 +64,7 @@ ALTER TABLE `brands`
 -- AUTO_INCREMENT cho bảng `brands`
 --
 ALTER TABLE `brands`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

@@ -17,7 +17,7 @@
         toast: true,
         position: "top-end",
         showConfirmButton: false,
-        timer: 1200,
+        timer: 100,
         timerProgressBar: true,
         customClass: { popup: "my-swal-popup" },
         didOpen: (toast) => {
