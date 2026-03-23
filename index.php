@@ -238,7 +238,7 @@ include 'forms/head.php' ?>
               </p>
 
               <div class="countdown-wrapper" data-aos="fade-up" data-aos-delay="400">
-                <div class="countdown d-flex justify-content-center" data-count="2026/4/01">
+                <div class="countdown d-flex justify-content-center" data-count="2026/5/01">
                   <div>
                     <h3 class="count-days"></h3>
                     <h4>Ngày</h4>

@@ -1,6 +1,22 @@
 <?php
 require_once(__DIR__ . '/forms/init.php');
 
+// Format số điện thoại về dạng (xxx) xxx-xxxx
+function formatPhone($phone) {
+    if (empty($phone)) return 'Chưa cập nhật';
+    // Xóa hết ký tự không phải số
+    $digits = preg_replace('/[^0-9]/', '', $phone);
+    // Chuẩn hóa về 10 số
+    if (strlen($digits) === 10) {
+        return '(' . substr($digits, 0, 3) . ') ' . substr($digits, 3, 3) . '-' . substr($digits, 6);
+    }
+    // 11 số (đầu 84...)
+    if (strlen($digits) === 11) {
+        return '(' . substr($digits, 0, 4) . ') ' . substr($digits, 4, 3) . '-' . substr($digits, 7);
+    }
+    return $phone; // Trả nguyên nếu không nhận dạng được
+}
+
 // --- Xử lý POST khóa/mở khóa ---
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
     header('Content-Type: application/json');
@@ -127,7 +143,7 @@ include __DIR__ . "/forms/head.php";
               </div>
               <div class="customer-info">
                 <p class="customer-name"><?= htmlspecialchars($user['fullname']) ?></p>
-                <p class="customer-phone"><?= htmlspecialchars($user['phone'] ?? 'Chưa cập nhật') ?></p>
+                <p class="customer-phone"><?= formatPhone($user['phone'] ?? '') ?></p>
               </div>
               <div class="customer-actions">
                 <button class="action-btn reset-btn"
@@ -144,7 +160,7 @@ include __DIR__ . "/forms/head.php";
                   data-json="<?= htmlspecialchars(json_encode([
                     'avatar'        => $avatar,
                     'fullname'      => $user['fullname'],
-                    'phone'         => $user['phone'] ?? 'Chưa cập nhật',
+                    'phone'         => formatPhone($user['phone'] ?? ''),
                     'email'         => $user['email'],
                     'username'      => $user['username'],
                     'created_at'    => date('d/m/Y', strtotime($user['created_at'])),
@@ -290,7 +306,6 @@ include __DIR__ . "/forms/head.php";
         // Mở khóa — confirm trước
         Swal.fire({
           title: 'Mở khóa tài khoản?',
-          html: 'Để được mở khóa, khách hàng phải <strong>đặt 1 cây đàn giá không dưới 10 triệu</strong> coi như hối lỗi! 🎸',
           icon: 'question',
           showCancelButton: true,
           confirmButtonText: 'Đồng ý, mở khóa',
