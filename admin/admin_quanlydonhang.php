@@ -1,254 +1,122 @@
 <?php
 $title = "Quản lý đơn hàng";
 require_once(__DIR__ . '/forms/init.php');
+require_once(__DIR__ . '/forms/quanlydonhang/list.php'); // Gọi file logic
 include __DIR__ . "/forms/head.php";
 ?>
 
 <body class="login-page">
   <?php require_once __DIR__ . "/forms/header.php" ?>
-
   <main class="main">
-
-    <!-- Page Title -->
     <div class="page-title light-background">
       <div class="container d-lg-flex justify-content-between align-items-center">
         <h1 class="mb-2 mb-lg-0">Quản lý đơn hàng</h1>
         <nav class="breadcrumbs">
           <ol>
-            <li><a href="admin.html">Trang chủ</a></li>
+            <li><a href="admin.php">Trang chủ</a></li>
             <li class="current">Quản lý đơn hàng</li>
           </ol>
         </nav>
       </div>
-    </div><!-- End Page Title -->
+    </div>
 
-
-    <div class="container-manage-import-products">
-      <form action="" class="search-container" method="get"><!-- Search box -->
-        <input type="text" id="search-input" placeholder="Tra cứu mã đơn hàng" name="search">
-        <button id="search-button">
-          <i class="fa fa-search"></i> Tìm kiếm
-        </button>
-      </form><!-- End Search box -->
-
-      <div class="sort-container"> <!-- Sort-container -->
-        <div class="sort-by-date-container">
-          <label>Từ ngày:<input type="date" class="input-sort-date"></label>
-
-          <label>Đến ngày:<input type="date" class="input-sort-date"></label>
+    <div class="container-manage-orders" style="width: 90%; margin: auto; padding: 20px;">
+      <form action="" method="get">
+        <div class="search-container">
+          <input type="text" id="search-input" name="search" placeholder="Tra cứu mã đơn hàng" value="<?= htmlspecialchars($_GET['search'] ?? '') ?>">
+          <button id="search-button" type="submit"><i class="fa fa-search"></i> Tìm kiếm</button>
         </div>
-        <div class="sort-by-order-status">
-          <label for="sort-order">Tình trạng:</label>
-          <select id="sort-order" class="status-select-custom">
-            <option value="newest">Mới đặt</option>
-            <option value="processed">Đã xử lý</option>
-            <option value="deliveried">Đã giao</option>
-            <option value="cancel">Huỷ</option>
-          </select>
+
+        <div class="sort-container">
+          <div class="sort-by-date-container">
+            <label>Từ ngày:<input type="date" name="date_from" class="input-sort-date" value="<?= $_GET['date_from'] ?? '' ?>"></label>
+            <label>Đến ngày:<input type="date" name="date_to" class="input-sort-date" value="<?= $_GET['date_to'] ?? '' ?>"></label>
+          </div>
+          <div class="sort-by-order-status">
+            <label for="sort-order">Tình trạng:</label>
+            <select id="sort-order" name="order_status" class="status-select-custom">
+              <option value="">Tất cả</option>
+              <option value="newest" <?= ($_GET['order_status'] ?? '') == 'newest' ? 'selected' : '' ?>>Mới đặt</option>
+              <option value="processed" <?= ($_GET['order_status'] ?? '') == 'processed' ? 'selected' : '' ?>>Đã xử lý</option>
+              <option value="deliveried" <?= ($_GET['order_status'] ?? '') == 'deliveried' ? 'selected' : '' ?>>Đã giao</option>
+              <option value="cancel" <?= ($_GET['order_status'] ?? '') == 'cancel' ? 'selected' : '' ?>>Huỷ</option>
+            </select>
+          </div>
+          <button id="filter-button" type="submit" class="status-button"><i class="bi bi-funnel"></i> Tra cứu</button>
         </div>
-        <button id="filter-button" class="status-button">
-          <i class="bi bi-funnel"></i> Tra cứu
-        </button>
-      </div>
+      </form>
       <hr>
 
-
-      <!-- Pop-up Phiếu Nhập Mới -->
-      <div id="DetailModal" class="modal">
-        <div class="modal-content-admin">
-          <span class="close-button">&times;</span>
-          <h2>Chi tiết đơn hàng</h2>
-          <!-- Thông tin đơn hàng -->
-          <div>
-            <label style="margin-right: 30px;">Ngày đặt hàng: <b>26/6/2025</b></label>
-            <label>Mã đơn hàng: <b>#ORD-2025-1278</b></label>
-            <br>
-            <label style="margin-right: 30px;">Người nhận hàng: <b>Gi Đa Gòn</b></label>
-            <label>Số điện thoại: <b>012223434</b></label>
-            <br>
-            <label>Địa chỉ: <b>5 Đường abc Quận XYZ</b></label>
-            <label><b>Lưu ý: </b> Không giao hàng vào thứ 2 tại anh không thích</label>
-          </div>
-          <!-- thông tin sản phẩm -->
-          <div class="product-fields-template">
-            <hr>
-            <label>Tên sản phẩm: <b>Saga X Pro</b></label>
-            <br>
-            <label>Loại sản phẩm: <b>Acoustic</b></label>
-
-            <label>Thương hiệu: <b>Saga</b></label>
-            <br>
-
-            <label>Số Lượng: <b>1</b></label>
-            <label>Đơn giá: <b>1.000.000VND</b></label>
-          </div>
-          <!-- thông tin sản phẩm -->
-          <div class="product-fields-template">
-            <hr>
-            <label>Tên sản phẩm: <b>Enya Y Pro Max</b></label>
-            <br>
-            <label>Loại sản phẩm: <b>Acoustic</b></label>
-
-            <label>Thương hiệu: <b>Enya</b></label>
-            <br>
-
-            <label>Số Lượng: <b>1</b></label>
-            <label>Đơn giá: <b>4.000.000VND</b></label>
-          </div>
-
-          <!--tổng số tiền-->
-          <label>Tổng số tiền: <b>5.000.000VND</b></label>
-
-          <div id="close-detail-order-container">
-            <button class="close-button-detail-order">Đóng</button>
-          </div>
-        </div>
-      </div>
-
-
-
-      <!-- Đơn hàng thứ 1 -->
-      <div class="manage-order-container">
-        <div class="info-and-status-order">
-          <div class="info-order">
-            <p>Mã đơn hàng: <b>1234</b></p>
-            <p>Ngày đặt hàng: <b>26/10/2025</b></p>
-            <p>Tổng tiền: <b>3.000.000VND</b></p>
-          </div>
-          <div class="status-block">
-            <div>
-              <p style="margin-bottom: 0px;">Tình trạng: <b class="order-status-value">Đã giao</b> <img
-                  src="assets/img/iconbutton/pencil.png" class="edit-status-order" alt="Sửa trạng thái"
-                  style="width: 15px; transform: translateY(-4px); cursor: pointer;"></p>
+      <?php if (!empty($orders)): ?>
+        <?php foreach ($orders as $o): 
+          $statusMap = ['newest'=>'Mới đặt', 'processed'=>'Đã xử lý', 'deliveried'=>'Đã giao', 'cancel'=>'Huỷ'];
+        ?>
+        <div class="manage-order-container" data-order-id="<?= $o['id'] ?>">
+          <div class="info-and-status-order">
+            <div class="info-order">
+              <p>Mã đơn hàng: <b><?= htmlspecialchars($o['order_code']) ?></b></p>
+              <p>Ngày đặt hàng: <b><?= date("d/m/Y", strtotime($o['created_at'])) ?></b></p>
+              <p>Tổng tiền: <b><?= number_format($o['total_amount'], 0, ',', '.') ?>VND</b></p>
             </div>
-            <div class="status-select-container hidden">
-              <span class="status-select-button">Mới đặt</span>
-              <hr style="margin: 0">
-              <span class="status-select-button">Đã xử lý</span>
-              <hr style="margin: 0">
-              <span class="status-select-button">Đã giao</span>
-              <hr style="margin: 0">
-              <span class="status-select-button">Huỷ</span>
+            <div class="status-block">
+              <p style="margin-bottom: 0px;">Tình trạng: <b class="order-status-value"><?= $statusMap[$o['order_status']] ?></b> 
+                <i class="bi bi-pencil-square edit-status-order" style="cursor: pointer;"></i>
+              </p>
+              <div class="status-select-container hidden">
+                <span class="status-select-button" data-status="newest">Mới đặt</span>
+                <hr style="margin: 0"><span class="status-select-button" data-status="processed">Đã xử lý</span>
+                <hr style="margin: 0"><span class="status-select-button" data-status="deliveried">Đã giao</span>
+                <hr style="margin: 0"><span class="status-select-button" data-status="cancel">Huỷ</span>
+              </div>
             </div>
           </div>
-
-        </div>
-        <div style="display: flex; justify-content: flex-end; margin-top: 20px;">
-          <button type="button" class="action-btn detail-btn">Chi tiết</button>
-        </div>
-      </div>
-
-      <!-- Đơn hàng thứ 2 -->
-      <div class="manage-order-container">
-        <div class="info-and-status-order">
-          <div class="info-order">
-            <p>Mã đơn hàng: <b>1234</b></p>
-            <p>Ngày đặt hàng: <b>26/10/2025</b></p>
-            <p>Tổng tiền: <b>3.000.000VND</b></p>
-          </div>
-          <div class="status-block">
-            <div>
-              <p style="margin-bottom: 0px;">Tình trạng: <b class="order-status-value">Đã giao</b> <img
-                  src="assets/img/iconbutton/pencil.png" class="edit-status-order" alt="Sửa trạng thái"
-                  style="width: 15px; transform: translateY(-4px); cursor: pointer;"></p>
-            </div>
-            <div class="status-select-container hidden">
-              <span class="status-select-button">Mới đặt</span>
-              <hr style="margin: 0">
-              <span class="status-select-button">Đã xử lý</span>
-              <hr style="margin: 0">
-              <span class="status-select-button">Đã giao</span>
-              <hr style="margin: 0">
-              <span class="status-select-button">Huỷ</span>
-            </div>
-          </div>
-
-        </div>
-        <div style="display: flex; justify-content: flex-end; margin-top: 20px;">
-          <button type="button" class="action-btn detail-btn">Chi tiết</button>
-        </div>
-      </div>
-
-      <!-- Đơn hàng thứ 3 -->
-      <div class="manage-order-container">
-        <div class="info-and-status-order">
-          <div class="info-order">
-            <p>Mã đơn hàng: <b>1234</b></p>
-            <p>Ngày đặt hàng: <b>26/10/2025</b></p>
-            <p>Tổng tiền: <b>3.000.000VND</b></p>
-          </div>
-          <div class="status-block">
-            <div>
-              <p style="margin-bottom: 0px;">Tình trạng: <b class="order-status-value">Đã giao</b> <img
-                  src="assets/img/iconbutton/pencil.png" class="edit-status-order" alt="Sửa trạng thái"
-                  style="width: 15px; transform: translateY(-4px); cursor: pointer;"></p>
-            </div>
-            <div class="status-select-container hidden">
-              <span class="status-select-button">Mới đặt</span>
-              <hr style="margin: 0">
-              <span class="status-select-button">Đã xử lý</span>
-              <hr style="margin: 0">
-              <span class="status-select-button">Đã giao</span>
-              <hr style="margin: 0">
-              <span class="status-select-button">Huỷ</span>
-            </div>
+          <div style="display: flex; justify-content: flex-end; margin-top: 20px;">
+            <button type="button" class="action-btn detail-btn" data-id="<?= $o['id'] ?>">Chi tiết</button>
           </div>
         </div>
-        <div style="display: flex; justify-content: flex-end; margin-top: 20px;">
-          <button type="button" class="action-btn detail-btn">Chi tiết</button>
-        </div>
+        <?php endforeach; ?>
+      <?php else: ?>
+        <p style="text-align: center;">Không có đơn hàng nào.</p>
+      <?php endif; ?>
 
-      </div>
-
-
-      <!-- Category Pagination Section -->
-      <section id="category-pagination" class="category-pagination section" style="padding-bottom: 0px;">
+      <section id="category-pagination" class="category-pagination section">
         <div class="container">
-          <nav class="d-flex justify-content-center" aria-label="Page navigation">
+          <nav class="d-flex justify-content-center">
             <ul>
-              <li> <a href="#" aria-label="Previous page"> <i class="bi bi-arrow-left"></i>
-                  <span class="d-none d-sm-inline">Trước</span>
-                </a> </li>
-              <li><a href="#" class="active">1</a></li>
-              <li><a href="#">2</a></li>
-              <li><a href="#">3</a></li>
-              <li class="ellipsis">...</li>
-              <li><a href="#">8</a></li>
-              <li><a href="#">9</a></li>
-              <li><a href="#">10</a></li>
-              <li> <a href="#" aria-label="Next page">
-                  <span class="d-none d-sm-inline">Sau</span>
-                  <i class="bi bi-arrow-right"></i>
-                </a> </li>
+              <?php 
+                $params = $_GET; unset($params['page']);
+                $query = http_build_query($params);
+                $base_url = "admin_quanlydonhang.php?" . ($query ? $query . "&" : "");
+              ?>
+              <?php if ($currentPage > 1): ?>
+                <li><a href="<?= $base_url ?>page=<?= $currentPage - 1 ?>"><i class="bi bi-arrow-left"></i></a></li>
+              <?php endif; ?>
+              <?php for ($i = 1; $i <= $maxPage; $i++): ?>
+                <li><a href="<?= $base_url ?>page=<?= $i ?>" class="<?= ($i == $currentPage) ? 'active' : '' ?>"><?= $i ?></a></li>
+              <?php endfor; ?>
+              <?php if ($currentPage < $maxPage): ?>
+                <li><a href="<?= $base_url ?>page=<?= $currentPage + 1 ?>"><i class="bi bi-arrow-right"></i></a></li>
+              <?php endif; ?>
             </ul>
           </nav>
         </div>
-      </section><!-- /Category Pagination Section -->
-    </div> <!--End class container-manage-import-products-->
+      </section>
+    </div>
 
-
-
-
-
-
-
-
-
-
+    <div id="OrderDetailModal" class="modal">
+      <div class="modal-content-admin">
+        <span class="close-button">&times;</span>
+        <h2>Chi tiết đơn hàng</h2>
+        <div id="modal-body-content">
+            </div>
+        <div id="close-detail-order-container">
+          <button class="close-button-detail-order">Đóng</button>
+        </div>
+      </div>
+    </div>
   </main>
 
-  <?php require_once __DIR__ . "/forms/footer.php" ?>
-
-  <!-- Scroll Top -->
-  <a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center"><i
-      class="bi bi-arrow-up-short"></i></a>
-
-  <!-- Preloader -->
-  <div id="preloader"></div>
-
-  <?php 
-    require_once __DIR__ . "/forms/scripts.php"
-  ?>
+  <?php require_once __DIR__ . "/forms/footer.php"; require_once __DIR__ . "/forms/scripts.php"; ?>
   <script src="../assets/js/admin2.js"></script>
 </body>
 

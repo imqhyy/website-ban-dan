@@ -2,7 +2,7 @@
 $title = "Quản lý danh mục sản phẩm";
 require_once(__DIR__ . '/forms/init.php');
 // Nạp file logic vừa tạo ở trên
-require_once(__DIR__ . '/forms/danhmucsanpham/list_admin.php'); 
+require_once(__DIR__ . '/forms/danhmucsanpham/list_admin.php');
 include __DIR__ . "/forms/head.php";
 
 // Lấy danh sách phân loại cho bộ lọc (vẫn giữ nguyên)
@@ -53,17 +53,20 @@ $filter_categories = getAll("SELECT * FROM categories ORDER BY category_name ASC
                                         placeholder="Nhập tên sản phẩm" required>
                                 </div>
                                 <div class="row">
-                                    <?php 
-                                    $all_categories = getAll("SELECT * FROM categories"); 
+                                    <?php
+                                    $all_categories = getAll("SELECT * FROM categories");
                                     ?>
 
                                     <div class="row">
                                         <div class="col-md-6 mb-3">
                                             <label class="form-label fw-bold">Phân loại:</label>
-                                            <select class="form-select custom-input" id="modal-product-type" name="product_type">
-                                                <option value="" selected disabled required>-- Chọn phân loại --</option>
-                                                <?php foreach($all_categories as $cat): ?>
-                                                <option value="<?= $cat['id'] ?>"> <?= htmlspecialchars($cat['category_name']) ?></option>
+                                            <select class="form-select custom-input" id="modal-product-type"
+                                                name="product_type">
+                                                <option value="" selected disabled required>-- Chọn phân loại --
+                                                </option>
+                                                <?php foreach ($all_categories as $cat): ?>
+                                                    <option value="<?= $cat['id'] ?>">
+                                                        <?= htmlspecialchars($cat['category_name']) ?></option>
                                                 <?php endforeach; ?>
                                             </select>
                                         </div>
@@ -188,111 +191,132 @@ $filter_categories = getAll("SELECT * FROM categories ORDER BY category_name ASC
                     <h2 class="mb-4">Chỉnh sửa thông tin sản phẩm</h2>
 
                     <form id="edit-product-form">
-                      <input type="hidden" name="product_id" id="edit-product-id">
+                        <input type="hidden" name="product_id" id="edit-product-id">
 
-                      <div class="row">
-                          <div class="col-md-6">
-                              <div class="mb-3">
-                                  <label class="form-label fw-bold">Tên sản phẩm:</label>
-                                  <input type="text" id="edit-product-name" name="product_name" class="form-control custom-input" required>
-                              </div>
-                              <div class="row">
-                                  <div class="col-md-6 mb-3">
-                                    <label class="form-label fw-bold">Phân loại:</label>
-                                    <select class="form-select custom-input" id="edit-product-type" name="product_type">
-                                        <option value="1">Guitar Acoustic</option> 
-                                        <option value="2">Guitar Classic</option>  
-                                    </select>
-                                  </div>
-                                  <div class="col-md-6 mb-3">
-                                      <label class="form-label fw-bold">Thương hiệu:</label>
-                                      <select class="form-select custom-input" id="edit-product-brand" name="brand_id">
-                                          </select>
-                                  </div>
-                              </div>
-                              <div class="mb-3">
-                                  <label class="form-label fw-bold">Thay đổi ảnh (Tối đa 6 ảnh):</label>
-                                  <input type="file" name="product_images[]" class="form-control custom-input" multiple accept="image/*" id="edit-images-upload">
-                                  <div id="edit-preview-container" class="d-flex flex-wrap gap-2 mt-2"></div>
-                              </div>
-                          </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label class="form-label fw-bold">Tên sản phẩm:</label>
+                                    <input type="text" id="edit-product-name" name="product_name"
+                                        class="form-control custom-input" required>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <label class="form-label fw-bold">Phân loại:</label>
+                                        <select class="form-select custom-input" id="edit-product-type"
+                                            name="product_type">
+                                            <option value="1">Guitar Acoustic</option>
+                                            <option value="2">Guitar Classic</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label class="form-label fw-bold">Thương hiệu:</label>
+                                        <select class="form-select custom-input" id="edit-product-brand"
+                                            name="brand_id">
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label fw-bold">Thay đổi ảnh (Tối đa 6 ảnh):</label>
+                                    <input type="file" name="product_images[]" class="form-control custom-input"
+                                        multiple accept="image/*" id="edit-images-upload">
+                                    <div id="edit-preview-container" class="d-flex flex-wrap gap-2 mt-2"></div>
+                                </div>
+                            </div>
 
-                          <div class="col-md-6">
-                              <div class="mb-3">
-                                  <label class="form-label fw-bold">Mô tả tóm tắt:</label>
-                                  <textarea id="edit-product-summary" name="summary_description" class="form-control custom-input" rows="2"></textarea>
-                              </div>
-                              <div class="mb-3">
-                                  <label class="form-label fw-bold">Tổng quan sản phẩm:</label>
-                                  <textarea id="edit-product-overview" name="detailed_overview" class="form-control custom-input" rows="4"></textarea>
-                              </div>
-                          </div>
-                      </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label class="form-label fw-bold">Mô tả tóm tắt:</label>
+                                    <textarea id="edit-product-summary" name="summary_description"
+                                        class="form-control custom-input" rows="2"></textarea>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label fw-bold">Tổng quan sản phẩm:</label>
+                                    <textarea id="edit-product-overview" name="detailed_overview"
+                                        class="form-control custom-input" rows="4"></textarea>
+                                </div>
+                            </div>
+                        </div>
 
-                      <hr>
-                      <h4 class="fw-bold mb-3">Thông tin tài chính & Giá bán</h4>
-                      <div class="row g-3">
-                          <div class="col-md-3">
-                              <div class="mb-3">
-                                  <label class="form-label fw-bold">% Lợi nhuận:</label>
-                                  <div class="input-group">
-                                      <input type="number" id="edit-product-profit-margin" name="profit_margin" class="form-control custom-input">
-                                      <span class="input-group-text">%</span>
-                                  </div>
-                              </div>
-                          </div>
-                          <div class="col-md-3">
-                              <div class="mb-3">
-                                  <label class="form-label fw-bold">% Giảm giá:</label>
-                                  <div class="input-group">
-                                      <input type="number" id="edit-product-discount" name="discount_percent" class="form-control custom-input text-danger">
-                                      <span class="input-group-text text-danger">%</span>
-                                  </div>
-                              </div>
-                          </div>
-                      </div>
-                      
-                      <hr>
-                      <h4 class="fw-bold mb-3">Điểm nổi bật</h4>
-                      <div class="row g-3">
-                          <div class="col-md-6">
-                              <div class="highlight-input-group p-3 border rounded shadow-sm">
-                                  <span class="badge bg-secondary mb-2">Điểm 1</span>
-                                  <input type="text" name="highlight_1_title" id="edit-h1_t" class="form-control mb-2 fw-bold" placeholder="Tiêu đề điểm 1">
-                                  <textarea name="highlight_1_content" id="edit-h1_c" class="form-control form-control-sm text-muted" placeholder="Nội dung điểm 1"></textarea>
-                              </div>
-                          </div>
-                          <div class="col-md-6">
-                              <div class="highlight-input-group p-3 border rounded shadow-sm">
-                                  <span class="badge bg-secondary mb-2">Điểm 2</span>
-                                  <input type="text" name="highlight_2_title" id="edit-h2_t" class="form-control mb-2 fw-bold" placeholder="Tiêu đề điểm 2">
-                                  <textarea name="highlight_2_content" id="edit-h2_c" class="form-control form-control-sm text-muted" placeholder="Nội dung điểm 2"></textarea>
-                              </div>
-                          </div>
-                          <div class="col-md-6">
-                              <div class="highlight-input-group p-3 border rounded shadow-sm">
-                                  <span class="badge bg-secondary mb-2">Điểm 3</span>
-                                  <input type="text" name="highlight_3_title" id="edit-h3_t" class="form-control mb-2 fw-bold" placeholder="Tiêu đề điểm 3">
-                                  <textarea name="highlight_3_content" id="edit-h3_c" class="form-control form-control-sm text-muted" placeholder="Nội dung điểm 3"></textarea>
-                              </div>
-                          </div>
-                          <div class="col-md-6">
-                              <div class="highlight-input-group p-3 border rounded shadow-sm">
-                                  <span class="badge bg-secondary mb-2">Điểm 4</span>
-                                  <input type="text" name="highlight_4_title" id="edit-h4_t" class="form-control mb-2 fw-bold" placeholder="Tiêu đề điểm 4">
-                                  <textarea name="highlight_4_content" id="edit-h4_c" class="form-control form-control-sm text-muted" placeholder="Nội dung điểm 4"></textarea>
-                              </div>
-                          </div>
-                      </div>
-                      <hr>
-                      <h4 class="fw-bold mb-3">Phụ kiện kèm theo</h4>
-                      <div class="col-md-12">
-                          <textarea class="form-control custom-input" id="edit-product-accessories" name="accessories" rows="3"></textarea>
-                      </div>
-                      <div class="modal-footer-admin d-flex justify-content-between mt-4">
-                          <button type="button" class="btn btn-secondary" id="cancel-edit-product">Hủy bỏ</button>
-                          <button type="submit" class="save-all-brands-btn">Lưu thay đổi</button>
-                      </div>
+                        <hr>
+                        <h4 class="fw-bold mb-3">Thông tin tài chính & Giá bán</h4>
+                        <div class="row g-3">
+                            <div class="col-md-3">
+                                <div class="mb-3">
+                                    <label class="form-label fw-bold">% Lợi nhuận:</label>
+                                    <div class="input-group">
+                                        <input type="number" id="edit-product-profit-margin" name="profit_margin"
+                                            class="form-control custom-input">
+                                        <span class="input-group-text">%</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="mb-3">
+                                    <label class="form-label fw-bold">% Giảm giá:</label>
+                                    <div class="input-group">
+                                        <input type="number" id="edit-product-discount" name="discount_percent"
+                                            class="form-control custom-input text-danger">
+                                        <span class="input-group-text text-danger">%</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <hr>
+                        <h4 class="fw-bold mb-3">Điểm nổi bật</h4>
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <div class="highlight-input-group p-3 border rounded shadow-sm">
+                                    <span class="badge bg-secondary mb-2">Điểm 1</span>
+                                    <input type="text" name="highlight_1_title" id="edit-h1_t"
+                                        class="form-control mb-2 fw-bold" placeholder="Tiêu đề điểm 1">
+                                    <textarea name="highlight_1_content" id="edit-h1_c"
+                                        class="form-control form-control-sm text-muted"
+                                        placeholder="Nội dung điểm 1"></textarea>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="highlight-input-group p-3 border rounded shadow-sm">
+                                    <span class="badge bg-secondary mb-2">Điểm 2</span>
+                                    <input type="text" name="highlight_2_title" id="edit-h2_t"
+                                        class="form-control mb-2 fw-bold" placeholder="Tiêu đề điểm 2">
+                                    <textarea name="highlight_2_content" id="edit-h2_c"
+                                        class="form-control form-control-sm text-muted"
+                                        placeholder="Nội dung điểm 2"></textarea>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="highlight-input-group p-3 border rounded shadow-sm">
+                                    <span class="badge bg-secondary mb-2">Điểm 3</span>
+                                    <input type="text" name="highlight_3_title" id="edit-h3_t"
+                                        class="form-control mb-2 fw-bold" placeholder="Tiêu đề điểm 3">
+                                    <textarea name="highlight_3_content" id="edit-h3_c"
+                                        class="form-control form-control-sm text-muted"
+                                        placeholder="Nội dung điểm 3"></textarea>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="highlight-input-group p-3 border rounded shadow-sm">
+                                    <span class="badge bg-secondary mb-2">Điểm 4</span>
+                                    <input type="text" name="highlight_4_title" id="edit-h4_t"
+                                        class="form-control mb-2 fw-bold" placeholder="Tiêu đề điểm 4">
+                                    <textarea name="highlight_4_content" id="edit-h4_c"
+                                        class="form-control form-control-sm text-muted"
+                                        placeholder="Nội dung điểm 4"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <hr>
+                        <h4 class="fw-bold mb-3">Phụ kiện kèm theo</h4>
+                        <div class="col-md-12">
+                            <textarea class="form-control custom-input" id="edit-product-accessories" name="accessories"
+                                rows="3"></textarea>
+                        </div>
+                        <div class="modal-footer-admin d-flex justify-content-between mt-4">
+                            <button type="button" class="btn btn-secondary" id="cancel-edit-product">Hủy bỏ</button>
+                            <button type="submit" class="save-all-brands-btn">Lưu thay đổi</button>
+                        </div>
 
                     </form>
                 </div>
@@ -316,9 +340,9 @@ $filter_categories = getAll("SELECT * FROM categories ORDER BY category_name ASC
                         <label for="sort-product-category" class="form-label">Loại sản phẩm</label>
                         <select class="form-select custom-input" id="filter-product-type" name="product_type">
                             <option value="" selected>-- Tất cả loại --</option>
-                            <?php foreach($filter_categories as $cat): ?>
-                            <option value="<?= $cat['id'] ?>"> <?= htmlspecialchars($cat['category_name']) ?>
-                            </option>
+                            <?php foreach ($filter_categories as $cat): ?>
+                                <option value="<?= $cat['id'] ?>"> <?= htmlspecialchars($cat['category_name']) ?>
+                                </option>
                             <?php endforeach; ?>
                         </select>
                     </div>
@@ -350,39 +374,39 @@ $filter_categories = getAll("SELECT * FROM categories ORDER BY category_name ASC
                             </thead>
                             <tbody id="product-list-container">
                                 <?php if (empty($all_products)): ?>
-                                <tr>
-                                    <td colspan="8" class="text-center">Chưa có sản phẩm nào trong hệ thống.</td>
-                                </tr>
+                                    <tr>
+                                        <td colspan="8" class="text-center">Chưa có sản phẩm nào trong hệ thống.</td>
+                                    </tr>
                                 <?php else: ?>
-                                <?php foreach ($all_products as $product): ?>
-                                <tr>
-                                    <td><?= htmlspecialchars($product['id']) ?></td>
-                                    <td><?= htmlspecialchars($product['product_name']) ?></td>
-                                    <td>
-                                        <?php 
-                                    // Chú ý: list_admin.php cần phải JOIN thêm bảng categories để có key 'category_name'
-                                    echo str_replace('Guitar ', '', htmlspecialchars($product['category_name'] ?? 'N/A')); 
-                    ?>
-                                    </td>
-                                    <td><?= htmlspecialchars($product['brand_name'] ?? 'N/A') ?></td>
-                                    <td><span class="font-weight-bold text-muted">Đang cập nhật...</span></td>
-                                    <td><?= htmlspecialchars((float)$product['profit_margin']) ?>%</td>
-                                    <td><span class="font-weight-bold text-muted">Đang cập nhật...</span></td>
+                                    <?php foreach ($all_products as $product):
+                                        // Logic xác định icon và tiêu đề dựa trên trạng thái
+                                        $is_visible = ($product['status'] === 'visible');
+                                        $statusIcon = $is_visible ? 'bi-eye' : 'bi-eye-slash text-secondary';
+                                        $statusTitle = $is_visible ? 'Đang hiện - Bấm để ẩn' : 'Đang ẩn - Bấm để hiện';
+                                    ?>
+                                        <tr>
+                                            <td><?= htmlspecialchars($product['id']) ?></td>
+                                            <td><?= htmlspecialchars($product['product_name']) ?></td>
+                                            <td><?= str_replace('Guitar ', '', htmlspecialchars($product['category_name'] ?? 'N/A')) ?></td>
+                                            <td><?= htmlspecialchars($product['brand_name'] ?? 'N/A') ?></td>
 
-                                    <td class='function-button-container'>
-                                        <button class='action-icon-btn edit-product-btn' title='Sửa'
-                                            data-id="<?= $product['id'] ?>">
-                                            <i class='bi bi-pencil-square' style='color: #ffc107;'></i>
-                                        </button>
-                                        <button class="action-icon-btn hide-btn" title="Ẩn">
-                                            <i class="bi bi-eye"></i>
-                                        </button>
-                                        <button class='action-icon-btn delete-product-btn' title='Xóa' data-id="<?= $product['id'] ?>">
-                                            <i class='bi bi-trash3 text-danger'></i>
-                                        </button>
-                                    </td>
-                                </tr>
-                                <?php endforeach; ?>
+                                            <td class="fw-bold"><?= number_format($product['cost_price'], 0, ',', '.') ?> VND</td>
+                                            <td><?= htmlspecialchars((float)$product['profit_margin']) ?>%</td>
+                                            <td class="fw-bold text-primary"><?= number_format($product['selling_price'], 0, ',', '.') ?> VND</td>
+
+                                            <td class='function-button-container'>
+                                                <button class='action-icon-btn edit-product-btn' title='Sửa' data-id='<?= $product['id'] ?>'>
+                                                    <i class='bi bi-pencil-square' style='color: #ffc107;'></i>
+                                                </button>
+                                                <button class='action-icon-btn hide-btn' title='<?= $statusTitle ?>' data-id='<?= $product['id'] ?>'>
+                                                    <i class='bi <?= $statusIcon ?>'></i>
+                                                </button>
+                                                <button class='action-icon-btn delete-product-btn' title='Xóa' data-id='<?= $product['id'] ?>'>
+                                                    <i class='bi bi-trash3 text-danger'></i>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    <?php endforeach; ?>
                                 <?php endif; ?>
                             </tbody>
                         </table>
@@ -420,9 +444,9 @@ $filter_categories = getAll("SELECT * FROM categories ORDER BY category_name ASC
 
     <div id="preloader"></div>
 
-    <?php 
+    <?php
     require_once __DIR__ . "/forms/scripts.php"
-  ?>
+    ?>
 
 </body>
 

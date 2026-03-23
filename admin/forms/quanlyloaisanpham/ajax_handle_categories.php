@@ -16,7 +16,8 @@ if ($action == 'fetch_list') {
             // Xử lý hiển thị mô tả: nếu trống hoặc chỉ có khoảng trắng thì hiện "Chưa có mô tả"
             $descRaw = $cat['description'] ?? '';
             $descDisplay = !empty(trim($descRaw)) ? htmlspecialchars($descRaw) : 'Chưa có mô tả';
-            
+            $statusIcon = ($cat['status'] === 'visible') ? 'bi-eye' : 'bi-eye-slash text-secondary';
+            $statusTitle = ($cat['status'] === 'visible') ? 'Đang hiện - Bấm để ẩn' : 'Đang ẩn - Bấm để hiện';
             echo "<tr>
                     <td>$catID</td>
                     <td class='manage-name-category'>$catName</td>
@@ -35,8 +36,8 @@ if ($action == 'fetch_list') {
                             <i class='bi bi-sliders'></i>
                         </button>
 
-                        <button class='action-icon-btn hide-btn' title='Ẩn'>
-                            <i class='bi bi-eye'></i>
+                        <button class='action-icon-btn hide-btn' title='{$statusTitle}' data-id='{$catID}'>
+                            <i class='bi {$statusIcon}'></i>
                         </button>
 
                         <button class='action-icon-btn delete-btn' title='Xoá' data-id='$catID'>
@@ -103,6 +104,19 @@ if ($action == 'delete') {
             // Trả về lỗi đặc biệt nếu phân loại đang có sản phẩm (ràng buộc khóa ngoại)
             echo "error_constraint";
         }
+    }
+    exit();
+}
+
+
+// --- 5. ĐỔI TRẠNG THÁI ẨN/HIỆN LOẠI SẢN PHẨM ---
+if ($action == 'toggle_status') {
+    $id = (int)$_POST['id'];
+    $current = getOne("SELECT status FROM categories WHERE id = ?", [$id]);
+    $newStatus = ($current['status'] === 'visible') ? 'hidden' : 'visible';
+    
+    if ($pdo->prepare("UPDATE categories SET status = ? WHERE id = ?")->execute([$newStatus, $id])) {
+        echo "success";
     }
     exit();
 }

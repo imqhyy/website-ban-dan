@@ -137,15 +137,22 @@ if ($action == 'fetch_global') {
             
             // SỬA TẠI ĐÂY: Dùng empty() và trim() để kiểm tra chuỗi rỗng
             $displayDesc = !empty(trim($b['description'])) ? htmlspecialchars($b['description']) : 'Chưa có mô tả';
-            
+            $statusIcon = ($b['status'] === 'visible') ? 'bi-eye' : 'bi-eye-slash text-secondary';
+            $statusTitle = ($b['status'] === 'visible') ? 'Đang hiện' : 'Đang ẩn';
             echo "<tr>
                     <td>{$b['id']}</td>
                     <td><strong>$brandNameEsc</strong></td>
-                    <td>$displayDesc</td> <td>" . date('d/m/Y', strtotime($b['created_at'])) . "</td>
+                    <td>$displayDesc</td> 
+                    <td>" . date('d/m/Y', strtotime($b['created_at'])) . "</td>
                     <td class='function-button-container'>
                         <button class='action-icon-btn' title='Sửa' onclick='openEditBrandModal({$b['id']})'>
                             <i class='bi bi-pencil-square' style='color: #ffc107;'></i>
                         </button>
+
+                        <button class='action-icon-btn' title='{$statusTitle}' onclick='toggleBrandStatus({$b['id']})'>
+                            <i class='bi {$statusIcon}'></i>
+                        </button>
+
                         <button class='action-icon-btn' title='Xóa' onclick='deleteBrandGlobal({$b['id']}, \"$brandNameEsc\")'>
                             <i class='bi bi-trash3 text-danger'></i>
                         </button>
@@ -205,6 +212,19 @@ if ($action == 'update_brand_info') {
         }
     } else {
         echo "missing_data";
+    }
+    exit();
+}
+
+
+// --- 6. ĐỔI TRẠNG THÁI ẨN/HIỆN THƯƠNG HIỆU ---
+if ($action == 'toggle_brand_status') {
+    $id = (int)$_POST['id'];
+    $current = getOne("SELECT status FROM brands WHERE id = ?", [$id]);
+    $newStatus = ($current['status'] === 'visible') ? 'hidden' : 'visible';
+    
+    if ($pdo->prepare("UPDATE brands SET status = ? WHERE id = ?")->execute([$newStatus, $id])) {
+        echo "success";
     }
     exit();
 }

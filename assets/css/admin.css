@@ -594,7 +594,7 @@ flex-grow: 1;
 
 
                                 /*Dành CHO QUẢN LÝ NHẬP SẢN PHẨM*/
-.container-manage-import-products {
+.container-manage-import-products, .container-manage-orders {
     width: 90%;  
     margin: auto;
     background: white;

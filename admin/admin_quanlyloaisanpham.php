@@ -6,27 +6,27 @@ include __DIR__ . "/forms/head.php";
 
 <body class="login-page">
     <script>
-    // const currentUserJSON = sessionStorage.getItem('isLoggedIn');
-    // if (currentUserJSON) {
-    //   document.body.classList.remove('page-loading');
-    // } else {
-    //   Swal.fire({
-    //     icon: 'warning',
-    //     title: 'Yêu cầu đăng nhập',
-    //     text: 'Bạn cần đăng nhập để có thể truy cập tính năng của admin.',
-    //     confirmButtonText: 'Đến trang đăng nhập',
-    //     allowOutsideClick: false,
-    //     customClass: {
-    //       container: 'blurred-login-alert', // Thêm class container riêng cho alert này
-    //       popup: 'my-swal-popup',
-    //       title: 'my-swal-title',
-    //       htmlContainer: 'my-swal-html-container',
-    //       confirmButton: 'my-swal-confirm-button'
-    //     }
-    //   }).then(() => {
-    //     window.location.href = 'admin_login.html';
-    //   });
-    // }
+        // const currentUserJSON = sessionStorage.getItem('isLoggedIn');
+        // if (currentUserJSON) {
+        //   document.body.classList.remove('page-loading');
+        // } else {
+        //   Swal.fire({
+        //     icon: 'warning',
+        //     title: 'Yêu cầu đăng nhập',
+        //     text: 'Bạn cần đăng nhập để có thể truy cập tính năng của admin.',
+        //     confirmButtonText: 'Đến trang đăng nhập',
+        //     allowOutsideClick: false,
+        //     customClass: {
+        //       container: 'blurred-login-alert', // Thêm class container riêng cho alert này
+        //       popup: 'my-swal-popup',
+        //       title: 'my-swal-title',
+        //       htmlContainer: 'my-swal-html-container',
+        //       confirmButton: 'my-swal-confirm-button'
+        //     }
+        //   }).then(() => {
+        //     window.location.href = 'admin_login.html';
+        //   });
+        // }
     </script>
 
     <?php require_once __DIR__ . "/forms/header.php" ?>
@@ -57,7 +57,8 @@ include __DIR__ . "/forms/head.php";
                 <input type="number" id="new-cat-profit" name="profit_margin" style="width: 120px; padding: 10px;
                     border: 1px solid #ccc; border-radius: 25px;" placeholder="Lợi nhuận(%)">
 
-                <input type="text" id="new-cat-desc" name="description" style="flex-grow: 1;" placeholder="Mô tả (Tùy chọn)">
+                <input type="text" id="new-cat-desc" name="description" style="flex-grow: 1;"
+                    placeholder="Mô tả (Tùy chọn)">
 
                 <button type="button" onclick="addNewCategoryAjax()">Thêm mới</button>
             </form>
@@ -75,53 +76,57 @@ include __DIR__ . "/forms/head.php";
                 </thead>
                 <tbody id="categoryList">
                     <?php
-          // 1. Truy vấn lấy tất cả phân loại từ database
-          // Đảm bảo bạn đã chạy lệnh SQL thêm cột profit_margin và description trước đó
-          $categories = getAll("SELECT * FROM categories ORDER BY id ASC");
+                    // 1. Truy vấn lấy tất cả phân loại từ database
+                    // Đảm bảo bạn đã chạy lệnh SQL thêm cột profit_margin và description trước đó
+                    $categories = getAll("SELECT * FROM categories ORDER BY id ASC");
 
-          if (!empty($categories)):
-            foreach ($categories as $cat):
-              // Chuẩn hóa dữ liệu hiển thị
-              $catID = $cat['id'];
-              $catName = htmlspecialchars($cat['category_name']);
-              $profit = number_format($cat['profit_margin'] ?? 20, 0); // Mặc định 20% nếu trống
-              // Dùng trim() để loại bỏ khoảng trắng và empty() để kiểm tra chuỗi rỗng
-              $desc = !empty(trim($cat['description'] ?? '')) ? htmlspecialchars($cat['description']) : 'Chưa có mô tả';
-          ?>
-                    <tr>
-                        <td><?= $catID ?></td>
-                        <td class="manage-name-category"><?= $catName ?></td>
-                        <td><?= $profit ?>%</td>
-                        <td><?= $desc ?></td>
-                        <td class="function-button-container">
-                            <button class="action-icon-btn edit-category-btn" title="Sửa" data-id="<?= $catID ?>"
-                                data-name="<?= $catName ?>" data-profit="<?= $profit ?>" data-desc="<?= $desc ?>">
-                                <i class="bi bi-pencil-square"></i>
-                            </button>
+                    if (!empty($categories)):
+                        foreach ($categories as $cat):
+                            $is_visible = ($cat['status'] === 'visible');
+                            $statusIcon = $is_visible ? 'bi-eye' : 'bi-eye-slash text-secondary';
+                            $statusTitle = $is_visible ? 'Đang hiện - Bấm để ẩn' : 'Đang ẩn - Bấm để hiện';
+                            // Chuẩn hóa dữ liệu hiển thị
+                            $catID = $cat['id'];
+                            $catName = htmlspecialchars($cat['category_name']);
+                            $profit = number_format($cat['profit_margin'] ?? 20, 0); // Mặc định 20% nếu trống
+                            // Dùng trim() để loại bỏ khoảng trắng và empty() để kiểm tra chuỗi rỗng
+                            $desc = !empty(trim($cat['description'] ?? '')) ? htmlspecialchars($cat['description']) : 'Chưa có mô tả';
+                    ?>
+                            <tr>
+                                <td><?= $catID ?></td>
+                                <td class="manage-name-category"><?= $catName ?></td>
+                                <td><?= $profit ?>%</td>
+                                <td><?= $desc ?></td>
+                                <td class="function-button-container">
+                                    <button class="action-icon-btn edit-category-btn" title="Sửa" data-id="<?= $catID ?>"
+                                        data-name="<?= $catName ?>" data-profit="<?= $profit ?>" data-desc="<?= $desc ?>">
+                                        <i class="bi bi-pencil-square"></i>
+                                    </button>
 
-                            <button class="action-icon-btn manage-brands-btn" title="Quản lý thương hiệu"
-                                data-id="<?= $catID ?>">
-                                <i class="bi bi-sliders"></i>
-                            </button>
+                                    <button class="action-icon-btn manage-brands-btn" title="Quản lý thương hiệu"
+                                        data-id="<?= $catID ?>">
+                                        <i class="bi bi-sliders"></i>
+                                    </button>
 
-                            <button class="action-icon-btn hide-btn" title="Ẩn">
-                                <i class="bi bi-eye"></i>
-                            </button>
+                                    <button class="action-icon-btn hide-btn" title="<?= $statusTitle ?>"
+                                        data-id="<?= $catID ?>">
+                                        <i class="bi <?= $statusIcon ?>"></i>
+                                    </button>
 
-                            <!-- logic xóa được xử lý bằng đoạn script ở cuối file, vì thẻ button không điều
+                                    <!-- logic xóa được xử lý bằng đoạn script ở cuối file, vì thẻ button không điều
                  hướng được nen dùng javascript để gửi dữ liệu đến handle_delete_category.php -->
-                            <button class="action-icon-btn delete-btn" title="Xoá" data-id="<?= $catID ?>">
-                                <i class="bi bi-trash3"></i>
-                            </button>
-                        </td>
-                    </tr>
-                    <?php 
-            endforeach;
-          else: 
-          ?>
-                    <tr>
-                        <td colspan="5" style="text-align: center;">Chưa có dữ liệu phân loại sản phẩm.</td>
-                    </tr>
+                                    <button class="action-icon-btn delete-btn" title="Xoá" data-id="<?= $catID ?>">
+                                        <i class="bi bi-trash3"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                        <?php
+                        endforeach;
+                    else:
+                        ?>
+                        <tr>
+                            <td colspan="5" style="text-align: center;">Chưa có dữ liệu phân loại sản phẩm.</td>
+                        </tr>
                     <?php endif; ?>
                 </tbody>
             </table>
@@ -157,29 +162,29 @@ include __DIR__ . "/forms/head.php";
 
             <!-- Pop up chỉnh sửa thương hiệu -->
             <div id="edit-info-brand" class="modal">
-              <div class="modal-content-admin">
-                  <span class="close-button-for-edit-info-brand">&times;</span>
-                  <h2>Chỉnh sửa thương hiệu</h2>
+                <div class="modal-content-admin">
+                    <span class="close-button-for-edit-info-brand">&times;</span>
+                    <h2>Chỉnh sửa thương hiệu</h2>
 
-                  <form onsubmit="saveBrandChanges(event)">
-                      <input type="hidden" id="input-edit-id-brand">
+                    <form onsubmit="saveBrandChanges(event)">
+                        <input type="hidden" id="input-edit-id-brand">
 
-                      <h3>Tên thương hiệu:
-                          <input id="input-edit-namebrand" name="brand_name" type="text" style="border-radius: 25px; border: 1px solid #ccc; padding-left: 10px;" required>
-                      </h3>
+                        <h3>Tên thương hiệu:
+                            <input id="input-edit-namebrand" name="brand_name" type="text"
+                                style="border-radius: 25px; border: 1px solid #ccc; padding-left: 10px;" required>
+                        </h3>
 
-                      <hr>
-                      <h3>Mô tả</h3>
-                      <textarea id="mo_ta_brand" rows="4" cols="50"
-                          placeholder="Nhập mô tả chi thương hiệu ở đây..."
-                          style="border-radius: 25px; padding: 10px; width: 100%;"></textarea>
+                        <hr>
+                        <h3>Mô tả</h3>
+                        <textarea id="mo_ta_brand" rows="4" cols="50" placeholder="Nhập mô tả chi thương hiệu ở đây..."
+                            style="border-radius: 25px; padding: 10px; width: 100%;"></textarea>
 
-                      <div id="close-edit-info-brand-container">
-                          <button type="submit" class="save-all-brands-btn">Lưu thay đổi</button>
-                      </div>
-                  </form>
-              </div>
-          </div>
+                        <div id="close-edit-info-brand-container">
+                            <button type="submit" class="save-all-brands-btn">Lưu thay đổi</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
 
 
 
@@ -271,74 +276,12 @@ include __DIR__ . "/forms/head.php";
     <!-- Preloader -->
     <div id="preloader"></div>
 
-    <?php 
+    <?php
     require_once __DIR__ . "/forms/scripts.php"
-  ?>
+    ?>
 </body>
 
-<script>
-  document.addEventListener('DOMContentLoaded', function () {
-    const eyeIconSrc = 'assets/img/iconbutton/eye.png';
-    const eyeCrossedIconSrc = 'assets/img/iconbutton/eye-crossed.png';
 
-    // === ẨN / HIỆN DANH MỤC ===
-    const hideButtons = document.querySelectorAll('.hide-btn');
-    hideButtons.forEach(button => {
-        button.addEventListener('click', function() {
-            const icon = button.querySelector('.button-icon');
-            const row = button.closest('tr');
-            const categoryName = row.querySelector('.manage-name-category').textContent.trim();
-
-            let newStateTitle = '';
-            let toastMessage = '';
-
-            if (button.title === 'Ẩn') {
-                icon.src = eyeCrossedIconSrc;
-                icon.alt = 'Hiện';
-                newStateTitle = 'Hiện';
-                toastMessage = `Đã ẩn: <strong>${categoryName}</strong>`;
-            } else {
-                icon.src = eyeIconSrc;
-                icon.alt = 'Ẩn';
-                newStateTitle = 'Ẩn';
-                toastMessage = `Đã hiện: <strong>${categoryName}</strong>`;
-            }
-
-            button.title = newStateTitle;
-
-            // TOAST
-            Toast.fire({
-                icon: 'success',
-                html: toastMessage
-            });
-        });
-    });
-
-    // === XÓA DANH MỤC ===
-    
-});
-
-// === THÊM DANH MỤC MỚI ===
-function addNewCategory() {
-    const newCategoryNameInput = document.getElementById('newCategoryName');
-    const name = newCategoryNameInput.value.trim() || '';
-
-    // === GỌI API THÊM Ở ĐÂY ===
-
-    // HIỆN TOAST
-    Toast.fire({
-        icon: 'success',
-        html: `Đã thêm thành công <strong>${name}</strong>!`
-    });
-
-    // XÓA FORM
-    newCategoryNameInput.value = '';
-    const profitInput = document.querySelector('.add-form-category-products input[placeholder="Lợi nhuận(%)"]');
-    if (profitInput) profitInput.value = '';
-    const descInput = document.getElementById('newCategoryDescription');
-    if (descInput) descInput.value = '';
-}
-</script>
 
 <!-- dùng để thông báo khi thêm 1 phân loại nào đó
     bước 1: chuyển hướng đến trang handle_add_category
@@ -349,7 +292,7 @@ function addNewCategory() {
 if (isset($_SESSION['toast_message'])) {
     $msg = addslashes($_SESSION['toast_message']);
     $type = $_SESSION['toast_type'] ?? 'info';
-    
+
     echo "<script>
         window.globalToast = {
             type: '$type',

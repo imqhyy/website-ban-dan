@@ -1,15 +1,15 @@
 // Khai báo khuôn mẫu Toast toàn cục
 const Toast = Swal.mixin({
   toast: true,
-  position: 'top-end',
+  position: "top-end",
   showConfirmButton: false,
   timer: 800,
   timerProgressBar: true,
-  customClass: { popup: 'my-swal-popup' },
+  customClass: { popup: "my-swal-popup" },
   didOpen: (toast) => {
     toast.onmouseenter = Swal.stopTimer;
     toast.onmouseleave = Swal.resumeTimer;
-  }
+  },
 });
 
 // Lắng nghe lệnh gọi Toast từ PHP (Global)
@@ -22,12 +22,12 @@ const Toast = Swal.mixin({
 //   }
 // });
 
-window.addEventListener('load', function () {
+window.addEventListener("load", function () {
   // Kiểm tra xem PHP có gửi biến globalToast qua không
-  if (typeof window.globalToast !== 'undefined') {
+  if (typeof window.globalToast !== "undefined") {
     Toast.fire({
       icon: window.globalToast.type,
-      title: window.globalToast.message
+      title: window.globalToast.message,
     });
 
     // Xóa biến sau khi hiện để tránh hiện lại khi nhấn Back trang
@@ -58,8 +58,8 @@ function addToCart(productId, quantity = 1) {
 }
 
 function updateCartIcon(itemCount) {
-  const allCartBadges = document.querySelectorAll('.cart-item-count-badge');
-  allCartBadges.forEach(badge => {
+  const allCartBadges = document.querySelectorAll(".cart-item-count-badge");
+  allCartBadges.forEach((badge) => {
     if (badge) {
       badge.textContent = itemCount;
     }
@@ -166,13 +166,16 @@ function updateCartIcon(itemCount) {
         : scrollTop.classList.remove("active");
     }
   }
-  scrollTop.addEventListener("click", (e) => {
-    e.preventDefault();
-    window.scrollTo({
-      top: 0,
-      behavior: "smooth",
+  if (scrollTop) {
+    // Thêm dòng này để kiểm tra nếu nút tồn tại mới chạy
+    scrollTop.addEventListener("click", (e) => {
+      e.preventDefault();
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth",
+      });
     });
-  });
+  }
 
   window.addEventListener("load", toggleScrollTop);
   document.addEventListener("scroll", toggleScrollTop);
@@ -1208,9 +1211,6 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 });
 
-
-
-
 /**
  * XỬ LÝ BỘ LỌC TỔNG HỢP (SIDEBAR + ADVANCED BAR)
  */
@@ -1291,4 +1291,3 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 });
-
