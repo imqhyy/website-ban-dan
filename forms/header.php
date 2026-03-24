@@ -124,35 +124,30 @@
                     <a href="cart.php" class="header-action-btn">
                         <i class="bi bi-cart3"></i>
                         <span class="badge" id="cart-badge">
-                            <?php
+                        <?php
                             $cart_count = 0;
-                            if (isset($_SESSION['user'])) {
+                            if (isset($_SESSION['user']) && isset($pdo)) {
                                 $session_user = is_array($_SESSION['user']) ? $_SESSION['user']['id'] : $_SESSION['user'];
-                                try {
-                                    $uid = 0;
-                                    if (!is_numeric($session_user)) {
-                                        $stmt_u = $pdo->prepare("SELECT id FROM users WHERE username = ?");
-                                        $stmt_u->execute([$session_user]);
-                                        $u = $stmt_u->fetch();
-                                        if ($u)
-                                            $uid = $u['id'];
-                                    } else {
-                                        $uid = $session_user;
-                                    }
+                                $header_uid = -1; // Đặt mặc định là -1
+                            
+                                if (!is_numeric($session_user)) {
+                                    $stmt_u = $pdo->prepare("SELECT id FROM users WHERE username = ?");
+                                    $stmt_u->execute([$session_user]);
+                                    $u = $stmt_u->fetch();
+                                    if ($u !== false)
+                                        $header_uid = $u['id'];
+                                } else {
+                                    $header_uid = $session_user;
+                                }
 
-                                    if ($uid > 0) {
-                                        $stmt_c = $pdo->prepare("SELECT COUNT(*) as total FROM cart WHERE user_id = ?");
-                                        $stmt_c->execute([$uid]);
-                                        $result = $stmt_c->fetch();
-                                        if ($result && $result['total']) {
-                                            $cart_count = $result['total'];
-                                        }
-                                    }
-                                } catch (Exception $e) {
-                                    $cart_count = 0;
+                                // Chấp nhận cả ID = 0
+                                if ($header_uid >= 0) {
+                                    $stmt_c = $pdo->prepare("SELECT COUNT(*) FROM cart WHERE user_id = ?");
+                                    $stmt_c->execute([$header_uid]);
+                                    $cart_count = $stmt_c->fetchColumn() ?: 0;
                                 }
                             }
-                            echo $cart_count;
+                            echo (int) $cart_count;
                             ?>
                         </span>
                     </a>

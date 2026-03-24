@@ -32,6 +32,11 @@ document.addEventListener('DOMContentLoaded', function () {
         let subtotal = 0;
         if (!cartContainer) return;
 
+        // Đếm số lượng loại sản phẩm (số dòng cart-item) để cập nhật Badge
+        const totalBadgeItems = cartContainer.querySelectorAll('.cart-item').length;
+        const badge = document.getElementById('cart-badge');
+        if (badge) badge.innerText = totalBadgeItems;
+
         // BỎ QUA CÁC SẢN PHẨM CÓ CLASS .out-of-stock
         cartContainer.querySelectorAll('.cart-item:not(.out-of-stock)').forEach(itemRow => {
             const price = parseFloat(itemRow.dataset.price);
@@ -95,14 +100,20 @@ document.addEventListener('DOMContentLoaded', function () {
             // Xóa sản phẩm
             if (target.classList.contains('remove-item')) {
                 itemRow.remove(); // Xóa khỏi HTML
-                updateTotals(); // Tính lại tiền
+                updateTotals(); // Cập nhật lại tiền và số lượng badge
                 sendCartAjax('remove', productId); // Xóa khỏi DB
 
-                // Cập nhật lại số trên icon header
-                const badge = document.getElementById('cart-badge');
-                if (badge) {
-                    let currentCount = parseInt(badge.innerText) || 0;
-                    badge.innerText = Math.max(0, currentCount - quantity);
+                // Kiểm tra nếu giỏ hàng đã trống trơn
+                if (cartContainer.querySelectorAll('.cart-item').length === 0) {
+                    cartContainer.innerHTML = '<p class="text-center mt-4">Giỏ hàng của bạn đang trống.</p>';
+
+                    // Tùy chọn: Làm mờ nút thanh toán để tránh khách bấm lỗi
+                    const checkoutBtn = document.querySelector('.checkout-button a');
+                    if (checkoutBtn) {
+                        checkoutBtn.classList.add('disabled');
+                        checkoutBtn.style.pointerEvents = 'none';
+                        checkoutBtn.style.opacity = '0.5';
+                    }
                 }
             }
 
