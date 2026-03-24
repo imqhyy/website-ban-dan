@@ -230,64 +230,36 @@ function updateCartIcon(itemCount) {
    * Ecommerce Cart Functionality
    * Handles quantity changes and item removal
    */
-
+//sửa lý nút tăng giảm số lượng giỏ hàng
   function ecommerceCartTools() {
-    // Get all quantity buttons and inputs directly
     const decreaseButtons = document.querySelectorAll(".quantity-btn.decrease");
     const increaseButtons = document.querySelectorAll(".quantity-btn.increase");
-    const quantityInputs = document.querySelectorAll(".quantity-input");
-    const removeButtons = document.querySelectorAll(".remove-item");
 
-    // Decrease quantity buttons
+    // Nút Giảm
     decreaseButtons.forEach((btn) => {
       btn.addEventListener("click", function () {
-        const quantityInput = btn
-          .closest(".quantity-selector")
-          .querySelector(".quantity-input");
+        const quantityInput = btn.closest(".quantity-selector").querySelector(".quantity-input");
         let currentValue = parseInt(quantityInput.value);
         if (currentValue > 1) {
           quantityInput.value = currentValue - 1;
+          // Phát tín hiệu cho cart.js biết số lượng vừa bị thay đổi
+          quantityInput.dispatchEvent(new Event('change', { bubbles: true }));
         }
       });
     });
 
-    // Increase quantity buttons
+    // Nút Tăng
     increaseButtons.forEach((btn) => {
       btn.addEventListener("click", function () {
-        const quantityInput = btn
-          .closest(".quantity-selector")
-          .querySelector(".quantity-input");
+        const quantityInput = btn.closest(".quantity-selector").querySelector(".quantity-input");
         let currentValue = parseInt(quantityInput.value);
-        if (currentValue < parseInt(quantityInput.getAttribute("max"))) {
-          quantityInput.value = currentValue + 1;
-        }
-      });
-    });
-
-    // Manual quantity inputs
-    quantityInputs.forEach((input) => {
-      input.addEventListener("change", function () {
-        let currentValue = parseInt(input.value);
-        const min = parseInt(input.getAttribute("min"));
-        const max = parseInt(input.getAttribute("max"));
-
-        // Validate input
-        if (isNaN(currentValue) || currentValue < min) {
-          input.value = min;
-        } else if (currentValue > max) {
-          input.value = max;
-        }
-      });
-    });
-
-    // Remove item buttons
-    removeButtons.forEach((btn) => {
-      btn.addEventListener("click", function () {
-        btn.closest(".cart-item").remove();
+        // Cứ tăng lên 1, cart.js sẽ tự động check kho (max) và chặn lại nếu lố
+        quantityInput.value = currentValue + 1;
+        // Phát tín hiệu cho cart.js biết số lượng vừa bị thay đổi
+        quantityInput.dispatchEvent(new Event('change', { bubbles: true }));
       });
     });
   }
-
   ecommerceCartTools();
 
   /**

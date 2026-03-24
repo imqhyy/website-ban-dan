@@ -60,9 +60,9 @@ if (empty($selected_items)) {
 $item_ids = array_filter(explode(',', $selected_items), 'is_numeric');
 $in_clause = implode(',', $item_ids);
 
-// Lấy giỏ hàng (Chỉ lấy các sản phẩm được chọn)
+// Lấy giỏ hàng (Chỉ lấy các sản phẩm được chọn, THÊM CỘT discount_percent)
 $cart_items = getAll("
-    SELECT c.quantity, p.id as product_id, p.product_name, p.selling_price, p.product_images, p.stock_quantity, b.brand_name, cat.category_name
+    SELECT c.quantity, p.id as product_id, p.product_name, p.selling_price, p.discount_percent, p.product_images, p.stock_quantity, b.brand_name, cat.category_name
     FROM cart c
     JOIN products p ON c.product_id = p.id
     LEFT JOIN brands b ON p.brand_id = b.id
@@ -71,13 +71,28 @@ $cart_items = getAll("
 ");
 
 if (empty($cart_items)) {
-  // Nếu giỏ hàng trống thì bật thông báo rồi đẩy về trang giỏ hàng
   echo "<script>alert('Giỏ hàng của bạn đang trống!'); window.location.href='cart.php';</script>";
   exit();
 }
 
-$total_cart = array_reduce($cart_items, fn($sum, $item) => $sum + ($item['selling_price'] * $item['quantity']), 0);
-$total_items = array_reduce($cart_items, fn($sum, $item) => $sum + $item['quantity'], 0);
+$total_cart = 0;
+$total_items = 0;
+$total_savings = 0;
+
+foreach ($cart_items as &$item) {
+  $has_discount = ($item['discount_percent'] > 0);
+  $original_price = $item['selling_price'];
+  // Tính giá thực tế
+  $actual_price = $has_discount ? $original_price * (1 - ($item['discount_percent'] / 100)) : $original_price;
+
+  $item['actual_price'] = $actual_price;
+  $item['original_price'] = $original_price;
+
+  $total_cart += $actual_price * $item['quantity'];
+  $total_items += $item['quantity'];
+  $total_savings += ($original_price - $actual_price) * $item['quantity'];
+}
+unset($item);
 ?>
 
 <main class="main">
@@ -274,7 +289,12 @@ $total_items = array_reduce($cart_items, fn($sum, $item) => $sum + $item['quanti
                       <h4><?= htmlspecialchars($item['product_name']) ?></h4>
                       <div class="order-item-price">
                         <span class="quantity"><?= $item['quantity'] ?> ×</span>
-                        <span class="price"><?= number_format($item['selling_price'], 0, ',', '.') ?> VND</span>
+                        <?php if ($item['discount_percent'] > 0): ?>
+                          <span class="text-muted text-decoration-line-through me-1"
+                            style="font-size: 0.85rem;"><?= number_format($item['original_price'], 0, ',', '.') ?>đ</span>
+                        <?php endif; ?>
+                        <span class="price text-danger fw-bold"><?= number_format($item['actual_price'], 0, ',', '.') ?>
+                          VNĐ</span>
                       </div>
                     </div>
                   </div>
@@ -282,28 +302,37 @@ $total_items = array_reduce($cart_items, fn($sum, $item) => $sum + $item['quanti
               </div>
 
               <div class="order-totals">
-                <div class="order-subtotal d-flex justify-content-between">
+                <div class="order-subtotal d-flex justify-content-between mb-2">
                   <span>Tạm tính</span>
                   <span id="order-subtotal"><?= number_format($total_cart, 0, ',', '.') ?> VNĐ</span>
                 </div>
-                <div class="order-shipping d-flex justify-content-between">
+
+                <?php if ($total_savings > 0): ?>
+                  <div class="order-savings d-flex justify-content-between  mb-3">
+                    <span>Tiết kiệm</span>
+                    <span>-<?= number_format($total_savings, 0, ',', '.') ?> VNĐ</span>
+                  </div>
+                <?php endif; ?>
+
+                <div class="order-shipping d-flex justify-content-between mb-2">
                   <span>Vận chuyển</span>
                   <span>Miễn phí</span>
                 </div>
-                <div class="order-shipping d-flex justify-content-between">
+
+                <div class="order-tax d-flex justify-content-between mb-3">
                   <span>Thuế</span>
-                  <span>0 VND</span>
+                  <span>0 VNĐ</span>
                 </div>
-                <div class="order-total d-flex justify-content-between">
+
+                <div class="order-total d-flex justify-content-between fw-bold fs-5 border-top pt-3 mt-2">
                   <span>Tổng cộng</span>
-                  <span id="order-total"><?= number_format($total_cart, 0, ',', '.') ?> VNĐ</span>
+                  <span id="order-total" class="text-danger"><?= number_format($total_cart, 0, ',', '.') ?> VNĐ</span>
                 </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
   </section>
 </main>
 

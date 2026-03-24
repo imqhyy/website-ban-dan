@@ -149,7 +149,7 @@ include 'forms/head.php' ?>
 
               // Truy vấn giỏ hàng kết hợp thông tin sản phẩm
               $sql_cart = "
-                  SELECT c.quantity, p.id as product_id, p.product_name, p.selling_price, p.product_images, p.stock_quantity,
+                  SELECT c.quantity, p.id as product_id, p.product_name, p.selling_price, p.discount_percent, p.product_images, p.stock_quantity,
                          b.brand_name, cat.category_name
                   FROM cart c
                   JOIN products p ON c.product_id = p.id
@@ -161,6 +161,7 @@ include 'forms/head.php' ?>
               $stmt_cart->execute([$user_id]);
               $cart_items = $stmt_cart->fetchAll();
               $total_cart = 0;
+              $total_savings = 0; // Thêm biến này để tính tổng tiền tiết kiệm
               if (count($cart_items) > 0):
                 foreach ($cart_items as $item):
                   $type_folder = create_slug($item['category_name']);
@@ -169,6 +170,12 @@ include 'forms/head.php' ?>
                   $base_path = $guitarimg_direct . $type_folder . '/' . $brand_folder . '/' . $product_folder . '/';
                   $images = !empty($item['product_images']) ? explode(',', $item['product_images']) : [];
                   $main_img = !empty($images[0]) ? $base_path . trim($images[0]) : 'assets/img/default-1.jpg';
+
+                  // --- LOGIC TÍNH GIÁ ĐÃ GIẢM ---
+                  $original_price = $item['selling_price'];
+                  $has_discount = ($item['discount_percent'] > 0);
+                  // Giá thực tế = Giá gốc * (1 - % giảm)
+                  $actual_price = $has_discount ? $original_price * (1 - ($item['discount_percent'] / 100)) : $original_price;
 
                   // --- LOGIC KIỂM TRA TỒN KHO ---
                   $is_out_of_stock = ($item['stock_quantity'] <= 0);
@@ -180,22 +187,23 @@ include 'forms/head.php' ?>
                     $display_quantity = $item['stock_quantity']; // Tự ép hiển thị về số lượng tối đa còn lại
                     $stock_warning = true;
                   }
-
-                  // Chỉ cộng tiền những sản phẩm còn hàng
+                  // Tính tổng tiền dựa trên GIÁ THỰC TẾ ($actual_price)
                   if (!$is_out_of_stock) {
-                    $item_total = $item['selling_price'] * $display_quantity;
+                    $item_total = $actual_price * $display_quantity;
                     $total_cart += $item_total;
+                    // Cộng dồn tiền chênh lệch (Giá gốc - Giá giảm) * Số lượng
+                    $total_savings += ($original_price - $actual_price) * $display_quantity;
                   } else {
                     $item_total = 0;
                   }
                   ?>
-                  <div class="cart-item <?= $is_out_of_stock ? 'out-of-stock' : '' ?>"
-                    data-price="<?= $item['selling_price'] ?>" data-id="<?= $item['product_id'] ?>">
+                  <div class="cart-item <?= $is_out_of_stock ? 'out-of-stock' : '' ?>" data-price="<?= $actual_price ?>"
+                    data-original-price="<?= $original_price ?>" data-id="<?= $item['product_id'] ?>">
                     <div class="row align-items-center">
                       <div class="col-lg-6 col-12 mt-3 mt-lg-0 mb-lg-0 mb-3">
                         <div class="product-info d-flex align-items-center">
-                          <input class="form-check-input item-check me-3" type="checkbox" value="<?= $item['product_id'] ?>"
-                            >
+                          <input class="form-check-input item-check me-3" type="checkbox"
+                            value="<?= $item['product_id'] ?>">
                           <div class="product-image img-sold-out-wrapper">
                             <a href="product-details.php?id=<?= $item['product_id'] ?>">
                               <img src="<?= $main_img ?>" alt="<?= htmlspecialchars($item['product_name']) ?>"
@@ -220,8 +228,14 @@ include 'forms/head.php' ?>
                         </div>
                       </div>
                       <div class="col-lg-2 col-12 mt-3 mt-lg-0 text-center">
-                        <div class="price-tag"><span
-                            class="current-price"><?= number_format($item['selling_price'], 0, ',', '.') ?> VNĐ</span></div>
+                        <div class="price-tag">
+                          <?php if ($has_discount): ?>
+                            <span class="text-muted text-decoration-line-through"
+                              style="font-size: 0.85rem;"><?= number_format($original_price, 0, ',', '.') ?>đ</span><br>
+                          <?php endif; ?>
+                          <span class="current-price text-danger fw-bold"><?= number_format($actual_price, 0, ',', '.') ?>
+                            VNĐ</span>
+                        </div>
                       </div>
                       <div class="col-lg-2 col-12 mt-3 mt-lg-0 text-center">
                         <?php if ($is_out_of_stock): ?>
@@ -251,22 +265,28 @@ include 'forms/head.php' ?>
         <div class="col-lg-4 mt-4 mt-lg-0" data-aos="fade-up" data-aos-delay="300">
           <div class="cart-summary">
             <h4 class="summary-title">Tóm tắt đơn hàng</h4>
+
             <div class="summary-item">
               <span class="summary-label">Tạm tính</span>
-              <span class="summary-value" id="cart-subtotal">0 VNĐ</span>
+              <span class="summary-value" id="cart-subtotal"><?= number_format($total_cart, 0, ',', '.') ?> VNĐ</span>
             </div>
+
+            <div class="summary-item" id="cart-savings-container" style="<?= $total_savings > 0 ? 'display: flex; justify-content: space-between; margin-bottom: 15px;' : 'display:none;' ?>">
+              <span class="summary-label text-danger">Tiết kiệm được</span>
+              <span class="summary-value text-danger" id="cart-savings"><?= number_format($total_savings, 0, ',', '.') ?> VNĐ</span>
+            </div>
+
             <div class="summary-total">
               <span class="summary-label">Tổng cộng</span>
-              <span class="summary-value" id="cart-total">0 VNĐ</span>
+              <span class="summary-value" id="cart-total"><?= number_format($total_cart, 0, ',', '.') ?> VNĐ</span>
             </div>
+
             <div class="checkout-button">
               <a href="checkout.php" class="btn btn-accent w-100">Tiến hành thanh toán <i
                   class="bi bi-arrow-right"></i></a>
             </div>
           </div>
         </div>
-      </div>
-    </div>
   </section>
 </main>
 <?php include 'forms/footer.php' ?>
