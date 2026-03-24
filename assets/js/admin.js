@@ -988,7 +988,7 @@ document.addEventListener("DOMContentLoaded", function () {
         });
 
       if (productCount === 0) {
-        Swal.fire("Lỗi", "Huy chưa nhập sản phẩm nào kìa!", "error");
+        Swal.fire("Lỗi", "Bạn chưa nhập sản phẩm!", "error");
         return;
       }
 

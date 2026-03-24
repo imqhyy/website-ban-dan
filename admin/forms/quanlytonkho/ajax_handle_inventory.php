@@ -16,7 +16,15 @@ if ($action === 'fetch_inventory') {
         $stmtImport->execute([$productId, $date]);
         $imports = $stmtImport->fetchAll();
 
-        $stmtOrder = $pdo->prepare("SELECT quantity, created_at FROM order_details od JOIN orders o ON od.order_id = o.id WHERE od.product_id = ? AND DATE(o.created_at) <= ? ORDER BY o.created_at ASC");
+        $stmtOrder = $pdo->prepare("
+    SELECT quantity, created_at 
+    FROM order_details od 
+    JOIN orders o ON od.order_id = o.id 
+    WHERE od.product_id = ? 
+      AND DATE(o.created_at) <= ? 
+      AND o.order_status != 'cancel' -- THÊM DÒNG NÀY
+    ORDER BY o.created_at ASC
+");
         $stmtOrder->execute([$productId, $date]);
         $orders = $stmtOrder->fetchAll();
 

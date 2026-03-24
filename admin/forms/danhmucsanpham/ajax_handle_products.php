@@ -1,6 +1,69 @@
 <?php
 require_once __DIR__ . "/../../../forms/database.php";
 
+function calculateDynamicPrice($productId, $targetDate, $profitMargin)
+{
+    global $pdo;
+
+    // 1. Lấy tất cả chi tiết phiếu nhập tính đến ngày target, sắp xếp tăng dần theo thời gian
+    $stmtImport = $pdo->prepare("
+        SELECT ird.quantity, ird.unit_price, i.import_date 
+        FROM import_receipt_details ird 
+        JOIN import_receipts i ON ird.receipt_id = i.id 
+        WHERE ird.product_id = ? AND DATE(i.import_date) <= ? 
+        ORDER BY i.import_date ASC
+    ");
+    $stmtImport->execute([$productId, $targetDate]);
+    $imports = $stmtImport->fetchAll();
+
+    // 2. Lấy tất cả chi tiết đơn hàng tính đến ngày target
+    $stmtOrder = $pdo->prepare("
+    SELECT od.quantity, o.created_at 
+    FROM order_details od 
+    JOIN orders o ON od.order_id = o.id 
+    WHERE od.product_id = ? 
+      AND DATE(o.created_at) <= ? 
+      AND o.order_status != 'cancel' -- CHỈ LẤY CÁC ĐƠN CHƯA HỦY
+    ORDER BY o.created_at ASC
+    ");
+    $stmtOrder->execute([$productId, $targetDate]);
+    $orders = $stmtOrder->fetchAll();
+
+    $curStock = 0;
+    $curAvgCost = 0;
+    $orderIdx = 0;
+
+    // 3. Logic tính giá bình quân: Duyệt qua từng phiếu nhập
+    foreach ($imports as $imp) {
+        // Trừ đi số lượng đã bán trước thời điểm nhập phiếu này để xác định tồn kho thực tế lúc đó
+        while ($orderIdx < count($orders) && $orders[$orderIdx]['created_at'] <= $imp['import_date']) {
+            $curStock -= $orders[$orderIdx]['quantity'];
+            $orderIdx++;
+        }
+
+        $curStock = max(0, $curStock); // Tồn kho không thể âm trước khi nhập thêm
+
+        $newQty = $imp['quantity'];
+        $newPrice = $imp['unit_price'];
+
+        // Công thức tính giá nhập bình quân theo yêu cầu của Huy:
+        // (Tồn hiện tại * Giá nhập hiện tại + Số lượng nhập mới * Giá nhập mới) / (Tồn hiện tại + Số lượng nhập mới)
+        if (($curStock + $newQty) > 0) {
+            $curAvgCost = ($curStock * $curAvgCost + $newQty * $newPrice) / ($curStock + $newQty);
+        }
+
+        $curStock += $newQty; // Cập nhật lại tồn kho sau khi nhập
+    }
+
+    // Giá bán = Giá nhập bình quân * (100% + % lợi nhuận)
+    $sellingPrice = $curAvgCost * (1 + ($profitMargin / 100));
+
+    return [
+        'cost_price' => $curAvgCost,
+        'selling_price' => $sellingPrice
+    ];
+}
+
 $action = $_POST['action'] ?? $_GET['action'] ?? '';
 
 // --- 1. Lấy thương hiệu theo ID Phân loại (Sửa để fix lỗi Foreign Key) ---
@@ -83,6 +146,7 @@ if ($action === 'fetch_list') {
     $currentPage = isset($_GET['page']) ? (int)$_GET['page'] : 1;
     $perPage = 10;
     $conditions = [];
+    $targetDate = $_GET['date'] ?? date('Y-m-d');
 
     // SỬA: Lọc theo category_id (kiểu số) thay vì product_type (kiểu chữ)
     if (!empty($_GET['product_type'])) {
@@ -129,26 +193,38 @@ if ($action === 'fetch_list') {
         $tableHtml = "<tr><td colspan='8' class='text-center'>Chưa có sản phẩm nào.</td></tr>";
     } else {
         foreach ($products as $p) {
-            $type = str_replace('Guitar ', '', htmlspecialchars($p['category_name'] ?? 'N/A'));
-            $cost_display = number_format($p['cost_price'], 0, ',', '.') . " VND";
-            $selling_display = number_format($p['selling_price'], 0, ',', '.') . " VND";
-            $statusIcon = ($p['status'] === 'visible') ? 'bi-eye' : 'bi-eye-slash text-secondary';
-            $statusTitle = ($p['status'] === 'visible') ? 'Đang hiện - Bấm để ẩn' : 'Đang ẩn - Bấm để hiện';
+            // 1. Tính toán giá động (Logic Bình quân gia quyền của Huy)
+            $prices = calculateDynamicPrice($p['id'], $targetDate, $p['profit_margin']);
 
+            // 2. Xử lý hiển thị loại và giá
+            $type = str_replace('Guitar ', '', htmlspecialchars($p['category_name'] ?? 'N/A'));
+            $cost_display = number_format($prices['cost_price'], 0, ',', '.') . " VND";
+            $selling_display = number_format($prices['selling_price'], 0, ',', '.') . " VND";
+
+            // 3. QUAN TRỌNG: Định nghĩa trạng thái ẩn/hiện (Huy bị thiếu đoạn này)
+            $is_visible = ($p['status'] === 'visible');
+            $statusIcon = $is_visible ? 'bi-eye' : 'bi-eye-slash text-secondary';
+            $statusTitle = $is_visible ? 'Đang hiện - Bấm để ẩn' : 'Đang ẩn - Bấm để hiện';
+
+            // 4. Nối chuỗi HTML đầy đủ cả các nút chức năng
             $tableHtml .= "<tr>
                 <td>{$p['id']}</td>
                 <td>" . htmlspecialchars($p['product_name']) . "</td>
                 <td>$type</td>
                 <td>" . htmlspecialchars($p['brand_name'] ?? 'N/A') . "</td>
-                <td class='fw-bold'>$cost_display</td>
+                <td class='fw-bold text-muted'>$cost_display</td> 
                 <td>" . (float)$p['profit_margin'] . "%</td>
                 <td class='fw-bold text-primary'>$selling_display</td>
                 <td class='function-button-container'>
-                    <button class='action-icon-btn edit-product-btn' title='Sửa' data-id='{$p['id']}'><i class='bi bi-pencil-square' style='color: #ffc107;'></i></button>
-                    <button class='action-icon-btn hide-btn' title='{$statusTitle}' data-id='{$p['id']}'>
-                        <i class='bi {$statusIcon}'></i>
+                    <button class='action-icon-btn edit-product-btn' title='Sửa' data-id='{$p['id']}'>
+                        <i class='bi bi-pencil-square' style='color: #ffc107;'></i>
                     </button>
-                    <button class='action-icon-btn delete-product-btn' title='Xóa' data-id='{$p['id']}'><i class='bi bi-trash3 text-danger'></i></button>
+                    <button class='action-icon-btn hide-btn' title='$statusTitle' data-id='{$p['id']}'>
+                        <i class='bi $statusIcon'></i>
+                    </button>
+                    <button class='action-icon-btn delete-product-btn' title='Xóa' data-id='{$p['id']}'>
+                        <i class='bi bi-trash3 text-danger'></i>
+                    </button>
                 </td>
             </tr>";
         }
@@ -317,7 +393,7 @@ if ($action === 'delete_product') {
         // BƯỚC 1: Kiểm tra xem sản phẩm đã từng được nhập hàng chưa
         // Chúng ta kiểm tra trong bảng chi tiết phiếu nhập (import_receipt_details)
         $checkImport = getOne("SELECT COUNT(*) as total FROM import_receipt_details WHERE product_id = ?", [$id]);
-        
+
         // Kiểm tra thêm cả trong chi tiết đơn hàng (Nếu Huy muốn an toàn tuyệt đối)
         $checkOrder = getOne("SELECT COUNT(*) as total FROM order_details WHERE product_id = ?", [$id]);
 
@@ -327,7 +403,7 @@ if ($action === 'delete_product') {
             echo "hidden_success"; // Gửi mã phản hồi riêng để JS hiện thông báo
         } else {
             // TRƯỜNG HỢP 2: Sản phẩm "sạch" (chưa bán, chưa nhập) -> Xóa vĩnh viễn
-            
+
             // 1. Lấy thông tin để xóa thư mục ảnh trên ổ cứng
             $p = getOne("SELECT p.product_name, b.brand_name, c.category_name 
                         FROM products p 
@@ -339,7 +415,9 @@ if ($action === 'delete_product') {
                 $dir = __DIR__ . "/../../../assets/img/products/guitar/" . create_slug($p['category_name']) . "/" . create_slug($p['brand_name']) . "/" . create_slug($p['product_name']) . "/";
                 if (is_dir($dir)) {
                     $files = glob($dir . '*', GLOB_MARK);
-                    foreach ($files as $file) { unlink($file); }
+                    foreach ($files as $file) {
+                        unlink($file);
+                    }
                     @rmdir($dir);
                 }
             }
