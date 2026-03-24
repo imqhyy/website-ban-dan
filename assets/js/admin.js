@@ -1608,6 +1608,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }
       });
 
+      
       // 2. TÌM KIẾM NÓNG: Vừa gõ vừa hiện (Debounce 500ms)
       let typingTimer;
       if (searchInput) {
@@ -1640,7 +1641,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const inv_Search = document.getElementById("search-input");
     const inv_Date = document.getElementById("filter-date");
     const inv_Status = document.getElementById("sort-order");
-
+    const inv_Threshold = document.getElementById("warning-threshold"); // Thêm dòng này
     let inv_debounceTimer;
 
     // 1. Hàm chính để tải dữ liệu qua AJAX
@@ -1648,12 +1649,13 @@ document.addEventListener("DOMContentLoaded", function () {
         const dateVal = inv_Date.value;
         const searchVal = inv_Search.value;
         const statusVal = inv_Status.value;
+        const thresholdVal = inv_Threshold.value || 5; // Lấy ngưỡng, mặc định là 5
 
         // Hiện hiệu ứng đang tải cho Huy nhìn cho chuyên nghiệp
         inv_TableBody.innerHTML = '<tr><td colspan="7" class="text-center">Đang tính toán tồn kho...</td></tr>';
 
         // Gọi đến file xử lý AJAX mà mình đã tạo ở bước trước
-        const url = `forms/quanlytonkho/ajax_handle_inventory.php?action=fetch_inventory&date=${dateVal}&search=${encodeURIComponent(searchVal)}&status=${statusVal}&page=${page}`;
+        const url = `forms/quanlytonkho/ajax_handle_inventory.php?action=fetch_inventory&date=${dateVal}&search=${encodeURIComponent(searchVal)}&status=${statusVal}&threshold=${thresholdVal}&page=${page}`;
 
         fetch(url)
             .then(res => res.json())
@@ -1666,7 +1668,12 @@ document.addEventListener("DOMContentLoaded", function () {
                 inv_TableBody.innerHTML = '<tr><td colspan="7" class="text-center text-danger">Lỗi kết nối máy chủ!</td></tr>';
             });
     }
-
+    // Gán sự kiện cho ô ngưỡng cảnh báo
+    inv_Threshold.addEventListener("change", () => fetchInventoryAjax(1));
+    inv_Threshold.addEventListener("input", () => {
+        clearTimeout(inv_debounceTimer);
+        inv_debounceTimer = setTimeout(() => fetchInventoryAjax(1), 500);
+    });
     // 2. TÌM KIẾM NÓNG (Vừa gõ vừa hiện)
     inv_Search.addEventListener("input", function() {
         clearTimeout(inv_debounceTimer);

@@ -9,6 +9,8 @@ if ($action === 'fetch_inventory') {
     $searchKeyword = trim($_GET['search'] ?? '');
     $filterStatus = $_GET['status'] ?? '';
 
+    // Lấy ngưỡng cảnh báo từ URL, nếu không có thì mặc định là 5
+    $threshold = isset($_GET['threshold']) ? (int)$_GET['threshold'] : 5;
     // Hàm tính toán tồn kho lịch sử (Giữ nguyên logic ird.id của Huy)
     function getHistoricalStats($productId, $date, $profitMargin) {
         global $pdo;
@@ -17,14 +19,14 @@ if ($action === 'fetch_inventory') {
         $imports = $stmtImport->fetchAll();
 
         $stmtOrder = $pdo->prepare("
-    SELECT quantity, created_at 
-    FROM order_details od 
-    JOIN orders o ON od.order_id = o.id 
-    WHERE od.product_id = ? 
-      AND DATE(o.created_at) <= ? 
-      AND o.order_status != 'cancel' -- THÊM DÒNG NÀY
-    ORDER BY o.created_at ASC
-");
+            SELECT quantity, created_at 
+            FROM order_details od 
+            JOIN orders o ON od.order_id = o.id 
+            WHERE od.product_id = ? 
+            AND DATE(o.created_at) <= ? 
+            AND o.order_status != 'cancel' -- THÊM DÒNG NÀY
+            ORDER BY o.created_at ASC
+        ");
         $stmtOrder->execute([$productId, $date]);
         $orders = $stmtOrder->fetchAll();
 
@@ -51,7 +53,7 @@ if ($action === 'fetch_inventory') {
     $displayData = [];
     foreach ($allProducts as $p) {
         $res = getHistoricalStats($p['id'], $targetDate, $p['profit_margin']);
-        $st = ($res['stock'] == 0) ? 'outstock' : (($res['stock'] <= 5) ? 'almost' : 'instock');
+        $st = ($res['stock'] == 0) ? 'outstock' : (($res['stock'] <= $threshold) ? 'almost' : 'instock');
         
         if ($filterStatus == 'instock' && $st == 'outstock') continue;
         if ($filterStatus == 'almost' && $st != 'almost') continue;
