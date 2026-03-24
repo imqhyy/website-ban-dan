@@ -482,3 +482,54 @@ document.addEventListener('DOMContentLoaded', function () {
     }
   });
 });
+
+// --- XỬ LÝ LỌC & TÌM KIẾM ĐƠN HÀNG ---
+document.addEventListener('DOMContentLoaded', function () {
+  const searchInput = document.getElementById('order-search-input');
+  const filterMenuItems = document.querySelectorAll('#order-filter-menu .dropdown-item');
+  const orderCards = document.querySelectorAll('.orders-grid .order-card');
+
+  function filterOrders() {
+    const searchTerm = searchInput ? searchInput.value.toLowerCase().trim() : '';
+    const activeFilter = document.querySelector('#order-filter-menu .dropdown-item.active');
+    const statusFilter = activeFilter ? activeFilter.getAttribute('data-status') : 'all';
+
+    console.log("Đang lọc với filter:", { searchTerm, statusFilter });
+
+    if (!orderCards || orderCards.length === 0) {
+      console.log("Không tìm thấy thẻ đơn hàng nào để lọc!");
+      return;
+    }
+
+    orderCards.forEach((card, index) => {
+      const orderCode = card.getAttribute('data-order-code') || '';
+      const orderStatus = card.getAttribute('data-status') || '';
+
+      const matchSearch = orderCode.includes(searchTerm);
+      const matchStatus = (statusFilter === 'all' || statusFilter === orderStatus);
+
+      console.log(`Thẻ #${index} [Mã ${orderCode}]: data-status='${orderStatus}'. matchStatus=${matchStatus}, matchSearch=${matchSearch}`);
+
+      if (matchSearch && matchStatus) {
+        card.style.display = 'block';
+      } else {
+        card.style.display = 'none';
+      }
+    });
+  }
+
+  if (searchInput) {
+    searchInput.addEventListener('input', filterOrders);
+  }
+
+  if (filterMenuItems.length > 0) {
+    filterMenuItems.forEach(item => {
+      item.addEventListener('click', function (e) {
+        e.preventDefault();
+        filterMenuItems.forEach(i => i.classList.remove('active', 'fw-bold'));
+        this.classList.add('active', 'fw-bold');
+        filterOrders();
+      });
+    });
+  }
+});

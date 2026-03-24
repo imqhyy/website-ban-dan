@@ -131,816 +131,235 @@ include 'forms/head.php';
                     <div class="header-actions">
                       <div class="search-box">
                         <i class="bi bi-search"></i>
-                        <input type="text" placeholder="Tìm kiếm đơn hàng...">
+                        <input type="text" id="order-search-input" placeholder="Tìm kiếm đơn hàng...">
                       </div>
                       <div class="dropdown">
                         <button class="filter-btn" data-bs-toggle="dropdown">
                           <i class="bi bi-funnel"></i>
                           <span>Lọc</span>
                         </button>
-                        <ul class="dropdown-menu">
-                          <li><a class="dropdown-item" href="#">Tất cả đơn hàng</a></li>
-                          <li><a class="dropdown-item" href="#">Đang xử lý</a></li>
-                          <li><a class="dropdown-item" href="#">Đã giao</a></li>
-                          <li><a class="dropdown-item" href="#">Đã nhận</a></li>
-                          <li><a class="dropdown-item" href="#">Đã huỷ</a></li>
+                        <ul class="dropdown-menu" id="order-filter-menu">
+                          <li><a class="dropdown-item active fw-bold" href="javascript:void(0)" data-status="all">Tất cả đơn hàng</a></li>
+                          <li><a class="dropdown-item" href="javascript:void(0)" data-status="processing">Đang xử lý / Chờ xác nhận</a></li>
+                          <li><a class="dropdown-item" href="javascript:void(0)" data-status="shipped">Đang vận chuyển</a></li>
+                          <li><a class="dropdown-item" href="javascript:void(0)" data-status="delivered">Đã nhận được hàng</a></li>
+                          <li><a class="dropdown-item" href="javascript:void(0)" data-status="cancelled">Đã huỷ</a></li>
                         </ul>
                       </div>
                     </div>
                   </div>
 
                   <div class="orders-grid">
-                    <!-- Order Card 1 -->
-                    <div class="order-card" data-aos="fade-up" data-aos-delay="100">
-                      <div class="order-header">
-                        <div class="order-id">
-                          <span class="label">Mã đơn hàng:</span>
-                          <span class="value">#ORD-2024-1278</span>
-                        </div>
-                        <div class="order-date" id="order-date"></div>
-
-                        <script>
-                          document.getElementById('order-date').textContent =
-                            new Date().toLocaleDateString('vi-VN');
-                        </script>
+                    <?php if (empty($orders)): ?>
+                      <div class="text-center p-5 text-muted w-100">
+                        <i class="bi bi-box-seam fs-1 d-block mb-3" style="font-size: 3rem;"></i>
+                        <p>Bạn chưa có đơn hàng nào.</p>
+                        <a href="shop.php" class="btn btn-dark mt-2">Tiếp tục mua sắm</a>
                       </div>
-                      <div class="order-content">
-                        <div class="product-grid">
-                          <a href="product-details.php">
-                            <img src="assets/img/product/guitar/acoustic/enya/enya-ea-x2/1.jpg" alt="Product"
-                              loading="lazy">
-                          </a>
-                          <a href="product-details.php">
-                            <img
-                              src="assets/img/product/guitar/acoustic/saga/saga-a1-de-pro/dan-guitar-acoustic-saga-a1-de-pro--1000x1000.jpg"
-                              alt="Product" loading="lazy">
-                          </a>
-                          <a href="product-details.php">
-                            <img src="assets/img/product/guitar/acoustic/taylor/taylor-110e/1.jpg" alt="Product"
-                              loading="lazy">
-                          </a>
-                        </div>
-                        <div class="order-info">
-                          <div class="info-row">
-                            <span>Tình trạng:</span>
-                            <span class="status processing">Đang xử lý</span>
+                    <?php else: ?>
+                      <?php foreach ($orders as $key => $order): ?>
+                        <?php
+                          $orderId = $order['id'];
+                          $detailStmt = $pdo->prepare("SELECT od.*, p.product_name, p.product_images, c.category_name, b.brand_name 
+                                                       FROM order_details od 
+                                                       JOIN products p ON od.product_id = p.id 
+                                                       LEFT JOIN categories c ON p.category_id = c.id
+                                                       LEFT JOIN brands b ON p.brand_id = b.id
+                                                       WHERE od.order_id = ?");
+                          $detailStmt->execute([$orderId]);
+                          $orderDetails = $detailStmt->fetchAll();
+                          
+                          $statusClass = '';
+                          $statusText = '';
+                          switch($order['order_status']) {
+                             case 'newest': $statusClass = 'processing'; $statusText = 'Chờ xác nhận'; break;
+                             case 'pending': $statusClass = 'processing'; $statusText = 'Đang xử lý'; break;
+                             case 'shipping': $statusClass = 'shipped'; $statusText = 'Đang vận chuyển'; break;
+                             case 'completed': $statusClass = 'delivered'; $statusText = 'Đã nhận được hàng'; break;
+                             case 'canceled': $statusClass = 'cancelled'; $statusText = 'Đã hủy'; break;
+                             default: $statusClass = 'processing'; $statusText = 'Chờ xác nhận';
+                          }
+                          $totalQty = 0;
+                          foreach($orderDetails as $dt) { $totalQty += $dt['quantity']; }
+                        ?>
+                        <div class="order-card" data-status="<?= htmlspecialchars($statusClass) ?>" data-order-code="<?= strtolower(htmlspecialchars($order['order_code'])) ?>" data-aos="fade-up" data-aos-delay="<?= 100 * (($key%3)+1) ?>">
+                          <div class="order-header">
+                            <div class="order-id">
+                              <span class="label">Mã đơn hàng:</span>
+                              <span class="value">#<?= htmlspecialchars($order['order_code']) ?></span>
+                            </div>
+                            <div class="order-date"><?= date('d/m/Y - h:i A', strtotime($order['created_at'])) ?></div>
                           </div>
-                          <div class="info-row">
-                            <span>SL:</span>
-                            <span>3</span>
-                          </div>
-                          <div class="info-row">
-                            <span>Total:</span>
-                            <span class="price">701.000.000 VND</span>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="order-footer">
-                        <button type="button" class="btn-track" data-bs-toggle="collapse" data-bs-target="#tracking1"
-                          aria-expanded="false">Theo dõi đơn hàng</button>
-                        <button type="button" class="btn-details" data-bs-toggle="collapse" data-bs-target="#details1"
-                          aria-expanded="false">Xem chi tiết</button>
-                      </div>
-
-                      <!-- Order Tracking -->
-                      <div class="collapse tracking-info" id="tracking1">
-                        <div class="tracking-timeline">
-                          <div class="timeline-item completed">
-                            <div class="timeline-icon">
-                              <i class="bi bi-check-circle-fill"></i>
-                            </div>
-                            <div class="timeline-content">
-                              <h5>Đã xác nhận đơn hàng</h5>
-                              <p>Đơn hàng của bạn đã được xác nhận</p>
-                              <span class="timeline-date">20/02/2025 - 10:30 AM</span>
-                            </div>
-                          </div>
-
-                          <div class="timeline-item completed">
-                            <div class="timeline-icon">
-                              <i class="bi bi-check-circle-fill"></i>
-                            </div>
-                            <div class="timeline-content">
-                              <h5>Đang xử lý</h5>
-                              <p>Đơn hàng của bạn đang được chuẩn bị</p>
-                              <span class="timeline-date">20/02/2025 - 2:45 PM</span>
-                            </div>
-                          </div>
-
-                          <div class="timeline-item active">
-                            <div class="timeline-icon">
-                              <i class="bi bi-box-seam"></i>
-                            </div>
-                            <div class="timeline-content">
-                              <h5>Đang đóng gói</h5>
-                              <p>Đơn hàng của bạn đang được đóng gói và bàn giao cho đơn vị vận chuyển</p>
-                              <span class="timeline-date">20/02/2025 - 4:15 PM</span>
-                            </div>
-                          </div>
-
-                          <div class="timeline-item">
-                            <div class="timeline-icon">
-                              <i class="bi bi-truck"></i>
-                            </div>
-                            <div class="timeline-content">
-                              <h5>Đang vận chuyển</h5>
-                              <p>Dự kiến giao hàng trong vòng 24 tiếng</p>
-                            </div>
-                          </div>
-
-                          <div class="timeline-item">
-                            <div class="timeline-icon">
-                              <i class="bi bi-house-door"></i>
-                            </div>
-                            <div class="timeline-content">
-                              <h5>Đã nhận được hàng</h5>
-                              <p>Thời gian nhận ước tính: 22/2/2025</p>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-
-                      <!-- Order Details -->
-                      <div class="collapse order-details" id="details1">
-                        <div class="details-content">
-                          <div class="detail-section">
-                            <h5>Thông tin đặt hàng</h5>
-                            <div class="info-grid">
-                              <div class="info-item">
-                                <span class="label">Phương thức thanh toán</span>
-                                <span class="value">Credit Card (**** 4589)</span>
-                              </div>
-                              <div class="info-item">
-                                <span class="label">Phương thức vận chuyển</span>
-                                <span class="value">Express Delivery (2-3 ngày)</span>
-                              </div>
-                            </div>
-                          </div>
-
-                          <div class="detail-section">
-                            <h5>Mặt hàng (3)</h5>
-                            <div class="order-items">
-                              <div class="item">
-                                <a href="product-details.php">
-                                  <img src="assets/img/product/guitar/acoustic/enya/enya-ea-x2/1.jpg" alt="Product"
-                                    loading="lazy">
+                          <div class="order-content">
+                            <div class="product-grid">
+                              <?php foreach(array_slice($orderDetails, 0, 3) as $dt): 
+                                $images = !empty($dt['product_images']) ? explode(',', $dt['product_images']) : [];
+                                $imgSrc = 'assets/img/default-1.jpg';
+                                if (!empty($images[0]) && isset($guitarimg_direct)) {
+                                    $imgSrc = $guitarimg_direct . create_slug($dt['category_name']) . '/' . create_slug($dt['brand_name']) . '/' . create_slug($dt['product_name']) . '/' . trim($images[0]);
+                                }
+                              ?>
+                                <a href="product-details.php?id=<?= $dt['product_id'] ?>">
+                                  <img src="<?= htmlspecialchars($imgSrc) ?>" alt="Product" loading="lazy">
                                 </a>
-                                <div class="item-info">
-                                  <h6>Enya EA X2</h6>
-                                  <div class="item-meta">
-                                    <span class="sku">Mã sản phẩm: PRD-001</span>
-                                    <span class="qty">SL: 1</span>
+                              <?php endforeach; ?>
+                              <?php if(count($orderDetails) > 3): ?>
+                                <span class="more-items">+<?= count($orderDetails) - 3 ?></span>
+                              <?php endif; ?>
+                            </div>
+                            <div class="order-info">
+                              <div class="info-row">
+                                <span>Tình trạng:</span>
+                                <span class="status <?= $statusClass ?>"><?= $statusText ?></span>
+                              </div>
+                              <div class="info-row">
+                                <span>SL:</span>
+                                <span><?= $totalQty ?></span>
+                              </div>
+                              <div class="info-row">
+                                <span>Tổng:</span>
+                                <span class="price"><?= number_format($order['total_amount'], 0, ',', '.') ?> VND</span>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="order-footer">
+                            <?php if ($order['order_status'] == 'completed'): ?>
+                              <button type="button" class="btn-review" data-bs-toggle="collapse" data-bs-target="#review_<?= $orderId ?>">Viết đánh giá</button>
+                            <?php endif; ?>
+                            <?php if ($order['order_status'] != 'canceled' && $order['order_status'] != 'completed'): ?>
+                              <button type="button" class="btn-track" data-bs-toggle="collapse" data-bs-target="#tracking_<?= $orderId ?>">Theo dõi đơn hàng</button>
+                            <?php endif; ?>
+                            <button type="button" class="btn-details" data-bs-toggle="collapse" data-bs-target="#details_<?= $orderId ?>">Xem chi tiết</button>
+                          </div>
+
+                          <?php if ($order['order_status'] != 'canceled' && $order['order_status'] != 'completed'): ?>
+                          <div class="collapse tracking-info" id="tracking_<?= $orderId ?>">
+                            <div class="tracking-timeline">
+                              <div class="timeline-item <?= in_array($order['order_status'], ['newest', 'pending', 'shipping']) ? 'completed' : '' ?>">
+                                <div class="timeline-icon"><i class="bi bi-check-circle-fill"></i></div>
+                                <div class="timeline-content">
+                                  <h5>Đã xác nhận đơn hàng</h5>
+                                  <span class="timeline-date"><?= date('d/m/Y - h:i A', strtotime($order['created_at'])) ?></span>
+                                </div>
+                              </div>
+                              <div class="timeline-item <?= in_array($order['order_status'], ['shipping']) ? 'active' : '' ?>">
+                                <div class="timeline-icon"><i class="bi bi-truck"></i></div>
+                                <div class="timeline-content">
+                                  <h5>Đang vận chuyển</h5>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <?php endif; ?>
+
+                          <?php if ($order['order_status'] == 'completed'): ?>
+                          <div class="collapse order-details" id="review_<?= $orderId ?>">
+                            <div class="details-content">
+                              <div class="detail-section">
+                                <h3>Đánh giá sản phẩm</h3>
+                                <?php foreach($orderDetails as $dt): 
+                                   $images = !empty($dt['product_images']) ? explode(',', $dt['product_images']) : [];
+                                   $imgSrc = 'assets/img/default-1.jpg';
+                                   if (!empty($images[0]) && isset($guitarimg_direct)) {
+                                       $imgSrc = $guitarimg_direct . create_slug($dt['category_name']) . '/' . create_slug($dt['brand_name']) . '/' . create_slug($dt['product_name']) . '/' . trim($images[0]);
+                                   }
+                                ?>
+                                <div class="review-product-item mb-4 pb-4 border-bottom">
+                                  <div class="d-flex align-items-center mb-3">
+                                    <img src="<?= htmlspecialchars($imgSrc) ?>" alt="Product" loading="lazy" class="rounded-3 me-3" style="width: 60px; height: 60px; object-fit: cover;">
+                                    <div class="product-details">
+                                      <h6 class="mb-1 fw-bold"><?= htmlspecialchars($dt['product_name']) ?></h6>
+                                      <span class="text-muted small">SL: <?= $dt['quantity'] ?></span>
+                                    </div>
+                                  </div>
+                                  <div class="review-rating mb-3">
+                                    <label class="form-label fw-semibold">Chất lượng sản phẩm:</label>
+                                    <div class="star-rating-selector" data-product-id="<?= $dt['product_id'] ?>">
+                                      <i class="bi bi-star star-icon" data-value="1"></i><i class="bi bi-star star-icon" data-value="2"></i>
+                                      <i class="bi bi-star star-icon" data-value="3"></i><i class="bi bi-star star-icon" data-value="4"></i>
+                                      <i class="bi bi-star star-icon" data-value="5"></i>
+                                      <span class="rating-text ms-2 small text-muted"></span>
+                                      <input type="hidden" name="rating_prd_<?= $dt['product_id'] ?>" value="0" class="rating-input">
+                                    </div>
+                                  </div>
+                                  <div class="mb-3">
+                                    <textarea class="form-control" rows="3" placeholder="Chia sẻ cảm nhận của bạn về sản phẩm này..."></textarea>
+                                  </div>
+                                  <button type="button" class="btn btn-sm btn-primary review-submit-btn" onclick="Swal.fire('Thành công', 'Cảm ơn đánh giá của bạn!', 'success')">Gửi đánh giá</button>
+                                </div>
+                                <?php endforeach; ?>
+                              </div>
+                            </div>
+                          </div>
+                          <?php endif; ?>
+
+                          <div class="collapse order-details" id="details_<?= $orderId ?>">
+                            <div class="details-content">
+                              <div class="detail-section">
+                                <h5>Thông tin đặt hàng</h5>
+                                <div class="info-grid">
+                                  <div class="info-item">
+                                    <span class="label">Phương thức thanh toán</span>
+                                    <span class="value"><?= htmlspecialchars($order['payment_method']) ?></span>
+                                  </div>
+                                  <div class="info-item">
+                                    <span class="label">Thông tin liên hệ</span>
+                                    <span class="value"><?= htmlspecialchars($order['customer_name'] . ' - ' . $order['phone']) ?></span>
                                   </div>
                                 </div>
-                                <div class="item-price">50.000.000 VND</div>
                               </div>
 
-                              <div class="item">
-                                <a href="product-details.php">
-                                  <img
-                                    src="assets/img/product/guitar/acoustic/saga/saga-a1-de-pro/dan-guitar-acoustic-saga-a1-de-pro--1000x1000.jpg"
-                                    alt="Product" loading="lazy">
-                                </a>
-                                <div class="item-info">
-                                  <h6>Saga A1 DE PRO</h6>
-                                  <div class="item-meta">
-                                    <span class="sku">Mã sản phẩm: PRD-002</span>
-                                    <span class="qty">SL: 1</span>
+                              <div class="detail-section">
+                                <h5>Mặt hàng (<?= count($orderDetails) ?>)</h5>
+                                <div class="order-items">
+                                  <?php foreach($orderDetails as $dt): 
+                                     $images = !empty($dt['product_images']) ? explode(',', $dt['product_images']) : [];
+                                     $imgSrc = 'assets/img/default-1.jpg';
+                                     if (!empty($images[0]) && isset($guitarimg_direct)) {
+                                         $imgSrc = $guitarimg_direct . create_slug($dt['category_name']) . '/' . create_slug($dt['brand_name']) . '/' . create_slug($dt['product_name']) . '/' . trim($images[0]);
+                                     }
+                                  ?>
+                                  <div class="item">
+                                    <a href="product-details.php?id=<?= $dt['product_id'] ?>">
+                                      <img src="<?= htmlspecialchars($imgSrc) ?>" alt="Product" loading="lazy">
+                                    </a>
+                                    <div class="item-info">
+                                      <h6><?= htmlspecialchars($dt['product_name']) ?></h6>
+                                      <div class="item-meta"><span class="qty">SL: <?= $dt['quantity'] ?></span></div>
+                                    </div>
+                                    <div class="item-price"><?= number_format($dt['unit_price'] * $dt['quantity'], 0, ',', '.') ?> VND</div>
+                                  </div>
+                                  <?php endforeach; ?>
+                                </div>
+                              </div>
+
+                              <div class="detail-section">
+                                <h5>Chi tiết giá</h5>
+                                <div class="price-breakdown">
+                                  <div class="price-row total">
+                                    <span>Tổng cộng</span>
+                                    <span><?= number_format($order['total_amount'], 0, ',', '.') ?> VND</span>
                                   </div>
                                 </div>
-                                <div class="item-price">50.000.000 VND</div>
                               </div>
 
-                              <div class="item">
-                                <a href="product-details.php">
-                                  <img src="assets/img/product/guitar/acoustic/taylor/taylor-110e/1.jpg" alt="Product"
-                                    loading="lazy">
-                                </a>
-                                <div class="item-info">
-                                  <h6>Taylor 110E</h6>
-                                  <div class="item-meta">
-                                    <span class="sku">Mã sản phẩm: PRD-003</span>
-                                    <span class="qty">SL: 1</span>
-                                  </div>
-                                </div>
-                                <div class="item-price">100.000.000 VND</div>
-                              </div>
-                            </div>
-                          </div>
-
-                          <div class="detail-section">
-                            <h5>Chi tiết giá</h5>
-                            <div class="price-breakdown">
-                              <div class="price-row">
-                                <span>Tổng sản phẩm</span>
-                                <span>200.000.000 VND</span>
-                              </div>
-                              <div class="price-row">
-                                <span>Phí vận chuyển</span>
-                                <span>1.000.000 VND</span>
-                              </div>
-                              <div class="price-row">
-                                <span>Thuế</span>
-                                <span>500.000.000 VND</span>
-                              </div>
-                              <div class="price-row total">
-                                <span>Tổng</span>
-                                <span>701.000.000 VND</span>
-                              </div>
-                            </div>
-                          </div>
-
-                          <div class="detail-section">
-                            <h5>Địa chỉ giao hàng</h5>
-                            <div class="address-info">
-                              <p>Long Ma Bắc Giang<br>123 đường vào tim em ôi băng giá<br>phường A<br> thành phố B, HCM
-                                70000<br>Việt Nam</p>
-                              <p class="contact">SĐT: 0123123123</p>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-
-                    <!-- Order Card 2 -->
-                    <div class="order-card" data-aos="fade-up" data-aos-delay="200">
-                      <div class="order-header">
-                        <div class="order-id">
-                          <span class="label">Mã đơn hàng:</span>
-                          <span class="value">#ORD-2024-1265</span>
-                        </div>
-                        <div class="order-date">15/02/2025</div>
-                      </div>
-                      <div class="order-content">
-                        <div class="product-grid">
-                          <a href="product-details.php">
-                            <img src="assets/img/product/guitar/acoustic/enya/enya-ea-x2/1.jpg" alt="Product"
-                              loading="lazy">
-                          </a>
-                          <a href="product-details.php">
-                            <img
-                              src="assets/img/product/guitar/acoustic/saga/saga-a1-de-pro/dan-guitar-acoustic-saga-a1-de-pro--1000x1000.jpg"
-                              alt="Product" loading="lazy">
-                          </a>
-                        </div>
-                        <div class="order-info">
-                          <div class="info-row">
-                            <span>Tình trạng:</span>
-                            <span class="status shipped">Đang vận chuyển</span>
-                          </div>
-                          <div class="info-row">
-                            <span>SL:</span>
-                            <span>2</span>
-                          </div>
-                          <div class="info-row">
-                            <span>Tổng</span>
-                            <span class="price">204.000.000 VND</span>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="order-footer">
-                        <button type="button" class="btn-track" data-bs-toggle="collapse" data-bs-target="#tracking2"
-                          aria-expanded="false">Theo dõi đơn hàng</button>
-                        <button type="button" class="btn-details" data-bs-toggle="collapse" data-bs-target="#details2"
-                          aria-expanded="false">Xem Chi tiết</button>
-                      </div>
-
-                      <!-- Order Tracking -->
-                      <div class="collapse tracking-info" id="tracking2">
-                        <div class="tracking-timeline">
-                          <div class="timeline-item completed">
-                            <div class="timeline-icon">
-                              <i class="bi bi-check-circle-fill"></i>
-                            </div>
-                            <div class="timeline-content">
-                              <h5>Đã xác nhận đơn hàng</h5>
-                              <p>Đơn hàng của bạn đã được xác nhận</p>
-                              <span class="timeline-date">15/02/2025 - 9:15 AM</span>
-                            </div>
-                          </div>
-
-                          <div class="timeline-item completed">
-                            <div class="timeline-icon">
-                              <i class="bi bi-check-circle-fill"></i>
-                            </div>
-                            <div class="timeline-content">
-                              <h5>Đang xử lý</h5>
-                              <p>Đơn hàng của bạn đang được chuẩn bi</p>
-                              <span class="timeline-date">15/02/2025 - 11:30 AM</span>
-                            </div>
-                          </div>
-
-                          <div class="timeline-item completed">
-                            <div class="timeline-icon">
-                              <i class="bi bi-check-circle-fill"></i>
-                            </div>
-                            <div class="timeline-content">
-                              <h5>Đang đóng gói</h5>
-                              <p>Đơn hàng của bạn đang được đóng gói và bàn giao cho đơn vị vận chuyển</p>
-                              <span class="timeline-date">15/02/2025 - 2:45 PM</span>
-                            </div>
-                          </div>
-
-                          <div class="timeline-item active">
-                            <div class="timeline-icon">
-                              <i class="bi bi-truck"></i>
-                            </div>
-                            <div class="timeline-content">
-                              <h5>Đang vận chuyển</h5>
-                              <p>Đơn hàng của bạn đang tự đi đến chỗ bạn, đừng chú ý điện thoại, chúng tôi giao bất
-                                thình lình</p>
-                              <span class="timeline-date">16/02/2025 - 10:20 AM</span>
-                              <div class="shipping-info">
-                                <span>Mã vận chuyển: </span>
-                                <span class="tracking-number">1Z999AA1234567890</span>
-                              </div>
-                            </div>
-                          </div>
-
-                          <div class="timeline-item">
-                            <div class="timeline-icon">
-                              <i class="bi bi-house-door"></i>
-                            </div>
-                            <div class="timeline-content">
-                              <h5>Đã nhận được hàng</h5>
-                              <p>Thời gian nhận ước tính: Chờ đợi là hạnh phúc</p>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-
-                      <!-- Order Details -->
-                      <div class="collapse order-details" id="details2">
-                        <div class="details-content">
-                          <div class="detail-section">
-                            <h5>Thông tin đặt hàng</h5>
-                            <div class="info-grid">
-                              <div class="info-item">
-                                <span class="label">Phương thức thanh toán</span>
-                                <span class="value">Credit Card (**** 7821)</span>
-                              </div>
-                              <div class="info-item">
-                                <span class="label">Phương thức vận chuyển</span>
-                                <span class="value">Standard Shipping (3-5 ngày)</span>
-                              </div>
-                            </div>
-                          </div>
-
-                          <div class="detail-section">
-                            <h5>Mặt hàng (2)</h5>
-                            <div class="order-items">
-                              <div class="item">
-                                <a href="product-details.php">
-                                  <img src="assets/img/product/guitar/acoustic/enya/enya-ea-x2/1.jpg" alt="Product"
-                                    loading="lazy">
-                                </a>
-                                <div class="item-info">
-                                  <h6>Enya EA XXX</h6>
-                                  <div class="item-meta">
-                                    <span class="sku">Mã sản phẩm: PRD-004</span>
-                                    <span class="qty">SL: 1</span>
-                                  </div>
-                                </div>
-                                <div class="item-price">1.500.000 VND</div>
-                              </div>
-
-                              <div class="item">
-                                <a href="product-details.php">
-                                  <img
-                                    src="assets/img/product/guitar/acoustic/saga/saga-a1-de-pro/dan-guitar-acoustic-saga-a1-de-pro--1000x1000.jpg"
-                                    alt="Product" loading="lazy">
-                                </a>
-                                <div class="item-info">
-                                  <h6>Saga A1 DE YYY</h6>
-                                  <div class="item-meta">
-                                    <span class="sku">Mã sản phẩm: PRD-005</span>
-                                    <span class="qty">SL: 1</span>
-                                  </div>
-                                </div>
-                                <div class="item-price">1.500.000 VND</div>
-                              </div>
-                            </div>
-                          </div>
-
-                          <div class="detail-section">
-                            <h5>Chi tiết giá</h5>
-                            <div class="price-breakdown">
-                              <div class="price-row">
-                                <span>Tổng sản phẩm</span>
-                                <span>3.000.000 VND</span>
-                              </div>
-                              <div class="price-row">
-                                <span>Phí vận chuyển</span>
-                                <span>200.000.000 VND</span>
-                              </div>
-                              <div class="price-row">
-                                <span>Thuế</span>
-                                <span>1.000.000</span>
-                              </div>
-                              <div class="price-row total">
-                                <span>Tổng</span>
-                                <span>204.000.000 VND</span>
-                              </div>
-                            </div>
-                          </div>
-
-                          <div class="detail-section">
-                            <h5>Địa chỉ giao hàng</h5>
-                            <div class="address-info">
-                              <p>Young Pop Eyes<br>100 đường 30 tháng 2<br>phường Bình Thạnh<br>thành phố Hồ Chí Minh,
-                                HCM 70000<br>Việt Nam</p>
-                              <p class="contact">0123456788</p>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-
-                    <!-- Order Card 3 -->
-                    <div class="order-card" data-aos="fade-up" data-aos-delay="300">
-                      <div class="order-header">
-                        <div class="order-id">
-                          <span class="label">Mã đơn hàng:</span>
-                          <span class="value">#ORD-2024-1252</span>
-                        </div>
-                        <div class="order-date">10/2/2025</div>
-                      </div>
-                      <div class="order-content">
-                        <div class="product-grid">
-                          <a href="product-details.php">
-                            <img src="assets/img/product/guitar/acoustic/enya/enya-ea-x2/1.jpg" alt="Product"
-                              loading="lazy">
-                            <img
-                              src="assets/img/product/guitar/acoustic/saga/saga-a1-de-pro/dan-guitar-acoustic-saga-a1-de-pro--1000x1000.jpg"
-                              alt="Product" loading="lazy">
-                          </a>
-                        </div>
-                        <div class="order-info">
-                          <div class="info-row">
-                            <span>Tình trạng</span>
-                            <span class="status delivered">Đã vận chuyển</span>
-                          </div>
-                          <div class="info-row">
-                            <span>SL</span>
-                            <span>1</span>
-                          </div>
-                          <div class="info-row">
-                            <span>Tổng</span>
-                            <span class="price">3.000.000.000 VND</span>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="order-footer">
-                        <button type="button" class="btn-review" data-bs-toggle="collapse" data-bs-target="#review3"
-                          aria-expanded="false">Viết đánh giá</button>
-                        <button type="button" class="btn-details" data-bs-toggle="collapse" data-bs-target="#details3"
-                          aria-expanded="false">Xem Chi tiết</button>
-                      </div>
-
-                      <!--Write Review-->
-                      <div class="collapse order-details" id="review3">
-                        <div class="details-content">
-                          <div class="detail-section">
-                            <h3>Đánh giá sản phẩm</h3>
-                            <div class="review-product-item mb-4 pb-4 border-bottom">
-                              <div class="d-flex align-items-center mb-3">
-                                <img src="assets/img/product/guitar/acoustic/enya/enya-ea-x2/1.jpg" alt="Product"
-                                  loading="lazy" class="rounded-3 me-3"
-                                  style="width: 60px; height: 60px; object-fit: cover;">
-                                <div class="product-details">
-                                  <h6 class="mb-1 fw-bold">Enya EA XXX</h6>
-                                  <span class="text-muted small">Mã sản phẩm: PRD-004 | SL: 1</span>
+                              <div class="detail-section">
+                                <h5>Địa chỉ giao hàng</h5>
+                                <div class="address-info">
+                                  <p><?= htmlspecialchars($order['shipping_address']) ?></p>
                                 </div>
                               </div>
-                              <div class="review-rating mb-3">
-                                <label class="form-label fw-semibold">Chất lượng sản phẩm:</label>
-                                <div class="star-rating-selector" data-product-id="PRD-004">
-                                  <i class="bi bi-star star-icon" data-value="1"></i>
-                                  <i class="bi bi-star star-icon" data-value="2"></i>
-                                  <i class="bi bi-star star-icon" data-value="3"></i>
-                                  <i class="bi bi-star star-icon" data-value="4"></i>
-                                  <i class="bi bi-star star-icon" data-value="5"></i>
-                                  <span class="rating-text ms-2 small text-muted"></span>
-                                  <input type="hidden" name="rating_prd_004" value="0" class="rating-input">
-                                </div>
+                              <?php if(!empty($order['order_notes'])): ?>
+                              <div class="detail-section mt-3">
+                                <h5>Ghi chú:</h5>
+                                <p class="text-muted"><?= nl2br(htmlspecialchars($order['order_notes'])) ?></p>
                               </div>
-                              <div class="mb-3">
-                                <label for="reviewText_004" class="form-label fw-semibold">Nhận xét của bạn:</label>
-                                <textarea class="form-control" id="reviewText_004" rows="3"
-                                  placeholder="Chia sẻ cảm nhận của bạn về sản phẩm này..."></textarea>
-                              </div>
-                              <button type="button" class="btn btn-sm btn-primary review-submit-btn">Gửi đánh
-                                giá</button>
-                            </div>
-                            <div class="review-product-item mb-4 pb-4 border-bottom">
-                              <div class="d-flex align-items-center mb-3">
-                                <img
-                                  src="assets/img/product/guitar/acoustic/saga/saga-a1-de-pro/dan-guitar-acoustic-saga-a1-de-pro--1000x1000.jpg"
-                                  alt="Product" loading="lazy" class="rounded-3 me-3"
-                                  style="width: 60px; height: 60px; object-fit: cover;">
-                                <div class="product-details">
-                                  <h6 class="mb-1 fw-bold">Saga A1 DE YYY</h6>
-                                  <span class="text-muted small">Mã sản phẩm: PRD-005 | SL: 1</span>
-                                </div>
-                              </div>
-                              <div class="review-rating mb-3">
-                                <label class="form-label fw-semibold">Chất lượng sản phẩm:</label>
-                                <div class="star-rating-selector" data-product-id="PRD-005">
-                                  <i class="bi bi-star star-icon" data-value="1"></i>
-                                  <i class="bi bi-star star-icon" data-value="2"></i>
-                                  <i class="bi bi-star star-icon" data-value="3"></i>
-                                  <i class="bi bi-star star-icon" data-value="4"></i>
-                                  <i class="bi bi-star star-icon" data-value="5"></i>
-                                  <span class="rating-text ms-2 small text-muted"></span>
-                                  <input type="hidden" name="rating_prd_005" value="0" class="rating-input">
-                                </div>
-                              </div>
-                              <div class="mb-3">
-                                <label for="reviewText_005" class="form-label fw-semibold">Nhận xét của bạn:</label>
-                                <textarea class="form-control" id="reviewText_005" rows="3"
-                                  placeholder="Chia sẻ cảm nhận của bạn về sản phẩm này..."></textarea>
-                              </div>
-                              <button type="button" class="btn btn-sm btn-primary review-submit-btn">Gửi đánh
-                                giá</button>
-                            </div>
-
-                          </div>
-                        </div>
-                      </div>
-
-                      <!-- Order Details -->
-                      <div class="collapse order-details" id="details3">
-                        <div class="details-content">
-                          <div class="detail-section">
-                            <h5>Thông tin đặt hàng</h5>
-                            <div class="info-grid">
-                              <div class="info-item">
-                                <span class="label">Phương thức thanh toán</span>
-                                <span class="value">Credit Card (**** 7821)</span>
-                              </div>
-                              <div class="info-item">
-                                <span class="label">Phương thức vận chuyển</span>
-                                <span class="value">Standard Shipping (3-5 ngày)</span>
-                              </div>
-                            </div>
-                          </div>
-
-                          <div class="detail-section">
-                            <h5>Mặt hàng (2)</h5>
-                            <div class="order-items">
-                              <div class="item">
-                                <a href="product-details.php">
-                                  <img src="assets/img/product/guitar/acoustic/enya/enya-ea-x2/1.jpg" alt="Product"
-                                    loading="lazy">
-                                </a>
-                                <div class="item-info">
-                                  <h6>Enya EA XXX</h6>
-                                  <div class="item-meta">
-                                    <span class="sku">Mã sản phẩm: PRD-004</span>
-                                    <span class="qty">SL: 1</span>
-                                  </div>
-                                </div>
-                                <div class="item-price">1.500.000 VND</div>
-                              </div>
-
-                              <div class="item">
-                                <a href="product-details.php">
-                                  <img
-                                    src="assets/img/product/guitar/acoustic/saga/saga-a1-de-pro/dan-guitar-acoustic-saga-a1-de-pro--1000x1000.jpg"
-                                    alt="Product" loading="lazy">
-                                </a>
-                                <div class="item-info">
-                                  <h6>Saga A1 DE YYY</h6>
-                                  <div class="item-meta">
-                                    <span class="sku">Mã sản phẩm: PRD-005</span>
-                                    <span class="qty">SL: 1</span>
-                                  </div>
-                                </div>
-                                <div class="item-price">1.500.000 VND</div>
-                              </div>
-                            </div>
-                          </div>
-
-                          <div class="detail-section">
-                            <h5>Chi tiết giá</h5>
-                            <div class="price-breakdown">
-                              <div class="price-row">
-                                <span>Tổng sản phẩm</span>
-                                <span>3.000.000 VND</span>
-                              </div>
-                              <div class="price-row">
-                                <span>Phí vận chuyển</span>
-                                <span>200.000.000 VND</span>
-                              </div>
-                              <div class="price-row">
-                                <span>Thuế</span>
-                                <span>1.000.000</span>
-                              </div>
-                              <div class="price-row total">
-                                <span>Tổng</span>
-                                <span>204.000.000 VND</span>
-                              </div>
-                            </div>
-                          </div>
-
-                          <div class="detail-section">
-                            <h5>Địa chỉ giao hàng</h5>
-                            <div class="address-info">
-                              <p>Young Pop Eyes<br>100 đường 30 tháng 2<br>phường Bình Thạnh<br>thành phố Hồ Chí Minh,
-                                HCM 70000<br>Việt Nam</p>
-                              <p class="contact">0123456788</p>
+                              <?php endif; ?>
                             </div>
                           </div>
                         </div>
-                      </div>
-
-
-                    </div>
-
-                    <!-- Order Card 4 -->
-                    <div class="order-card" data-aos="fade-up" data-aos-delay="400">
-                      <div class="order-header">
-                        <div class="order-id">
-                          <span class="label">Mã đơn hàng:</span>
-                          <span class="value">#ORD-2024-1245</span>
-                        </div>
-                        <div class="order-date">05/02/2025</div>
-                      </div>
-                      <div class="order-content">
-                        <div class="product-grid">
-                          <a href="product-details.php">
-                            <img src="assets/img/product/guitar/acoustic/enya/enya-ea-x2/1.jpg" alt="Product"
-                              loading="lazy">
-                          </a>
-                          <a href="product-details.php">
-                            <img
-                              src="assets/img/product/guitar/acoustic/saga/saga-a1-de-pro/dan-guitar-acoustic-saga-a1-de-pro--1000x1000.jpg"
-                              alt="Product" loading="lazy">
-                          </a>
-                          <a href="product-details.php">
-                            <img src="assets/img/product/guitar/acoustic/taylor/taylor-110e/1.jpg" alt="Product"
-                              loading="lazy">
-                          </a>
-                          <span class="more-items">+2</span>
-                        </div>
-                        <div class="order-info">
-                          <div class="info-row">
-                            <span>Tình trạng:</span>
-                            <span class="status cancelled">Đã huỷ</span>
-                          </div>
-                          <div class="info-row">
-                            <span>SL:</span>
-                            <span>5</span>
-                          </div>
-                          <div class="info-row">
-                            <span>Tổng</span>
-                            <span class="price">1.000 VND</span>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="order-footer">
-                        <button type="button" class="btn-reorder" id="reorder-btn">Đặt lại</button>
-                        <button type="button" class="btn-details" data-bs-toggle="collapse" data-bs-target="#details4"
-                          aria-expanded="false">Xem chi tiết</button>
-                      </div>
-
-                      <!-- Order Details -->
-                      <div class="collapse order-details" id="details4">
-                        <div class="details-content">
-                          <div class="detail-section">
-                            <h5>Thông tin đặt hàng</h5>
-                            <div class="info-grid">
-                              <div class="info-item">
-                                <span class="label">Phương thức thanh toán</span>
-                                <span class="value">Credit Card (**** 4589)</span>
-                              </div>
-                              <div class="info-item">
-                                <span class="label">Phương thức vận chuyển</span>
-                                <span class="value">Express Delivery (2-3 ngày)</span>
-                              </div>
-                            </div>
-                          </div>
-
-                          <div class="detail-section">
-                            <h5>Mặt hàng (3)</h5>
-                            <div class="order-items">
-                              <div class="item">
-                                <a href="product-details.php">
-                                  <img src="assets/img/product/guitar/acoustic/enya/enya-ea-x2/1.jpg" alt="Product"
-                                    loading="lazy">
-                                </a>
-                                <div class="item-info">
-                                  <h6>Enya EA X2</h6>
-                                  <div class="item-meta">
-                                    <span class="sku">Mã sản phẩm: PRD-001</span>
-                                    <span class="qty">SL: 1</span>
-                                  </div>
-                                </div>
-                                <div class="item-price">50.000.000 VND</div>
-                              </div>
-
-                              <div class="item">
-                                <a href="product-details.php">
-                                  <img
-                                    src="assets/img/product/guitar/acoustic/saga/saga-a1-de-pro/dan-guitar-acoustic-saga-a1-de-pro--1000x1000.jpg"
-                                    alt="Product" loading="lazy">
-                                </a>
-                                <div class="item-info">
-                                  <h6>Saga A1 DE PRO</h6>
-                                  <div class="item-meta">
-                                    <span class="sku">Mã sản phẩm: PRD-002</span>
-                                    <span class="qty">SL: 1</span>
-                                  </div>
-                                </div>
-                                <div class="item-price">50.000.000 VND</div>
-                              </div>
-
-                              <div class="item">
-                                <a href="product-details.php">
-                                  <img src="assets/img/product/guitar/acoustic/taylor/taylor-110e/1.jpg" alt="Product"
-                                    loading="lazy">
-                                </a>
-                                <div class="item-info">
-                                  <h6>Taylor 110E</h6>
-                                  <div class="item-meta">
-                                    <span class="sku">Mã sản phẩm: PRD-003</span>
-                                    <span class="qty">SL: 1</span>
-                                  </div>
-                                </div>
-                                <div class="item-price">100.000.000 VND</div>
-                              </div>
-                              <div class="item">
-                                <a href="product-details.php">
-                                  <img
-                                    src="assets/img/product/guitar/acoustic/yamaha/yamaha-apx1200ii/dan-guitar-acoustic-yamaha-apx1200ii-apx-series--1536x1536.jpg"
-                                    alt="Product" loading="lazy">
-                                </a>
-                                <div class="item-info">
-                                  <h6>Yamaha APX Đăng cấp vãi ò</h6>
-                                  <div class="item-meta">
-                                    <span class="sku">Mã sản phẩm: PRD-010</span>
-                                    <span class="qty">SL: 1</span>
-                                  </div>
-                                </div>
-                                <div class="item-price">100.000.000 VND</div>
-                              </div>
-
-                              <div class="item">
-                                <a href="product-details.php">
-                                  <img
-                                    src="assets/img/product/guitar/acoustic/yamaha/yamaha-cpx600/dan-guitar-acoustic-yamaha-cpx600-cpx-series-.jpg"
-                                    alt="Product" loading="lazy">
-                                </a>
-                                <div class="item-info">
-                                  <h6>Yamaha PG-1 bô xăng lửa</h6>
-                                  <div class="item-meta">
-                                    <span class="sku">Mã sản phẩm: PRD-011</span>
-                                    <span class="qty">SL: 1</span>
-                                  </div>
-                                </div>
-                                <div class="item-price">500.000.000 VND</div>
-                              </div>
-                            </div>
-                          </div>
-
-                          <div class="detail-section">
-                            <h5>Chi tiết giá</h5>
-                            <div class="price-breakdown">
-                              <div class="price-row">
-                                <span>Tổng sản phẩm</span>
-                                <span>800.000.000 VND</span>
-                              </div>
-                              <div class="price-row">
-                                <span>Phí vận chuyển</span>
-                                <span>3.000.000.000 VND</span>
-                              </div>
-                              <div class="price-row">
-                                <span>Thuế</span>
-                                <span>30.000.000.000 VND</span>
-                              </div>
-                              <div class="price-row total">
-                                <span>Tổng</span>
-                                <span>33.800.000.000 VND</span>
-                              </div>
-                            </div>
-                          </div>
-
-                          <div class="detail-section">
-                            <h5>Địa chỉ giao hàng</h5>
-                            <div class="address-info">
-                              <p>Tôm My Vơ Sơ Ti<br>33 đường cạnh bờ sông<br>phường A<br> thành phố Vice, VC
-                                71000<br>Việt Nam</p>
-                              <p class="contact">SĐT: 0123123153</p>
-                            </div>
-                          </div>
-                          <h5>Lý do huỷ: Xuân Tâm đã ăn đơn hàng của bạn</h5>
-                        </div>
-                      </div>
-                    </div>
-
-
-
-
+                      <?php endforeach; ?>
+                    <?php endif; ?>
                   </div>
 
                   <!-- Pagination -->
@@ -1117,56 +536,39 @@ include 'forms/head.php';
                   </div>
 
                   <div class="addresses-grid">
+                    <?php if (!empty($user['address']) && !empty($user['city'])): ?>
                     <div class="address-card default" data-aos="fade-up" data-aos-delay="100">
                       <div class="card-header">
-                        <h4>Nhà</h4>
+                        <h4>Địa chỉ Mặc định</h4>
                         <span class="default-badge">Mặc định</span>
                       </div>
                       <div class="card-body">
-                        <p class="address-text">273 An Dương Vương<br>Phường Chợ Quán<br>Quận 5<br>Thành phố Hồ Chí Minh
-                          700000<br>Việt
-                          Nam</p>
+                        <p class="address-text">
+                          <?= htmlspecialchars($user['address']) ?><br>
+                          <?= htmlspecialchars($user['ward']) ?><br>
+                          <?= htmlspecialchars($user['district']) ?><br>
+                          <?= htmlspecialchars($user['city']) ?><br>
+                          Việt Nam
+                        </p>
                         <div class="contact-info">
-                          <div><i class="bi bi-person"></i> Test User</div>
-                          <div><i class="bi bi-telephone"></i> 0123456789</div>
+                          <div><i class="bi bi-person"></i> <?= htmlspecialchars($user['fullname']) ?></div>
+                          <div><i class="bi bi-telephone"></i> <?= htmlspecialchars($user['phone']) ?></div>
                         </div>
                       </div>
                       <div class="card-actions">
-                        <button type="button" class="btn-edit">
-                          <i class="bi bi-pencil"></i>
-                          Sửa
-                        </button>
-                        <button type="button" class="btn-remove">
-                          <i class="bi bi-trash"></i>
-                          Xoá
+                        <!-- Redirect to settings tab to edit -->
+                        <button type="button" class="btn-edit" onclick="document.querySelector('a[href=\'#settings\']').click();">
+                          <i class="bi bi-pencil"></i> Cập nhật
                         </button>
                       </div>
                     </div>
-
-                    <div class="address-card" data-aos="fade-up" data-aos-delay="200">
-                      <div class="card-header">
-                        <h4>Trường học</h4>
-                      </div>
-                      <div class="card-body">
-                        <p class="address-text">05 Bà Huyện Thanh Quan<br>Phường Xuân Hòa<br>Quận 3<br>TP. Hồ Chí
-                          Minh<br>Việt Nam</p>
-                        <div class="contact-info">
-                          <div><i class="bi bi-person"></i> Test User</div>
-                          <div><i class="bi bi-telephone"></i> 0123456789</div>
-                        </div>
-                      </div>
-                      <div class="card-actions">
-                        <button type="button" class="btn-edit">
-                          <i class="bi bi-pencil"></i>
-                          Sửa
-                        </button>
-                        <button type="button" class="btn-remove">
-                          <i class="bi bi-trash"></i>
-                          Xoá
-                        </button>
-                        <button type="button" class="btn-make-default">Đặt làm mặc định</button>
-                      </div>
+                    <?php else: ?>
+                    <div class="w-100 p-4 text-center text-muted" style="background: #f8f9fa; border-radius: 8px;">
+                      <i class="bi bi-geo-alt fs-1 text-secondary mb-2"></i>
+                      <p>Bạn chưa thiết lập địa chỉ giao hàng. Vui lòng cập nhật trong phần Cài đặt.</p>
+                      <button type="button" class="btn btn-sm btn-dark mt-2" onclick="document.querySelector('a[href=\'#settings\']').click();">Đến trang Cài đặt</button>
                     </div>
+                    <?php endif; ?>
                   </div>
 
 
@@ -1336,7 +738,7 @@ include 'forms/head.php';
 
   <?php include 'forms/footer.php' ?>
   <?php include 'forms/scripts.php' ?>
-  <script src="assets/js/account.js"></script>
+  <script src="assets/js/account.js?v=<?= time() ?>"></script>
 
 
 

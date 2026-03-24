@@ -230,7 +230,7 @@ function updateCartIcon(itemCount) {
    * Ecommerce Cart Functionality
    * Handles quantity changes and item removal
    */
-//sửa lý nút tăng giảm số lượng giỏ hàng
+  //sửa lý nút tăng giảm số lượng giỏ hàng
   function ecommerceCartTools() {
     const decreaseButtons = document.querySelectorAll(".quantity-btn.decrease");
     const increaseButtons = document.querySelectorAll(".quantity-btn.increase");
@@ -761,90 +761,9 @@ function updateCartIcon(itemCount) {
     });
 
     // Form Validation for one-page checkout
-    const checkoutForm = document.querySelector(".checkout-form");
-
-    if (checkoutForm) {
-      checkoutForm.addEventListener("submit", function (e) {
-        e.preventDefault();
-
-        // Basic validation
-        const requiredFields = checkoutForm.querySelectorAll("[required]");
-        let isValid = true;
-
-        requiredFields.forEach((field) => {
-          if (!field.value.trim()) {
-            isValid = false;
-            field.classList.add("is-invalid");
-
-            // Scroll to first invalid field
-            if (isValid === false) {
-              field.scrollIntoView({
-                behavior: "smooth",
-                block: "center",
-              });
-              field.focus();
-              isValid = null; // Set to null so we only scroll to the first invalid field
-            }
-          } else {
-            field.classList.remove("is-invalid");
-          }
-        });
-
-        // If form is valid, show success message
-        if (isValid === true) {
-          // Hide form sections except the last one
-          const sections = document.querySelectorAll(".checkout-section");
-          sections.forEach((section, index) => {
-            if (index < sections.length - 1) {
-              section.style.display = "none";
-            }
-          });
-
-          // Hide terms checkbox and place order button
-          const termsCheck = document.querySelector(".terms-check");
-          const placeOrderContainer = document.querySelector(
-            ".place-order-container",
-          );
-
-          if (termsCheck) termsCheck.style.display = "none";
-          if (placeOrderContainer) placeOrderContainer.style.display = "none";
-
-          // Show success message
-          const successMessage = document.querySelector(".success-message");
-          if (successMessage) {
-            successMessage.classList.remove("d-none");
-            successMessage.style.animation = "fadeInUp 0.5s ease forwards";
-          }
-
-          // Scroll to success message
-          const orderReview = document.getElementById("order-review");
-          if (orderReview) {
-            orderReview.scrollIntoView({
-              behavior: "smooth",
-              block: "start",
-            });
-          }
-
-          // Simulate redirect after 3 seconds
-          setTimeout(() => {
-            // In a real application, this would redirect to an order confirmation page
-            console.log("Redirecting to order confirmation page...");
-          }, 3000);
-        }
-      });
-
-      // Add input event listeners to clear validation styling when user types
-      const formInputs = checkoutForm.querySelectorAll(
-        "input, select, textarea",
-      );
-      formInputs.forEach((input) => {
-        input.addEventListener("input", function () {
-          if (this.value.trim()) {
-            this.classList.remove("is-invalid");
-          }
-        });
-      });
-    }
+    // The dummy form validation logic for .checkout-form was removed here
+    // because all checkout form submission and validation is properly handled
+    // by assets/js/checkout.js via AJAX.
   }
 
   // Function to initialize input masks (common for both checkout types)
