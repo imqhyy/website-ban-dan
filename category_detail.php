@@ -1,45 +1,34 @@
 <?php
-require_once 'forms/init.php'; ?>
-<!DOCTYPE html>
-<html lang="vi">
+require_once 'forms/init.php';
 
-<head>
-    <meta charset="utf-8">
-    <meta content="width=device-width, initial-scale=1.0" name="viewport">
-    <title>Phân loại Acoustic - Guitar Xì Gòn</title>
-    <meta name="description" content="" />
-    <meta name="keywords" content="" />
+// 1. Kiểm tra sự tồn tại và trạng thái của Phân loại
+$current_type_name = $_GET['product_type'] ?? '';
+$check_cat = getOne("SELECT * FROM categories WHERE category_name = ? AND status = 'visible'", [$current_type_name]);
 
-    <!-- Favicons -->
-    <link href="assets/img/favicon.png" rel="icon" />
-    <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon" />
+// Nếu phân loại không tồn tại hoặc bị ẩn (hidden), chuyển hướng về trang all
+if (!$check_cat) {
+    header('Location: all.php');
+    exit();
+}
 
-    <!-- Fonts -->
+$current_type = $check_cat['category_name'];
 
-    <link href="https://fonts.googleapis.com" rel="preconnect">
-    <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
-        rel="stylesheet">
+// 2. Gọi file logic lấy danh sách sản phẩm (list.php sẽ xử lý lọc theo product_type)
+require_once "forms/modules/products/list.php";
 
-    <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-    <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
-    <link href="assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
-    <link href="assets/vendor/aos/aos.css" rel="stylesheet">
-    <link href="assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
-
-    <link href="assets/css/main.css" rel="stylesheet">
-    <!-- ======================================================= * Template Name: NiceShop * Template URL: https://bootstrapmade.com/niceshop-bootstrap-ecommerce-template/ * Updated: Aug 26 2025 with Bootstrap v5.3.7 * Author: BootstrapMade.com * License: https://bootstrapmade.com/license/ ======================================================== -->
-</head>
+// 3. Thiết lập tiêu đề trang động
+$title = "Phân loại " . htmlspecialchars($current_type) . " - Guitar Xì Gòn";
+include 'forms/head.php';
+?>
 
 <body class="page-all">
     <?php include 'forms/header.php' ?>
     <main class="main"> <!-- Page Title -->
         <div class="page-title light-background">
             <div class="container d-lg-flex justify-content-between align-items-center">
-                <?php 
+                <?php
                 // Lấy loại sản phẩm hiện tại từ URL
-                $current_type = $_GET['product_type'] ?? ''; 
+                $current_type = $_GET['product_type'] ?? '';
                 ?>
                 <h1 class="mb-2 mb-lg-0">Phân loại: <?= urldecode($current_type) ?></h1>
                 <nav class="breadcrumbs">
@@ -68,8 +57,10 @@ require_once 'forms/init.php'; ?>
                                     <div class="range-slider">
                                         <div class="slider-track"></div>
                                         <div class="slider-progress"></div>
-                                        <input type="range" class="min-range" min="0" max="100000000" value="<?= str_replace('.', '', $_GET['min_price'] ?? 0) ?>">
-                                        <input type="range" class="max-range" min="0" max="100000000" value="<?= str_replace('.', '', $_GET['max_price'] ?? 50000000) ?>">
+                                        <input type="range" class="min-range" min="0" max="100000000"
+                                            value="<?= str_replace('.', '', $_GET['min_price'] ?? 0) ?>">
+                                        <input type="range" class="max-range" min="0" max="100000000"
+                                            value="<?= str_replace('.', '', $_GET['max_price'] ?? 50000000) ?>">
                                     </div>
                                     <div class="price-inputs mt-3">
                                         <div class="row g-2">
@@ -91,9 +82,10 @@ require_once 'forms/init.php'; ?>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="filter-actions mt-3">
-                                        <button type="button" id="btn-apply-price" class="btn btn-sm btn-primary w-100">Áp dụng bộ lọc</button>
-                                    </div>
+                                    <!-- <div class="filter-actions mt-3">
+                                        <button type="button" id="btn-apply-price"
+                                            class="btn btn-sm btn-primary w-100">Áp dụng bộ lọc</button>
+                                    </div> -->
                                 </div>
                             </div>
                             <!--/Pricing Range Widget -->
@@ -108,25 +100,27 @@ require_once 'forms/init.php'; ?>
                                     </div>
                                     <div class="brand-list">
                                         <?php
-                                        $brands_db = getAll("SELECT * FROM brands ORDER BY brand_name ASC");
+                                        $brands_db = getAll("SELECT * FROM brands WHERE status = 'visible' ORDER BY brand_name ASC"); // Thêm điều kiện status
                                         $selected_brands = isset($_GET['brand']) ? (array)$_GET['brand'] : [];
-                                        
+
                                         foreach ($brands_db as $b):
                                         ?>
-                                        <div class="brand-item">
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" 
-                                                    name="brand[]" 
-                                                    value="<?= $b['id'] ?>" 
-                                                    id="brand_<?= $b['id'] ?>"
-                                                    <?= in_array($b['id'], $selected_brands) ? 'checked' : '' ?>>
-                                                <label class="form-check-label" for="brand_<?= $b['id'] ?>">
-                                                    <?= $b['brand_name'] ?>
-                                                </label>
+                                            <div class="brand-item">
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="checkbox" name="brand[]"
+                                                        value="<?= $b['id'] ?>" id="brand_<?= $b['id'] ?>"
+                                                        <?= in_array($b['id'], $selected_brands) ? 'checked' : '' ?>>
+                                                    <label class="form-check-label" for="brand_<?= $b['id'] ?>">
+                                                        <?= $b['brand_name'] ?>
+                                                    </label>
+                                                </div>
                                             </div>
-                                        </div>
                                         <?php endforeach; ?>
                                     </div>
+                                    <!-- <div class="brand-actions">
+                                        <button class="btn btn-sm btn-outline-primary">Áp dụng bộ lọc</button>
+                                        <a href="all.php" class="btn btn-sm btn-link">Xóa tất cả</a>
+                                    </div> -->
                                 </div>
                             </div>
                             <!--/Brand Filter Widget -->
@@ -135,9 +129,9 @@ require_once 'forms/init.php'; ?>
                             <button type="submit" class="btn btn-primary w-100 mb-2 py-2 fw-bold">
                                 <i class="bi bi-funnel"></i> Tra cứu
                             </button>
-                            <?php 
+                            <?php
                             // Lấy loại sản phẩm hiện tại từ URL
-                            $current_type = $_GET['product_type'] ?? ''; 
+                            $current_type = $_GET['product_type'] ?? '';
                             ?>
                             <a href="category_detail.php?product_type=<?= urlencode($current_type) ?>" class="btn btn-outline-secondary w-100 py-2">
                                 <i class="bi bi-arrow-counterclockwise"></i> Xóa tất cả
@@ -155,13 +149,13 @@ require_once 'forms/init.php'; ?>
 
                     <!-- Danh sách sản phẩm -->
                     <?php
-                        require_once "forms/modules/products/list.php";
+                    require_once "forms/modules/products/list.php";
                     ?>
-					<section id="category-product-list" class="category-product-list section">
+                    <section id="category-product-list" class="category-product-list section">
                         <div class="container" data-aos="fade-up" data-aos-delay="100">
                             <div class="row">
                                 <?php if (!empty($products)): ?>
-                                    <?php foreach ($products as $product): 
+                                    <?php foreach ($products as $product):
                                         // 1. Lấy danh sách tên file ảnh từ DB
                                         $images = explode(',', $product['product_images']);
 
@@ -192,40 +186,40 @@ require_once 'forms/init.php'; ?>
                                             $selling_price = $original_price;
                                         }
                                     ?>
-                                    
-                                    <div class="col-6 col-xl-4">
-                                        <div class="product-card" data-aos="zoom-in">
-                                            <div class="product-image">
-                                                <a href="product-details.php?id=<?= $product['id'] ?>">
-                                                    <img src="<?= $main_img ?>" class="main-image img-fluid" alt="<?= htmlspecialchars($product['product_name']) ?>">
-                                                    
-                                                    <img src="<?= $hover_img ?>" class="hover-image img-fluid" alt="<?= htmlspecialchars($product['product_name']) ?>">
-                                                </a>
-                                                
-                                                <?php if ($has_discount): ?>
-                                                    <div class="product-badge sale">-<?= round($product['discount_percent']) ?>%</div>
-                                                <?php endif; ?>
-                                            </div>
-                                            
-                                            <div class="product-details">
-                                                <div class="product-category"><?= htmlspecialchars($product['category_name']) ?></div>
-                                                <h4 class="product-title">
-                                                    <a href="product-details.php?id=<?= $product['id'] ?>"><?= htmlspecialchars($product['product_name']) ?></a>
-                                                </h4>
-                                                <div class="product-meta">
-                                                    <div class="product-price">
-                                                        <?= number_format($selling_price, 0, ',', '.') ?> VND
-                                                        <?php if ($has_discount): ?>
-                                                            <span class="original-price"><?= number_format($original_price, 0, ',', '.') ?> VND</span>
-                                                        <?php endif; ?>
-                                                    </div>
+
+                                        <div class="col-6 col-xl-4">
+                                            <div class="product-card" data-aos="zoom-in">
+                                                <div class="product-image">
+                                                    <a href="product-details.php?id=<?= $product['id'] ?>">
+                                                        <img src="<?= $main_img ?>" class="main-image img-fluid" alt="<?= htmlspecialchars($product['product_name']) ?>">
+
+                                                        <img src="<?= $hover_img ?>" class="hover-image img-fluid" alt="<?= htmlspecialchars($product['product_name']) ?>">
+                                                    </a>
+
+                                                    <?php if ($has_discount): ?>
+                                                        <div class="product-badge sale">-<?= round($product['discount_percent']) ?>%</div>
+                                                    <?php endif; ?>
                                                 </div>
-                                                <div class="product-rating" style="display: flex; justify-content: flex-end;">
-                                                    <i class="bi bi-star-fill"></i> 5.0 <span>(0)</span>
+
+                                                <div class="product-details">
+                                                    <div class="product-category"><?= htmlspecialchars($product['category_name']) ?></div>
+                                                    <h4 class="product-title">
+                                                        <a href="product-details.php?id=<?= $product['id'] ?>"><?= htmlspecialchars($product['product_name']) ?></a>
+                                                    </h4>
+                                                    <div class="product-meta">
+                                                        <div class="product-price">
+                                                            <?= number_format($selling_price, 0, ',', '.') ?> VND
+                                                            <?php if ($has_discount): ?>
+                                                                <span class="original-price"><?= number_format($original_price, 0, ',', '.') ?> VND</span>
+                                                            <?php endif; ?>
+                                                        </div>
+                                                    </div>
+                                                    <div class="product-rating" style="display: flex; justify-content: flex-end;">
+                                                        <i class="bi bi-star-fill"></i> 5.0 <span>(0)</span>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
                                     <?php endforeach; ?>
                                 <?php else: ?>
                                     <div class="col-12 text-center py-5">
@@ -235,7 +229,7 @@ require_once 'forms/init.php'; ?>
                             </div>
                         </div>
                     </section>
-					<!-- Hết phần danh sách sản phẩm -->
+                    <!-- Hết phần danh sách sản phẩm -->
 
 
                     <!-- Category Pagination Section -->
@@ -243,74 +237,59 @@ require_once 'forms/init.php'; ?>
                         <div class="container">
                             <nav class="d-flex justify-content-center" aria-label="Page navigation">
                                 <ul>
+                                    <?php
+                                    // 1. Lấy tất cả tham số hiện tại trên URL (product_type, brand, price...)
+                                    $params = $_GET;
+
+                                    // 2. Loại bỏ tham số 'page' cũ để tránh bị lặp
+                                    unset($params['page']);
+
+                                    // 3. Tạo chuỗi truy vấn mới để giữ lại các bộ lọc
+                                    $query_string = http_build_query($params);
+                                    $base_url = "category_detail.php?" . ($query_string ? $query_string . "&" : "");
+                                    ?>
+
                                     <?php if ($currentPage > 1): ?>
-                                    <li><a href="?page=<?= $currentPage - 1 ?>"><i class="bi bi-arrow-left"></i></a>
-                                    </li>
+                                        <li><a href="<?= $base_url ?>page=<?= $currentPage - 1 ?>"><i class="bi bi-arrow-left"></i></a></li>
                                     <?php endif; ?>
 
-                                    <!--Nếu $maxPage <= phân trang tối đa thì hiện hết phân trang -->
-                                    <?php if($maxPage <= $maxPanigation): ?>
-                                    <?php for ($i = 1; $i <= $maxPage; $i++): ?>
-                                    <li>
-                                        <a href="?page=<?= $i ?>" class="<?= ($i == $currentPage) ? 'active' : '' ?>">
-                                            <?= $i ?>
-                                        </a>
-                                    </li>
-                                    <?php endfor; ?>
-                                    <!--Nếu &maxPage > phân trang tối đa thì rút gọn phân trang -->
+                                    <?php if ($maxPage <= $maxPanigation): ?>
+                                        <?php for ($i = 1; $i <= $maxPage; $i++): ?>
+                                            <li>
+                                                <a href="<?= $base_url ?>page=<?= $i ?>" class="<?= ($i == $currentPage) ? 'active' : '' ?>">
+                                                    <?= $i ?>
+                                                </a>
+                                            </li>
+                                        <?php endfor; ?>
                                     <?php else: ?>
-                                    <?php 
+                                        <?php
+                                        // Logic rút gọn phân trang bằng dấu "..." (Giữ theo thiết kế của bạn)
                                         $startPage = 1;
                                         $endPage = $maxPanigation;
-                                        if($currentPage > $maxPanigation) {
+                                        if ($currentPage > $maxPanigation) {
                                             echo "<li class='ellipsis'>...</li>";
-                                            
-                                            /**
-                                             *  $currentPage -1 và (currentPage + $maxPanigation -1) -1 
-                                             *  để đảm bảo $current luôn nằm giữa thay vì ở 2 bên đầu phân trang
-                                             *  nếu currentPage không phải trang 1 và trang cuối
-                                             *  VD: <- .., [7], 8, 9, ... -> và <- ..., 5, 6, [7], ... ->
-                                             *  sẽ thành: <- ..., 6, [7], 8, ... ->
-                                             * 
-                                             *  Nếu số lượng trang hiển thị còn lại nhỏ hơn $maxPanigation
-                                             *  thì đặt $startPage và &endPage sao cho hiện đủ số lượng $maxPanigation
-                                             * */    
-                                            $startPage = ($maxPage - $currentPage + 1) < $maxPanigation ? ($maxPage - $maxPanigation + 1): $currentPage - 1;
-                                            $endPage = ($currentPage + $maxPanigation - 1) > $maxPage ? $maxPage : ($currentPage + $maxPanigation - 1) -1;
-                                        }
-                                        else if($currentPage == $maxPanigation) {
+                                            $startPage = ($maxPage - $currentPage + 1) < $maxPanigation ? ($maxPage - $maxPanigation + 1) : $currentPage - 1;
+                                            $endPage = ($currentPage + $maxPanigation - 1) > $maxPage ? $maxPage : ($currentPage + $maxPanigation - 1) - 1;
+                                        } else if ($currentPage == $maxPanigation) {
                                             echo "<li class='ellipsis'>...</li>";
-                                            // Nếu currentPage = maxPagination thì hiện thị trang kế tiếp của currentPage
-                                            // vd: <- 1, 2, 3, ... ->
-                                            // sẽ thành <- ..., 2, 3, 4, ... ->
                                             $startPage++;
                                             $endPage++;
                                         }
-                
-                                        for ($i = $startPage; $i <= $endPage; $i++): 
-                                    ?>
 
-                                    <li>
-                                        <a href="?page=<?= $i ?>" class="<?= ($i == $currentPage) ? 'active' : '' ?>">
-                                            <?= $i ?>
-                                        </a>
-                                    </li>
-                                    <?php endfor; ?>
+                                        for ($i = $startPage; $i <= $endPage; $i++):
+                                        ?>
+                                            <li>
+                                                <a href="<?= $base_url ?>page=<?= $i ?>" class="<?= ($i == $currentPage) ? 'active' : '' ?>">
+                                                    <?= $i ?>
+                                                </a>
+                                            </li>
+                                        <?php endfor; ?>
 
-                                    <?php
-                                        if($endPage < $maxPage) {
-                                            echo "<li class='ellipsis'>...</li>";
-                                        }
-                                        
-                                    ?>
-
-
-
+                                        <?php if ($endPage < $maxPage) echo "<li class='ellipsis'>...</li>"; ?>
                                     <?php endif; ?>
 
                                     <?php if ($currentPage < $maxPage): ?>
-                                    <li><a href="?page=<?= $currentPage + 1 ?>"><i class="bi bi-arrow-right"></i></a>
-                                    </li>
+                                        <li><a href="<?= $base_url ?>page=<?= $currentPage + 1 ?>"><i class="bi bi-arrow-right"></i></a></li>
                                     <?php endif; ?>
                                 </ul>
                             </nav>
@@ -323,5 +302,5 @@ require_once 'forms/init.php'; ?>
     </main>
     <?php include 'forms/footer.php' ?>
     <?php include 'forms/scripts.php' ?>
-    
+
 </body>

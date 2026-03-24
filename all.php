@@ -33,7 +33,7 @@ include 'forms/head.php' ?>
                                 <ul class="category-tree list-unstyled mb-0">
                                     <?php
                                     // 1. Lấy danh sách phân loại duy nhất từ bảng products
-                                    $sql_types = "SELECT * FROM categories ORDER BY category_name ASC";
+                                    $sql_types = "SELECT * FROM categories WHERE status = 'visible' ORDER BY category_name ASC";
                                     $all_types = getAll($sql_types);
 
                                     // 2. Lấy các loại đang được chọn từ URL (nếu có) để giữ trạng thái checked
@@ -115,7 +115,7 @@ include 'forms/head.php' ?>
                                     </div>
                                     <div class="brand-list">
                                         <?php
-                                        $brands_db = getAll("SELECT * FROM brands ORDER BY brand_name ASC");
+                                        $brands_db = getAll("SELECT * FROM brands WHERE status = 'visible' ORDER BY brand_name ASC"); // Thêm điều kiện status
                                         $selected_brands = isset($_GET['brand']) ? (array)$_GET['brand'] : [];
 
                                         foreach ($brands_db as $b):

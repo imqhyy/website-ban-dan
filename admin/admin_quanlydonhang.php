@@ -44,36 +44,49 @@ include __DIR__ . "/forms/head.php";
           </div>
           <button id="filter-button" type="submit" class="status-button"><i class="bi bi-funnel"></i> Tra cứu</button>
         </div>
+        <div class="sort-container" style="margin-top: 10px;">
+          <div class="sort-by-location-container">
+            <label for="filter-city">Thành phố:</label>
+            <select id="filter-city" name="city" class="status-select-custom">
+              <option value="">-- Tất cả Thành phố --</option>
+            </select>
+
+            <label for="filter-ward" style="margin-left: 20px;">Phường/Xã:</label>
+            <select id="filter-ward" name="ward" class="status-select-custom" disabled>
+              <option value="">-- Tất cả Phường/Xã --</option>
+            </select>
+          </div>
+        </div>
       </form>
       <hr>
 
       <?php if (!empty($orders)): ?>
-        <?php foreach ($orders as $o): 
-          $statusMap = ['newest'=>'Mới đặt', 'processed'=>'Đã xử lý', 'deliveried'=>'Đã giao', 'cancel'=>'Huỷ'];
+        <?php foreach ($orders as $o):
+          $statusMap = ['newest' => 'Mới đặt', 'processed' => 'Đã xử lý', 'deliveried' => 'Đã giao', 'cancel' => 'Huỷ'];
         ?>
-        <div class="manage-order-container" data-order-id="<?= $o['id'] ?>">
-          <div class="info-and-status-order">
-            <div class="info-order">
-              <p>Mã đơn hàng: <b><?= htmlspecialchars($o['order_code']) ?></b></p>
-              <p>Ngày đặt hàng: <b><?= date("d/m/Y", strtotime($o['created_at'])) ?></b></p>
-              <p>Tổng tiền: <b><?= number_format($o['total_amount'], 0, ',', '.') ?>VND</b></p>
-            </div>
-            <div class="status-block">
-              <p style="margin-bottom: 0px;">Tình trạng: <b class="order-status-value"><?= $statusMap[$o['order_status']] ?></b> 
-                <i class="bi bi-pencil-square edit-status-order" style="cursor: pointer;"></i>
-              </p>
-              <div class="status-select-container hidden">
-                <span class="status-select-button" data-status="newest">Mới đặt</span>
-                <hr style="margin: 0"><span class="status-select-button" data-status="processed">Đã xử lý</span>
-                <hr style="margin: 0"><span class="status-select-button" data-status="deliveried">Đã giao</span>
-                <hr style="margin: 0"><span class="status-select-button" data-status="cancel">Huỷ</span>
+          <div class="manage-order-container" data-order-id="<?= $o['id'] ?>">
+            <div class="info-and-status-order">
+              <div class="info-order">
+                <p>Mã đơn hàng: <b><?= htmlspecialchars($o['order_code']) ?></b></p>
+                <p>Ngày đặt hàng: <b><?= date("d/m/Y", strtotime($o['created_at'])) ?></b></p>
+                <p>Tổng tiền: <b><?= number_format($o['total_amount'], 0, ',', '.') ?>VND</b></p>
+              </div>
+              <div class="status-block">
+                <p style="margin-bottom: 0px;">Tình trạng: <b class="order-status-value"><?= $statusMap[$o['order_status']] ?></b>
+                  <i class="bi bi-pencil-square edit-status-order" style="cursor: pointer;"></i>
+                </p>
+                <div class="status-select-container hidden">
+                  <span class="status-select-button" data-status="newest">Mới đặt</span>
+                  <hr style="margin: 0"><span class="status-select-button" data-status="processed">Đã xử lý</span>
+                  <hr style="margin: 0"><span class="status-select-button" data-status="deliveried">Đã giao</span>
+                  <hr style="margin: 0"><span class="status-select-button" data-status="cancel">Huỷ</span>
+                </div>
               </div>
             </div>
+            <div style="display: flex; justify-content: flex-end; margin-top: 20px;">
+              <button type="button" class="action-btn detail-btn" data-id="<?= $o['id'] ?>">Chi tiết</button>
+            </div>
           </div>
-          <div style="display: flex; justify-content: flex-end; margin-top: 20px;">
-            <button type="button" class="action-btn detail-btn" data-id="<?= $o['id'] ?>">Chi tiết</button>
-          </div>
-        </div>
         <?php endforeach; ?>
       <?php else: ?>
         <p style="text-align: center;">Không có đơn hàng nào.</p>
@@ -83,10 +96,11 @@ include __DIR__ . "/forms/head.php";
         <div class="container">
           <nav class="d-flex justify-content-center">
             <ul>
-              <?php 
-                $params = $_GET; unset($params['page']);
-                $query = http_build_query($params);
-                $base_url = "admin_quanlydonhang.php?" . ($query ? $query . "&" : "");
+              <?php
+              $params = $_GET;
+              unset($params['page']);
+              $query = http_build_query($params);
+              $base_url = "admin_quanlydonhang.php?" . ($query ? $query . "&" : "");
               ?>
               <?php if ($currentPage > 1): ?>
                 <li><a href="<?= $base_url ?>page=<?= $currentPage - 1 ?>"><i class="bi bi-arrow-left"></i></a></li>
@@ -108,7 +122,7 @@ include __DIR__ . "/forms/head.php";
         <span class="close-button">&times;</span>
         <h2>Chi tiết đơn hàng</h2>
         <div id="modal-body-content">
-            </div>
+        </div>
         <div id="close-detail-order-container">
           <button class="close-button-detail-order">Đóng</button>
         </div>
@@ -116,7 +130,14 @@ include __DIR__ . "/forms/head.php";
     </div>
   </main>
 
-  <?php require_once __DIR__ . "/forms/footer.php"; require_once __DIR__ . "/forms/scripts.php"; ?>
+  <?php require_once __DIR__ . "/forms/footer.php";
+  require_once __DIR__ . "/forms/scripts.php"; ?>
+  <script>
+    window.currentFilters = {
+        city: "<?= htmlspecialchars($_GET['city'] ?? '') ?>",
+        ward: "<?= htmlspecialchars($_GET['ward'] ?? '') ?>"
+    };
+</script>
   <script src="../assets/js/admin2.js"></script>
 </body>
 
