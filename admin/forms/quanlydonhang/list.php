@@ -30,6 +30,18 @@ if (!empty($_GET['order_status'])) {
     $params[] = $_GET['order_status'];
 }
 
+// Lọc theo thành phố (Tìm chuỗi trong shipping_address)
+if (!empty($_GET['city'])) {
+    $conditions[] = "shipping_address LIKE ?";
+    $params[] = "%" . trim($_GET['city']) . "%";
+}
+
+// Lọc theo phường/xã (Tìm chuỗi trong shipping_address)
+if (!empty($_GET['ward'])) {
+    $conditions[] = "shipping_address LIKE ?";
+    $params[] = "%" . trim($_GET['ward']) . "%";
+}
+
 $where = !empty($conditions) ? " WHERE " . implode(" AND ", $conditions) : "";
 
 // 3. Tính tổng số đơn hàng để phân trang

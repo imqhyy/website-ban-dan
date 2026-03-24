@@ -29,12 +29,34 @@ $details = getAll($sqlDetails, [$order_id]);
 
 <hr>
 <?php foreach ($details as $d): ?>
-<div class="product-fields-template" style="background-color: #f9f9f9; padding: 10px; margin-bottom: 5px; border-radius: 10px;">
+<div class="product-fields-template" style="background-color: #f9f9f9; padding: 15px; margin-bottom: 10px; border-radius: 10px; border-left: 5px solid #007bff;">
     <p style="margin-bottom: 5px;">Tên sản phẩm: <b><?= htmlspecialchars($d['product_name']) ?></b></p>
-    <p style="margin-bottom: 0px; font-size: 0.9rem; color: #666;">
+    <p style="margin-bottom: 5px; font-size: 0.9rem; color: #666;">
         Loại: <?= htmlspecialchars($d['category_name']) ?> | Thương hiệu: <?= htmlspecialchars($d['brand_name']) ?>
     </p>
-    <p style="margin-bottom: 0px;">Số Lượng: <b><?= $d['quantity'] ?></b> - Đơn giá: <b><?= number_format($d['unit_price'], 0, ',', '.') ?>VND</b></p>
+    
+    <div style="display: flex; gap: 20px; align-items: center; background: #fff; padding: 8px; border-radius: 5px;">
+        <p style="margin-bottom: 0px;">Số Lượng: <b><?= $d['quantity'] ?></b></p>
+        
+        <div class="price-info">
+            <?php if ($d['discount_percent'] > 0): ?>
+                <span style="text-decoration: line-through; color: #999; font-size: 0.85rem;">
+                    <?= number_format($d['original_price'], 0, ',', '.') ?> VND
+                </span>
+                <span style="background: #ffebeb; color: #d33; padding: 2px 5px; border-radius: 3px; font-size: 0.8rem; font-weight: bold; margin: 0 5px;">
+                    -<?= (float)$d['discount_percent'] ?>%
+                </span>
+            <?php endif; ?>
+
+            <span style="font-weight: bold; color: #333;">
+                <?= number_format($d['unit_price'], 0, ',', '.') ?> VND/SP
+            </span>
+        </div>
+    </div>
+
+    <p style="margin-top: 5px; margin-bottom: 0px; text-align: right; font-size: 0.95rem;">
+        Thành tiền: <b style="color: #007bff;"><?= number_format($d['unit_price'] * $d['quantity'], 0, ',', '.') ?> VND</b>
+    </p>
 </div>
 <?php endforeach; ?>
 

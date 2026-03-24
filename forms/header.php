@@ -14,16 +14,16 @@
                 <div class="col-lg-4 col-md-12 text-center">
                     <div class="announcement-slider swiper init-swiper">
                         <script type="application/json" class="swiper-config">
-                        {
-                            "loop": true,
-                            "speed": 600,
-                            "autoplay": {
-                                "delay": 5000
-                            },
-                            "slidesPerView": 1,
-                            "direction": "vertical",
-                            "effect": "slide"
-                        }
+                            {
+                                "loop": true,
+                                "speed": 600,
+                                "autoplay": {
+                                    "delay": 5000
+                                },
+                                "slidesPerView": 1,
+                                "direction": "vertical",
+                                "effect": "slide"
+                            }
                         </script>
                         <div class="swiper-wrapper">
                             <div class="swiper-slide">
@@ -124,12 +124,12 @@
                     <a href="cart.php" class="header-action-btn">
                         <i class="bi bi-cart3"></i>
                         <span class="badge" id="cart-badge">
-                        <?php
+                            <?php
                             $cart_count = 0;
                             if (isset($_SESSION['user']) && isset($pdo)) {
                                 $session_user = is_array($_SESSION['user']) ? $_SESSION['user']['id'] : $_SESSION['user'];
                                 $header_uid = -1; // Đặt mặc định là -1
-                            
+
                                 if (!is_numeric($session_user)) {
                                     $stmt_u = $pdo->prepare("SELECT id FROM users WHERE username = ?");
                                     $stmt_u->execute([$session_user]);
@@ -172,22 +172,22 @@
                         <ul>
                             <?php
                             // 1. Lấy tất cả Phân loại từ bảng categories mới
-                            $header_categories = getAll("SELECT * FROM categories ORDER BY category_name ASC");
-
+                            $header_categories = getAll("SELECT * FROM categories WHERE status = 'visible' ORDER BY category_name ASC");
                             if (!empty($header_categories)):
                                 foreach ($header_categories as $cat):
                                     $catID = $cat['id'];
                                     $catName = $cat['category_name'];
 
-                                    // 2. Lấy thương hiệu thông qua bảng trung gian (Chỉ lấy hãng có bán loại đàn này)
+                                    // 2. Lấy thương hiệu thông qua bảng trung gian (Chỉ lấy hãng đang hiển thị và có bán loại đàn này)
                                     $sql_brands = "SELECT b.* FROM brands b 
-                                                JOIN brand_category bc ON b.id = bc.brand_id 
-                                                WHERE bc.category_id = $catID 
-                                                ORDER BY b.brand_name ASC";
+                                        JOIN brand_category bc ON b.id = bc.brand_id 
+                                        WHERE bc.category_id = $catID 
+                                        AND b.status = 'visible' 
+                                        ORDER BY b.brand_name ASC";
                                     $brands_by_type = getAll($sql_brands);
-                                    ?>
+                            ?>
                                     <li class="dropdown">
-                                        <a href="all.php?type[]=<?= $catID ?>">
+                                        <a href="category_detail.php?product_type=<?= urlencode($catName) ?>">
                                             <span><?= htmlspecialchars($catName) ?></span>
                                             <i class="bi bi-chevron-right toggle-dropdown"></i>
                                         </a>
@@ -195,8 +195,7 @@
                                             <?php if (!empty($brands_by_type)): ?>
                                                 <?php foreach ($brands_by_type as $brand): ?>
                                                     <li>
-                                                        <a
-                                                            href="brand.php?brand[]=<?= $brand['id'] ?>&brand_name=<?= urlencode($brand['brand_name']) ?>&type[]=<?= $catID ?>">
+                                                        <a href="brand.php?brand[]=<?= $brand['id'] ?>&brand_name=<?= urlencode($brand['brand_name']) ?>&type[]=<?= $catID ?>">
                                                             <?= htmlspecialchars($brand['brand_name']) ?>
                                                         </a>
                                                     </li>
@@ -206,7 +205,7 @@
                                             <?php endif; ?>
                                         </ul>
                                     </li>
-                                    <?php
+                            <?php
                                 endforeach;
                             endif;
                             ?>

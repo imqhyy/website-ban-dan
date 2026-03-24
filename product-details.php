@@ -8,17 +8,21 @@ if ($id <= 0) {
   exit();
 }
 
-// Query sản phẩm + tên brand
+// Query sản phẩm + tên brand + tên category với điều kiện hiển thị
 $stmt = $pdo->prepare("
     SELECT p.*, b.brand_name, b.brand_slug, c.category_name
     FROM products p
-    LEFT JOIN brands b ON p.brand_id = b.id
-    LEFT JOIN categories c ON p.category_id = c.id
-    WHERE p.id = ?
+    JOIN brands b ON p.brand_id = b.id
+    JOIN categories c ON p.category_id = c.id
+    WHERE p.id = ? 
+      AND p.status = 'visible' 
+      AND b.status = 'visible' 
+      AND c.status = 'visible'
 ");
 $stmt->execute([$id]);
 $product = $stmt->fetch();
 
+// Nếu không tìm thấy hoặc bất kỳ cấp nào bị ẩn, sản phẩm sẽ không được truy vấn ra
 if (!$product) {
   header('Location: all.php');
   exit();
