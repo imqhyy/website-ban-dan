@@ -38,7 +38,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         // 1. Chỉ khóa và check tồn kho những sản phẩm được chọn mua
         $stmt_cart = $pdo->prepare("
-            SELECT c.quantity, p.selling_price, p.discount_percent, p.id as product_id, p.product_name, p.stock_quantity 
+            SELECT c.quantity, p.selling_price, p.discount_percent, p.id as product_id, p.product_name, p.stock_quantity, p.status 
             FROM cart c 
             JOIN products p ON c.product_id = p.id 
             WHERE c.user_id = ? AND p.id IN ($in_clause) FOR UPDATE
@@ -52,6 +52,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         $total_amount = 0;
         foreach ($cart_items as &$item) {
+            if ($item['status'] === 'hidden') {
+                throw new Exception("Sản phẩm '" . $item['product_name'] . "' không tồn tại hoặc đã ngừng kinh doanh. Vui lòng quay lại giỏ hàng.");
+            }
             if ($item['quantity'] > $item['stock_quantity']) {
                 throw new Exception("Rất tiếc, sản phẩm '" . $item['product_name'] . "' hiện chỉ còn " . $item['stock_quantity'] . " chiếc trong kho.");
             }

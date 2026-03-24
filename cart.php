@@ -149,7 +149,7 @@ include 'forms/head.php' ?>
 
               // Truy vấn giỏ hàng kết hợp thông tin sản phẩm
               $sql_cart = "
-                  SELECT c.quantity, p.id as product_id, p.product_name, p.selling_price, p.discount_percent, p.product_images, p.stock_quantity,
+                  SELECT c.quantity, p.id as product_id, p.product_name, p.selling_price, p.discount_percent, p.product_images, p.stock_quantity, p.status,
                          b.brand_name, cat.category_name
                   FROM cart c
                   JOIN products p ON c.product_id = p.id
@@ -177,8 +177,9 @@ include 'forms/head.php' ?>
                   // Giá thực tế = Giá gốc * (1 - % giảm)
                   $actual_price = $has_discount ? $original_price * (1 - ($item['discount_percent'] / 100)) : $original_price;
 
-                  // --- LOGIC KIỂM TRA TỒN KHO ---
-                  $is_out_of_stock = ($item['stock_quantity'] <= 0);
+                  // --- LOGIC KIỂM TRA TỒN KHO VÀ BỊ ẨN ---
+                  $is_hidden = ($item['status'] === 'hidden');
+                  $is_out_of_stock = ($item['stock_quantity'] <= 0 || $is_hidden);
                   $display_quantity = $item['quantity'];
                   $stock_warning = false;
 
@@ -203,13 +204,15 @@ include 'forms/head.php' ?>
                       <div class="col-lg-6 col-12 mt-3 mt-lg-0 mb-lg-0 mb-3">
                         <div class="product-info d-flex align-items-center">
                           <input class="form-check-input item-check me-3" type="checkbox"
-                            value="<?= $item['product_id'] ?>">
+                            value="<?= $item['product_id'] ?>" <?= $is_out_of_stock ? 'disabled' : '' ?>>
                           <div class="product-image img-sold-out-wrapper">
                             <a href="product-details.php?id=<?= $item['product_id'] ?>">
                               <img src="<?= $main_img ?>" alt="<?= htmlspecialchars($item['product_name']) ?>"
                                 class="img-fluid">
                             </a>
-                            <?php if ($is_out_of_stock): ?>
+                            <?php if ($is_hidden): ?>
+                              <div class="sold-out-badge" style="background-color: #dc3545;">Không tồn tại</div>
+                            <?php elseif ($is_out_of_stock): ?>
                               <div class="sold-out-badge">Hết hàng</div>
                             <?php endif; ?>
                           </div>

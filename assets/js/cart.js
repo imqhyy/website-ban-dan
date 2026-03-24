@@ -169,3 +169,23 @@ document.addEventListener('DOMContentLoaded', function () {
 
     updateTotals(); // Chạy khởi tạo 1 lần
 });
+// Hiện Toast Error được chuyển hướng từ checkout.php
+document.addEventListener('DOMContentLoaded', function() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const errorMsg = urlParams.get('error');
+    if (errorMsg) {
+        if (typeof Swal !== 'undefined') {
+            Swal.fire({
+                toast: true,
+                position: 'top-end',
+                icon: 'error',
+                title: 'Lỗi',
+                text: errorMsg,
+                showConfirmButton: false,
+                timer: 4000
+            });
+        }
+        // Xoá param lỗi khỏi URL để tránh refresh báo lỗi lại
+        window.history.replaceState({}, document.title, window.location.pathname);
+    }
+});

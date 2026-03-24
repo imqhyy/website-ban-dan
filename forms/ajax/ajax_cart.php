@@ -41,9 +41,15 @@ try {
     switch ($action) {
         case 'add':
             // 1. Kiểm tra tồn kho của sản phẩm
-            $stmt_stock = $pdo->prepare("SELECT stock_quantity, product_name FROM products WHERE id = ?");
+            $stmt_stock = $pdo->prepare("SELECT stock_quantity, product_name, status FROM products WHERE id = ?");
             $stmt_stock->execute([$product_id]);
             $product_info = $stmt_stock->fetch();
+
+            if (!$product_info || $product_info['status'] === 'hidden') {
+                echo json_encode(['status' => 'error', 'message' => "Sản phẩm này hiện đang ẩn hoặc ngừng kinh doanh."]);
+                exit();
+            }
+
             $max_stock = $product_info['stock_quantity'];
 
             // 2. Kiểm tra xem sản phẩm đã có trong giỏ chưa

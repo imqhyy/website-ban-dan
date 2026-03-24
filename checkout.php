@@ -52,7 +52,7 @@ $user_id = $user_info['id'];
 // Bắt danh sách ID trên URL (VD: ?items=2,3)
 $selected_items = $_GET['items'] ?? '';
 if (empty($selected_items)) {
-  echo "<script>alert('Vui lòng chọn sản phẩm cần thanh toán!'); window.location.href='cart.php';</script>";
+  echo "<script>window.location.href='cart.php?error=' + encodeURIComponent('Vui lòng chọn sản phẩm cần thanh toán!');</script>";
   exit();
 }
 
@@ -62,7 +62,7 @@ $in_clause = implode(',', $item_ids);
 
 // Lấy giỏ hàng (Chỉ lấy các sản phẩm được chọn, THÊM CỘT discount_percent)
 $cart_items = getAll("
-    SELECT c.quantity, p.id as product_id, p.product_name, p.selling_price, p.discount_percent, p.product_images, p.stock_quantity, b.brand_name, cat.category_name
+    SELECT c.quantity, p.id as product_id, p.product_name, p.selling_price, p.discount_percent, p.product_images, p.stock_quantity, p.status, b.brand_name, cat.category_name
     FROM cart c
     JOIN products p ON c.product_id = p.id
     LEFT JOIN brands b ON p.brand_id = b.id
@@ -71,7 +71,7 @@ $cart_items = getAll("
 ");
 
 if (empty($cart_items)) {
-  echo "<script>alert('Giỏ hàng của bạn đang trống!'); window.location.href='cart.php';</script>";
+  echo "<script>window.location.href='cart.php?error=' + encodeURIComponent('Giỏ hàng của bạn đang trống!');</script>";
   exit();
 }
 
@@ -80,6 +80,12 @@ $total_items = 0;
 $total_savings = 0;
 
 foreach ($cart_items as &$item) {
+  if ($item['status'] === 'hidden') {
+      $err = urlencode('Sản phẩm "' . $item['product_name'] . '" không tồn tại hoặc đã ngừng kinh doanh!');
+      echo "<script>window.location.href='cart.php?error=$err';</script>";
+      exit();
+  }
+
   $has_discount = ($item['discount_percent'] > 0);
   $original_price = $item['selling_price'];
   // Tính giá thực tế
