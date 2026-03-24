@@ -50,7 +50,7 @@
           <h1 class="sitename">Guitar Xì Gòn</h1>
         </a>
 
-        
+
 
         <!-- Actions -->
         <div class="header-actions d-flex align-items-center justify-content-end">
@@ -112,10 +112,11 @@
           <li><a href="admin_quanlynhapsanpham.php">Quản lý nhập sản phẩm</a></li>
           <li><a href="admin_quanlydonhang.php">Quản lý đơn hàng</a></li>
           <li><a href="admin_quanlytonkho.php">Quản lý tồn kho</a></li>
+          <li><a href="admin_settings.php"> Cài đặt Khuyến mãi</a></li>
         </ul>
       </nav>
     </div>
   </div>
-  
+
 
 </header>

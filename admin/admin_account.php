@@ -1,6 +1,28 @@
 <?php
 $title = "Tài khoản";
 require_once(__DIR__ . '/forms/init.php');
+
+$adminUsername = $_SESSION['admin'] ?? '';
+$admin = null;
+if (!empty($adminUsername)) {
+    $stmt = $pdo->prepare("SELECT * FROM admin_users WHERE username = ?");
+    $stmt->execute([$adminUsername]);
+    $admin = $stmt->fetch();
+}
+
+if (!$admin) {
+    header("Location: admin_login.php");
+    exit();
+}
+
+// Bóc tách trước các biến để chèn vào HTML cho gọn gàng
+$fullname = !empty($admin['fullname']) ? $admin['fullname'] : 'Quản trị viên';
+$email = !empty($admin['email']) ? $admin['email'] : 'Chưa cập nhật';
+$phone = !empty($admin['phone']) ? $admin['phone'] : 'Chưa cập nhật';
+$role = !empty($admin['role']) ? $admin['role'] : 'admin';
+$status = !empty($admin['status']) ? $admin['status'] : 'active';
+$avatarPath = !empty($admin['avatar']) ? '../assets/img/users/' . $admin['avatar'] : 'assets/img/person/mckhutthuocbangchan.jpeg';
+
 include __DIR__ . "/forms/head.php";
 ?>
 
@@ -41,14 +63,14 @@ include __DIR__ . "/forms/head.php";
               <!-- User Info -->
               <div class="user-info" data-aos="fade-right">
                 <div class="user-avatar">
-                  <img src="assets/img/person/mckhutthuocbangchan.jpeg" alt="Profile" loading="lazy">
+                  <img src="<?= htmlspecialchars($avatarPath) ?>" alt="Profile" loading="lazy">
                   <span class="status-badge"><i class="bi bi-shield-check"></i></span>
                 </div>
-                <h4 id="user-display-name">Loài bò bay mà không cần cánh</h4>
-                <h6 style="color: rgb(129, 129, 128);">user: thongtrinhungconbo</h6>
+                <h4 id="user-display-name"><?= htmlspecialchars($fullname) ?></h4>
+                <h6 style="color: rgb(129, 129, 128);">user: <?= htmlspecialchars($adminUsername) ?></h6>
                 <div class="user-status">
                   <i class="bi bi-award"></i>
-                  <span>Kẻ thống trị đơn hàng của bạn</span>
+                  <span><?= $role === 'super_admin' ? 'Kẻ thống trị hệ thống' : 'Quản trị viên' ?></span>
                 </div>
               </div>
 
@@ -92,12 +114,13 @@ include __DIR__ . "/forms/head.php";
                   <h2 style="font-size: 24px; font-weight: 600;">Thông tin người quản trị</h2>
                   <hr>
                   <div class="admin-info-detail" style="margin: 20px">
-                    <p><strong>Username:</strong>thongtrinhungconbo</p>
-                    <p><strong>Họ và tên:</strong>Loài bò bay mà không cần cánh</p>
-                    <p><strong>Email:</strong> admin1@gmail.com</p>
+                    <p><strong>Username: </strong><?= htmlspecialchars($adminUsername) ?></p>
+                    <p><strong>Họ và tên: </strong><?= htmlspecialchars($fullname) ?></p>
+                    <p><strong>Email: </strong><?= htmlspecialchars($email) ?></p>
+                    <p><strong>Số điện thoại: </strong><?= htmlspecialchars($phone) ?></p>
 
-                    <p><strong>Quyền Hạn:</strong> <span class="role-tag">Super Admin</span></p>
-                    <p><strong>Trạng Thái:</strong> <span class="status-active">Hoạt Động</span></p>
+                    <p><strong>Quyền Hạn:</strong> <span class="role-tag"><?= $role === 'super_admin' ? 'Super Admin' : 'Admin' ?></span></p>
+                    <p><strong>Trạng Thái:</strong> <span class="status-active"><?= ucfirst($status) ?></span></p>
                   </div>
 
 
@@ -119,37 +142,30 @@ include __DIR__ . "/forms/head.php";
                     <div class="settings-section" data-aos="fade-up">
                       <h3>Thông tin cá nhân</h3>
                       <form class="settings-form" id="account-settings-form">
+                        <input type="hidden" name="action" value="update_profile">
                         <div class="row g-3">
                           <div class="col-md-6">
                             <label for="username" class="form-label">Tên đăng nhập</label>
-                            <input type="text" class="form-control" id="username" value="thongtrinhungconbo">
+                            <input type="text" class="form-control" id="username" value="<?= htmlspecialchars($adminUsername) ?>" readonly style="background-color: #e9ecef; cursor: not-allowed;">
                           </div>
                           <div class="col-md-6">
-                            <label for="username" class="form-label">Họ và tên</label>
-                            <input type="text" class="form-control" id="name" value="Loài bò bay mà không cần cánh">
+                            <label for="name" class="form-label">Họ và tên</label>
+                            <input type="text" class="form-control" id="name" name="fullname" value="<?= htmlspecialchars($fullname) ?>">
                           </div>
-                          <!-- <div class="col-md-6">
-                            <label for="firstName" class="form-label">Họ</label>
-                            <input type="text" class="form-control" id="firstName">
-                          </div>
-                          <div class="col-md-6">
-                            <label for="lastName" class="form-label">Tên</label>
-                            <input type="text" class="form-control" id="lastName">
-                          </div> -->
                           <div class="col-md-6">
                             <label for="email" class="form-label">Email</label>
-                            <input type="text" class="form-control" id="email" value="admin1@gmail.com">
+                            <input type="email" class="form-control" id="email" name="email" value="<?= htmlspecialchars($email) ?>">
                           </div>
                           <div class="col-md-6">
                             <label for="phone" class="form-label">Số điện thoại</label>
-                            <input type="tel" class="form-control" id="phone">
+                            <input type="tel" class="form-control" id="phone" name="phone" value="<?= htmlspecialchars($phone) ?>">
                           </div>
                         </div>
 
                         <div class="input-new-avatar-image">
                           <label for="profilePicture" class="form-label">Ảnh đại diện</label>
                           <div class="input-group">
-                            <input type="file" class="form-control file-input-hidden" id="profilePicture"
+                            <input type="file" class="form-control file-input-hidden" id="profilePicture" name="avatar"
                               accept="image/*">
 
                             <input type="text" class="form-control" id="fileNameDisplay"
@@ -180,18 +196,19 @@ include __DIR__ . "/forms/head.php";
                     <div class="settings-section" data-aos="fade-up" data-aos-delay="200">
                       <h3>Bảo mật</h3>
                       <form class="settings-form" id="password-update-form">
+                        <input type="hidden" name="action" value="update_password">
                         <div class="row g-3">
                           <div class="col-md-12">
                             <label for="currentPassword" class="form-label">Mật khẩu hiện tại</label>
-                            <input type="password" class="form-control" id="currentPassword">
+                            <input type="password" class="form-control" id="currentPassword" name="currentPassword" required>
                           </div>
                           <div class="col-md-6">
                             <label for="newPassword" class="form-label">Mật khẩu mới</label>
-                            <input type="password" class="form-control" id="newPassword">
+                            <input type="password" class="form-control" id="newPassword" name="newPassword" required>
                           </div>
                           <div class="col-md-6">
                             <label for="confirmPassword" class="form-label">Xác nhận mật khẩu mới</label>
-                            <input type="password" class="form-control" id="confirmPassword">
+                            <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" required>
                           </div>
                         </div>
 
@@ -400,6 +417,121 @@ include __DIR__ . "/forms/head.php";
           fileNameDisplay.value = "Chưa có tệp nào được chọn";
         }
       });
+    });
+  </script>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const accountForm = document.getElementById('account-settings-form');
+      if (accountForm) {
+        accountForm.addEventListener('submit', function(e) {
+          e.preventDefault();
+          
+          let formData = new FormData(this);
+          
+          fetch('forms/account_admin/ajax_admin_update.php', {
+            method: 'POST',
+            body: formData
+          })
+          .then(res => res.json())
+          .then(data => {
+            if (data.status === 'success') {
+              Swal.fire({
+                icon: 'success',
+                title: data.message,
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 3000
+              });
+              // F5 Tải lại trang sau 1.5s để đồng bộ UI
+              setTimeout(() => { window.location.reload(); }, 1500);
+            } else {
+              Swal.fire({
+                icon: 'error',
+                title: data.message,
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 4000
+              });
+            }
+          })
+          .catch(err => {
+            Swal.fire({
+              icon: 'error',
+              title: 'Lỗi mạng hoặc máy chủ không phản hồi',
+              toast: true,
+              position: 'top-end',
+              showConfirmButton: false,
+              timer: 3000
+            });
+          });
+        });
+      }
+    });
+  </script>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const passwordForm = document.getElementById('password-update-form');
+      if (passwordForm) {
+        passwordForm.addEventListener('submit', function(e) {
+          e.preventDefault();
+          
+          let formData = new FormData(this);
+          
+          if (formData.get('newPassword') !== formData.get('confirmPassword')) {
+             Swal.fire({
+                icon: 'error',
+                title: 'Mật khẩu xác nhận không khớp!',
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 3000
+             });
+             return;
+          }
+
+          fetch('forms/account_admin/ajax_admin_update.php', {
+            method: 'POST',
+            body: formData
+          })
+          .then(res => res.json())
+          .then(data => {
+            if (data.status === 'success') {
+              Swal.fire({
+                icon: 'success',
+                title: data.message,
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 3000
+              });
+              passwordForm.reset(); 
+            } else {
+              Swal.fire({
+                icon: 'error',
+                title: data.message,
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 4000
+              });
+            }
+          })
+          .catch(err => {
+            Swal.fire({
+              icon: 'error',
+              title: 'Lỗi mạng hoặc máy chủ không phản hồi',
+              toast: true,
+              position: 'top-end',
+              showConfirmButton: false,
+              timer: 3000
+            });
+          });
+        });
+      }
     });
   </script>
 

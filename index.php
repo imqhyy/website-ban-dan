@@ -1,7 +1,33 @@
 <?php require_once('forms/init.php'); ?>
 <?php
+// Lấy 1 Sản phẩm nổi bật ngẫu nhiên
+$heroStmt = $pdo->prepare("SELECT p.*, c.category_name, b.brand_name 
+                           FROM products p 
+                           LEFT JOIN categories c ON p.category_id = c.id
+                           LEFT JOIN brands b ON p.brand_id = b.id
+                           WHERE p.status = 'visible' ORDER BY RAND() LIMIT 1");
+$heroStmt->execute();
+$heroProduct = $heroStmt->fetch();
+
+// Lấy 4 Sản phẩm bán chạy (ID order)
+$bestSellersStmt = $pdo->prepare("SELECT p.*, c.category_name, b.brand_name 
+                                  FROM products p 
+                                  LEFT JOIN categories c ON p.category_id = c.id
+                                  LEFT JOIN brands b ON p.brand_id = b.id
+                                  WHERE p.status = 'visible' LIMIT 4");
+$bestSellersStmt->execute();
+$bestSellers = $bestSellersStmt->fetchAll();
+
+// Lấy Cấu hình Khuyến Mãi (Mega Sale Countdown)
+$settingsStmt = $pdo->query("SELECT setting_key, setting_value FROM settings");
+$settingsArray = $settingsStmt->fetchAll(PDO::FETCH_KEY_PAIR);
+$megaSaleDate = $settingsArray['mega_sale_end_date'] ?? '2026/05/01';
+$megaSaleTitle = $settingsArray['mega_sale_title'] ?? 'Đếm ngược ngày đại ưu đãi';
+$megaSaleDesc = $settingsArray['mega_sale_desc'] ?? 'Nếu bạn đã lỡ tay hoặc vô tình đập đi cây đàn yêu giấu của mình thì đừng buồn...';
+
 $title = "Trang Chủ - Guitar Xì Gòn";
-include 'forms/head.php' ?>
+include 'forms/head.php';
+?>
 
 <body class="index-page">
   <?php include 'forms/header.php' ?>
@@ -40,25 +66,41 @@ include 'forms/head.php' ?>
 
         <div class="hero-visuals">
           <div class="product-showcase" data-aos="fade-left" data-aos-delay="200">
-            <div class="product-card featured">
-              <a href="product-details.php">
-                <img src="assets/img/product/guitar/classic/badon/dan-guitar-classic-ba-don-c250/1.jpg"
-                  alt="Featured Product" class="img-fluid" />
-              </a>
-              <div class="product-badge">Bán chạy nhất</div>
-              <div class="product-info">
-                <a href="product-details.php" class="product-title" style="font-size: 25px">Guitar Classic Ba Đờn
-                  C250</a>
-                <div class="price">
-                  <span class="sale-price">95.100.000 VND</span>
-                  <span class="original-price">110.000.000 VND</span>
+            <?php if ($heroProduct):
+              $images = !empty($heroProduct['product_images']) ? explode(',', $heroProduct['product_images']) : [];
+              $mainImg = 'assets/img/default-1.jpg';
+              if (!empty($images[0]) && isset($guitarimg_direct)) {
+                $mainImg = $guitarimg_direct . create_slug($heroProduct['category_name']) . '/' . create_slug($heroProduct['brand_name']) . '/' . create_slug($heroProduct['product_name']) . '/' . trim($images[0]);
+              }
+
+              $originalPrice = $heroProduct['selling_price'];
+              $discount = $heroProduct['discount_percent'];
+              $actualPrice = $originalPrice;
+              if ($discount > 0) {
+                $actualPrice = $originalPrice - ($originalPrice * $discount / 100);
+              }
+              ?>
+              <div class="product-card featured">
+                <a href="product-details.php?id=<?= $heroProduct['id'] ?>">
+                  <img src="<?= htmlspecialchars($mainImg) ?>" alt="Featured Product" class="img-fluid" />
+                </a>
+                <div class="product-badge">Điểm nhấn</div>
+                <div class="product-info">
+                  <a href="product-details.php?id=<?= $heroProduct['id'] ?>" class="product-title"
+                    style="font-size: 25px"><?= htmlspecialchars($heroProduct['product_name']) ?></a>
+                  <div class="price">
+                    <span class="sale-price"><?= number_format($actualPrice, 0, ',', '.') ?> VND</span>
+                    <?php if ($discount > 0): ?>
+                      <span class="original-price"><?= number_format($originalPrice, 0, ',', '.') ?> VND</span>
+                    <?php endif; ?>
+                  </div>
+                </div>
+                <div class="product-rating" style="display: flex; justify-content: flex-end">
+                  <i class="bi bi-star-fill"></i>
+                  4.8 <span>(42)</span>
                 </div>
               </div>
-              <div class="product-rating" style="display: flex; justify-content: flex-end">
-                <i class="bi bi-star-fill"></i>
-                4.8 <span>(42)</span>
-              </div>
-            </div>
+            <?php endif; ?>
             <!-- Ân 2 sản phẩm mini hiện lên sản phẩm to hơn, đẹp v xoá uổng -->
             <!-- <div class="product-grid">
               <div class="product-mini" data-aos="zoom-in" data-aos-delay="400">
@@ -81,7 +123,7 @@ include 'forms/head.php' ?>
           <div class="floating-elements">
             <a href="cart.php" class="floating-icon cart" data-aos="fade-up" data-aos-delay="600">
               <i class="bi bi-cart3"></i>
-              <span class="notification-dot cart-item-count-badge">0</span>
+              <span class="notification-dot cart-item-count-badge"><?= isset($cart_count) ? $cart_count : 0 ?></span>
             </a>
             <!-- <div
                 class="floating-icon search"
@@ -109,105 +151,48 @@ include 'forms/head.php' ?>
 
       <div class="container" data-aos="fade-up" data-aos-delay="100">
         <div class="row g-5">
-          <!-- Product 1 -->
-          <div class="col-lg-3 col-md-6">
-            <div class="product-item">
-              <div class="product-image">
-                <div class="product-badge">Giới hạn</div>
-                <a href="product-details.php"><img
-                    src="assets\img\product\guitar\classic\badon\dan-guitar-classic-ba-don-c250\1.jpg"
-                    alt="Product Image" class="img-fluid" loading="lazy" /></a>
-              </div>
-              <div class="product-info">
-                <div class="product-category">Sản phẩm cao cấp</div>
-                <h4 class="product-title">
-                  <a href="product-details.php">Guitar Classic Ba Đờn C250</a>
-                </h4>
-                <div class="product-price">
-                  <span class="current-price">95.100.000 VND</span>
-                  <br />
-                  <span class="old-price">110.000.000 VND</span>
+          <?php foreach ($bestSellers as $item):
+            $images = !empty($item['product_images']) ? explode(',', $item['product_images']) : [];
+            $mainImg = 'assets/img/default-1.jpg';
+            if (!empty($images[0]) && isset($guitarimg_direct)) {
+              $mainImg = $guitarimg_direct . create_slug($item['category_name']) . '/' . create_slug($item['brand_name']) . '/' . create_slug($item['product_name']) . '/' . trim($images[0]);
+            }
+            $originalPrice = $item['selling_price'];
+            $discount = $item['discount_percent'];
+            $actualPrice = $originalPrice;
+            if ($discount > 0) {
+              $actualPrice = $originalPrice - ($originalPrice * $discount / 100);
+            }
+            ?>
+            <div class="col-lg-3 col-md-6">
+              <div class="product-item">
+                <div class="product-image">
+                  <?php if ($discount > 0): ?>
+                    <div class="product-badge sale-badge">-<?= $discount ?>%</div>
+                  <?php endif; ?>
+                  <a href="product-details.php?id=<?= $item['id'] ?>"><img src="<?= htmlspecialchars($mainImg) ?>"
+                      alt="Product Image" class="img-fluid" loading="lazy" /></a>
                 </div>
-                <div class="product-rating" style="display: flex; justify-content: flex-end">
-                  <i class="bi bi-star-fill"></i>
-                  4.8 <span>(42)</span>
-                </div>
-              </div>
-            </div>
-          </div>
-          <!-- End Product 1 -->
-
-          <!-- Product 2 -->
-          <div class="col-lg-3 col-md-6">
-            <div class="product-item">
-              <div class="product-image">
-                <div class="product-badge sale-badge">-25%</div>
-                <a href="product-details.php"><img src="assets/img/product/guitar/acoustic/enya/enya-ea-x2/1.jpg"
-                    alt="Product Image" class="img-fluid" loading="lazy" /></a>
-              </div>
-              <div class="product-info">
-                <div class="product-category">Bán chạy</div>
-                <h4 class="product-title">
-                  <a href="product-details.php">Guitar Acoustic Enya EA-X2</a>
-                </h4>
-                <div class="product-price">
-                  <span class="current-price">6.150.000 VND</span>
-                  <br />
-                  <span class="old-price">8.200.000 VND</span>
-                </div>
-                <div class="product-rating" style="display: flex; justify-content: flex-end">
-                  <i class="bi bi-star-fill"></i>
-                  4.2 <span>(380)</span>
+                <div class="product-info">
+                  <div class="product-category">Bán chạy</div>
+                  <h4 class="product-title">
+                    <a href="product-details.php?id=<?= $item['id'] ?>"><?= htmlspecialchars($item['product_name']) ?></a>
+                  </h4>
+                  <div class="product-price">
+                    <span class="current-price"><?= number_format($actualPrice, 0, ',', '.') ?> VND</span>
+                    <?php if ($discount > 0): ?>
+                      <br />
+                      <span class="old-price"><?= number_format($originalPrice, 0, ',', '.') ?> VND</span>
+                    <?php endif; ?>
+                  </div>
+                  <div class="product-rating" style="display: flex; justify-content: flex-end">
+                    <i class="bi bi-star-fill"></i>
+                    4.8 <span>(<?= rand(20, 100) ?>)</span>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-          <!-- End Product 2 -->
-
-          <!-- Product 3 -->
-          <div class="col-lg-3 col-md-6">
-            <div class="product-item">
-              <div class="product-image">
-                <a href="product-details.php"><img
-                    src="assets/img/product/guitar/classic/yamaha/dan-guitar-classic-yamaha-ncx700-nx-series/1.jpg"
-                    alt="Product Image" class="img-fluid" loading="lazy" /></a>
-              </div>
-              <div class="product-info">
-                <div class="product-category">Mới ra mắt</div>
-                <h4 class="product-title">
-                  <a href="product-details.php">Guitar Classic Yamaha NCX-700</a>
-                </h4>
-                <div class="product-price">8.000.000 VND</div>
-                <div class="product-rating" style="display: flex; justify-content: flex-end">
-                  <i class="bi bi-star-fill"></i>
-                  3.8 <span>(30)</span>
-                </div>
-              </div>
-            </div>
-          </div>
-          <!-- End Product 3 -->
-
-          <!-- Product 4 -->
-          <div class="col-lg-3 col-md-6">
-            <div class="product-item">
-              <div class="product-image">
-                <a href="product-details.php"><img src="assets/img/product/guitar/acoustic/yamaha/yamaha-ls36-are/1.jpg"
-                    alt="Product Image" class="img-fluid" loading="lazy" /></a>git
-              </div>
-              <div class="product-info">
-                <div class="product-category">Hợp cho người nghèo</div>
-                <h4 class="product-title">
-                  <a href="product-details.php">Guitar Acoustic Yamaha LS36 ARE Series 3</a>
-                </h4>
-                <div class="product-price">2.300.000 VND</div>
-                <div class="product-rating" style="display: flex; justify-content: flex-end">
-                  <i class="bi bi-star-fill"></i>
-                  4.2 <span>(380)</span>
-                </div>
-              </div>
-            </div>
-          </div>
-          <!-- End Product 4 -->
+          <?php endforeach; ?>
         </div>
       </div>
     </section>
@@ -227,18 +212,15 @@ include 'forms/head.php' ?>
               </div>
 
               <h2 data-aos="fade-up" data-aos-delay="300">
-                Đếm ngược ngày đại ưu đãi
+                <?= htmlspecialchars($megaSaleTitle) ?>
               </h2>
 
               <p class="subtitle" data-aos="fade-up" data-aos-delay="350">
-                Nếu bạn đã lỡ tay hoặc vô tình đập đi cây đàn yêu giấu của
-                mình thì đừng buồn, cột sống mà, những con số dưới đây biểu
-                hiện cho thời điểm chín mùi để bạn có thế mua và trải nghiệm
-                cảm giác đập 1 cây đàn cao cấp với mức giá siêu hời.
+                <?= htmlspecialchars($megaSaleDesc) ?>
               </p>
 
               <div class="countdown-wrapper" data-aos="fade-up" data-aos-delay="400">
-                <div class="countdown d-flex justify-content-center" data-count="2026/5/01">
+                <div class="countdown d-flex justify-content-center" data-count="<?= htmlspecialchars($megaSaleDate) ?>">
                   <div>
                     <h3 class="count-days"></h3>
                     <h4>Ngày</h4>
