@@ -45,17 +45,17 @@ include 'forms/head.php' ?>
                                             $type_name = $t['category_name']; // Chú ý: dùng category_name thay vì product_type
                                             $type_id = 'type_' . create_slug($type_name);
                                     ?>
-                                    <li class="category-item">
-                                        <div class="category-header">
-                                            <input class="form-check-input" type="checkbox" name="type[]" value="<?= $t['id'] ?>" id="<?= $type_id ?>" <?= in_array($t['id'], $selected_types) ? 'checked' : '' ?>>
-                                            <label class="form-check-label" for="<?= $type_id ?>">
-                                                <?= htmlspecialchars($type_name) ?>
-                                            </label>
-                                        </div>
-                                    </li>
-                                    <?php 
+                                            <li class="category-item">
+                                                <div class="category-header">
+                                                    <input class="form-check-input" type="checkbox" name="type[]" value="<?= $t['id'] ?>" id="<?= $type_id ?>" <?= in_array($t['id'], $selected_types) ? 'checked' : '' ?>>
+                                                    <label class="form-check-label" for="<?= $type_id ?>">
+                                                        <?= htmlspecialchars($type_name) ?>
+                                                    </label>
+                                                </div>
+                                            </li>
+                                    <?php
                                         endforeach;
-                                    endif; 
+                                    endif;
                                     ?>
                                 </ul>
                             </div>
@@ -117,19 +117,19 @@ include 'forms/head.php' ?>
                                         <?php
                                         $brands_db = getAll("SELECT * FROM brands ORDER BY brand_name ASC");
                                         $selected_brands = isset($_GET['brand']) ? (array)$_GET['brand'] : [];
-                                        
+
                                         foreach ($brands_db as $b):
                                         ?>
-                                        <div class="brand-item">
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" name="brand[]"
-                                                    value="<?= $b['id'] ?>" id="brand_<?= $b['id'] ?>"
-                                                    <?= in_array($b['id'], $selected_brands) ? 'checked' : '' ?>>
-                                                <label class="form-check-label" for="brand_<?= $b['id'] ?>">
-                                                    <?= $b['brand_name'] ?>
-                                                </label>
+                                            <div class="brand-item">
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="checkbox" name="brand[]"
+                                                        value="<?= $b['id'] ?>" id="brand_<?= $b['id'] ?>"
+                                                        <?= in_array($b['id'], $selected_brands) ? 'checked' : '' ?>>
+                                                    <label class="form-check-label" for="brand_<?= $b['id'] ?>">
+                                                        <?= $b['brand_name'] ?>
+                                                    </label>
+                                                </div>
                                             </div>
-                                        </div>
                                         <?php endforeach; ?>
                                     </div>
                                     <!-- <div class="brand-actions">
@@ -164,7 +164,7 @@ include 'forms/head.php' ?>
                         <div class="container" data-aos="fade-up" data-aos-delay="100">
                             <div class="row">
                                 <?php if (!empty($products)): ?>
-                                <?php foreach ($products as $product): 
+                                    <?php foreach ($products as $product):
                                         // 1. Lấy danh sách tên file ảnh từ DB
                                         $images = explode(',', $product['product_images']);
 
@@ -183,55 +183,64 @@ include 'forms/head.php' ?>
 
                                         // 4. Tính toán giá hiển thị
                                         $has_discount = ($product['discount_percent'] > 0);
-                                        $selling_price = $product['selling_price'];
-                                        $original_price = $has_discount ? ($selling_price / (1 - ($product['discount_percent'] / 100))) : 0;
+
+                                        // ĐỊNH NGHĨA LẠI THEO Ý HUY:
+                                        // 1. Giá niêm yết (Giá gốc bị gạch) chính là giá lưu trong DB
+                                        $original_price = $product['selling_price'];
+
+                                        // 2. Giá bán thực tế (Giá hiện màu xanh/đậm) = Giá gốc * (1 - % giảm)
+                                        if ($has_discount) {
+                                            $selling_price = $original_price * (1 - ($product['discount_percent'] / 100));
+                                        } else {
+                                            $selling_price = $original_price;
+                                        }
                                     ?>
 
-                                <div class="col-6 col-xl-4">
-                                    <div class="product-card" data-aos="zoom-in">
-                                        <div class="product-image">
-                                            <a href="product-details.php?id=<?= $product['id'] ?>">
-                                                <img src="<?= $main_img ?>" class="main-image img-fluid"
-                                                    alt="<?= htmlspecialchars($product['product_name']) ?>">
+                                        <div class="col-6 col-xl-4">
+                                            <div class="product-card" data-aos="zoom-in">
+                                                <div class="product-image">
+                                                    <a href="product-details.php?id=<?= $product['id'] ?>">
+                                                        <img src="<?= $main_img ?>" class="main-image img-fluid"
+                                                            alt="<?= htmlspecialchars($product['product_name']) ?>">
 
-                                                <img src="<?= $hover_img ?>" class="hover-image img-fluid"
-                                                    alt="<?= htmlspecialchars($product['product_name']) ?>">
-                                            </a>
+                                                        <img src="<?= $hover_img ?>" class="hover-image img-fluid"
+                                                            alt="<?= htmlspecialchars($product['product_name']) ?>">
+                                                    </a>
 
-                                            <?php if ($has_discount): ?>
-                                            <div class="product-badge sale">-<?= round($product['discount_percent']) ?>%
-                                            </div>
-                                            <?php endif; ?>
-                                        </div>
-
-                                        <div class="product-details">
-                                            <div class="product-category"><?= htmlspecialchars($product['category_name']) ?></div>
-                                            <h4 class="product-title">
-                                                <a
-                                                    href="product-details.php?id=<?= $product['id'] ?>"><?= htmlspecialchars($product['product_name']) ?></a>
-                                            </h4>
-                                            <div class="product-meta">
-                                                <div class="product-price">
-                                                    <?= number_format($selling_price, 0, ',', '.') ?> VND
                                                     <?php if ($has_discount): ?>
-                                                    <span
-                                                        class="original-price"><?= number_format($original_price, 0, ',', '.') ?>
-                                                        VND</span>
+                                                        <div class="product-badge sale">-<?= round($product['discount_percent']) ?>%
+                                                        </div>
                                                     <?php endif; ?>
                                                 </div>
-                                            </div>
-                                            <div class="product-rating"
-                                                style="display: flex; justify-content: flex-end;">
-                                                <i class="bi bi-star-fill"></i> 5.0 <span>(0)</span>
+
+                                                <div class="product-details">
+                                                    <div class="product-category"><?= htmlspecialchars($product['category_name']) ?></div>
+                                                    <h4 class="product-title">
+                                                        <a
+                                                            href="product-details.php?id=<?= $product['id'] ?>"><?= htmlspecialchars($product['product_name']) ?></a>
+                                                    </h4>
+                                                    <div class="product-meta">
+                                                        <div class="product-price">
+                                                            <?= number_format($selling_price, 0, ',', '.') ?> VND
+                                                            <?php if ($has_discount): ?>
+                                                                <span
+                                                                    class="original-price"><?= number_format($original_price, 0, ',', '.') ?>
+                                                                    VND</span>
+                                                            <?php endif; ?>
+                                                        </div>
+                                                    </div>
+                                                    <div class="product-rating"
+                                                        style="display: flex; justify-content: flex-end;">
+                                                        <i class="bi bi-star-fill"></i> 5.0 <span>(0)</span>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                </div>
-                                <?php endforeach; ?>
+                                    <?php endforeach; ?>
                                 <?php else: ?>
-                                <div class="col-12 text-center py-5">
-                                    <p class="text-muted">Hiện chưa có sản phẩm nào để hiển thị.</p>
-                                </div>
+                                    <div class="col-12 text-center py-5">
+                                        <p class="text-muted">Hiện chưa có sản phẩm nào để hiển thị.</p>
+                                    </div>
                                 <?php endif; ?>
                             </div>
                         </div>
@@ -244,7 +253,7 @@ include 'forms/head.php' ?>
                         <div class="container">
                             <nav class="d-flex justify-content-center" aria-label="Page navigation">
                                 <ul>
-                                    <?php 
+                                    <?php
                                     // Tạo base_url chứa sẵn các filter hiện tại (trừ page)
                                     $params = $_GET;
                                     unset($params['page']);
@@ -253,50 +262,49 @@ include 'forms/head.php' ?>
                                     ?>
 
                                     <?php if ($currentPage > 1): ?>
-                                    <li><a href="<?= $base_url ?>page=<?= $currentPage - 1 ?>"><i
-                                                class="bi bi-arrow-left"></i></a></li>
+                                        <li><a href="<?= $base_url ?>page=<?= $currentPage - 1 ?>"><i
+                                                    class="bi bi-arrow-left"></i></a></li>
                                     <?php endif; ?>
 
-                                    <?php if($maxPage <= $maxPanigation): ?>
-                                    <?php for ($i = 1; $i <= $maxPage; $i++): ?>
-                                    <li>
-                                        <a href="<?= $base_url ?>page=<?= $i ?>"
-                                            class="<?= ($i == $currentPage) ? 'active' : '' ?>">
-                                            <?= $i ?>
-                                        </a>
-                                    </li>
-                                    <?php endfor; ?>
+                                    <?php if ($maxPage <= $maxPanigation): ?>
+                                        <?php for ($i = 1; $i <= $maxPage; $i++): ?>
+                                            <li>
+                                                <a href="<?= $base_url ?>page=<?= $i ?>"
+                                                    class="<?= ($i == $currentPage) ? 'active' : '' ?>">
+                                                    <?= $i ?>
+                                                </a>
+                                            </li>
+                                        <?php endfor; ?>
                                     <?php else: ?>
-                                    <?php 
-                                            $startPage = 1;
-                                            $endPage = $maxPanigation;
-                                            if($currentPage > $maxPanigation) {
-                                                echo "<li class='ellipsis'>...</li>";
-                                                $startPage = ($maxPage - $currentPage + 1) < $maxPanigation ? ($maxPage - $maxPanigation + 1): $currentPage - 1;
-                                                $endPage = ($currentPage + $maxPanigation - 1) > $maxPage ? $maxPage : ($currentPage + $maxPanigation - 1) -1;
-                                            }
-                                            else if($currentPage == $maxPanigation) {
-                                                echo "<li class='ellipsis'>...</li>";
-                                                $startPage++;
-                                                $endPage++;
-                                            }
+                                        <?php
+                                        $startPage = 1;
+                                        $endPage = $maxPanigation;
+                                        if ($currentPage > $maxPanigation) {
+                                            echo "<li class='ellipsis'>...</li>";
+                                            $startPage = ($maxPage - $currentPage + 1) < $maxPanigation ? ($maxPage - $maxPanigation + 1) : $currentPage - 1;
+                                            $endPage = ($currentPage + $maxPanigation - 1) > $maxPage ? $maxPage : ($currentPage + $maxPanigation - 1) - 1;
+                                        } else if ($currentPage == $maxPanigation) {
+                                            echo "<li class='ellipsis'>...</li>";
+                                            $startPage++;
+                                            $endPage++;
+                                        }
 
-                                            for ($i = $startPage; $i <= $endPage; $i++): 
+                                        for ($i = $startPage; $i <= $endPage; $i++):
                                         ?>
-                                    <li>
-                                        <a href="<?= $base_url ?>page=<?= $i ?>"
-                                            class="<?= ($i == $currentPage) ? 'active' : '' ?>">
-                                            <?= $i ?>
-                                        </a>
-                                    </li>
-                                    <?php endfor; ?>
+                                            <li>
+                                                <a href="<?= $base_url ?>page=<?= $i ?>"
+                                                    class="<?= ($i == $currentPage) ? 'active' : '' ?>">
+                                                    <?= $i ?>
+                                                </a>
+                                            </li>
+                                        <?php endfor; ?>
 
-                                    <?php if($endPage < $maxPage) echo "<li class='ellipsis'>...</li>"; ?>
+                                        <?php if ($endPage < $maxPage) echo "<li class='ellipsis'>...</li>"; ?>
                                     <?php endif; ?>
 
                                     <?php if ($currentPage < $maxPage): ?>
-                                    <li><a href="<?= $base_url ?>page=<?= $currentPage + 1 ?>"><i
-                                                class="bi bi-arrow-right"></i></a></li>
+                                        <li><a href="<?= $base_url ?>page=<?= $currentPage + 1 ?>"><i
+                                                    class="bi bi-arrow-right"></i></a></li>
                                     <?php endif; ?>
                                 </ul>
                             </nav>

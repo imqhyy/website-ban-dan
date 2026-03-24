@@ -180,8 +180,17 @@ require_once 'forms/init.php'; ?>
 
                                         // 4. Tính toán giá hiển thị
                                         $has_discount = ($product['discount_percent'] > 0);
-                                        $selling_price = $product['selling_price'];
-                                        $original_price = $has_discount ? ($selling_price / (1 - ($product['discount_percent'] / 100))) : 0;
+
+                                        // ĐỊNH NGHĨA LẠI THEO Ý HUY:
+                                        // 1. Giá niêm yết (Giá gốc bị gạch) chính là giá lưu trong DB
+                                        $original_price = $product['selling_price'];
+
+                                        // 2. Giá bán thực tế (Giá hiện màu xanh/đậm) = Giá gốc * (1 - % giảm)
+                                        if ($has_discount) {
+                                            $selling_price = $original_price * (1 - ($product['discount_percent'] / 100));
+                                        } else {
+                                            $selling_price = $original_price;
+                                        }
                                     ?>
                                     
                                     <div class="col-6 col-xl-4">

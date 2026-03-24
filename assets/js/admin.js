@@ -237,19 +237,22 @@ function addNewCategoryAjax() {
 /* DÀNH CHO TRANG QUẢN LÝ THƯƠNG HIỆU (AJAX) */
 
 function toggleBrandStatus(id) {
-    fetch("forms/quanlyloaisanpham/ajax_handle_brands.php", {
-        method: "POST",
-        headers: { "Content-Type": "application/x-www-form-urlencoded" },
-        body: `action=toggle_brand_status&id=${id}`
-    })
-    .then(res => res.text())
-    .then(data => {
-        if (data.trim() === "success") {
-            fetchGlobalBrands(); // Tải lại bảng để cập nhật icon
-            Toast.fire({ icon: 'success', title: 'Đã cập nhật trạng thái thương hiệu!' });
-        } else {
-            Swal.fire("Lỗi", data, "error");
-        }
+  fetch("forms/quanlyloaisanpham/ajax_handle_brands.php", {
+    method: "POST",
+    headers: { "Content-Type": "application/x-www-form-urlencoded" },
+    body: `action=toggle_brand_status&id=${id}`,
+  })
+    .then((res) => res.text())
+    .then((data) => {
+      if (data.trim() === "success") {
+        fetchGlobalBrands(); // Tải lại bảng để cập nhật icon
+        Toast.fire({
+          icon: "success",
+          title: "Đã cập nhật trạng thái thương hiệu!",
+        });
+      } else {
+        Swal.fire("Lỗi", data, "error");
+      }
     });
 }
 const manageButtons = document.querySelectorAll(".manage-brands-btn");
@@ -1060,10 +1063,14 @@ document.addEventListener("DOMContentLoaded", function () {
   function fetchProductList(page = 1) {
     const type = document.getElementById("filter-product-type")?.value || ""; // Giờ là ID số
     const brand = document.getElementById("filter-product-brand")?.value || "";
+    const discountSelect = document.getElementById("filter-product-discount");
+    const discount = discountSelect ? discountSelect.value : ""; // Đảm bảo lấy đúng value
     const search = document.getElementById("search-input")?.value || "";
 
     // Gửi yêu cầu lên server, dùng category_id (hoặc giữ key product_type nhưng giá trị là ID)
-    const url = `forms/danhmucsanpham/ajax_handle_products.php?action=fetch_list&page=${page}&product_type=${type}&brand_id=${brand}&search=${encodeURIComponent(search)}`;
+    console.log(`Đang lọc: Type=${type}, Brand=${brand}, Discount=${discount}, Page=${page}`);
+
+    const url = `forms/danhmucsanpham/ajax_handle_products.php?action=fetch_list&page=${page}&product_type=${type}&brand_id=${brand}&is_discount=${discount}&search=${encodeURIComponent(search)}`;
 
     fetch(url)
       .then((res) => res.json())
@@ -1482,7 +1489,13 @@ document.addEventListener("DOMContentLoaded", function () {
   // --- 9. SỰ KIỆN BỘ LỌC (PHÂN LOẠI & THƯƠNG HIỆU) ---
   const filterType = document.getElementById("filter-product-type");
   const filterBrand = document.getElementById("filter-product-brand");
+  const filterDiscount = document.getElementById("filter-product-discount");
 
+  if (filterDiscount) {
+    filterDiscount.addEventListener("change", function () {
+      fetchProductList(1); // Tải lại trang 1 với điều kiện mới
+    });
+  }
   if (filterType && filterBrand) {
     // Khi đổi Loại sản phẩm ở bộ lọc
     filterType.addEventListener("change", function () {
@@ -1544,7 +1557,9 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 
-  fetchProductList(1);
+  if (document.body.classList.contains("manage-products-page")) {
+      fetchProductList(1);
+  }
 });
 
 // Hàm hỗ trợ nạp Brand cho Modal Sửa
@@ -1569,3 +1584,114 @@ function loadBrandsForEdit(categoryId, selectedBrandId) {
           .join("");
     });
 }
+
+
+
+/* ==========================================================
+   QUẢN LÝ TỒN KHO: TÌM KIẾM NÓNG & BỘ LỌC TỰ ĐỘNG
+   ========================================================== */
+document.addEventListener("DOMContentLoaded", function () {
+  // Kiểm tra nếu đang ở đúng trang Tồn kho mới chạy logic này
+  if (document.body.classList.contains("inventory-page")) {
+    const inventoryForm = document.getElementById("inventory-filter-form");
+    const searchInput = document.getElementById("inventory-search-input");
+    const dateInput = document.getElementById("inventory-filter-date");
+    const statusSelect = document.getElementById("inventory-status-select");
+
+    if (inventoryForm) {
+      // 1. Tự động tra cứu khi thay đổi Ngày hoặc Tình trạng
+      [dateInput, statusSelect].forEach((element) => {
+        if (element) {
+          element.addEventListener("change", function () {
+            inventoryForm.submit();
+          });
+        }
+      });
+
+      // 2. TÌM KIẾM NÓNG: Vừa gõ vừa hiện (Debounce 500ms)
+      let typingTimer;
+      if (searchInput) {
+        searchInput.addEventListener("input", function () {
+          clearTimeout(typingTimer);
+          typingTimer = setTimeout(() => {
+            inventoryForm.submit();
+          }, 500); // Chờ nửa giây sau khi ngừng gõ mới load lại trang
+        });
+
+        // Đưa con trỏ xuống cuối văn bản để trải nghiệm gõ không bị ngắt quãng
+        const currentVal = searchInput.value;
+        searchInput.focus();
+        searchInput.value = '';
+        searchInput.value = currentVal;
+      }
+    }
+  }
+});
+
+/* ==========================================================
+   CHUYÊN MỤC QUẢN LÝ TỒN KHO - AJAX FULL LOGIC (HUY)
+   ========================================================== */
+document.addEventListener("DOMContentLoaded", function () {
+    // Chỉ chạy logic này khi trình duyệt thấy class 'inventory-page' ở body
+    if (!document.body.classList.contains("inventory-page")) return;
+
+    const inv_TableBody = document.getElementById("stock-list-container");
+    const inv_Pagination = document.querySelector("#category-pagination ul");
+    const inv_Search = document.getElementById("search-input");
+    const inv_Date = document.getElementById("filter-date");
+    const inv_Status = document.getElementById("sort-order");
+
+    let inv_debounceTimer;
+
+    // 1. Hàm chính để tải dữ liệu qua AJAX
+    function fetchInventoryAjax(page = 1) {
+        const dateVal = inv_Date.value;
+        const searchVal = inv_Search.value;
+        const statusVal = inv_Status.value;
+
+        // Hiện hiệu ứng đang tải cho Huy nhìn cho chuyên nghiệp
+        inv_TableBody.innerHTML = '<tr><td colspan="7" class="text-center">Đang tính toán tồn kho...</td></tr>';
+
+        // Gọi đến file xử lý AJAX mà mình đã tạo ở bước trước
+        const url = `forms/quanlytonkho/ajax_handle_inventory.php?action=fetch_inventory&date=${dateVal}&search=${encodeURIComponent(searchVal)}&status=${statusVal}&page=${page}`;
+
+        fetch(url)
+            .then(res => res.json())
+            .then(data => {
+                inv_TableBody.innerHTML = data.table; // Dán bảng mới vào
+                inv_Pagination.innerHTML = data.pagination; // Dán phân trang mới vào
+            })
+            .catch(err => {
+                console.error("Lỗi AJAX Tồn kho:", err);
+                inv_TableBody.innerHTML = '<tr><td colspan="7" class="text-center text-danger">Lỗi kết nối máy chủ!</td></tr>';
+            });
+    }
+
+    // 2. TÌM KIẾM NÓNG (Vừa gõ vừa hiện)
+    inv_Search.addEventListener("input", function() {
+        clearTimeout(inv_debounceTimer);
+        // Chờ 500ms sau khi Huy ngừng gõ mới load để tránh lag máy
+        inv_debounceTimer = setTimeout(() => {
+            fetchInventoryAjax(1); 
+        }, 500);
+    });
+
+    // 3. BỘ LỌC TỰ ĐỘNG (Ngày & Trạng thái)
+    [inv_Date, inv_Status].forEach(el => {
+        el.addEventListener("change", () => fetchInventoryAjax(1));
+    });
+
+    // 4. PHÂN TRANG AJAX (Bấm số trang không load lại page)
+    inv_Pagination.addEventListener("click", function(e) {
+        const link = e.target.closest("a");
+        if (link && link.getAttribute("data-page")) {
+            e.preventDefault();
+            const targetPage = link.getAttribute("data-page");
+            fetchInventoryAjax(targetPage);
+            window.scrollTo({ top: 0, behavior: 'smooth' }); // Cuộn lên đầu bảng cho dễ nhìn
+        }
+    });
+
+    // 5. Chạy lần đầu tiên khi vừa mở trang (Mặc định trang 1)
+    fetchInventoryAjax(1);
+});

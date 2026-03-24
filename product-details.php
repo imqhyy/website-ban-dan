@@ -43,10 +43,9 @@ $discount = (float) $product['discount_percent'];
 $profit_margin = (float) $product['profit_margin'];
 
 // Tính giá gốc hiển thị (trước giảm giá)
-$original_price = $discount > 0
-  ? round($selling_price / (1 - $discount / 100))
-  : null;
-$save_amount = $original_price ? $original_price - $selling_price : 0;
+$original_price = ($discount > 0) ? $selling_price : null;
+$selling_price = ($discount > 0) ? ($selling_price * (1 - $discount / 100)) : $selling_price;
+$save_amount = $original_price ? ($original_price - $selling_price) : 0;
 
 // Xử lý accessories JSON
 $accessories_fixed = [];
@@ -149,6 +148,7 @@ include 'forms/head.php';
               <div class="pricing-section">
                 <div class="price-display">
                   <span class="sale-price"><?= number_format($selling_price, 0, ',', '.') ?> VND</span>
+
                   <?php if ($original_price): ?>
                     <span class="regular-price"><?= number_format($original_price, 0, ',', '.') ?> VND</span>
                   <?php endif; ?>
@@ -438,11 +438,11 @@ include 'forms/head.php';
   <script src="assets/js/products.js"></script>
 
   <script>
-    document.addEventListener('DOMContentLoaded', function () {
+    document.addEventListener('DOMContentLoaded', function() {
       const addToCartBtn = document.getElementById('add-to-cart-btn');
 
       if (addToCartBtn) {
-        addToCartBtn.addEventListener('click', function (e) {
+        addToCartBtn.addEventListener('click', function(e) {
           e.preventDefault();
 
           <?php if (!empty($_SESSION['user'])): ?>
@@ -462,14 +462,17 @@ include 'forms/head.php';
 
             // 3. Gọi AJAX đến file ajax_cart.php
             fetch('forms/ajax/ajax_cart.php', {
-              method: 'POST',
-              body: formData
-            })
+                method: 'POST',
+                body: formData
+              })
               .then(response => response.json())
               .then(data => {
                 if (data.status === 'success') {
                   // Hiện thông báo thành công
-                  Toast.fire({ icon: 'success', title: 'Đã thêm ' + productName + ' vào giỏ!' });
+                  Toast.fire({
+                    icon: 'success',
+                    title: 'Đã thêm ' + productName + ' vào giỏ!'
+                  });
 
                   // Cập nhật ngay con số trên icon giỏ hàng ở header
                   if (data.is_new_item) {
@@ -481,18 +484,29 @@ include 'forms/head.php';
                   }
                 } else {
                   // Nếu backend báo lỗi (ví dụ hết hàng, v.v.)
-                  Toast.fire({ icon: 'error', title: data.message });
+                  Toast.fire({
+                    icon: 'error',
+                    title: data.message
+                  });
                 }
               })
               .catch(error => {
                 console.error('Error:', error);
-                Toast.fire({ icon: 'error', title: 'Không thể kết nối đến máy chủ!' });
+                Toast.fire({
+                  icon: 'error',
+                  title: 'Không thể kết nối đến máy chủ!'
+                });
               });
 
           <?php else: ?>
             // Xử lý khi chưa đăng nhập
-            Toast.fire({ icon: 'warning', title: 'Vui lòng đăng nhập để thêm sản phẩm vào giỏ!' })
-              .then(() => { window.location.href = 'login.php'; });
+            Toast.fire({
+                icon: 'warning',
+                title: 'Vui lòng đăng nhập để thêm sản phẩm vào giỏ!'
+              })
+              .then(() => {
+                window.location.href = 'login.php';
+              });
           <?php endif; ?>
         });
       }

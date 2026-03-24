@@ -9,7 +9,7 @@ include __DIR__ . "/forms/head.php";
 $filter_categories = getAll("SELECT * FROM categories ORDER BY category_name ASC");
 ?>
 
-<body class="login-page">
+<body class="manage-products-page">
     <?php require_once __DIR__ . "/forms/header.php" ?>
 
     <main class="main">
@@ -351,6 +351,15 @@ $filter_categories = getAll("SELECT * FROM categories ORDER BY category_name ASC
                         <label for="sort-product-brand" class="form-label">Thương hiệu</label>
                         <select id="filter-product-brand" class="form-select custom-input" name="brand_id">
                             <option value="">-- Tất cả thương hiệu --</option>
+                        </select>
+                    </div>
+
+                    <div class="col-md-3" style="width: 200px;">
+                        <label for="filter-product-discount" class="form-label">Trạng thái giảm giá</label>
+                        <select id="filter-product-discount" class="form-select custom-input" name="is_discount">
+                            <option value="" selected>-- Tất cả --</option>
+                            <option value="1">Đang giảm giá</option>
+                            <option value="0">Không giảm giá</option>
                         </select>
                     </div>
                 </div>

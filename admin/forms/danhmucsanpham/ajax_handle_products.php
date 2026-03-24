@@ -98,6 +98,14 @@ if ($action === 'fetch_list') {
         $conditions[] = "(p.product_name LIKE $search OR p.id LIKE $search)";
     }
 
+    if (isset($_GET['is_discount']) && $_GET['is_discount'] !== '') {
+        if ($_GET['is_discount'] == '1') {
+            $conditions[] = "p.discount_percent > 0";
+        } else {
+            $conditions[] = "p.discount_percent = 0";
+        }
+    }
+
     $where = !empty($conditions) ? " WHERE " . implode(" AND ", $conditions) : "";
 
     // Đếm tổng để tính số trang
