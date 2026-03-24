@@ -29,7 +29,7 @@ $filterStatus = "";
     </div>
 
     <div class="container-manage-import-products">
-      <form action="" method="get" id="inventory-filter-form">
+      <div id="inventory-filter-form">
         <div class="search-container">
           <input type="text" id="search-input" name="search"
             placeholder="Tra cứu số lượng tồn của sản phẩm"
@@ -43,6 +43,10 @@ $filterStatus = "";
               <input type="date" name="date" id="filter-date" class="input-sort-date" value="<?= $targetDate ?>">
             </label>
           </div>
+          <div style="display: flex; align-items: center; gap: 10px;">
+            <label for="warning-threshold" style="margin-bottom: 0; white-space: nowrap;">Ngưỡng cảnh báo:</label>
+            <input type="number" id="warning-threshold" class="form-control custom-input" value="5" min="0" style="height: 38px; width: 80px;">
+          </div>
           <div class="sort-by-order-status">
             <label for="sort-order">Tình trạng:</label>
             <select id="sort-order" name="status" class="status-select-custom">
@@ -52,11 +56,11 @@ $filterStatus = "";
               <option value="outstock">Hết hàng</option>
             </select>
           </div>
-          <button type="submit" id="filter-button" class="status-button">
+          <!-- <button type="submit" id="filter-button" class="status-button">
             <i class="bi bi-funnel"></i> Tra cứu
-          </button>
+          </button> -->
         </div>
-      </form>
+      </div>
       <hr>
 
       <div class="card-body">
