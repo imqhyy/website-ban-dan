@@ -69,6 +69,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             $total_amount += $actual_price * $item['quantity'];
         }
+        unset($item); // Tránh lỗi tham chiếu khi dùng lại biến $item ở dưới
 
         // 2. Tạo mã đơn hàng (VD: ORD-2026-A1B2C)
         $order_code = 'ORD-' . date('Y') . '-' . strtoupper(substr(md5(uniqid()), 0, 5));

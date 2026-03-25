@@ -68,7 +68,7 @@ $action = $_POST['action'] ?? $_GET['action'] ?? '';
 
 // --- 1. Lấy thương hiệu theo ID Phân loại (Sửa để fix lỗi Foreign Key) ---
 if ($action === 'get_brands_by_category') {
-    $cat_id = (int)($_GET['category_name'] ?? 0); // Huy gửi ID lên thì ta ép kiểu int
+    $cat_id = (int) ($_GET['category_name'] ?? 0); // Huy gửi ID lên thì ta ép kiểu int
     // Phải lọc theo c.id mới ra được Brand đúng
     $sql = "SELECT b.id, b.brand_name, bc.brand_profit AS profit_margin 
             FROM brands b
@@ -83,8 +83,8 @@ if ($action === 'get_brands_by_category') {
 if ($action === 'add_product') {
     try {
         $p_name = $_POST['product_name'];
-        $cat_id = (int)$_POST['product_type'];
-        $brand_id = (int)$_POST['brand_id'];
+        $cat_id = (int) $_POST['product_type'];
+        $brand_id = (int) $_POST['brand_id'];
 
         $cat_info = getOne("SELECT category_name FROM categories WHERE id = $cat_id");
         $brand_info = getOne("SELECT brand_name FROM brands WHERE id = $brand_id");
@@ -95,7 +95,8 @@ if ($action === 'add_product') {
 
         $relative_path = "assets/img/products/guitar/{$type_slug}/{$brand_slug}/{$product_slug}/";
         $upload_dir = __DIR__ . "/../../../" . $relative_path;
-        if (!file_exists($upload_dir)) mkdir($upload_dir, 0777, true);
+        if (!file_exists($upload_dir))
+            mkdir($upload_dir, 0777, true);
 
         $uploaded_images = [];
         if (!empty($_FILES['product_images']['name'][0])) {
@@ -143,18 +144,18 @@ if ($action === 'add_product') {
 
 // --- 3. AJAX TẢI LẠI DANH SÁCH (BẢN CHUẨN CATEGORY_ID - HUY COPY ĐOẠN NÀY) ---
 if ($action === 'fetch_list') {
-    $currentPage = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+    $currentPage = isset($_GET['page']) ? (int) $_GET['page'] : 1;
     $perPage = 10;
     $conditions = [];
     $targetDate = $_GET['date'] ?? date('Y-m-d');
 
     // SỬA: Lọc theo category_id (kiểu số) thay vì product_type (kiểu chữ)
     if (!empty($_GET['product_type'])) {
-        $conditions[] = "p.category_id = " . (int)$_GET['product_type'];
+        $conditions[] = "p.category_id = " . (int) $_GET['product_type'];
     }
 
     if (!empty($_GET['brand_id'])) {
-        $conditions[] = "p.brand_id = " . (int)$_GET['brand_id'];
+        $conditions[] = "p.brand_id = " . (int) $_GET['brand_id'];
     }
 
     if (!empty($_GET['search'])) {
@@ -213,7 +214,7 @@ if ($action === 'fetch_list') {
                 <td>$type</td>
                 <td>" . htmlspecialchars($p['brand_name'] ?? 'N/A') . "</td>
                 <td class='fw-bold text-muted'>$cost_display</td> 
-                <td>" . (float)$p['profit_margin'] . "%</td>
+                <td>" . (float) $p['profit_margin'] . "%</td>
                 <td class='fw-bold text-primary'>$selling_display</td>
                 <td class='function-button-container'>
                     <button class='action-icon-btn edit-product-btn' title='Sửa' data-id='{$p['id']}'>
@@ -233,12 +234,14 @@ if ($action === 'fetch_list') {
     // Tạo HTML cho phân trang (Giữ nguyên logic vẽ nút của Huy)
     $pageHtml = "";
     if ($maxPage > 1) {
-        if ($currentPage > 1) $pageHtml .= "<li><a href='#' data-page='" . ($currentPage - 1) . "'><i class='bi bi-arrow-left'></i></a></li>";
+        if ($currentPage > 1)
+            $pageHtml .= "<li><a href='#' data-page='" . ($currentPage - 1) . "'><i class='bi bi-arrow-left'></i></a></li>";
         for ($i = 1; $i <= $maxPage; $i++) {
             $active = ($i == $currentPage) ? 'active' : '';
             $pageHtml .= "<li><a href='#' class='$active' data-page='$i'>$i</a></li>";
         }
-        if ($currentPage < $maxPage) $pageHtml .= "<li><a href='#' data-page='" . ($currentPage + 1) . "'><i class='bi bi-arrow-right'></i></a></li>";
+        if ($currentPage < $maxPage)
+            $pageHtml .= "<li><a href='#' data-page='" . ($currentPage + 1) . "'><i class='bi bi-arrow-right'></i></a></li>";
     }
 
     echo json_encode(['table' => $tableHtml, 'pagination' => $pageHtml]);
@@ -247,7 +250,7 @@ if ($action === 'fetch_list') {
 
 // --- 4. Lấy chi tiết để Sửa (PHẢI GIỮ LẠI TÊN LOẠI ĐỂ TẠO SLUG ẢNH) ---
 if ($action === 'get_product_detail') {
-    $id = (int)$_GET['id'];
+    $id = (int) $_GET['id'];
     // JOIN thêm categories để lấy tên (category_name) dùng cho đường dẫn ảnh
     $sql = "SELECT p.*, b.brand_name, c.category_name 
             FROM products p 
@@ -275,10 +278,10 @@ if ($action === 'update_product') {
     try {
         $pdo->beginTransaction();
 
-        $p_id = (int)$_POST['product_id'];
+        $p_id = (int) $_POST['product_id'];
         $p_name = $_POST['product_name'];
-        $cat_id = (int)$_POST['product_type'];
-        $brand_id = (int)$_POST['brand_id'];
+        $cat_id = (int) $_POST['product_type'];
+        $brand_id = (int) $_POST['brand_id'];
 
         // 1. Lấy thông tin cũ để so sánh thư mục
         $sqlOld = "SELECT p.product_name, b.brand_name, c.category_name FROM products p 
@@ -291,7 +294,8 @@ if ($action === 'update_product') {
 
         $product_slug_new = create_slug($p_name);
         $upload_dir_new = __DIR__ . "/../../../assets/img/products/guitar/" . create_slug($cat_info['category_name']) . "/" . create_slug($brand_info['brand_name']) . "/{$product_slug_new}/";
-        if (!file_exists($upload_dir_new)) mkdir($upload_dir_new, 0777, true);
+        if (!file_exists($upload_dir_new))
+            mkdir($upload_dir_new, 0777, true);
 
         $upload_dir_old = __DIR__ . "/../../../assets/img/products/guitar/" . create_slug($old_p['category_name']) . "/" . create_slug($old_p['brand_name']) . "/" . create_slug($old_p['product_name']) . "/";
 
@@ -331,7 +335,8 @@ if ($action === 'update_product') {
         if ($upload_dir_old !== $upload_dir_new && is_dir($upload_dir_old)) {
             $files = glob($upload_dir_old . "*");
             foreach ($files as $file) {
-                if (is_file($file)) unlink($file);
+                if (is_file($file))
+                    unlink($file);
             }
             @rmdir($upload_dir_old);
         }
@@ -388,7 +393,7 @@ if ($action === 'update_product') {
 // --- 6. XỬ LÝ XÓA SẢN PHẨM (Nâng cấp theo yêu cầu giảng viên) ---
 if ($action === 'delete_product') {
     try {
-        $id = (int)$_POST['id'];
+        $id = (int) $_POST['id'];
 
         // BƯỚC 1: Kiểm tra xem sản phẩm đã từng được nhập hàng chưa
         // Chúng ta kiểm tra trong bảng chi tiết phiếu nhập (import_receipt_details)
@@ -436,7 +441,7 @@ if ($action === 'delete_product') {
 // --- 7. XỬ LÝ ẨN/HIỆN SẢN PHẨM (Huy thêm đoạn này) ---
 if ($action === 'toggle_status') {
     try {
-        $id = (int)$_POST['id'];
+        $id = (int) $_POST['id'];
 
         // 1. Lấy trạng thái hiện tại
         $current = getOne("SELECT status FROM products WHERE id = ?", [$id]);

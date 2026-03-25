@@ -12678,6 +12678,38 @@ section,
   margin-left: auto;
 }
 
+/* Sync Promotion Filter style with Category/Brand style (Black square with Checkmark) */
+.promotion-filter-widget .form-check {
+  display: flex;
+  align-items: center;
+  margin: 0;
+}
+
+.promotion-filter-widget .form-check-input {
+  margin-top: 0;
+  margin-right: 10px;
+  cursor: pointer;
+  border-radius: 4px !important;
+}
+
+.promotion-filter-widget .form-check-input:checked {
+  background-color: var(--accent-color);
+  border-color: var(--accent-color);
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3e%3cpath fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round' stroke-width='3' d='m6 10 3 3 6-6'/%3e%3c/svg%3e") !important;
+  box-shadow: none;
+}
+
+.promotion-filter-widget .form-check-input:focus {
+  border-color: var(--accent-color);
+  box-shadow: none;
+}
+
+.promotion-filter-widget .form-check-label {
+  cursor: pointer;
+  font-size: 14px;
+  color: var(--default-color);
+}
+
 .brand-filter-widget .brand-actions {
   display: flex;
   align-items: center;
@@ -12846,7 +12878,7 @@ section,
   /* Dùng font chữ mặc định của web */
   background-color: var(--surface-color);
   /* Dùng màu nền của các card */
-  border-radius: 16px;
+  border-radius: 25px;
   /* Bo góc cho mềm mại */
 }
 

@@ -6,6 +6,19 @@ $stmt->execute([$_SESSION['user']]);
 $user = $stmt->fetch();
 require_once "forms/modules/users/list.php";
 
+// Fetch user reviews
+$reviewStmt = $pdo->prepare("
+    SELECT r.*, p.product_name, c.category_name, b.brand_name, p.product_images 
+    FROM reviews r
+    JOIN products p ON r.product_id = p.id
+    LEFT JOIN categories c ON p.category_id = c.id
+    LEFT JOIN brands b ON p.brand_id = b.id
+    WHERE r.user_id = ?
+    ORDER BY r.created_at DESC
+");
+$reviewStmt->execute([$user['id']]);
+$userReviews = $reviewStmt->fetchAll();
+
 
 $title = "Hồ sơ của tôi - Guitar Xì Gòn";
 include 'forms/head.php';
@@ -34,8 +47,7 @@ include 'forms/head.php';
 
         <!-- Mobile Menu Toggle -->
         <div class="mobile-menu d-lg-none mb-4">
-          <button class="mobile-menu-toggle" type="button" data-bs-toggle="collapse"
-            data-bs-target="#profileMenu">
+          <button class="mobile-menu-toggle" type="button" data-bs-toggle="collapse" data-bs-target="#profileMenu">
             <i class="bi bi-grid"></i>
             <span>Menu</span>
           </button>
@@ -131,8 +143,7 @@ include 'forms/head.php';
                     <div class="header-actions">
                       <div class="search-box">
                         <i class="bi bi-search"></i>
-                        <input type="text" id="order-search-input"
-                          placeholder="Tìm kiếm đơn hàng...">
+                        <input type="text" id="order-search-input" placeholder="Tìm kiếm đơn hàng...">
                       </div>
                       <div class="dropdown">
                         <button class="filter-btn" data-bs-toggle="dropdown">
@@ -140,17 +151,16 @@ include 'forms/head.php';
                           <span>Lọc</span>
                         </button>
                         <ul class="dropdown-menu" id="order-filter-menu">
-                          <li><a class="dropdown-item active fw-bold"
-                              href="javascript:void(0)" data-status="all">Tất cả đơn
+                          <li><a class="dropdown-item active fw-bold" href="javascript:void(0)" data-status="all">Tất cả
+                              đơn
                               hàng</a></li>
-                          <li><a class="dropdown-item" href="javascript:void(0)"
-                              data-status="processing">Đang xử lý / Chờ xác nhận</a></li>
-                          <li><a class="dropdown-item" href="javascript:void(0)"
-                              data-status="shipped">Đang vận chuyển</a></li>
-                          <li><a class="dropdown-item" href="javascript:void(0)"
-                              data-status="delivered">Đã nhận được hàng</a></li>
-                          <li><a class="dropdown-item" href="javascript:void(0)"
-                              data-status="cancelled">Đã huỷ</a></li>
+                          <li><a class="dropdown-item" href="javascript:void(0)" data-status="processing">Đang xử lý /
+                              Chờ xác nhận</a></li>
+                          <li><a class="dropdown-item" href="javascript:void(0)" data-status="shipped">Đang vận
+                              chuyển</a></li>
+                          <li><a class="dropdown-item" href="javascript:void(0)" data-status="delivered">Đã nhận được
+                              hàng</a></li>
+                          <li><a class="dropdown-item" href="javascript:void(0)" data-status="cancelled">Đã huỷ</a></li>
                         </ul>
                       </div>
                     </div>
@@ -202,16 +212,16 @@ include 'forms/head.php';
                         }
                         ?>
                         <div class="order-card" data-status="<?= htmlspecialchars($statusClass) ?>"
-                          data-order-code="<?= strtolower(htmlspecialchars($order['order_code'])) ?>"
-                          data-aos="fade-up" data-aos-delay="<?= 100 * (($key % 3) + 1) ?>">
+                          data-order-code="<?= strtolower(htmlspecialchars($order['order_code'])) ?>" data-aos="fade-up"
+                          data-aos-delay="<?= 100 * (($key % 3) + 1) ?>">
                           <div class="order-header">
                             <div class="order-id">
                               <span class="label">Mã đơn hàng:</span>
-                              <span
-                                class="value">#<?= htmlspecialchars($order['order_code']) ?></span>
+                              <span class="value">#<?= htmlspecialchars($order['order_code']) ?></span>
                             </div>
                             <div class="order-date">
-                              <?= date('d/m/Y - h:i A', strtotime($order['created_at'])) ?></div>
+                              <?= date('d/m/Y - h:i A', strtotime($order['created_at'])) ?>
+                            </div>
                           </div>
                           <div class="order-content">
                             <div class="product-grid">
@@ -221,10 +231,9 @@ include 'forms/head.php';
                                 if (!empty($images[0]) && isset($guitarimg_direct)) {
                                   $imgSrc = $guitarimg_direct . create_slug($dt['category_name']) . '/' . create_slug($dt['brand_name']) . '/' . create_slug($dt['product_name']) . '/' . trim($images[0]);
                                 }
-                              ?>
+                                ?>
                                 <a href="product-details.php?id=<?= $dt['product_id'] ?>">
-                                  <img src="<?= htmlspecialchars($imgSrc) ?>" alt="Product"
-                                    loading="lazy">
+                                  <img src="<?= htmlspecialchars($imgSrc) ?>" alt="Product" loading="lazy">
                                 </a>
                               <?php endforeach; ?>
                               <?php if (count($orderDetails) > 3): ?>
@@ -234,8 +243,7 @@ include 'forms/head.php';
                             <div class="order-info">
                               <div class="info-row">
                                 <span>Tình trạng:</span>
-                                <span
-                                  class="status <?= $statusClass ?>"><?= $statusText ?></span>
+                                <span class="status <?= $statusClass ?>"><?= $statusText ?></span>
                               </div>
                               <div class="info-row">
                                 <span>SL:</span>
@@ -243,8 +251,7 @@ include 'forms/head.php';
                               </div>
                               <div class="info-row">
                                 <span>Tổng:</span>
-                                <span
-                                  class="price"><?= number_format($order['total_amount'], 0, ',', '.') ?>
+                                <span class="price"><?= number_format($order['total_amount'], 0, ',', '.') ?>
                                   VND</span>
                               </div>
                             </div>
@@ -270,41 +277,54 @@ include 'forms/head.php';
                                   <div class="timeline-icon"><i class="bi bi-cart-check-fill"></i></div>
                                   <div class="timeline-content">
                                     <h5>Đã đặt đơn hàng</h5>
-                                    <span class="timeline-date"><?= date('d/m/Y - h:i A', strtotime($order['created_at'])) ?></span>
+                                    <span
+                                      class="timeline-date"><?= date('d/m/Y - h:i A', strtotime($order['created_at'])) ?></span>
                                   </div>
                                 </div>
 
-                                <div class="timeline-item <?= in_array($order['order_status'], ['processed', 'deliveried']) ? 'completed' : 'active' ?>">
+                                <div
+                                  class="timeline-item <?= in_array($order['order_status'], ['processed', 'deliveried']) ? 'completed' : 'active' ?>">
                                   <div class="timeline-icon"><i class="bi bi-check-circle-fill"></i></div>
                                   <div class="timeline-content">
-                                    <h5><?= ($order['order_status'] == 'newest') ? 'Chờ xác nhận đơn hàng' : 'Đã xác nhận đơn hàng' ?></h5>
+                                    <h5>
+                                      <?= ($order['order_status'] == 'newest') ? 'Chờ xác nhận đơn hàng' : 'Đã xác nhận đơn hàng' ?>
+                                    </h5>
 
                                     <?php if ($order['order_status'] !== 'newest'): ?>
-                                      <span class="timeline-date">Đã xử lý lúc <?= date('d/m/Y', strtotime($order['updated_at'])) ?></span>
+                                      <span class="timeline-date">Đã xử lý lúc
+                                        <?= date('d/m/Y', strtotime($order['updated_at'])) ?></span>
                                     <?php endif; ?>
                                   </div>
                                 </div>
 
                                 <div class="timeline-item <?php
-                                                          if (in_array($order['order_status'], ['processed', 'deliveried'])) echo 'completed';
-                                                          elseif ($order['order_status'] == 'cancel') echo 'cancelled'; // Thêm class cancelled để hiện màu đỏ
-                                                          ?>">
+                                if (in_array($order['order_status'], ['processed', 'deliveried']))
+                                  echo 'completed';
+                                elseif ($order['order_status'] == 'cancel')
+                                  echo 'cancelled'; // Thêm class cancelled để hiện màu đỏ
+                                ?>">
                                   <div class="timeline-icon">
-                                    <i class="bi <?= ($order['order_status'] == 'cancel') ? 'bi-x-circle-fill' : 'bi-truck' ?>"></i>
+                                    <i
+                                      class="bi <?= ($order['order_status'] == 'cancel') ? 'bi-x-circle-fill' : 'bi-truck' ?>"></i>
                                   </div>
                                   <div class="timeline-content">
                                     <h5>
                                       <?php
-                                      if ($order['order_status'] == 'cancel') echo 'Đã hủy đơn hàng';
-                                      elseif ($order['order_status'] == 'deliveried') echo 'Giao hàng thành công';
-                                      else echo 'Đang vận chuyển';
+                                      if ($order['order_status'] == 'cancel')
+                                        echo 'Đã hủy đơn hàng';
+                                      elseif ($order['order_status'] == 'deliveried')
+                                        echo 'Giao hàng thành công';
+                                      else
+                                        echo 'Đang vận chuyển';
                                       ?>
                                     </h5>
 
                                     <?php if ($order['order_status'] == 'cancel'): ?>
-                                      <span class="timeline-date">Đã hủy lúc <?= date('d/m/Y - h:i A', strtotime($order['updated_at'])) ?></span>
+                                      <span class="timeline-date">Đã hủy lúc
+                                        <?= date('d/m/Y - h:i A', strtotime($order['updated_at'])) ?></span>
                                     <?php elseif (in_array($order['order_status'], ['processed', 'deliveried'])): ?>
-                                      <span class="timeline-date">Cập nhật lúc: <?= date('d/m/Y', strtotime($order['updated_at'])) ?></span>
+                                      <span class="timeline-date">Cập nhật lúc:
+                                        <?= date('d/m/Y', strtotime($order['updated_at'])) ?></span>
                                     <?php endif; ?>
                                   </div>
                                 </div>
@@ -323,12 +343,11 @@ include 'forms/head.php';
                                     if (!empty($images[0]) && isset($guitarimg_direct)) {
                                       $imgSrc = $guitarimg_direct . create_slug($dt['category_name']) . '/' . create_slug($dt['brand_name']) . '/' . create_slug($dt['product_name']) . '/' . trim($images[0]);
                                     }
-                                  ?>
+                                    ?>
                                     <div class="review-product-item mb-4 pb-4 border-bottom">
                                       <div class="d-flex align-items-center mb-3">
-                                        <img src="<?= htmlspecialchars($imgSrc) ?>"
-                                          alt="Product" loading="lazy" class="rounded-3 me-3"
-                                          style="width: 60px; height: 60px; object-fit: cover;">
+                                        <img src="<?= htmlspecialchars($imgSrc) ?>" alt="Product" loading="lazy"
+                                          class="rounded-3 me-3" style="width: 60px; height: 60px; object-fit: cover;">
                                         <div class="product-details">
                                           <h6 class="mb-1 fw-bold">
                                             <?= htmlspecialchars($dt['product_name']) ?>
@@ -340,28 +359,22 @@ include 'forms/head.php';
                                       <div class="review-rating mb-3">
                                         <label class="form-label fw-semibold">Chất lượng sản
                                           phẩm:</label>
-                                        <div class="star-rating-selector"
-                                          data-product-id="<?= $dt['product_id'] ?>">
-                                          <i class="bi bi-star star-icon"
-                                            data-value="1"></i><i
-                                            class="bi bi-star star-icon" data-value="2"></i>
-                                          <i class="bi bi-star star-icon"
-                                            data-value="3"></i><i
-                                            class="bi bi-star star-icon" data-value="4"></i>
+                                        <div class="star-rating-selector" data-product-id="<?= $dt['product_id'] ?>">
+                                          <i class="bi bi-star star-icon" data-value="1"></i><i class="bi bi-star star-icon"
+                                            data-value="2"></i>
+                                          <i class="bi bi-star star-icon" data-value="3"></i><i class="bi bi-star star-icon"
+                                            data-value="4"></i>
                                           <i class="bi bi-star star-icon" data-value="5"></i>
-                                          <span
-                                            class="rating-text ms-2 small text-muted"></span>
-                                          <input type="hidden"
-                                            name="rating_prd_<?= $dt['product_id'] ?>"
-                                            value="0" class="rating-input">
+                                          <span class="rating-text ms-2 small text-muted"></span>
+                                          <input type="hidden" name="rating_prd_<?= $dt['product_id'] ?>" value="0"
+                                            class="rating-input">
                                         </div>
                                       </div>
                                       <div class="mb-3">
                                         <textarea class="form-control" rows="3"
                                           placeholder="Chia sẻ cảm nhận của bạn về sản phẩm này..."></textarea>
                                       </div>
-                                      <button type="button"
-                                        class="btn btn-sm btn-primary review-submit-btn"
+                                      <button type="button" class="btn btn-sm btn-primary review-submit-btn"
                                         onclick="Swal.fire('Thành công', 'Cảm ơn đánh giá của bạn!', 'success')">Gửi
                                         đánh giá</button>
                                     </div>
@@ -378,8 +391,7 @@ include 'forms/head.php';
                                 <div class="info-grid">
                                   <div class="info-item">
                                     <span class="label">Phương thức thanh toán</span>
-                                    <span
-                                      class="value"><?= htmlspecialchars($order['payment_method']) ?></span>
+                                    <span class="value"><?= htmlspecialchars($order['payment_method']) ?></span>
                                   </div>
                                   <div class="info-item">
                                     <span class="label">Thông tin liên hệ</span>
@@ -398,12 +410,10 @@ include 'forms/head.php';
                                     if (!empty($images[0]) && isset($guitarimg_direct)) {
                                       $imgSrc = $guitarimg_direct . create_slug($dt['category_name']) . '/' . create_slug($dt['brand_name']) . '/' . create_slug($dt['product_name']) . '/' . trim($images[0]);
                                     }
-                                  ?>
+                                    ?>
                                     <div class="item">
-                                      <a
-                                        href="product-details.php?id=<?= $dt['product_id'] ?>">
-                                        <img src="<?= htmlspecialchars($imgSrc) ?>"
-                                          alt="Product" loading="lazy">
+                                      <a href="product-details.php?id=<?= $dt['product_id'] ?>">
+                                        <img src="<?= htmlspecialchars($imgSrc) ?>" alt="Product" loading="lazy">
                                       </a>
                                       <div class="item-info">
                                         <h6><?= htmlspecialchars($dt['product_name']) ?>
@@ -413,7 +423,8 @@ include 'forms/head.php';
                                       </div>
                                       <div class="item-price">
                                         <?= number_format($dt['unit_price'] * $dt['quantity'], 0, ',', '.') ?>
-                                        VND</div>
+                                        VND
+                                      </div>
                                     </div>
                                   <?php endforeach; ?>
                                 </div>
@@ -440,7 +451,8 @@ include 'forms/head.php';
                                 <div class="detail-section mt-3">
                                   <h5>Ghi chú:</h5>
                                   <p class="text-muted">
-                                    <?= nl2br(htmlspecialchars($order['order_notes'])) ?></p>
+                                    <?= nl2br(htmlspecialchars($order['order_notes'])) ?>
+                                  </p>
                                 </div>
                               <?php endif; ?>
                             </div>
@@ -453,8 +465,7 @@ include 'forms/head.php';
                   <!-- Pagination -->
                   <div class="pagination-wrapper" data-aos="fade-up">
                     <nav class="d-flex justify-content-center">
-                      <ul class="pagination-list"
-                        style="display: flex; list-style: none; gap: 8px; padding: 0;">
+                      <ul class="pagination-list" style="display: flex; list-style: none; gap: 8px; padding: 0;">
                         <?php
                         // Tạo URL giữ các tham số hiện tại để không bị mất tab khi chuyển trang
                         $params = $_GET;
@@ -465,8 +476,8 @@ include 'forms/head.php';
                         ?>
 
                         <?php if ($currentPage > 1): ?>
-                          <li><a href="<?= $base_url ?>page=<?= $currentPage - 1 ?>#orders"
-                              class="btn-prev"><i class="bi bi-chevron-left"></i></a></li>
+                          <li><a href="<?= $base_url ?>page=<?= $currentPage - 1 ?>#orders" class="btn-prev"><i
+                                class="bi bi-chevron-left"></i></a></li>
                         <?php endif; ?>
 
                         <?php for ($i = 1; $i <= $maxPage; $i++): ?>
@@ -480,8 +491,8 @@ include 'forms/head.php';
                         <?php endfor; ?>
 
                         <?php if ($currentPage < $maxPage): ?>
-                          <li><a href="<?= $base_url ?>page=<?= $currentPage + 1 ?>#orders"
-                              class="btn-next"><i class="bi bi-chevron-right"></i></a></li>
+                          <li><a href="<?= $base_url ?>page=<?= $currentPage + 1 ?>#orders" class="btn-next"><i
+                                class="bi bi-chevron-right"></i></a></li>
                         <?php endif; ?>
                       </ul>
                     </nav>
@@ -572,65 +583,69 @@ include 'forms/head.php';
                   </div>
 
                   <div class="reviews-grid">
-                    <!-- Review Card 1 -->
-                    <div class="review-card" data-aos="fade-up" data-aos-delay="100">
-                      <div class="review-header">
-                        <img src="assets/img/product/guitar/classic/yamaha/dan-guitar-classic-yamaha-cgs102aii-school-series/dan-guitar-classic-yamaha-cgs102aii-school-series-.jpg"
-                          alt="Product" class="product-image" loading="lazy">
-                        <div class="review-meta">
-                          <h4>Yamaha GC42S</h4>
-                          <div class="rating">
-                            <i class="bi bi-star-fill"></i>
-                            <i class="bi bi-star-fill"></i>
-                            <i class="bi bi-star-fill"></i>
-                            <i class="bi bi-star-fill"></i>
-                            <i class="bi bi-star-fill"></i>
-                            <span>(5.0)</span>
+                    <?php if (empty($userReviews)): ?>
+                      <div class="w-100 p-4 text-center text-muted" style="background: #f8f9fa; border-radius: 8px;">
+                        <i class="bi bi-star fs-1 text-secondary mb-2"></i>
+                        <p>Bạn chưa viết đánh giá nào.</p>
+                      </div>
+                    <?php else: ?>
+                      <?php foreach ($userReviews as $rv): ?>
+                        <?php
+                        $images = explode(',', $rv['product_images']);
+                        $imgSrc = 'assets/img/product/default.png'; // Fallback
+                        if (!empty($images[0]) && isset($guitarimg_direct)) {
+                          $imgSrc = $guitarimg_direct . create_slug($rv['category_name']) . '/' . create_slug($rv['brand_name']) . '/' . create_slug($rv['product_name']) . '/' . trim($images[0]);
+                        }
+                        ?>
+                        <div class="review-card" data-review-id="<?= htmlspecialchars($rv['id']) ?>"
+                          data-images="<?= htmlspecialchars($rv['image_path'] ?? '') ?>" data-aos="fade-up"
+                          data-aos-delay="100">
+                          <div class="review-header">
+                            <a href="product-details.php?id=<?= $rv['product_id'] ?>">
+                              <img src="<?= htmlspecialchars($imgSrc) ?>" alt="Product" class="product-image" loading="lazy"
+                                style="width: 80px; height: 80px; object-fit: cover;">
+                            </a>
+                            <div class="review-meta">
+                              <h4><a href="product-details.php?id=<?= $rv['product_id'] ?>"
+                                  style="color: inherit; text-decoration: none;"><?= htmlspecialchars($rv['product_name']) ?></a>
+                              </h4>
+                              <div class="rating">
+                                <?php for ($i = 1; $i <= 5; $i++): ?>
+                                  <i class="bi <?= $i <= $rv['rating'] ? 'bi-star-fill' : 'bi-star' ?>" <?= $i <= $rv['rating'] ? 'style="color: #FBBF24;"' : '' ?>></i>
+                                <?php endfor; ?>
+                                <span>(<?= number_format($rv['rating'], 1) ?>)</span>
+                              </div>
+                              <div class="review-date"><?= date('d/m/Y H:i', strtotime($rv['created_at'])) ?></div>
+                            </div>
                           </div>
-                          <div class="review-date">15/08/2025</div>
-                        </div>
-                      </div>
-                      <div class="review-content">
-                        <p>Tôi không thể kiềm được cảm xúc của mình khi nhận cây đàn này từ
-                          Guitar Xì Gòn, tôi đã đập nó
-                          như chưa từng được đập, 1 em đàn chất lượng, đàn thế này thì tốn
-                          khán giả lắm!</p>
-                      </div>
-                      <div class="review-footer">
-                        <button type="button" class="btn-edit">Sửa đánh giá</button>
-                        <button type="button" class="btn-delete">Xoá</button>
-                      </div>
-                    </div>
+                          <div class="review-content">
+                            <p class="review-text"><?= nl2br(htmlspecialchars($rv['comment'])) ?></p>
+                            <?php if (!empty($rv['image_path'])): ?>
+                              <div class="review-images mt-2" style="display:flex; gap:10px;">
+                                <?php foreach (explode(',', $rv['image_path']) as $imgPath): ?>
+                                  <img src="<?= htmlspecialchars($imgPath) ?>"
+                                    style="width: 60px; height: 60px; object-fit: cover; border-radius: 6px; border: 1px solid #ddd;">
+                                <?php endforeach; ?>
+                              </div>
+                            <?php endif; ?>
 
-                    <!-- Review Card 2 -->
-                    <div class="review-card" data-aos="fade-up" data-aos-delay="200">
-                      <div class="review-header">
-                        <img src="assets\img\product\guitar\acoustic\taylor\taylor-110e\1.jpg"
-                          alt="Product" class="product-image" loading="lazy">
-                        <div class="review-meta">
-                          <h4>Taylor 110CE</h4>
-                          <div class="rating">
-                            <i class="bi bi-star-fill"></i>
-                            <i class="bi bi-star-fill"></i>
-                            <i class="bi bi-star-fill"></i>
-                            <i class="bi bi-star-fill"></i>
-                            <i class="bi bi-star"></i>
-                            <span>(4.0)</span>
+                            <!-- Hiển thị đánh giá chi tiết -->
+                            <div style="display:flex;gap:20px;margin-top:10px;font-size:13px;color:#6b7280;">
+                              <span>Âm thanh:
+                                <?php for ($s = 1; $s <= 5; $s++)
+                                  echo $s <= $rv['sound_rating'] ? '★' : '☆'; ?></span>
+                              <span>Cấu hình:
+                                <?php for ($s = 1; $s <= 5; $s++)
+                                  echo $s <= $rv['specs_rating'] ? '★' : '☆'; ?></span>
+                            </div>
                           </div>
-                          <div class="review-date">03/01/2024</div>
+                          <div class="review-footer">
+                            <button type="button" class="btn-edit" data-id="<?= $rv['id'] ?>">Sửa đánh giá</button>
+                            <button type="button" class="btn-delete" data-id="<?= $rv['id'] ?>">Xoá</button>
+                          </div>
                         </div>
-                      </div>
-                      <div class="review-content">
-                        <p>Trước đây tôi cứ tự trách bản thân là 1 người nghèo, cô đơn, nhưng
-                          sau khi mua em đàn này thì
-                          cuộc sống của tôi đã nâng lên bậc, vừa nghèo, cô đơn nhưng có nhạc
-                          nền:)</p>
-                      </div>
-                      <div class="review-footer">
-                        <button type="button" class="btn-edit">Sửa đánh giá</button>
-                        <button type="button" class="btn-delete">Xoá</button>
-                      </div>
-                    </div>
+                      <?php endforeach; ?>
+                    <?php endif; ?>
                   </div>
                 </div>
 
@@ -677,8 +692,7 @@ include 'forms/head.php';
                         </div>
                       </div>
                     <?php else: ?>
-                      <div class="w-100 p-4 text-center text-muted"
-                        style="background: #f8f9fa; border-radius: 8px;">
+                      <div class="w-100 p-4 text-center text-muted" style="background: #f8f9fa; border-radius: 8px;">
                         <i class="bi bi-geo-alt fs-1 text-secondary mb-2"></i>
                         <p>Bạn chưa thiết lập địa chỉ giao hàng. Vui lòng cập nhật trong phần Cài
                           đặt.</p>
@@ -701,21 +715,18 @@ include 'forms/head.php';
                     <!-- Personal Information -->
                     <div class="settings-section" data-aos="fade-up">
                       <h3>Thông tin cá nhân</h3>
-                      <form class="settings-form" method="POST" action="update_profile.php"
-                        id="account-settings-form" enctype="multipart/form-data">
+                      <form class="settings-form" method="POST" action="update_profile.php" id="account-settings-form"
+                        enctype="multipart/form-data">
                         <div class="row g-3">
                           <div class="col-md-6">
                             <label for="username" class="form-label">Tên đăng nhập</label>
-                            <input type="text" class="form-control" id="username"
-                              name="username"
-                              value="<?php echo htmlspecialchars($user['username']); ?>"
-                              readonly>
+                            <input type="text" class="form-control" id="username" name="username"
+                              value="<?php echo htmlspecialchars($user['username']); ?>" readonly>
                           </div>
 
                           <div class="col-md-6">
                             <label for="fullname" class="form-label">Họ và tên</label>
-                            <input type="text" class="form-control" id="fullname"
-                              name="fullname"
+                            <input type="text" class="form-control" id="fullname" name="fullname"
                               value="<?php echo htmlspecialchars($user['fullname']); ?>">
                           </div>
 
@@ -738,8 +749,7 @@ include 'forms/head.php';
                           </div>
                           <div class="col-md-4">
                             <label for="district" class="form-label">Quận / Huyện</label>
-                            <input type="text" class="form-control" id="district"
-                              name="district"
+                            <input type="text" class="form-control" id="district" name="district"
                               value="<?php echo htmlspecialchars($user['district'] ?? ''); ?>">
                           </div>
                           <div class="col-md-4">
@@ -750,21 +760,19 @@ include 'forms/head.php';
                           <div class="col-md-12">
                             <label for="address" class="form-label">Địa chỉ cụ thể (Số nhà,
                               tên đường)</label>
-                            <input type="text" class="form-control" id="address"
-                              name="address"
+                            <input type="text" class="form-control" id="address" name="address"
                               value="<?php echo htmlspecialchars($user['address'] ?? ''); ?>">
                           </div>
                           <div class="col-md-12 input-new-avatar-image">
                             <label for="profilePicture" class="form-label">Ảnh đại
                               diện</label>
                             <div class="input-group">
-                              <input type="file" class="d-none" id="profilePicture"
-                                name="avatar" accept="image/*">
+                              <input type="file" class="d-none" id="profilePicture" name="avatar" accept="image/*">
                               <input type="text" class="form-control" id="fileNameDisplay"
                                 placeholder="Chưa có tệp nào được chọn" readonly
                                 style="border-radius: 10px 0px 0px 10px;">
-                              <button class="btn btn-outline-secondary custom-upload-btn"
-                                type="button" id="uploadAvatarButton">
+                              <button class="btn btn-outline-secondary custom-upload-btn" type="button"
+                                id="uploadAvatarButton">
                                 Tải lên
                               </button>
                             </div>
@@ -792,8 +800,7 @@ include 'forms/head.php';
                             <p>Nhận thông báo về đơn hàng của bạn qua email</p>
                           </div>
                           <div class="form-check form-switch">
-                            <input class="form-check-input" type="checkbox"
-                              id="orderUpdates" checked="">
+                            <input class="form-check-input" type="checkbox" id="orderUpdates" checked="">
                           </div>
                         </div>
 
@@ -813,8 +820,7 @@ include 'forms/head.php';
                             <p>Đăng ký nhận bản tin hàng tuần của chúng tôi</p>
                           </div>
                           <div class="form-check form-switch">
-                            <input class="form-check-input" type="checkbox" id="newsletter"
-                              checked="">
+                            <input class="form-check-input" type="checkbox" id="newsletter" checked="">
                           </div>
                         </div>
                       </div>
@@ -828,8 +834,7 @@ include 'forms/head.php';
                           <div class="col-md-12">
                             <label for="currentPassword" class="form-label">Mật khẩu hiện
                               tại</label>
-                            <input type="password" class="form-control"
-                              id="currentPassword">
+                            <input type="password" class="form-control" id="currentPassword">
                           </div>
                           <div class="col-md-6">
                             <label for="newPassword" class="form-label">Mật khẩu mới</label>
@@ -838,8 +843,7 @@ include 'forms/head.php';
                           <div class="col-md-6">
                             <label for="confirmPassword" class="form-label">Xác nhận mật
                               khẩu mới</label>
-                            <input type="password" class="form-control"
-                              id="confirmPassword">
+                            <input type="password" class="form-control" id="confirmPassword">
                           </div>
                         </div>
 
@@ -850,8 +854,7 @@ include 'forms/head.php';
                     </div>
 
                     <!-- Delete Account -->
-                    <div class="settings-section danger-zone" data-aos="fade-up"
-                      data-aos-delay="300">
+                    <div class="settings-section danger-zone" data-aos="fade-up" data-aos-delay="300">
                       <h3>Xoá tài khoản</h3>
                       <div class="danger-zone-content">
                         <p>Một khi bạn đã xóa tài khoản, bạn sẽ không thể quay lại được nữa. Hãy
