@@ -10,9 +10,11 @@ if ($action === 'get_new_code') {
     $sql = "SELECT receipt_code FROM import_receipts WHERE receipt_code LIKE '$prefix%' ORDER BY id DESC LIMIT 1";
     $last = getOne($sql);
     if ($last) {
-        $lastNum = (int)substr($last['receipt_code'], -3);
+        $lastNum = (int) substr($last['receipt_code'], -3);
         $newNum = str_pad($lastNum + 1, 3, '0', STR_PAD_LEFT);
-    } else { $newNum = "001"; }
+    } else {
+        $newNum = "001";
+    }
     echo $prefix . $newNum;
     exit;
 }
@@ -32,7 +34,7 @@ if ($action === 'get_brands') {
 // --- 3. Vừa nhập vừa đề xuất tên sản phẩm (Autocomplete) ---
 if ($action === 'get_product_suggestions') {
     $type_name = $_GET['type'] ?? ''; // Nhận tên loại (VD: 'Guitar Classic')
-    $brand_id = (int)($_GET['brand_id'] ?? 0);
+    $brand_id = (int) ($_GET['brand_id'] ?? 0);
     $query = $_GET['query'] ?? '';
 
     // Dùng JOIN với bảng categories để lọc chính xác theo tên loại sản phẩm
@@ -43,7 +45,7 @@ if ($action === 'get_product_suggestions') {
             AND p.brand_id = $brand_id 
             AND p.product_name LIKE " . $pdo->quote("%$query%") . " 
             LIMIT 10";
-            
+
     echo json_encode(getAll($sql));
     exit;
 }
@@ -54,7 +56,7 @@ if ($action === 'save_import') {
     try {
         $pdo->beginTransaction();
         $receipt_code = $_POST['receipt_code'];
-        $import_date  = $_POST['import_date'];
+        $import_date = $_POST['import_date'];
         $total_amount = str_replace(['.', ' VND'], '', $_POST['total_amount'] ?? '0');
 
         // Lưu thông tin chung của phiếu nhập
@@ -64,17 +66,17 @@ if ($action === 'save_import') {
 
         $products = $_POST['products'] ?? [];
         $stmtDetail = $pdo->prepare("INSERT INTO import_receipt_details (receipt_id, product_id, quantity, unit_price) VALUES (?, ?, ?, ?)");
-        
+
         foreach ($products as $p) {
-            $p_id = (int)$p['id'];
-            $q_new = (int)$p['qty'];
-            $c_new = (float)str_replace(['.', ' VND'], '', $p['price']);
+            $p_id = (int) $p['id'];
+            $q_new = (int) $p['qty'];
+            $c_new = (float) str_replace(['.', ' VND'], '', $p['price']);
 
             // --- BƯỚC A: Lấy dữ liệu hiện tại từ bảng products ---
             $current = getOne("SELECT stock_quantity, cost_price, profit_margin FROM products WHERE id = ?", [$p_id]);
-            $q_old = (int)$current['stock_quantity'];
-            $c_old = (float)$current['cost_price'];
-            $p_margin = (float)$current['profit_margin'];
+            $q_old = (int) $current['stock_quantity'];
+            $c_old = (float) $current['cost_price'];
+            $p_margin = (float) $current['profit_margin'];
 
             // --- BƯỚC B: Tính giá nhập bình quân (Yêu cầu của giảng viên) ---
             // Công thức: (Tồn cũ * Giá vốn cũ + Nhập mới * Giá nhập mới) / (Tổng tồn mới)
@@ -101,11 +103,11 @@ if ($action === 'save_import') {
             $stmtDetail->execute([$receipt_id, $p_id, $q_new, $c_new]);
         }
 
-        $pdo->commit(); 
+        $pdo->commit();
         echo "success";
-    } catch (Exception $e) { 
-        $pdo->rollBack(); 
-        echo "Lỗi: " . $e->getMessage(); 
+    } catch (Exception $e) {
+        $pdo->rollBack();
+        echo "Lỗi: " . $e->getMessage();
     }
     exit;
 }

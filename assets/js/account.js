@@ -332,11 +332,11 @@ if (deleteAccountButton) { // Thêm kiểm tra an toàn
 // Lấy đối tượng nút bằng ID của nó
 const button = document.getElementById("reorder-btn");
 
-// Thêm một hàm để thực thi khi nút được nhấn
-button.addEventListener("click", function () {
-  // Thay đổi URL của cửa sổ hiện tại
-  window.location.href = "checkout.php"; // Thay thế bằng đường dẫn trang bạn muốn
-});
+if (button) {
+  button.addEventListener("click", function () {
+    window.location.href = "checkout.php";
+  });
+}
 
 
 // < !--script này dùng để tạo thông báo và thực hiện 1 số thao tác trong đánh giá đơn hàng-- >
@@ -532,4 +532,307 @@ document.addEventListener('DOMContentLoaded', function () {
       });
     });
   }
+
+  // === DEBUG ĐÁNH GIÁ (XOÁ SAU KHI TEST XONG) ===
+  console.log('=== DEBUG ĐÁNH GIÁ ===');
+  console.log('Review cards:', document.querySelectorAll('.reviews-grid .review-card').length);
+  console.log('Nút Xoá:', document.querySelectorAll('.reviews-grid .btn-delete').length);
+  console.log('Nút Sửa:', document.querySelectorAll('.reviews-grid .btn-edit').length);
+  document.querySelectorAll('.reviews-grid .btn-delete').forEach((btn, i) => {
+    console.log('  Xoá #' + i + ' data-id:', btn.getAttribute('data-id'));
+  });
+  document.querySelectorAll('.reviews-grid .btn-edit').forEach((btn, i) => {
+    console.log('  Sửa #' + i + ' data-id:', btn.getAttribute('data-id'));
+  });
+  console.log('SweetAlert2:', typeof Swal !== 'undefined' ? 'OK' : 'KHÔNG CÓ');
+  console.log('=== END DEBUG ===');
+
+  // --- QUẢN LÝ LỊCH SỬ ĐÁNH GIÁ (XOÁ / SỬA) ---
+  // Xóa đánh giá
+  document.querySelectorAll('.reviews-grid .btn-delete').forEach(btn => {
+    btn.addEventListener('click', function() {
+      const reviewId = this.getAttribute('data-id');
+      if (!reviewId) return;
+      const card = this.closest('.review-card');
+
+      Swal.fire({
+        title: 'Xoá đánh giá?',
+        text: 'Bạn sẽ không thể khôi phục lại đánh giá này!',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#d33',
+        cancelButtonColor: '#3085d6',
+        confirmButtonText: 'Có, Xoá ngay!',
+        cancelButtonText: 'Huỷ'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          const fd = new FormData();
+          fd.append('action', 'delete');
+          fd.append('review_id', reviewId);
+
+          fetch('forms/ajax/ajax_review_action.php', { method: 'POST', body: fd })
+            .then(res => res.json())
+            .then(data => {
+              if (data.status === 'success') {
+                Swal.fire('Thành công', data.message, 'success');
+                card.remove();
+                // Tải lại trang nếu hết review để hiện thông báo mảng trống
+                if (document.querySelectorAll('.reviews-grid .review-card').length === 0) {
+                  location.reload();
+                }
+              } else {
+                Swal.fire('Lỗi', data.message, 'error');
+              }
+            }).catch(() => Swal.fire('Lỗi', 'Mất kết nối server.', 'error'));
+        }
+      });
+    });
+  });
+
+  // Sửa đánh giá - Form đầy đủ giống product-details + quản lý ảnh
+  document.querySelectorAll('.reviews-grid .btn-edit').forEach(btn => {
+    btn.addEventListener('click', function() {
+      const reviewId = this.getAttribute('data-id');
+      if (!reviewId) return;
+      const card = this.closest('.review-card');
+      const currentTextEl = card.querySelector('.review-text');
+      const currentComment = currentTextEl.innerHTML.replace(/<br\s*[\/]?>/gi, '\n').trim();
+
+      // Đọc sao hiện tại
+      const starEls = card.querySelectorAll('.rating i');
+      let curRating = 0;
+      starEls.forEach(s => { if (s.classList.contains('bi-star-fill')) curRating++; });
+
+      const subTexts = card.querySelectorAll('.review-content > div:last-child span');
+      let curSound = 5, curSpecs = 5;
+      subTexts.forEach(sp => {
+        const filled = (sp.textContent.match(/★/g) || []).length;
+        if (sp.textContent.includes('Âm thanh')) curSound = filled;
+        if (sp.textContent.includes('Cấu hình')) curSpecs = filled;
+      });
+
+      // Đọc ảnh hiện tại
+      const existingImages = (card.getAttribute('data-images') || '').split(',').filter(p => p.trim());
+
+      function buildStarRow(label, groupName, currentVal) {
+        let html = '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">';
+        html += '<span style="color:#4B5563;min-width:100px;font-size:14px;">' + label + '</span>';
+        html += '<div class="edit-star-group" data-group="' + groupName + '" data-selected="' + currentVal + '" style="display:flex;gap:6px;">';
+        for (let i = 1; i <= 5; i++) {
+          const color = i <= currentVal ? '#FBBF24' : '#D1D5DB';
+          html += '<i class="bi bi-star-fill" data-value="' + i + '" style="font-size:20px;color:' + color + ';cursor:pointer;transition:color 0.15s;"></i>';
+        }
+        html += '</div></div>';
+        return html;
+      }
+
+      // Build ảnh cũ HTML
+      let existingImgHTML = '';
+      existingImages.forEach(function(imgPath) {
+        existingImgHTML += '<div class="edit-existing-img" data-path="' + imgPath.trim() + '" style="position:relative;width:70px;height:70px;border-radius:8px;overflow:hidden;border:1px solid #E5E7EB;display:inline-block;">';
+        existingImgHTML += '<img src="' + imgPath.trim() + '" style="width:100%;height:100%;object-fit:cover;" onerror="this.src=\'assets/img/product/default.png\'">';
+        existingImgHTML += '<div class="edit-img-delete" style="position:absolute;top:2px;right:2px;background:rgba(220,38,38,0.85);color:#fff;border-radius:50%;width:20px;height:20px;display:flex;align-items:center;justify-content:center;font-size:13px;cursor:pointer;font-weight:bold;">&times;</div>';
+        existingImgHTML += '</div>';
+      });
+
+      const formHtml = '<div style="text-align:left;">'
+        + '<p style="font-weight:700;color:#111827;margin-bottom:12px;">Đánh giá chung</p>'
+        + buildStarRow('Tổng thể', 'rating', curRating)
+        + '<hr style="border-color:#E5E7EB;">'
+        + '<p style="font-weight:700;color:#111827;margin-bottom:12px;">Theo trải nghiệm</p>'
+        + buildStarRow('Âm thanh', 'sound', curSound)
+        + buildStarRow('Cấu hình', 'specs', curSpecs)
+        + '<hr style="border-color:#E5E7EB;">'
+        + '<p style="font-weight:700;color:#111827;margin-bottom:8px;">Cảm nhận</p>'
+        + '<textarea id="swal-edit-comment" rows="4" style="width:100%;padding:10px;border:1px solid #D1D5DB;border-radius:8px;font-family:inherit;resize:vertical;">' + currentComment + '</textarea>'
+        + '<p style="font-weight:700;color:#111827;margin:12px 0 8px;">Hình ảnh</p>'
+        + '<div id="swal-images-row" style="display:flex;flex-wrap:wrap;gap:10px;align-items:center;">'
+        + existingImgHTML
+        + '<label id="swal-add-img-btn" style="cursor:pointer;color:#6b7280;font-size:13px;border:1px dashed #D1D5DB;padding:8px 14px;border-radius:8px;display:flex;align-items:center;gap:6px;white-space:nowrap;height:70px;">'
+        + '<i class="bi bi-image"></i> Thêm ảnh'
+        + '<input type="file" id="swal-new-images" accept="image/*" multiple style="display:none;">'
+        + '</label></div></div>';
+
+      let removedImages = [];
+      let newFiles = [];
+
+      Swal.fire({
+        title: 'Chỉnh sửa đánh giá',
+        html: formHtml,
+        width: 550,
+        showCancelButton: true,
+        confirmButtonText: '<i class="bi bi-check-lg"></i> Lưu thay đổi',
+        cancelButtonText: 'Huỷ',
+        customClass: {
+          popup: 'my-swal-popup',
+          confirmButton: 'my-swal-confirm-button',
+          cancelButton: 'my-swal-cancel-button',
+        },
+        didOpen: function() {
+          const popup = Swal.getPopup();
+
+          // Star interactions
+          popup.querySelectorAll('.edit-star-group').forEach(function(group) {
+            const stars = group.querySelectorAll('i');
+            stars.forEach(function(star) {
+              star.addEventListener('mouseover', function() {
+                const hVal = parseInt(this.dataset.value);
+                stars.forEach(function(s) { s.style.color = parseInt(s.dataset.value) <= hVal ? '#FBBF24' : '#D1D5DB'; });
+              });
+              star.addEventListener('click', function() {
+                const val = parseInt(this.dataset.value);
+                group.setAttribute('data-selected', val);
+                stars.forEach(function(s) { s.style.color = parseInt(s.dataset.value) <= val ? '#FBBF24' : '#D1D5DB'; });
+              });
+            });
+            group.addEventListener('mouseout', function() {
+              const selected = parseInt(group.getAttribute('data-selected'));
+              stars.forEach(function(s) { s.style.color = parseInt(s.dataset.value) <= selected ? '#FBBF24' : '#D1D5DB'; });
+            });
+          });
+
+          // Xoá ảnh cũ
+          popup.querySelectorAll('.edit-img-delete').forEach(function(del) {
+            del.addEventListener('click', function() {
+              const wrapper = this.parentElement;
+              const path = wrapper.getAttribute('data-path');
+              removedImages.push(path);
+              wrapper.remove();
+            });
+          });
+
+          // Thêm ảnh mới
+          const fileInput = popup.querySelector('#swal-new-images');
+          const imgRow = popup.querySelector('#swal-images-row');
+          const addBtn = popup.querySelector('#swal-add-img-btn');
+          if (fileInput) {
+            fileInput.addEventListener('change', function(e) {
+              let files = Array.from(e.target.files);
+              files.forEach(function(file) {
+                if (!file.type.startsWith('image/') || newFiles.length >= 3) return;
+                newFiles.push(file);
+                const wrapper = document.createElement('div');
+                wrapper.style.cssText = 'position:relative;width:70px;height:70px;border-radius:8px;overflow:hidden;border:1px solid #E5E7EB;display:inline-block;';
+                const img = document.createElement('img');
+                img.src = URL.createObjectURL(file);
+                img.style.cssText = 'width:100%;height:100%;object-fit:cover;';
+                const delBtn = document.createElement('div');
+                delBtn.innerHTML = '&times;';
+                delBtn.style.cssText = 'position:absolute;top:2px;right:2px;background:rgba(220,38,38,0.85);color:#fff;border-radius:50%;width:20px;height:20px;display:flex;align-items:center;justify-content:center;font-size:13px;cursor:pointer;font-weight:bold;';
+                delBtn.onclick = function() {
+                  const idx = newFiles.indexOf(file);
+                  if (idx > -1) newFiles.splice(idx, 1);
+                  wrapper.remove();
+                  URL.revokeObjectURL(img.src);
+                };
+                wrapper.appendChild(img);
+                wrapper.appendChild(delBtn);
+                imgRow.insertBefore(wrapper, addBtn);
+              });
+              fileInput.value = '';
+            });
+          }
+        },
+        preConfirm: function() {
+          const popup = Swal.getPopup();
+          const comment = popup.querySelector('#swal-edit-comment').value;
+          if (!comment || comment.trim().length < 15) {
+            Swal.showValidationMessage('Cảm nhận phải có tối thiểu 15 ký tự!');
+            return false;
+          }
+          function getVal(groupName) {
+            const grp = popup.querySelector('.edit-star-group[data-group="' + groupName + '"]');
+            return parseInt(grp.getAttribute('data-selected')) || 5;
+          }
+          return {
+            rating: getVal('rating'),
+            sound_rating: getVal('sound'),
+            specs_rating: getVal('specs'),
+            comment: comment.trim()
+          };
+        }
+      }).then(function(result) {
+        if (result.isConfirmed && result.value) {
+          const vals = result.value;
+          const fd = new FormData();
+          fd.append('action', 'update');
+          fd.append('review_id', reviewId);
+          fd.append('comment', vals.comment);
+          fd.append('rating', vals.rating);
+          fd.append('sound_rating', vals.sound_rating);
+          fd.append('specs_rating', vals.specs_rating);
+          fd.append('removed_images', JSON.stringify(removedImages));
+          newFiles.forEach(function(f) { fd.append('images[]', f); });
+
+          fetch('forms/ajax/ajax_review_action.php', { method: 'POST', body: fd })
+            .then(function(res) { return res.json(); })
+            .then(function(data) {
+              if (data.status === 'success') {
+                // Cập nhật ngay trên card mà không reload
+                // 1. Cập nhật comment
+                currentTextEl.innerHTML = vals.comment.replace(/\n/g, '<br>');
+
+                // 2. Cập nhật sao chung
+                const ratingStars = card.querySelectorAll('.rating i');
+                ratingStars.forEach(function(s, idx) {
+                  if (idx < vals.rating) {
+                    s.className = 'bi bi-star-fill';
+                    s.setAttribute('style', 'color: #FBBF24;');
+                  } else {
+                    s.className = 'bi bi-star';
+                    s.removeAttribute('style');
+                  }
+                });
+                const ratingSpan = card.querySelector('.rating span');
+                if (ratingSpan) ratingSpan.textContent = '(' + vals.rating.toFixed(1) + ')';
+
+                // 3. Cập nhật sub ratings (★☆)
+                const subSpans = card.querySelectorAll('.review-content > div:last-child span');
+                subSpans.forEach(function(sp) {
+                  if (sp.textContent.includes('Âm thanh')) {
+                    let stars = 'Âm thanh: ';
+                    for (let i = 1; i <= 5; i++) stars += i <= vals.sound_rating ? '★' : '☆';
+                    sp.textContent = stars;
+                  }
+                  if (sp.textContent.includes('Cấu hình')) {
+                    let stars = 'Cấu hình: ';
+                    for (let i = 1; i <= 5; i++) stars += i <= vals.specs_rating ? '★' : '☆';
+                    sp.textContent = stars;
+                  }
+                });
+
+                // 4. Cập nhật ảnh nếu backend trả image_path
+                if (data.image_path !== undefined) {
+                  card.setAttribute('data-images', data.image_path);
+                  const imgContainer = card.querySelector('.review-images');
+                  if (data.image_path) {
+                    const paths = data.image_path.split(',');
+                    let imgHtml = '';
+                    paths.forEach(function(p) {
+                      imgHtml += '<img src="' + p.trim() + '" style="width: 60px; height: 60px; object-fit: cover; border-radius: 6px; border: 1px solid #ddd;">';
+                    });
+                    if (imgContainer) {
+                      imgContainer.innerHTML = imgHtml;
+                    } else {
+                      const newDiv = document.createElement('div');
+                      newDiv.className = 'review-images mt-2';
+                      newDiv.style.cssText = 'display:flex; gap:10px;';
+                      newDiv.innerHTML = imgHtml;
+                      currentTextEl.after(newDiv);
+                    }
+                  } else if (imgContainer) {
+                    imgContainer.remove();
+                  }
+                }
+
+                Swal.fire('Thành công', data.message, 'success');
+              } else {
+                Swal.fire('Lỗi', data.message, 'error');
+              }
+            }).catch(function() { Swal.fire('Lỗi', 'Mất kết nối server.', 'error'); });
+        }
+      });
+    });
+  });
+
 });

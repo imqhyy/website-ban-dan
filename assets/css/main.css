@@ -12846,7 +12846,7 @@ section,
   /* Dùng font chữ mặc định của web */
   background-color: var(--surface-color);
   /* Dùng màu nền của các card */
-  border-radius: 16px;
+  border-radius: 25px;
   /* Bo góc cho mềm mại */
 }
 

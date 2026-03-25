@@ -66,7 +66,8 @@ $filter_categories = getAll("SELECT * FROM categories ORDER BY category_name ASC
                                                 </option>
                                                 <?php foreach ($all_categories as $cat): ?>
                                                     <option value="<?= $cat['id'] ?>">
-                                                        <?= htmlspecialchars($cat['category_name']) ?></option>
+                                                        <?= htmlspecialchars($cat['category_name']) ?>
+                                                    </option>
                                                 <?php endforeach; ?>
                                             </select>
                                         </div>
@@ -392,25 +393,31 @@ $filter_categories = getAll("SELECT * FROM categories ORDER BY category_name ASC
                                         $is_visible = ($product['status'] === 'visible');
                                         $statusIcon = $is_visible ? 'bi-eye' : 'bi-eye-slash text-secondary';
                                         $statusTitle = $is_visible ? 'Đang hiện - Bấm để ẩn' : 'Đang ẩn - Bấm để hiện';
-                                    ?>
+                                        ?>
                                         <tr>
                                             <td><?= htmlspecialchars($product['id']) ?></td>
                                             <td><?= htmlspecialchars($product['product_name']) ?></td>
-                                            <td><?= str_replace('Guitar ', '', htmlspecialchars($product['category_name'] ?? 'N/A')) ?></td>
+                                            <td><?= str_replace('Guitar ', '', htmlspecialchars($product['category_name'] ?? 'N/A')) ?>
+                                            </td>
                                             <td><?= htmlspecialchars($product['brand_name'] ?? 'N/A') ?></td>
 
-                                            <td class="fw-bold"><?= number_format($product['cost_price'], 0, ',', '.') ?> VND</td>
-                                            <td><?= htmlspecialchars((float)$product['profit_margin']) ?>%</td>
-                                            <td class="fw-bold text-primary"><?= number_format($product['selling_price'], 0, ',', '.') ?> VND</td>
+                                            <td class="fw-bold"><?= number_format($product['cost_price'], 0, ',', '.') ?> VND
+                                            </td>
+                                            <td><?= htmlspecialchars((float) $product['profit_margin']) ?>%</td>
+                                            <td class="fw-bold text-primary">
+                                                <?= number_format($product['selling_price'], 0, ',', '.') ?> VND</td>
 
                                             <td class='function-button-container'>
-                                                <button class='action-icon-btn edit-product-btn' title='Sửa' data-id='<?= $product['id'] ?>'>
+                                                <button class='action-icon-btn edit-product-btn' title='Sửa'
+                                                    data-id='<?= $product['id'] ?>'>
                                                     <i class='bi bi-pencil-square' style='color: #ffc107;'></i>
                                                 </button>
-                                                <button class='action-icon-btn hide-btn' title='<?= $statusTitle ?>' data-id='<?= $product['id'] ?>'>
+                                                <button class='action-icon-btn hide-btn' title='<?= $statusTitle ?>'
+                                                    data-id='<?= $product['id'] ?>'>
                                                     <i class='bi <?= $statusIcon ?>'></i>
                                                 </button>
-                                                <button class='action-icon-btn delete-product-btn' title='Xóa' data-id='<?= $product['id'] ?>'>
+                                                <button class='action-icon-btn delete-product-btn' title='Xóa'
+                                                    data-id='<?= $product['id'] ?>'>
                                                     <i class='bi bi-trash3 text-danger'></i>
                                                 </button>
                                             </td>
@@ -455,7 +462,7 @@ $filter_categories = getAll("SELECT * FROM categories ORDER BY category_name ASC
 
     <?php
     require_once __DIR__ . "/forms/scripts.php"
-    ?>
+        ?>
 
 </body>
 

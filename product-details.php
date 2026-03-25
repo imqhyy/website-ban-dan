@@ -76,13 +76,17 @@ $selling_price = ($discount > 0) ? ($selling_price * (1 - $discount / 100)) : $s
 $save_amount = $original_price ? ($original_price - $selling_price) : 0;
 
 // Xử lý accessories JSON
-$accessories_fixed = [];
+$accessories = [];
 $accessories_others = '';
 if (!empty($product['accessories'])) {
   $acc = json_decode($product['accessories'], true);
-  if ($acc) {
-    $accessories_fixed = $acc['fixed'] ?? [];
-    $accessories_others = $acc['others'] ?? '';
+  if (is_array($acc)) {
+      if (!isset($acc['fixed']) && !isset($acc['others'])) {
+          $accessories = $acc; // Chấp nhận mảng phẳng ["Bao đàn", "Capo"]
+      } else {
+          $accessories = $acc['fixed'] ?? [];
+          $accessories_others = $acc['others'] ?? '';
+      }
   }
 }
 
@@ -316,21 +320,23 @@ include 'forms/head.php';
                         </div>
                       </div>
 
-                      <?php if (!empty($accessories_fixed) || !empty($accessories_others)): ?>
                         <div class="col-lg-4">
                           <div class="package-contents">
                             <h4>Phụ kiện kèm theo</h4>
-                            <ul class="contents-list">
-                              <?php foreach ($accessories_fixed as $item): ?>
-                                <li><i class="bi bi-check-circle"></i><?= htmlspecialchars($item) ?></li>
-                              <?php endforeach; ?>
-                              <?php if ($accessories_others): ?>
-                                <li><i class="bi bi-check-circle"></i><?= htmlspecialchars($accessories_others) ?></li>
-                              <?php endif; ?>
-                            </ul>
+                            <?php if (empty($accessories) && empty($accessories_others)): ?>
+                              <p style="color: #666; font-style: italic; margin-top: 10px;">Chưa có thông tin phụ kiện.</p>
+                            <?php else: ?>
+                              <ul class="contents-list">
+                                <?php foreach ($accessories as $item): ?>
+                                  <li><i class="bi bi-check-circle"></i><?= htmlspecialchars($item) ?></li>
+                                <?php endforeach; ?>
+                                <?php if ($accessories_others): ?>
+                                  <li><i class="bi bi-check-circle"></i><?= htmlspecialchars($accessories_others) ?></li>
+                                <?php endif; ?>
+                              </ul>
+                            <?php endif; ?>
                           </div>
                         </div>
-                      <?php endif; ?>
                     </div>
                   </div>
                 </div>
