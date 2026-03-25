@@ -23,22 +23,27 @@ include __DIR__ . "/forms/head.php";
     <div class="container-manage-orders" style="width: 90%; margin: auto; padding: 20px;">
       <form action="" method="get">
         <div class="search-container">
-          <input type="text" id="search-input" name="search" placeholder="Tra cứu mã đơn hàng" value="<?= htmlspecialchars($_GET['search'] ?? '') ?>">
+          <input type="text" id="search-input" name="search" placeholder="Tra cứu mã đơn hàng"
+            value="<?= htmlspecialchars($_GET['search'] ?? '') ?>">
           <button id="search-button" type="submit"><i class="fa fa-search"></i> Tìm kiếm</button>
         </div>
 
         <div class="sort-container">
           <div class="sort-by-date-container">
-            <label>Từ ngày:<input type="date" name="date_from" class="input-sort-date" value="<?= $_GET['date_from'] ?? '' ?>"></label>
-            <label>Đến ngày:<input type="date" name="date_to" class="input-sort-date" value="<?= $_GET['date_to'] ?? '' ?>"></label>
+            <label>Từ ngày:<input type="date" name="date_from" class="input-sort-date"
+                value="<?= $_GET['date_from'] ?? '' ?>"></label>
+            <label>Đến ngày:<input type="date" name="date_to" class="input-sort-date"
+                value="<?= $_GET['date_to'] ?? '' ?>"></label>
           </div>
           <div class="sort-by-order-status">
             <label for="sort-order">Tình trạng:</label>
             <select id="sort-order" name="order_status" class="status-select-custom">
               <option value="">Tất cả</option>
               <option value="newest" <?= ($_GET['order_status'] ?? '') == 'newest' ? 'selected' : '' ?>>Mới đặt</option>
-              <option value="processed" <?= ($_GET['order_status'] ?? '') == 'processed' ? 'selected' : '' ?>>Đã xử lý</option>
-              <option value="deliveried" <?= ($_GET['order_status'] ?? '') == 'deliveried' ? 'selected' : '' ?>>Đã giao</option>
+              <option value="processed" <?= ($_GET['order_status'] ?? '') == 'processed' ? 'selected' : '' ?>>Đã xử lý
+              </option>
+              <option value="deliveried" <?= ($_GET['order_status'] ?? '') == 'deliveried' ? 'selected' : '' ?>>Đã giao
+              </option>
               <option value="cancel" <?= ($_GET['order_status'] ?? '') == 'cancel' ? 'selected' : '' ?>>Huỷ</option>
             </select>
           </div>
@@ -63,7 +68,7 @@ include __DIR__ . "/forms/head.php";
       <?php if (!empty($orders)): ?>
         <?php foreach ($orders as $o):
           $statusMap = ['newest' => 'Mới đặt', 'processed' => 'Đã xử lý', 'deliveried' => 'Đã giao', 'cancel' => 'Huỷ'];
-        ?>
+          ?>
           <div class="manage-order-container" data-order-id="<?= $o['id'] ?>">
             <div class="info-and-status-order">
               <div class="info-order">
@@ -72,7 +77,8 @@ include __DIR__ . "/forms/head.php";
                 <p>Tổng tiền: <b><?= number_format($o['total_amount'], 0, ',', '.') ?>VND</b></p>
               </div>
               <div class="status-block">
-                <p style="margin-bottom: 0px;">Tình trạng: <b class="order-status-value"><?= $statusMap[$o['order_status']] ?></b>
+                <p style="margin-bottom: 0px;">Tình trạng: <b
+                    class="order-status-value"><?= $statusMap[$o['order_status']] ?></b>
                   <i class="bi bi-pencil-square edit-status-order" style="cursor: pointer;"></i>
                 </p>
                 <div class="status-select-container hidden">
@@ -106,7 +112,8 @@ include __DIR__ . "/forms/head.php";
                 <li><a href="<?= $base_url ?>page=<?= $currentPage - 1 ?>"><i class="bi bi-arrow-left"></i></a></li>
               <?php endif; ?>
               <?php for ($i = 1; $i <= $maxPage; $i++): ?>
-                <li><a href="<?= $base_url ?>page=<?= $i ?>" class="<?= ($i == $currentPage) ? 'active' : '' ?>"><?= $i ?></a></li>
+                <li><a href="<?= $base_url ?>page=<?= $i ?>"
+                    class="<?= ($i == $currentPage) ? 'active' : '' ?>"><?= $i ?></a></li>
               <?php endfor; ?>
               <?php if ($currentPage < $maxPage): ?>
                 <li><a href="<?= $base_url ?>page=<?= $currentPage + 1 ?>"><i class="bi bi-arrow-right"></i></a></li>
@@ -134,10 +141,10 @@ include __DIR__ . "/forms/head.php";
   require_once __DIR__ . "/forms/scripts.php"; ?>
   <script>
     window.currentFilters = {
-        city: "<?= htmlspecialchars($_GET['city'] ?? '') ?>",
-        ward: "<?= htmlspecialchars($_GET['ward'] ?? '') ?>"
+      city: "<?= htmlspecialchars($_GET['city'] ?? '') ?>",
+      ward: "<?= htmlspecialchars($_GET['ward'] ?? '') ?>"
     };
-</script>
+  </script>
   <script src="../assets/js/admin2.js"></script>
 </body>
 

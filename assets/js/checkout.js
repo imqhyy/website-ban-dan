@@ -8,7 +8,7 @@ document.addEventListener("DOMContentLoaded", function () {
       "Phường Bến Nghé", "Phường Bến Thành", "Phường Đa Kao", "Phường Nguyễn Thái Bình", "Phường Phạm Ngũ Lão", "Phường Nguyễn Cư Trinh", "Phường Cô Giang", "Phường Cầu Kho", "Phường Tân Định",
       "Phường Võ Thị Sáu", "Phường 14", "Phường 1", "Phường 2", "Phường 4", "Phường 5", "Phường 9", "Phường 12",
       "Phường 6", "Phường 13", "Phường 15", "Phường 16", "Phường 18",
-      "Phường 7", 
+      "Phường 7",
       "Phường Bình Thuận", "Phường Phú Mỹ", "Phường Phú Thuận", "Phường Tân Hưng", "Phường Tân Kiểng", "Phường Tân Phong", "Phường Tân Phú", "Phường Tân Quy", "Phường Tân Thuận Đông", "Phường Tân Thuận Tây",
       "Phường 8", "Phường 10", "Phường 11",
       "Phường 3",
@@ -72,7 +72,7 @@ document.addEventListener("DOMContentLoaded", function () {
         if (Array.isArray(addressData[selectedCity])) {
           // Mô hình phẳng 2 cấp -> Ẩn khối Quận/Huyện, điền trực tiếp list Phường vào wardSelect
           if (distContainer) distContainer.style.display = 'none';
-          
+
           addressData[selectedCity].forEach(ward => {
             let option = document.createElement("option");
             option.value = ward;

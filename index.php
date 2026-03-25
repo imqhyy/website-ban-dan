@@ -22,13 +22,6 @@ $bestSellersStmt = $pdo->prepare("SELECT p.*, c.category_name, b.brand_name,
 $bestSellersStmt->execute();
 $bestSellers = $bestSellersStmt->fetchAll();
 
-// Lấy Cấu hình Khuyến Mãi (Mega Sale Countdown)
-$settingsStmt = $pdo->query("SELECT setting_key, setting_value FROM settings");
-$settingsArray = $settingsStmt->fetchAll(PDO::FETCH_KEY_PAIR);
-$megaSaleDate = $settingsArray['mega_sale_end_date'] ?? '2026/05/01';
-$megaSaleTitle = $settingsArray['mega_sale_title'] ?? 'Đếm ngược ngày đại ưu đãi';
-$megaSaleDesc = $settingsArray['mega_sale_desc'] ?? 'Nếu bạn đã lỡ tay hoặc vô tình đập đi cây đàn yêu giấu của mình thì đừng buồn...';
-
 $title = "Trang Chủ - Guitar Xì Gòn";
 include 'forms/head.php';
 ?>
@@ -100,12 +93,14 @@ include 'forms/head.php';
                   </div>
                 </div>
                 <?php
-                  $h_avg_r = (float)($heroProduct['avg_rating'] ?? 0);
-                  $h_tot_r = (int)($heroProduct['total_reviews'] ?? 0);
+                $h_avg_r = (float) ($heroProduct['avg_rating'] ?? 0);
+                $h_tot_r = (int) ($heroProduct['total_reviews'] ?? 0);
                 ?>
-                <div class="product-rating" style="display: flex; justify-content: flex-end; align-items:center; gap:4px; font-size:14px;">
+                <div class="product-rating"
+                  style="display: flex; justify-content: flex-end; align-items:center; gap:4px; font-size:14px;">
                   <i class="bi bi-star-fill" style="color:<?= $h_tot_r > 0 ? '#FBBF24' : '#D1D5DB' ?>;"></i>
-                  <span style="font-weight:600;color:<?= $h_tot_r > 0 ? '#111827' : '#9CA3AF' ?>;"><?= $h_tot_r > 0 ? number_format($h_avg_r, 1) : '0.0' ?></span>
+                  <span
+                    style="font-weight:600;color:<?= $h_tot_r > 0 ? '#111827' : '#9CA3AF' ?>;"><?= $h_tot_r > 0 ? number_format($h_avg_r, 1) : '0.0' ?></span>
                   <span style="color:#9CA3AF;">(<?= $h_tot_r ?>)</span>
                 </div>
               </div>
@@ -195,12 +190,14 @@ include 'forms/head.php';
                     <?php endif; ?>
                   </div>
                   <?php
-                    $b_avg_r = (float)($item['avg_rating'] ?? 0);
-                    $b_tot_r = (int)($item['total_reviews'] ?? 0);
+                  $b_avg_r = (float) ($item['avg_rating'] ?? 0);
+                  $b_tot_r = (int) ($item['total_reviews'] ?? 0);
                   ?>
-                  <div class="product-rating" style="display: flex; justify-content: flex-end; align-items:center; gap:4px; font-size:14px;">
+                  <div class="product-rating"
+                    style="display: flex; justify-content: flex-end; align-items:center; gap:4px; font-size:14px;">
                     <i class="bi bi-star-fill" style="color:<?= $b_tot_r > 0 ? '#FBBF24' : '#D1D5DB' ?>;"></i>
-                    <span style="font-weight:600;color:<?= $b_tot_r > 0 ? '#111827' : '#9CA3AF' ?>;"><?= $b_tot_r > 0 ? number_format($b_avg_r, 1) : '0.0' ?></span>
+                    <span
+                      style="font-weight:600;color:<?= $b_tot_r > 0 ? '#111827' : '#9CA3AF' ?>;"><?= $b_tot_r > 0 ? number_format($b_avg_r, 1) : '0.0' ?></span>
                     <span style="color:#9CA3AF;">(<?= $b_tot_r ?>)</span>
                   </div>
                 </div>
@@ -212,57 +209,7 @@ include 'forms/head.php';
     </section>
     <!-- /Best Sellers Section -->
 
-    <!-- Cards Section -->
 
-    <!-- Call To Action Section -->
-    <section id="call-to-action" class="call-to-action section">
-      <div class="container" data-aos="fade-up" data-aos-delay="100">
-        <div class="row">
-          <div class="col-lg-8 mx-auto">
-            <div class="main-content text-center" data-aos="zoom-in" data-aos-delay="200">
-              <div class="offer-badge" data-aos="fade-down" data-aos-delay="250">
-                <span class="limited-time">Ưu đãi khủng</span>
-                <span class="offer-text">Giảm giá lên đến 50%</span>
-              </div>
-
-              <h2 data-aos="fade-up" data-aos-delay="300">
-                <?= htmlspecialchars($megaSaleTitle) ?>
-              </h2>
-
-              <p class="subtitle" data-aos="fade-up" data-aos-delay="350">
-                <?= htmlspecialchars($megaSaleDesc) ?>
-              </p>
-
-              <div class="countdown-wrapper" data-aos="fade-up" data-aos-delay="400">
-                <div class="countdown d-flex justify-content-center" data-count="<?= htmlspecialchars($megaSaleDate) ?>">
-                  <div>
-                    <h3 class="count-days"></h3>
-                    <h4>Ngày</h4>
-                  </div>
-                  <div>
-                    <h3 class="count-hours"></h3>
-                    <h4>Giờ</h4>
-                  </div>
-                  <div>
-                    <h3 class="count-minutes"></h3>
-                    <h4>Phút</h4>
-                  </div>
-                  <div>
-                    <h3 class="count-seconds"></h3>
-                    <h4>Giây</h4>
-                  </div>
-                </div>
-              </div>
-
-              <div class="action-buttons" data-aos="fade-up" data-aos-delay="450">
-                <a href="all.php" class="btn-shop-now">Mua sắm ngay</a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-    <!-- /Call To Action Section -->
   </main>
 
   <?php include 'forms/footer.php';

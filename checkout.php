@@ -81,9 +81,9 @@ $total_savings = 0;
 
 foreach ($cart_items as &$item) {
   if ($item['status'] === 'hidden') {
-      $err = urlencode('Sản phẩm "' . $item['product_name'] . '" không tồn tại hoặc đã ngừng kinh doanh!');
-      echo "<script>window.location.href='cart.php?error=$err';</script>";
-      exit();
+    $err = urlencode('Sản phẩm "' . $item['product_name'] . '" không tồn tại hoặc đã ngừng kinh doanh!');
+    echo "<script>window.location.href='cart.php?error=$err';</script>";
+    exit();
   }
 
   $has_discount = ($item['discount_percent'] > 0);
