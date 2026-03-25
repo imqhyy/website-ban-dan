@@ -112,7 +112,7 @@
           <li><a href="admin_quanlynhapsanpham.php">Quản lý nhập sản phẩm</a></li>
           <li><a href="admin_quanlydonhang.php">Quản lý đơn hàng</a></li>
           <li><a href="admin_quanlytonkho.php">Quản lý tồn kho</a></li>
-          <li><a href="admin_settings.php"> Cài đặt Khuyến mãi</a></li>
+
           <li><a href="admin_quanlyreview.php">Quản lý Đánh giá</a></li>
         </ul>
       </nav>
