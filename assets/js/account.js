@@ -533,19 +533,6 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   }
 
-  // === DEBUG ĐÁNH GIÁ (XOÁ SAU KHI TEST XONG) ===
-  console.log('=== DEBUG ĐÁNH GIÁ ===');
-  console.log('Review cards:', document.querySelectorAll('.reviews-grid .review-card').length);
-  console.log('Nút Xoá:', document.querySelectorAll('.reviews-grid .btn-delete').length);
-  console.log('Nút Sửa:', document.querySelectorAll('.reviews-grid .btn-edit').length);
-  document.querySelectorAll('.reviews-grid .btn-delete').forEach((btn, i) => {
-    console.log('  Xoá #' + i + ' data-id:', btn.getAttribute('data-id'));
-  });
-  document.querySelectorAll('.reviews-grid .btn-edit').forEach((btn, i) => {
-    console.log('  Sửa #' + i + ' data-id:', btn.getAttribute('data-id'));
-  });
-  console.log('SweetAlert2:', typeof Swal !== 'undefined' ? 'OK' : 'KHÔNG CÓ');
-  console.log('=== END DEBUG ===');
 
   // --- QUẢN LÝ LỊCH SỬ ĐÁNH GIÁ (XOÁ / SỬA) ---
   // Xóa đánh giá
