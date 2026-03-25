@@ -1,7 +1,9 @@
 <?php require_once('forms/init.php'); ?>
 <?php
 // Lấy 1 Sản phẩm nổi bật ngẫu nhiên
-$heroStmt = $pdo->prepare("SELECT p.*, c.category_name, b.brand_name 
+$heroStmt = $pdo->prepare("SELECT p.*, c.category_name, b.brand_name,
+                           (SELECT AVG(rating) FROM reviews WHERE product_id = p.id AND status = 'visible') as avg_rating,
+                           (SELECT COUNT(id) FROM reviews WHERE product_id = p.id AND status = 'visible') as total_reviews
                            FROM products p 
                            LEFT JOIN categories c ON p.category_id = c.id
                            LEFT JOIN brands b ON p.brand_id = b.id
@@ -10,7 +12,9 @@ $heroStmt->execute();
 $heroProduct = $heroStmt->fetch();
 
 // Lấy 4 Sản phẩm bán chạy (ID order)
-$bestSellersStmt = $pdo->prepare("SELECT p.*, c.category_name, b.brand_name 
+$bestSellersStmt = $pdo->prepare("SELECT p.*, c.category_name, b.brand_name,
+                                  (SELECT AVG(rating) FROM reviews WHERE product_id = p.id AND status = 'visible') as avg_rating,
+                                  (SELECT COUNT(id) FROM reviews WHERE product_id = p.id AND status = 'visible') as total_reviews
                                   FROM products p 
                                   LEFT JOIN categories c ON p.category_id = c.id
                                   LEFT JOIN brands b ON p.brand_id = b.id
@@ -95,9 +99,14 @@ include 'forms/head.php';
                     <?php endif; ?>
                   </div>
                 </div>
-                <div class="product-rating" style="display: flex; justify-content: flex-end">
-                  <i class="bi bi-star-fill"></i>
-                  4.8 <span>(42)</span>
+                <?php
+                  $h_avg_r = (float)($heroProduct['avg_rating'] ?? 0);
+                  $h_tot_r = (int)($heroProduct['total_reviews'] ?? 0);
+                ?>
+                <div class="product-rating" style="display: flex; justify-content: flex-end; align-items:center; gap:4px; font-size:14px;">
+                  <i class="bi bi-star-fill" style="color:<?= $h_tot_r > 0 ? '#FBBF24' : '#D1D5DB' ?>;"></i>
+                  <span style="font-weight:600;color:<?= $h_tot_r > 0 ? '#111827' : '#9CA3AF' ?>;"><?= $h_tot_r > 0 ? number_format($h_avg_r, 1) : '0.0' ?></span>
+                  <span style="color:#9CA3AF;">(<?= $h_tot_r ?>)</span>
                 </div>
               </div>
             <?php endif; ?>
@@ -185,9 +194,14 @@ include 'forms/head.php';
                       <span class="old-price"><?= number_format($originalPrice, 0, ',', '.') ?> VND</span>
                     <?php endif; ?>
                   </div>
-                  <div class="product-rating" style="display: flex; justify-content: flex-end">
-                    <i class="bi bi-star-fill"></i>
-                    4.8 <span>(<?= rand(20, 100) ?>)</span>
+                  <?php
+                    $b_avg_r = (float)($item['avg_rating'] ?? 0);
+                    $b_tot_r = (int)($item['total_reviews'] ?? 0);
+                  ?>
+                  <div class="product-rating" style="display: flex; justify-content: flex-end; align-items:center; gap:4px; font-size:14px;">
+                    <i class="bi bi-star-fill" style="color:<?= $b_tot_r > 0 ? '#FBBF24' : '#D1D5DB' ?>;"></i>
+                    <span style="font-weight:600;color:<?= $b_tot_r > 0 ? '#111827' : '#9CA3AF' ?>;"><?= $b_tot_r > 0 ? number_format($b_avg_r, 1) : '0.0' ?></span>
+                    <span style="color:#9CA3AF;">(<?= $b_tot_r ?>)</span>
                   </div>
                 </div>
               </div>

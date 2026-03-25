@@ -3916,6 +3916,19 @@ section,
   border: 2px solid transparent;
 }
 
+/* General primary-action button (dùng bất cứ đâu, kể cả review form) */
+.btn.primary-action {
+  background: linear-gradient(135deg, var(--accent-color), color-mix(in srgb, var(--accent-color), #000 15%));
+  color: var(--contrast-color);
+  border-color: transparent;
+  transition: all 0.3s ease;
+}
+
+.btn.primary-action:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px color-mix(in srgb, var(--accent-color), transparent 60%);
+}
+
 .product-details .product-details .purchase-section .action-buttons .btn.primary-action {
   flex: 2;
   background: linear-gradient(135deg,

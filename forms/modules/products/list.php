@@ -81,7 +81,9 @@ if ($currentPage > $maxPage && $maxPage > 0) $currentPage = $maxPage;
 $offset = ($currentPage - 1) * $perPage;
 
 // 5. Truy vấn lấy dữ liệu cuối cùng (Kết hợp cả status và bộ lọc)
-$sql = "SELECT p.*, c.category_name, b.brand_name 
+$sql = "SELECT p.*, c.category_name, b.brand_name,
+        (SELECT AVG(rating) FROM reviews WHERE product_id = p.id AND status = 'visible') as avg_rating,
+        (SELECT COUNT(id) FROM reviews WHERE product_id = p.id AND status = 'visible') as total_reviews
         FROM products p
         JOIN categories c ON p.category_id = c.id
         JOIN brands b ON p.brand_id = b.id

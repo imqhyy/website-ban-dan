@@ -230,8 +230,14 @@ include 'forms/head.php' ?>
                                                         </div>
                                                     </div>
                                                     <div class="product-rating"
-                                                        style="display: flex; justify-content: flex-end;">
-                                                        <i class="bi bi-star-fill"></i> 5.0 <span>(0)</span>
+                                                        style="display: flex; justify-content: flex-end; align-items:center; gap:4px; font-size:14px;">
+                                                        <?php
+                                                          $avg_r = (float)($product['avg_rating'] ?? 0);
+                                                          $tot_r = (int)($product['total_reviews'] ?? 0);
+                                                        ?>
+                                                        <i class="bi bi-star-fill" style="color:<?= $tot_r > 0 ? '#FBBF24' : '#D1D5DB' ?>;"></i>
+                                                        <span style="font-weight:600;color:<?= $tot_r > 0 ? '#111827' : '#9CA3AF' ?>;"><?= $tot_r > 0 ? number_format($avg_r, 1) : '0.0' ?></span>
+                                                        <span style="color:#9CA3AF;">(<?= $tot_r ?>)</span>
                                                     </div>
                                                 </div>
                                             </div>
