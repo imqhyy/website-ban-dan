@@ -52,6 +52,15 @@ if ($search !== '') {
     $conditions[] = "(p.product_name LIKE '%$search_safe%' OR p.summary_description LIKE '%$search_safe%')";
 }
 
+// --- BỔ SUNG: Lọc theo chương trình ưu đãi (Tất cả / Giảm giá) ---
+$filter_promo = isset($_GET['filter_promo']) ? $_GET['filter_promo'] : 'all';
+
+if ($filter_promo === 'discount') {
+    // Chỉ lấy sản phẩm có phần trăm giảm giá lớn hơn 0
+    $conditions[] = "p.discount_percent > 0";
+}
+// Nếu là 'all' thì không cần thêm điều kiện vì mặc định đã lấy hết sản phẩm visible
+
 // Gộp tất cả thành điều kiện WHERE
 $where = " WHERE " . implode(" AND ", $conditions);
 

@@ -37,24 +37,24 @@ window.addEventListener("load", function () {
 
 function addToCart(productId, quantity = 1) {
   const formData = new FormData();
-  formData.append('action', 'add');
-  formData.append('product_id', productId);
-  formData.append('quantity', quantity);
+  formData.append("action", "add");
+  formData.append("product_id", productId);
+  formData.append("quantity", quantity);
 
-  fetch('ajax_cart.php', {
-    method: 'POST',
-    body: formData
+  fetch("ajax_cart.php", {
+    method: "POST",
+    body: formData,
   })
-    .then(response => response.json())
-    .then(data => {
-      if (data.status === 'success') {
-        Swal.fire('Thành công!', data.message, 'success');
+    .then((response) => response.json())
+    .then((data) => {
+      if (data.status === "success") {
+        Swal.fire("Thành công!", data.message, "success");
         // Cập nhật lại icon số lượng giỏ hàng trên header ở đây nếu cần
       } else {
-        Swal.fire('Lỗi!', data.message, 'warning');
+        Swal.fire("Lỗi!", data.message, "warning");
       }
     })
-    .catch(error => console.error('Error:', error));
+    .catch((error) => console.error("Error:", error));
 }
 
 function updateCartIcon(itemCount) {
@@ -238,12 +238,14 @@ function updateCartIcon(itemCount) {
     // Nút Giảm
     decreaseButtons.forEach((btn) => {
       btn.addEventListener("click", function () {
-        const quantityInput = btn.closest(".quantity-selector").querySelector(".quantity-input");
+        const quantityInput = btn
+          .closest(".quantity-selector")
+          .querySelector(".quantity-input");
         let currentValue = parseInt(quantityInput.value);
         if (currentValue > 1) {
           quantityInput.value = currentValue - 1;
           // Phát tín hiệu cho cart.js biết số lượng vừa bị thay đổi
-          quantityInput.dispatchEvent(new Event('change', { bubbles: true }));
+          quantityInput.dispatchEvent(new Event("change", { bubbles: true }));
         }
       });
     });
@@ -251,12 +253,14 @@ function updateCartIcon(itemCount) {
     // Nút Tăng
     increaseButtons.forEach((btn) => {
       btn.addEventListener("click", function () {
-        const quantityInput = btn.closest(".quantity-selector").querySelector(".quantity-input");
+        const quantityInput = btn
+          .closest(".quantity-selector")
+          .querySelector(".quantity-input");
         let currentValue = parseInt(quantityInput.value);
         // Cứ tăng lên 1, cart.js sẽ tự động check kho (max) và chặn lại nếu lố
         quantityInput.value = currentValue + 1;
         // Phát tín hiệu cho cart.js biết số lượng vừa bị thay đổi
-        quantityInput.dispatchEvent(new Event('change', { bubbles: true }));
+        quantityInput.dispatchEvent(new Event("change", { bubbles: true }));
       });
     });
   }
@@ -1106,11 +1110,12 @@ document.addEventListener("DOMContentLoaded", function () {
  * XỬ LÝ BỘ LỌC TỔNG HỢP (SIDEBAR + ADVANCED BAR)
  */
 document.addEventListener("DOMContentLoaded", function () {
-  const filterForm = document.getElementById('filter-product-form');
-  const advancedBar = document.querySelector('.advanced-search-bar'); // cái này dùng trong search-result để chọn dáng đàn,....
+  const filterForm = document.getElementById("filter-product-form");
+  const advancedBar = document.querySelector(".advanced-search-bar"); // cái này dùng trong search-result để chọn dáng đàn,....
 
   // Biến cờ để kiểm tra xem người dùng có thực sự đụng vào filter giá không
-  let isPriceTouched = false;
+  let paramsCheck = new URLSearchParams(window.location.search);
+  let isPriceTouched = paramsCheck.has('min_price') || paramsCheck.has('max_price');
 
   if (filterForm) {
     const minInput = filterForm.querySelector(".min-price-input");
@@ -1118,12 +1123,16 @@ document.addEventListener("DOMContentLoaded", function () {
     const priceRanges = filterForm.querySelectorAll('input[type="range"]');
 
     // Lắng nghe sự kiện thay đổi trên các ô nhập và thanh kéo
-    const markAsTouched = () => { isPriceTouched = true; };
-    if (minInput) minInput.addEventListener('input', markAsTouched);
-    if (maxInput) maxInput.addEventListener('input', markAsTouched);
-    priceRanges.forEach(range => range.addEventListener('input', markAsTouched));
+    const markAsTouched = () => {
+      isPriceTouched = true;
+    };
+    if (minInput) minInput.addEventListener("input", markAsTouched);
+    if (maxInput) maxInput.addEventListener("input", markAsTouched);
+    priceRanges.forEach((range) =>
+      range.addEventListener("input", markAsTouched),
+    );
 
-    filterForm.addEventListener('submit', function (e) {
+    filterForm.addEventListener("submit", function (e) {
       e.preventDefault();
 
       // 1. Lấy tham số hiện tại trên URL làm gốc
@@ -1131,7 +1140,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
       // 2. Xử lý Advanced Bar (Dáng đàn, Gỗ...)
       if (advancedBar) {
-        advancedBar.querySelectorAll('select, input').forEach(el => {
+        advancedBar.querySelectorAll("select, input").forEach((el) => {
           if (el.name) {
             if (el.value) params.set(el.name, el.value);
             else params.delete(el.name);
@@ -1140,13 +1149,23 @@ document.addEventListener("DOMContentLoaded", function () {
       }
 
       // 3. Xử lý Sidebar (Checkbox Thương hiệu & Phân loại)
-      params.delete('brand[]');
-      params.delete('type[]');
+      params.delete("brand[]");
+      params.delete("type[]");
       const formData = new FormData(filterForm);
       for (let [key, value] of formData.entries()) {
-        if (key.includes('[]') && value) {
+        if (key.includes("[]") && value) {
           params.append(key, value);
         }
+      }
+
+      // --- BỔ SUNG: Xử lý nút Radio (Chương trình ưu đãi) ---
+      const promoChecked = filterForm.querySelector(
+        'input[name="filter_promo"]:checked',
+      );
+      if (promoChecked) {
+        params.set("filter_promo", promoChecked.value);
+      } else {
+        params.delete("filter_promo");
       }
 
       // 4. LOGIC QUAN TRỌNG: Chỉ xử lý giá khi biến isPriceTouched = true
@@ -1156,7 +1175,7 @@ document.addEventListener("DOMContentLoaded", function () {
           let minVal = minInput.value.replace(/\./g, "");
           params.set("min_price", minVal);
         } else {
-          minInput.removeAttribute('name');
+          minInput.removeAttribute("name");
           params.delete("min_price");
         }
 
@@ -1165,20 +1184,20 @@ document.addEventListener("DOMContentLoaded", function () {
           let maxVal = maxInput.value.replace(/\./g, "");
           params.set("max_price", maxVal);
         } else {
-          maxInput.removeAttribute('name');
+          maxInput.removeAttribute("name");
           params.delete("max_price");
         }
       } else {
         // Nếu chưa từng chạm vào giá, đảm bảo không có name và không có trên URL
-        if (minInput) minInput.removeAttribute('name');
-        if (maxInput) maxInput.removeAttribute('name');
+        if (minInput) minInput.removeAttribute("name");
+        if (maxInput) maxInput.removeAttribute("name");
         params.delete("min_price");
         params.delete("max_price");
       }
 
       // 5. Reset trang và chuyển hướng
-      params.delete('page');
-      window.location.href = window.location.pathname + '?' + params.toString();
+      params.delete("page");
+      window.location.href = window.location.pathname + "?" + params.toString();
     });
   }
 });
