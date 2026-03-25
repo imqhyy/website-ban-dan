@@ -4,6 +4,7 @@ $host = 'localhost';
 $db   = 'guitar_xigon'; // Tên database vừa tạo ở trên
 $user = 'root';
 $pass = ''; // XAMPP mặc định không có mật khẩu
+date_default_timezone_set('Asia/Ho_Chi_Minh');
 
 try {
     $pdo = new PDO("mysql:host=$host;dbname=$db;charset=utf8", $user, $pass);

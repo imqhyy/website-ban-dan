@@ -873,57 +873,7 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 
   // --- 3. LOGIC THÊM DÒNG SẢN PHẨM MỚI ---
-  if (addProductButton && importFormContainer) {
-    addProductButton.addEventListener("click", function () {
-      const productTemplate = document.querySelector(
-        ".product-fields-template",
-      );
-      const actionContainer = document.getElementById(
-        "manage-add-and-save-container",
-      );
-
-      if (productTemplate && actionContainer) {
-        const newProductFields = productTemplate.cloneNode(true);
-
-        // Reset giá trị dòng mới
-        newProductFields.querySelectorAll("input, select").forEach((el) => {
-          if (el.tagName === "SELECT") el.selectedIndex = 0;
-          else el.value = "";
-        });
-
-        // Hiện và gán sự kiện nút Xóa
-        const removeBtn = newProductFields.querySelector(".remove-product-btn");
-        if (removeBtn) {
-          removeBtn.style.display = "block";
-          removeBtn.onclick = () => newProductFields.remove();
-        }
-
-        // Gán sự kiện cho Select Loại & Thương hiệu mới
-        const newTypeSelect = newProductFields.querySelector(
-          ".manage-product-type",
-        );
-        newTypeSelect.addEventListener("change", function () {
-          updateBrandsForProduct(this);
-        });
-
-        const newBrandSelect = newProductFields.querySelector(
-          ".manage-product-brands",
-        );
-        newBrandSelect.addEventListener("change", function () {
-          updateProductDatalist(newProductFields);
-        });
-
-        // Định dạng tiền tệ cho ô mới
-        attachPriceFormatter(
-          newProductFields.querySelector(".unit-price-input"),
-        );
-
-        // Chèn vào Form
-        importFormContainer.insertBefore(newProductFields, actionContainer);
-        updateBrandsForProduct(newTypeSelect);
-      }
-    });
-  }
+  // đã viết rồi ctrl F addProductButton là thấy  
 
   // --- 4. LOGIC LƯU PHIẾU NHẬP (BẢN FIX - HUY) ---
   if (saveImportButton) {
@@ -1060,7 +1010,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // --- 2. HÀM TẢI DANH SÁCH SẢN PHẨM (AJAX) ---
   // --- Cập nhật hàm fetchProductList trong admin.js ---
+  let currentProductPage = 1;
   function fetchProductList(page = 1) {
+    currentProductPage = page;
     const type = document.getElementById("filter-product-type")?.value || ""; // Giờ là ID số
     const brand = document.getElementById("filter-product-brand")?.value || "";
     const discountSelect = document.getElementById("filter-product-discount");
@@ -1292,7 +1244,7 @@ document.addEventListener("DOMContentLoaded", function () {
           .then((res) => res.text())
           .then((data) => {
             if (data.trim() === "success") {
-              fetchProductList(); // Tải lại bảng để cập nhật icon mới
+              fetchProductList(currentProductPage); // Tải lại bảng để cập nhật icon mới
               Toast.fire({
                 icon: "success",
                 title: "Đã cập nhật trạng thái hiển thị!",
@@ -1343,14 +1295,14 @@ document.addEventListener("DOMContentLoaded", function () {
                     "Sản phẩm chưa có giao dịch nên đã được xóa vĩnh viễn.",
                     "success",
                   );
-                  fetchProductList();
+                  fetchProductList(currentProductPage);
                 } else if (response === "hidden_success") {
                   Swal.fire({
                     title: "Thông báo",
                     text: "Sản phẩm này đã có lịch sử nhập hàng/bán hàng nên hệ thống đã tự động chuyển sang trạng thái ẨN để bảo toàn dữ liệu.",
                     icon: "info",
                   });
-                  fetchProductList(); // Cập nhật lại bảng để hiện icon mắt gạch chéo
+                  fetchProductList(currentProductPage); // Cập nhật lại bảng để hiện icon mắt gạch chéo
                 } else {
                   Swal.fire("Lỗi", data, "error");
                 }
@@ -1382,7 +1334,7 @@ document.addEventListener("DOMContentLoaded", function () {
             this.reset();
             addDataStorage = new DataTransfer(); // Reset kho chứa ảnh
             document.getElementById("image-preview-container").innerHTML = ""; // Xóa preview
-            fetchProductList(1);
+            fetchProductList(currentProductPage);
           } else {
             Swal.fire("Lỗi", data, "error");
           }
@@ -1415,7 +1367,7 @@ document.addEventListener("DOMContentLoaded", function () {
           if (data.trim() === "success") {
             Swal.fire("Thành công", "Thông tin đã được cập nhật!", "success");
             editModal.style.display = "none";
-            fetchProductList(1);
+            fetchProductList(currentProductPage);
           } else {
             Swal.fire("Lỗi", data, "error");
           }
