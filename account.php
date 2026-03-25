@@ -285,11 +285,25 @@ include 'forms/head.php';
                                   </div>
                                 </div>
 
-                                <div class="timeline-item <?= in_array($order['order_status'], ['processed', 'deliveried']) ? 'completed' : '' ?>">
-                                  <div class="timeline-icon"><i class="bi bi-truck"></i></div>
+                                <div class="timeline-item <?php
+                                                          if (in_array($order['order_status'], ['processed', 'deliveried'])) echo 'completed';
+                                                          elseif ($order['order_status'] == 'cancel') echo 'cancelled'; // Thêm class cancelled để hiện màu đỏ
+                                                          ?>">
+                                  <div class="timeline-icon">
+                                    <i class="bi <?= ($order['order_status'] == 'cancel') ? 'bi-x-circle-fill' : 'bi-truck' ?>"></i>
+                                  </div>
                                   <div class="timeline-content">
-                                    <h5><?= ($order['order_status'] == 'deliveried') ? 'Giao hàng thành công' : 'Đang vận chuyển' ?></h5>
-                                    <?php if ($order['order_status'] !== 'newest'): ?>
+                                    <h5>
+                                      <?php
+                                      if ($order['order_status'] == 'cancel') echo 'Đã hủy đơn hàng';
+                                      elseif ($order['order_status'] == 'deliveried') echo 'Giao hàng thành công';
+                                      else echo 'Đang vận chuyển';
+                                      ?>
+                                    </h5>
+
+                                    <?php if ($order['order_status'] == 'cancel'): ?>
+                                      <span class="timeline-date">Đã hủy lúc <?= date('d/m/Y - h:i A', strtotime($order['updated_at'])) ?></span>
+                                    <?php elseif (in_array($order['order_status'], ['processed', 'deliveried'])): ?>
                                       <span class="timeline-date">Cập nhật lúc: <?= date('d/m/Y', strtotime($order['updated_at'])) ?></span>
                                     <?php endif; ?>
                                   </div>

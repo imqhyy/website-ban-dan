@@ -1,7 +1,7 @@
 <?php
 // 1. Tham số phân trang
 $currentPage = isset($_GET['page']) ? (int)$_GET['page'] : 1;
-$perPage = 5; // Số đơn hàng mỗi trang
+$perPage = 2; // Số đơn hàng mỗi trang
 $maxPanigation = 4;
 
 // 2. Xây dựng điều kiện lọc (WHERE)

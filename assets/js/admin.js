@@ -873,7 +873,7 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 
   // --- 3. LOGIC THÊM DÒNG SẢN PHẨM MỚI ---
-  // đã viết rồi ctrl F addProductButton là thấy  
+  // đã viết rồi ctrl F addProductButton là thấy
 
   // --- 4. LOGIC LƯU PHIẾU NHẬP (BẢN FIX - HUY) ---
   if (saveImportButton) {
@@ -1506,7 +1506,19 @@ document.addEventListener("DOMContentLoaded", function () {
       const link = e.target.closest("a");
       if (link && link.dataset.page) {
         e.preventDefault();
-        fetchProductList(link.dataset.page); // Chuyển trang
+        // 1. Gọi hàm tải dữ liệu trang mới
+        fetchProductList(link.dataset.page);
+
+        // 2. Thêm đoạn cuộn mượt về đầu khu vực quản lý
+        const tableContainer = document.querySelector(
+          ".container-manage-import-products",
+        );
+        if (tableContainer) {
+          tableContainer.scrollIntoView({
+            behavior: "smooth",
+            block: "start",
+          });
+        }
       }
     });
   }
@@ -1602,10 +1614,6 @@ document.addEventListener("DOMContentLoaded", function () {
     const statusVal = inv_Status.value;
     const thresholdVal = inv_Threshold.value || 5; // Lấy ngưỡng, mặc định là 5
 
-    // Hiện hiệu ứng đang tải cho Huy nhìn cho chuyên nghiệp
-    inv_TableBody.innerHTML =
-      '<tr><td colspan="7" class="text-center">Đang tính toán tồn kho...</td></tr>';
-
     // Gọi đến file xử lý AJAX mà mình đã tạo ở bước trước
     const url = `forms/quanlytonkho/ajax_handle_inventory.php?action=fetch_inventory&date=${dateVal}&search=${encodeURIComponent(searchVal)}&status=${statusVal}&threshold=${thresholdVal}&page=${page}`;
 
@@ -1648,7 +1656,13 @@ document.addEventListener("DOMContentLoaded", function () {
       e.preventDefault();
       const targetPage = link.getAttribute("data-page");
       fetchInventoryAjax(targetPage);
-      window.scrollTo({ top: 0, behavior: "smooth" }); // Cuộn lên đầu bảng cho dễ nhìn
+
+      const tableContainer = document.querySelector(
+        ".container-manage-import-products",
+      );
+      if (tableContainer) {
+        tableContainer.scrollIntoView({ behavior: "smooth", block: "start" });
+      }
     }
   });
 
