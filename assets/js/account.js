@@ -537,7 +537,7 @@ document.addEventListener('DOMContentLoaded', function () {
   // --- QUẢN LÝ LỊCH SỬ ĐÁNH GIÁ (XOÁ / SỬA) ---
   // Xóa đánh giá
   document.querySelectorAll('.reviews-grid .btn-delete').forEach(btn => {
-    btn.addEventListener('click', function() {
+    btn.addEventListener('click', function () {
       const reviewId = this.getAttribute('data-id');
       if (!reviewId) return;
       const card = this.closest('.review-card');
@@ -578,7 +578,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
   // Sửa đánh giá - Form đầy đủ giống product-details + quản lý ảnh
   document.querySelectorAll('.reviews-grid .btn-edit').forEach(btn => {
-    btn.addEventListener('click', function() {
+    btn.addEventListener('click', function () {
       const reviewId = this.getAttribute('data-id');
       if (!reviewId) return;
       const card = this.closest('.review-card');
@@ -615,7 +615,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
       // Build ảnh cũ HTML
       let existingImgHTML = '';
-      existingImages.forEach(function(imgPath) {
+      existingImages.forEach(function (imgPath) {
         existingImgHTML += '<div class="edit-existing-img" data-path="' + imgPath.trim() + '" style="position:relative;width:70px;height:70px;border-radius:8px;overflow:hidden;border:1px solid #E5E7EB;display:inline-block;">';
         existingImgHTML += '<img src="' + imgPath.trim() + '" style="width:100%;height:100%;object-fit:cover;" onerror="this.src=\'assets/img/product/default.png\'">';
         existingImgHTML += '<div class="edit-img-delete" style="position:absolute;top:2px;right:2px;background:rgba(220,38,38,0.85);color:#fff;border-radius:50%;width:20px;height:20px;display:flex;align-items:center;justify-content:center;font-size:13px;cursor:pointer;font-weight:bold;">&times;</div>';
@@ -655,32 +655,32 @@ document.addEventListener('DOMContentLoaded', function () {
           confirmButton: 'my-swal-confirm-button',
           cancelButton: 'my-swal-cancel-button',
         },
-        didOpen: function() {
+        didOpen: function () {
           const popup = Swal.getPopup();
 
           // Star interactions
-          popup.querySelectorAll('.edit-star-group').forEach(function(group) {
+          popup.querySelectorAll('.edit-star-group').forEach(function (group) {
             const stars = group.querySelectorAll('i');
-            stars.forEach(function(star) {
-              star.addEventListener('mouseover', function() {
+            stars.forEach(function (star) {
+              star.addEventListener('mouseover', function () {
                 const hVal = parseInt(this.dataset.value);
-                stars.forEach(function(s) { s.style.color = parseInt(s.dataset.value) <= hVal ? '#FBBF24' : '#D1D5DB'; });
+                stars.forEach(function (s) { s.style.color = parseInt(s.dataset.value) <= hVal ? '#FBBF24' : '#D1D5DB'; });
               });
-              star.addEventListener('click', function() {
+              star.addEventListener('click', function () {
                 const val = parseInt(this.dataset.value);
                 group.setAttribute('data-selected', val);
-                stars.forEach(function(s) { s.style.color = parseInt(s.dataset.value) <= val ? '#FBBF24' : '#D1D5DB'; });
+                stars.forEach(function (s) { s.style.color = parseInt(s.dataset.value) <= val ? '#FBBF24' : '#D1D5DB'; });
               });
             });
-            group.addEventListener('mouseout', function() {
+            group.addEventListener('mouseout', function () {
               const selected = parseInt(group.getAttribute('data-selected'));
-              stars.forEach(function(s) { s.style.color = parseInt(s.dataset.value) <= selected ? '#FBBF24' : '#D1D5DB'; });
+              stars.forEach(function (s) { s.style.color = parseInt(s.dataset.value) <= selected ? '#FBBF24' : '#D1D5DB'; });
             });
           });
 
           // Xoá ảnh cũ
-          popup.querySelectorAll('.edit-img-delete').forEach(function(del) {
-            del.addEventListener('click', function() {
+          popup.querySelectorAll('.edit-img-delete').forEach(function (del) {
+            del.addEventListener('click', function () {
               const wrapper = this.parentElement;
               const path = wrapper.getAttribute('data-path');
               removedImages.push(path);
@@ -693,9 +693,9 @@ document.addEventListener('DOMContentLoaded', function () {
           const imgRow = popup.querySelector('#swal-images-row');
           const addBtn = popup.querySelector('#swal-add-img-btn');
           if (fileInput) {
-            fileInput.addEventListener('change', function(e) {
+            fileInput.addEventListener('change', function (e) {
               let files = Array.from(e.target.files);
-              files.forEach(function(file) {
+              files.forEach(function (file) {
                 if (!file.type.startsWith('image/') || newFiles.length >= 3) return;
                 newFiles.push(file);
                 const wrapper = document.createElement('div');
@@ -706,7 +706,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 const delBtn = document.createElement('div');
                 delBtn.innerHTML = '&times;';
                 delBtn.style.cssText = 'position:absolute;top:2px;right:2px;background:rgba(220,38,38,0.85);color:#fff;border-radius:50%;width:20px;height:20px;display:flex;align-items:center;justify-content:center;font-size:13px;cursor:pointer;font-weight:bold;';
-                delBtn.onclick = function() {
+                delBtn.onclick = function () {
                   const idx = newFiles.indexOf(file);
                   if (idx > -1) newFiles.splice(idx, 1);
                   wrapper.remove();
@@ -720,7 +720,7 @@ document.addEventListener('DOMContentLoaded', function () {
             });
           }
         },
-        preConfirm: function() {
+        preConfirm: function () {
           const popup = Swal.getPopup();
           const comment = popup.querySelector('#swal-edit-comment').value;
           if (!comment || comment.trim().length < 15) {
@@ -738,7 +738,7 @@ document.addEventListener('DOMContentLoaded', function () {
             comment: comment.trim()
           };
         }
-      }).then(function(result) {
+      }).then(function (result) {
         if (result.isConfirmed && result.value) {
           const vals = result.value;
           const fd = new FormData();
@@ -749,11 +749,11 @@ document.addEventListener('DOMContentLoaded', function () {
           fd.append('sound_rating', vals.sound_rating);
           fd.append('specs_rating', vals.specs_rating);
           fd.append('removed_images', JSON.stringify(removedImages));
-          newFiles.forEach(function(f) { fd.append('images[]', f); });
+          newFiles.forEach(function (f) { fd.append('images[]', f); });
 
           fetch('forms/ajax/ajax_review_action.php', { method: 'POST', body: fd })
-            .then(function(res) { return res.json(); })
-            .then(function(data) {
+            .then(function (res) { return res.json(); })
+            .then(function (data) {
               if (data.status === 'success') {
                 // Cập nhật ngay trên card mà không reload
                 // 1. Cập nhật comment
@@ -761,7 +761,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
                 // 2. Cập nhật sao chung
                 const ratingStars = card.querySelectorAll('.rating i');
-                ratingStars.forEach(function(s, idx) {
+                ratingStars.forEach(function (s, idx) {
                   if (idx < vals.rating) {
                     s.className = 'bi bi-star-fill';
                     s.setAttribute('style', 'color: #FBBF24;');
@@ -775,7 +775,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
                 // 3. Cập nhật sub ratings (★☆)
                 const subSpans = card.querySelectorAll('.review-content > div:last-child span');
-                subSpans.forEach(function(sp) {
+                subSpans.forEach(function (sp) {
                   if (sp.textContent.includes('Âm thanh')) {
                     let stars = 'Âm thanh: ';
                     for (let i = 1; i <= 5; i++) stars += i <= vals.sound_rating ? '★' : '☆';
@@ -795,7 +795,7 @@ document.addEventListener('DOMContentLoaded', function () {
                   if (data.image_path) {
                     const paths = data.image_path.split(',');
                     let imgHtml = '';
-                    paths.forEach(function(p) {
+                    paths.forEach(function (p) {
                       imgHtml += '<img src="' + p.trim() + '" style="width: 60px; height: 60px; object-fit: cover; border-radius: 6px; border: 1px solid #ddd;">';
                     });
                     if (imgContainer) {
@@ -816,7 +816,7 @@ document.addEventListener('DOMContentLoaded', function () {
               } else {
                 Swal.fire('Lỗi', data.message, 'error');
               }
-            }).catch(function() { Swal.fire('Lỗi', 'Mất kết nối server.', 'error'); });
+            }).catch(function () { Swal.fire('Lỗi', 'Mất kết nối server.', 'error'); });
         }
       });
     });

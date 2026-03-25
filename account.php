@@ -297,39 +297,34 @@ include 'forms/head.php';
                                   </div>
                                 </div>
 
-<<<<<<< HEAD
-                                <div
-                                  class="timeline-item <?= in_array($order['order_status'], ['processed', 'deliveried']) ? 'completed' : '' ?>">
-                                  <div class="timeline-icon"><i class="bi bi-truck"></i></div>
-                                  <div class="timeline-content">
-                                    <h5>
-                                      <?= ($order['order_status'] == 'deliveried') ? 'Giao hàng thành công' : 'Đang vận chuyển' ?>
-                                    </h5>
-                                    <?php if ($order['order_status'] !== 'newest'): ?>
-                                      <span class="timeline-date">Cập nhật lúc:
-                                        <?= date('d/m/Y', strtotime($order['updated_at'])) ?></span>
-=======
                                 <div class="timeline-item <?php
-                                                          if (in_array($order['order_status'], ['processed', 'deliveried'])) echo 'completed';
-                                                          elseif ($order['order_status'] == 'cancel') echo 'cancelled'; // Thêm class cancelled để hiện màu đỏ
-                                                          ?>">
+                                if (in_array($order['order_status'], ['processed', 'deliveried']))
+                                  echo 'completed';
+                                elseif ($order['order_status'] == 'cancel')
+                                  echo 'cancelled'; // Thêm class cancelled để hiện màu đỏ
+                                ?>">
                                   <div class="timeline-icon">
-                                    <i class="bi <?= ($order['order_status'] == 'cancel') ? 'bi-x-circle-fill' : 'bi-truck' ?>"></i>
+                                    <i
+                                      class="bi <?= ($order['order_status'] == 'cancel') ? 'bi-x-circle-fill' : 'bi-truck' ?>"></i>
                                   </div>
                                   <div class="timeline-content">
                                     <h5>
                                       <?php
-                                      if ($order['order_status'] == 'cancel') echo 'Đã hủy đơn hàng';
-                                      elseif ($order['order_status'] == 'deliveried') echo 'Giao hàng thành công';
-                                      else echo 'Đang vận chuyển';
+                                      if ($order['order_status'] == 'cancel')
+                                        echo 'Đã hủy đơn hàng';
+                                      elseif ($order['order_status'] == 'deliveried')
+                                        echo 'Giao hàng thành công';
+                                      else
+                                        echo 'Đang vận chuyển';
                                       ?>
                                     </h5>
 
                                     <?php if ($order['order_status'] == 'cancel'): ?>
-                                      <span class="timeline-date">Đã hủy lúc <?= date('d/m/Y - h:i A', strtotime($order['updated_at'])) ?></span>
+                                      <span class="timeline-date">Đã hủy lúc
+                                        <?= date('d/m/Y - h:i A', strtotime($order['updated_at'])) ?></span>
                                     <?php elseif (in_array($order['order_status'], ['processed', 'deliveried'])): ?>
-                                      <span class="timeline-date">Cập nhật lúc: <?= date('d/m/Y', strtotime($order['updated_at'])) ?></span>
->>>>>>> 25d7b02dbf60cd08b7536e559af7835d261b47cc
+                                      <span class="timeline-date">Cập nhật lúc:
+                                        <?= date('d/m/Y', strtotime($order['updated_at'])) ?></span>
                                     <?php endif; ?>
                                   </div>
                                 </div>
@@ -602,13 +597,18 @@ include 'forms/head.php';
                           $imgSrc = $guitarimg_direct . create_slug($rv['category_name']) . '/' . create_slug($rv['brand_name']) . '/' . create_slug($rv['product_name']) . '/' . trim($images[0]);
                         }
                         ?>
-                        <div class="review-card" data-review-id="<?= htmlspecialchars($rv['id']) ?>" data-images="<?= htmlspecialchars($rv['image_path'] ?? '') ?>" data-aos="fade-up" data-aos-delay="100">
+                        <div class="review-card" data-review-id="<?= htmlspecialchars($rv['id']) ?>"
+                          data-images="<?= htmlspecialchars($rv['image_path'] ?? '') ?>" data-aos="fade-up"
+                          data-aos-delay="100">
                           <div class="review-header">
                             <a href="product-details.php?id=<?= $rv['product_id'] ?>">
-                              <img src="<?= htmlspecialchars($imgSrc) ?>" alt="Product" class="product-image" loading="lazy" style="width: 80px; height: 80px; object-fit: cover;">
+                              <img src="<?= htmlspecialchars($imgSrc) ?>" alt="Product" class="product-image" loading="lazy"
+                                style="width: 80px; height: 80px; object-fit: cover;">
                             </a>
                             <div class="review-meta">
-                              <h4><a href="product-details.php?id=<?= $rv['product_id'] ?>" style="color: inherit; text-decoration: none;"><?= htmlspecialchars($rv['product_name']) ?></a></h4>
+                              <h4><a href="product-details.php?id=<?= $rv['product_id'] ?>"
+                                  style="color: inherit; text-decoration: none;"><?= htmlspecialchars($rv['product_name']) ?></a>
+                              </h4>
                               <div class="rating">
                                 <?php for ($i = 1; $i <= 5; $i++): ?>
                                   <i class="bi <?= $i <= $rv['rating'] ? 'bi-star-fill' : 'bi-star' ?>" <?= $i <= $rv['rating'] ? 'style="color: #FBBF24;"' : '' ?>></i>
@@ -623,15 +623,20 @@ include 'forms/head.php';
                             <?php if (!empty($rv['image_path'])): ?>
                               <div class="review-images mt-2" style="display:flex; gap:10px;">
                                 <?php foreach (explode(',', $rv['image_path']) as $imgPath): ?>
-                                  <img src="<?= htmlspecialchars($imgPath) ?>" style="width: 60px; height: 60px; object-fit: cover; border-radius: 6px; border: 1px solid #ddd;">
+                                  <img src="<?= htmlspecialchars($imgPath) ?>"
+                                    style="width: 60px; height: 60px; object-fit: cover; border-radius: 6px; border: 1px solid #ddd;">
                                 <?php endforeach; ?>
                               </div>
                             <?php endif; ?>
-                            
+
                             <!-- Hiển thị đánh giá chi tiết -->
                             <div style="display:flex;gap:20px;margin-top:10px;font-size:13px;color:#6b7280;">
-                              <span>Âm thanh: <?php for ($s = 1; $s <= 5; $s++) echo $s <= $rv['sound_rating'] ? '★' : '☆'; ?></span>
-                              <span>Cấu hình: <?php for ($s = 1; $s <= 5; $s++) echo $s <= $rv['specs_rating'] ? '★' : '☆'; ?></span>
+                              <span>Âm thanh:
+                                <?php for ($s = 1; $s <= 5; $s++)
+                                  echo $s <= $rv['sound_rating'] ? '★' : '☆'; ?></span>
+                              <span>Cấu hình:
+                                <?php for ($s = 1; $s <= 5; $s++)
+                                  echo $s <= $rv['specs_rating'] ? '★' : '☆'; ?></span>
                             </div>
                           </div>
                           <div class="review-footer">

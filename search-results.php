@@ -104,6 +104,28 @@ include 'forms/head.php';
                 <div class="col-lg-4 sidebar">
                     <form method="GET" action="search-results.php" id="filter-product-form">
                         <div class="widgets-container">
+                            <!-- Promotion Filter Widget -->
+                            <div class="promotion-filter-widget widget-item">
+                                <h3 class="widget-title">Chương trình ưu đãi</h3>
+                                <div class="promo-options">
+                                    <div class="form-check mb-2">
+                                        <input class="form-check-input" type="radio" name="filter_promo" value="all"
+                                            id="promo_all"
+                                            <?= (!isset($_GET['filter_promo']) || $_GET['filter_promo'] == 'all') ? 'checked' : '' ?>>
+                                        <label class="form-check-label" for="promo_all">
+                                            Tất cả sản phẩm
+                                        </label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="filter_promo"
+                                            value="discount" id="promo_discount"
+                                            <?= (isset($_GET['filter_promo']) && $_GET['filter_promo'] == 'discount') ? 'checked' : '' ?>>
+                                        <label class="form-check-label" for="promo_discount">
+                                            Đang giảm giá
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
                             <!-- Product Categories Widget -->
                             <div class="product-categories-widget widget-item">
                                 <h3 class="widget-title">Phân loại</h3>
@@ -131,7 +153,7 @@ include 'forms/head.php';
                                                     </label>
                                                 </div>
                                             </li>
-                                        <?php
+                                            <?php
                                         endforeach;
                                     endif;
                                     ?>
@@ -284,7 +306,8 @@ include 'forms/head.php';
 
                                                 <div class="product-details">
                                                     <div class="product-category">
-                                                        <?= htmlspecialchars($product['category_name']) ?></div>
+                                                        <?= htmlspecialchars($product['category_name']) ?>
+                                                    </div>
                                                     <h4 class="product-title">
                                                         <a
                                                             href="product-details.php?id=<?= $product['id'] ?>"><?= htmlspecialchars($product['product_name']) ?></a>
