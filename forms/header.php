@@ -27,13 +27,13 @@
                         </script>
                         <div class="swiper-wrapper">
                             <div class="swiper-slide">
-                                🚚 Miễn phí giao hàng cho đơn hàng trên 2.000.000VND
+                                🚚 Không miễn phí giao hàng cho đơn hàng trên 2.000.000VND
                             </div>
                             <div class="swiper-slide">
-                                💰 Đảm bảo hoàn tiền trong 30 ngày.
+                                💰 Không đảm bảo hoàn tiền trong 30 ngày.
                             </div>
                             <div class="swiper-slide">
-                                🎁 Giảm giá 20% cho đơn hàng đầu tiên
+                                🎁 Không giảm giá 20% cho đơn hàng đầu tiên
                             </div>
                         </div>
                     </div>

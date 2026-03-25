@@ -218,7 +218,7 @@ document.addEventListener("DOMContentLoaded", function () {
       Toast.fire({ icon: "success", title: "Đăng xuất thành công!" }).then(
         () => {
           window.location.href = "index.php";
-        }
+        },
       );
     });
   }
@@ -300,9 +300,9 @@ document.addEventListener("DOMContentLoaded", function () {
 // });
 const deleteAccountButton = document.getElementById("delete-account");
 
-if (deleteAccountButton) { // Thêm kiểm tra an toàn
+if (deleteAccountButton) {
+  // Thêm kiểm tra an toàn
   deleteAccountButton.addEventListener("click", function () {
-
     Swal.fire({
       icon: "warning",
       title: "Bạn có chắc chắn muốn xóa?",
@@ -312,7 +312,6 @@ if (deleteAccountButton) { // Thêm kiểm tra an toàn
       cancelButtonColor: "#3085d6",
       confirmButtonText: "Vâng, Xóa tài khoản!",
       cancelButtonText: "Hủy bỏ",
-
     }).then((result) => {
       if (result.isConfirmed) {
         Swal.fire({
@@ -332,113 +331,117 @@ if (deleteAccountButton) { // Thêm kiểm tra an toàn
 // Lấy đối tượng nút bằng ID của nó
 const button = document.getElementById("reorder-btn");
 
-// Thêm một hàm để thực thi khi nút được nhấn
-button.addEventListener("click", function () {
-  // Thay đổi URL của cửa sổ hiện tại
-  window.location.href = "checkout.php"; // Thay thế bằng đường dẫn trang bạn muốn
-});
-
+if (button) {
+  // Thêm một hàm để thực thi khi nút được nhấn
+  button.addEventListener("click", function () {
+    // Thay đổi URL của cửa sổ hiện tại
+    window.location.href = "checkout.php"; // Thay thế bằng đường dẫn trang bạn muốn
+  });
+}
 
 // < !--script này dùng để tạo thông báo và thực hiện 1 số thao tác trong đánh giá đơn hàng-- >
-document.addEventListener('DOMContentLoaded', function () {
-  const ratingSelectors = document.querySelectorAll('.star-rating-selector');
+document.addEventListener("DOMContentLoaded", function () {
+  const ratingSelectors = document.querySelectorAll(".star-rating-selector");
 
-  ratingSelectors.forEach(selector => {
-    const stars = selector.querySelectorAll('.star-icon');
-    const input = selector.querySelector('.rating-input');
-    const ratingText = selector.querySelector('.rating-text');
+  ratingSelectors.forEach((selector) => {
+    const stars = selector.querySelectorAll(".star-icon");
+    const input = selector.querySelector(".rating-input");
+    const ratingText = selector.querySelector(".rating-text");
 
     const messages = {
       1: "Rất tệ",
       2: "Tệ",
       3: "Trung bình",
       4: "Tốt",
-      5: "Rất tốt"
+      5: "Rất tốt",
     };
 
     // Hàm cập nhật trạng thái các ngôi sao và input
     function updateRating(value) {
-      stars.forEach(star => {
-        const starValue = parseInt(star.getAttribute('data-value'));
+      stars.forEach((star) => {
+        const starValue = parseInt(star.getAttribute("data-value"));
         if (starValue <= value) {
-          star.classList.add('filled');
-          star.classList.remove('bi-star');
-          star.classList.add('bi-star-fill');
+          star.classList.add("filled");
+          star.classList.remove("bi-star");
+          star.classList.add("bi-star-fill");
         } else {
-          star.classList.remove('filled');
-          star.classList.remove('bi-star-fill');
-          star.classList.add('bi-star');
+          star.classList.remove("filled");
+          star.classList.remove("bi-star-fill");
+          star.classList.add("bi-star");
         }
       });
       input.value = value;
-      ratingText.textContent = value > 0 ? `(${value}/5) - ${messages[value]}` : '';
+      ratingText.textContent =
+        value > 0 ? `(${value}/5) - ${messages[value]}` : "";
     }
 
     // Khởi tạo ban đầu (ví dụ: 0 sao)
     updateRating(0);
 
     // Xử lý sự kiện click
-    stars.forEach(star => {
-      star.addEventListener('click', function () {
-        const value = parseInt(this.getAttribute('data-value'));
+    stars.forEach((star) => {
+      star.addEventListener("click", function () {
+        const value = parseInt(this.getAttribute("data-value"));
         updateRating(value);
       });
     });
 
     // Xử lý sự kiện hover (Rê chuột)
-    selector.addEventListener('mouseover', function (e) {
-      if (e.target.classList.contains('star-icon')) {
-        const hoverValue = parseInt(e.target.getAttribute('data-value'));
-        stars.forEach(star => {
-          const starValue = parseInt(star.getAttribute('data-value'));
+    selector.addEventListener("mouseover", function (e) {
+      if (e.target.classList.contains("star-icon")) {
+        const hoverValue = parseInt(e.target.getAttribute("data-value"));
+        stars.forEach((star) => {
+          const starValue = parseInt(star.getAttribute("data-value"));
           if (starValue <= hoverValue) {
-            star.classList.add('filled');
-            star.classList.remove('bi-star');
-            star.classList.add('bi-star-fill');
+            star.classList.add("filled");
+            star.classList.remove("bi-star");
+            star.classList.add("bi-star-fill");
           } else {
-            star.classList.remove('filled');
-            star.classList.remove('bi-star-fill');
-            star.classList.add('bi-star');
+            star.classList.remove("filled");
+            star.classList.remove("bi-star-fill");
+            star.classList.add("bi-star");
           }
         });
-        ratingText.textContent = hoverValue > 0 ? `(${hoverValue}/5) - ${messages[hoverValue]}` : '';
+        ratingText.textContent =
+          hoverValue > 0 ? `(${hoverValue}/5) - ${messages[hoverValue]}` : "";
       }
     });
 
     // Xử lý sự kiện mouseout (Rời chuột)
-    selector.addEventListener('mouseout', function () {
+    selector.addEventListener("mouseout", function () {
       const currentValue = parseInt(input.value);
       updateRating(currentValue);
     });
   });
 
   // Xử lý sự kiện click nút Gửi đánh giá (chỉ là demo, không có chức năng backend)
-  document.querySelectorAll('.review-submit-btn').forEach(button => {
-    button.addEventListener('click', function () {
-      const itemContainer = this.closest('.review-product-item');
-      const productId = itemContainer.querySelector('.star-rating-selector').getAttribute('data-product-id');
-      const rating = itemContainer.querySelector('.rating-input').value;
-      const reviewText = itemContainer.querySelector('textarea').value;
-
+  document.querySelectorAll(".review-submit-btn").forEach((button) => {
+    button.addEventListener("click", function () {
+      const itemContainer = this.closest(".review-product-item");
+      const productId = itemContainer
+        .querySelector(".star-rating-selector")
+        .getAttribute("data-product-id");
+      const rating = itemContainer.querySelector(".rating-input").value;
+      const reviewText = itemContainer.querySelector("textarea").value;
 
       // *** LUÔN LUÔN THÔNG BÁO THÀNH CÔNG CHO MỤC ĐÍCH GIAO DIỆN ***
 
       // Lấy rating để hiển thị trong thông báo
-      const displayRating = rating > 0 ? `${rating} sao` : 'Chưa có sao';
-      const productName = itemContainer.querySelector('h6').textContent;
+      const displayRating = rating > 0 ? `${rating} sao` : "Chưa có sao";
+      const productName = itemContainer.querySelector("h6").textContent;
 
       // SỬ DỤNG SWEETALERT2 CHO THÔNG BÁO THÀNH CÔNG
       Swal.fire({
-        title: 'Đánh giá thành công! 🎉',
+        title: "Đánh giá thành công! 🎉",
         html: `Cảm ơn bạn đã đánh giá sản phẩm <strong>${productName}</strong>.`,
-        icon: 'success',
-        confirmButtonText: 'Tuyệt vời',
+        icon: "success",
+        confirmButtonText: "Tuyệt vời",
         customClass: {
-          popup: 'my-swal-popup',
-          title: 'my-swal-title',
-          confirmButton: 'my-swal-confirm-button',
-          htmlContainer: 'my-swal-html-container'
-        }
+          popup: "my-swal-popup",
+          title: "my-swal-title",
+          confirmButton: "my-swal-confirm-button",
+          htmlContainer: "my-swal-html-container",
+        },
       }).then(() => {
         // Ẩn form đánh giá sau khi người dùng nhấn nút xác nhận
         itemContainer.innerHTML = `
@@ -448,31 +451,29 @@ document.addEventListener('DOMContentLoaded', function () {
       });
     });
   });
-
 });
-
 
 /*========================================= */
 /* JS khi ấn vào nút tải lên nó sẽ kích hoạt chức năng input ảnh */
 /* =========================================*/
-document.addEventListener('DOMContentLoaded', function () {
+document.addEventListener("DOMContentLoaded", function () {
   // 1. Lấy các phần tử cần thiết
-  const uploadButton = document.getElementById('uploadAvatarButton');
-  const fileInput = document.getElementById('profilePicture');
-  const fileNameDisplay = document.getElementById('fileNameDisplay');
+  const uploadButton = document.getElementById("uploadAvatarButton");
+  const fileInput = document.getElementById("profilePicture");
+  const fileNameDisplay = document.getElementById("fileNameDisplay");
 
   // 2. Kích hoạt input file khi nhấn nút "Tải lên"
-  uploadButton.addEventListener('click', function () {
+  uploadButton.addEventListener("click", function () {
     fileInput.click(); // Kích hoạt hành động chọn file
   });
 
   // 3. Kích hoạt input file khi nhấn vào ô hiển thị tên file (Cải thiện UX)
-  fileNameDisplay.addEventListener('click', function () {
+  fileNameDisplay.addEventListener("click", function () {
     fileInput.click();
   });
 
   // 4. Cập nhật tên file đã chọn vào ô hiển thị
-  fileInput.addEventListener('change', function () {
+  fileInput.addEventListener("change", function () {
     if (fileInput.files.length > 0) {
       // Hiển thị tên file đầu tiên được chọn
       fileNameDisplay.value = fileInput.files[0].name;
@@ -484,15 +485,23 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 // --- XỬ LÝ LỌC & TÌM KIẾM ĐƠN HÀNG ---
-document.addEventListener('DOMContentLoaded', function () {
-  const searchInput = document.getElementById('order-search-input');
-  const filterMenuItems = document.querySelectorAll('#order-filter-menu .dropdown-item');
-  const orderCards = document.querySelectorAll('.orders-grid .order-card');
+document.addEventListener("DOMContentLoaded", function () {
+  const searchInput = document.getElementById("order-search-input");
+  const filterMenuItems = document.querySelectorAll(
+    "#order-filter-menu .dropdown-item",
+  );
+  const orderCards = document.querySelectorAll(".orders-grid .order-card");
 
   function filterOrders() {
-    const searchTerm = searchInput ? searchInput.value.toLowerCase().trim() : '';
-    const activeFilter = document.querySelector('#order-filter-menu .dropdown-item.active');
-    const statusFilter = activeFilter ? activeFilter.getAttribute('data-status') : 'all';
+    const searchTerm = searchInput
+      ? searchInput.value.toLowerCase().trim()
+      : "";
+    const activeFilter = document.querySelector(
+      "#order-filter-menu .dropdown-item.active",
+    );
+    const statusFilter = activeFilter
+      ? activeFilter.getAttribute("data-status")
+      : "all";
 
     console.log("Đang lọc với filter:", { searchTerm, statusFilter });
 
@@ -502,32 +511,35 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     orderCards.forEach((card, index) => {
-      const orderCode = card.getAttribute('data-order-code') || '';
-      const orderStatus = card.getAttribute('data-status') || '';
+      const orderCode = card.getAttribute("data-order-code") || "";
+      const orderStatus = card.getAttribute("data-status") || "";
 
       const matchSearch = orderCode.includes(searchTerm);
-      const matchStatus = (statusFilter === 'all' || statusFilter === orderStatus);
+      const matchStatus =
+        statusFilter === "all" || statusFilter === orderStatus;
 
-      console.log(`Thẻ #${index} [Mã ${orderCode}]: data-status='${orderStatus}'. matchStatus=${matchStatus}, matchSearch=${matchSearch}`);
+      console.log(
+        `Thẻ #${index} [Mã ${orderCode}]: data-status='${orderStatus}'. matchStatus=${matchStatus}, matchSearch=${matchSearch}`,
+      );
 
       if (matchSearch && matchStatus) {
-        card.style.display = 'block';
+        card.style.display = "block";
       } else {
-        card.style.display = 'none';
+        card.style.display = "none";
       }
     });
   }
 
   if (searchInput) {
-    searchInput.addEventListener('input', filterOrders);
+    searchInput.addEventListener("input", filterOrders);
   }
 
   if (filterMenuItems.length > 0) {
-    filterMenuItems.forEach(item => {
-      item.addEventListener('click', function (e) {
+    filterMenuItems.forEach((item) => {
+      item.addEventListener("click", function (e) {
         e.preventDefault();
-        filterMenuItems.forEach(i => i.classList.remove('active', 'fw-bold'));
-        this.classList.add('active', 'fw-bold');
+        filterMenuItems.forEach((i) => i.classList.remove("active", "fw-bold"));
+        this.classList.add("active", "fw-bold");
         filterOrders();
       });
     });
