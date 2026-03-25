@@ -1121,3 +1121,68 @@ flex-grow: 1;
 .remove-img-btn:hover {
     background: #c0392b;
 }
+
+
+/* Xử lý cuộn ngang thông minh cho Menu Admin khi nội dung trên đó quá dài lúc này
+lúc này người dùng di chuột vào thanh navmenu sẽ xuất hiện thanh cuộn*/
+/* Xử lý cuộn ngang THÔNG MINH cho Menu Admin */
+/* Xử lý cuộn ngang CHUẨN cho Menu Admin */
+@media (min-width: 1200px) {
+    /* 1. Đảm bảo container không giới hạn chiều ngang quá gắt */
+    .header .header-nav .container-xl {
+        max-width: 100% !important;
+        padding: 0 50px;
+        display: flex;
+        justify-content: center;
+    }
+
+    .navmenu {
+        width: 100%;
+        overflow-x: auto !important; /* Luôn bật để trình duyệt tự nhận diện tràn */
+        overflow-y: hidden;
+        white-space: nowrap; /* Ép nội dung trên 1 hàng */
+        
+        /* Ẩn thanh cuộn mặc định (Firefox và Edge) */
+        scrollbar-width: none; 
+        -ms-overflow-style: none;
+    }
+
+    /* 2. Cấu hình thanh cuộn Webkit (Chrome/Safari) - Mặc định trong suốt */
+    .navmenu::-webkit-scrollbar {
+        height: 6px; /* Độ dày thanh cuộn */
+    }
+    .navmenu::-webkit-scrollbar-track {
+        background: transparent;
+    }
+    .navmenu::-webkit-scrollbar-thumb {
+        background: transparent; /* Ban đầu không màu */
+        border-radius: 10px;
+        transition: background 0.3s;
+    }
+
+    /* 3. HIỆU ỨNG HIỆN THANH CUỘN KHI HOVER */
+    .navmenu:hover {
+        scrollbar-width: thin; /* Hiện lại cho Firefox */
+        scrollbar-color: rgba(255, 255, 255, 0.3) transparent;
+    }
+
+    .navmenu:hover::-webkit-scrollbar-thumb {
+        background: rgba(255, 255, 255, 0.3); /* Chỉ hiện màu khi rê chuột vào vùng menu */
+    }
+
+    .navmenu:hover::-webkit-scrollbar-thumb:hover {
+        background: rgba(255, 255, 255, 0.6); /* Đậm hơn khi rà trực tiếp vào thanh kéo */
+    }
+
+    /* 4. Đảm bảo các mục bên trong không bị co lại */
+    .navmenu ul {
+        display: flex !important;
+        flex-wrap: nowrap !important;
+        margin: 0 auto; /* Căn giữa menu nếu nội dung chưa tràn */
+        padding: 0;
+    }
+    
+    .navmenu ul li {
+        flex: 0 0 auto;
+    }
+}

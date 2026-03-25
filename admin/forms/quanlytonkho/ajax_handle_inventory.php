@@ -4,15 +4,36 @@ require_once __DIR__ . "/../../../forms/database.php"; // Điều chỉnh đư�
 
 $action = $_GET['action'] ?? '';
 
+
+
+if ($action === 'update_threshold') {
+    $value = intval($_POST['value'] ?? 5);
+    try {
+        $stmt = $pdo->prepare("UPDATE settings SET setting_value = ? WHERE setting_key = 'warning_threshold'");
+        $stmt->execute([$value]);
+        echo json_encode(['status' => 'success']);
+    } catch (Exception $e) {
+        echo json_encode(['status' => 'error', 'message' => $e->getMessage()]);
+    }
+    exit;
+}
+
 if ($action === 'fetch_inventory') {
     $targetDate = $_GET['date'] ?: date('Y-m-d');
     $searchKeyword = trim($_GET['search'] ?? '');
     $filterStatus = $_GET['status'] ?? '';
 
-    // Lấy ngưỡng cảnh báo từ URL, nếu không có thì mặc định là 5
-    $threshold = isset($_GET['threshold']) ? (int)$_GET['threshold'] : 5;
+    // --- Cập nhật đoạn lấy ngưỡng từ Database ---
+    // 1. Lấy giá trị mặc định đã lưu trong settings
+    $stmtSet = $pdo->query("SELECT setting_value FROM settings WHERE setting_key = 'warning_threshold'");
+    $dbThreshold = $stmtSet->fetchColumn();
+    $defaultThreshold = ($dbThreshold !== false) ? (int)$dbThreshold : 5;
+
+    // 2. Ưu tiên lấy số từ giao diện gửi lên (để preview nhanh), nếu không có thì lấy từ DB
+    $threshold = (!empty($_GET['threshold'])) ? (int)$_GET['threshold'] : $defaultThreshold;
     // Hàm tính toán tồn kho lịch sử (Giữ nguyên logic ird.id của Huy)
-    function getHistoricalStats($productId, $date, $profitMargin) {
+    function getHistoricalStats($productId, $date, $profitMargin)
+    {
         global $pdo;
         $stmtImport = $pdo->prepare("SELECT ird.quantity, ird.unit_price, i.import_date FROM import_receipt_details ird JOIN import_receipts i ON ird.receipt_id = i.id WHERE ird.product_id = ? AND DATE(i.import_date) <= ? ORDER BY i.import_date ASC");
         $stmtImport->execute([$productId, $date]);
@@ -30,31 +51,41 @@ if ($action === 'fetch_inventory') {
         $stmtOrder->execute([$productId, $date]);
         $orders = $stmtOrder->fetchAll();
 
-        $curStock = 0; $curAvgCost = 0; $orderIdx = 0;
+        $curStock = 0;
+        $curAvgCost = 0;
+        $orderIdx = 0;
         foreach ($imports as $imp) {
             while ($orderIdx < count($orders) && $orders[$orderIdx]['created_at'] <= $imp['import_date']) {
                 $curStock -= $orders[$orderIdx]['quantity'];
                 $orderIdx++;
             }
             $curStock = max(0, $curStock);
-            $newQ = $imp['quantity']; $newP = $imp['unit_price'];
-            if (($curStock + $newQ) > 0) { $curAvgCost = ($curStock * $curAvgCost + $newQ * $newP) / ($curStock + $newQ); }
+            $newQ = $imp['quantity'];
+            $newP = $imp['unit_price'];
+            if (($curStock + $newQ) > 0) {
+                $curAvgCost = ($curStock * $curAvgCost + $newQ * $newP) / ($curStock + $newQ);
+            }
             $curStock += $newQ;
         }
-        while ($orderIdx < count($orders)) { $curStock -= $orders[$orderIdx]['quantity']; $orderIdx++; }
+        while ($orderIdx < count($orders)) {
+            $curStock -= $orders[$orderIdx]['quantity'];
+            $orderIdx++;
+        }
         return ['stock' => max(0, $curStock), 'price' => $curAvgCost * (1 + ($profitMargin / 100))];
     }
 
     // Lấy danh sách sản phẩm và lọc
     $sql = "SELECT p.*, c.category_name, b.brand_name FROM products p LEFT JOIN categories c ON p.category_id = c.id LEFT JOIN brands b ON p.brand_id = b.id";
-    if ($searchKeyword) { $sql .= " WHERE p.product_name LIKE " . $pdo->quote("%$searchKeyword%"); }
-    
+    if ($searchKeyword) {
+        $sql .= " WHERE p.product_name LIKE " . $pdo->quote("%$searchKeyword%");
+    }
+
     $allProducts = getAll($sql);
     $displayData = [];
     foreach ($allProducts as $p) {
         $res = getHistoricalStats($p['id'], $targetDate, $p['profit_margin']);
         $st = ($res['stock'] == 0) ? 'outstock' : (($res['stock'] <= $threshold) ? 'almost' : 'instock');
-        
+
         if ($filterStatus == 'instock' && $st == 'outstock') continue;
         if ($filterStatus == 'almost' && $st != 'almost') continue;
         if ($filterStatus == 'outstock' && $st != 'outstock') continue;
@@ -66,7 +97,7 @@ if ($action === 'fetch_inventory') {
     }
 
     // Sử dụng file list.php để phân trang mảng $displayData
-    require_once 'list.php'; 
+    require_once 'list.php';
 
     // Tạo HTML bảng
     $tableHtml = "";
@@ -74,8 +105,7 @@ if ($action === 'fetch_inventory') {
         $tableHtml = "<tr><td colspan='7' class='text-center'>Không tìm thấy dữ liệu.</td></tr>";
     } else {
         foreach ($pagedData as $row) {
-            $badge = ($row['status_key'] == 'outstock') ? '<span style="color:red; font-weight:bold">Hết hàng 🛑</span>' : 
-                     (($row['status_key'] == 'almost') ? '<span style="color:orange; font-weight:bold">Sắp hết ⚠️</span>' : '<span style="color:green; font-weight:bold">Còn hàng ✅</span>');
+            $badge = ($row['status_key'] == 'outstock') ? '<span style="color:red; font-weight:bold">Hết hàng 🛑</span>' : (($row['status_key'] == 'almost') ? '<span style="color:orange; font-weight:bold">Sắp hết ⚠️</span>' : '<span style="color:green; font-weight:bold">Còn hàng ✅</span>');
             $tableHtml .= "<tr>
                 <td>{$row['id']}</td>
                 <td>" . htmlspecialchars($row['product_name']) . "</td>

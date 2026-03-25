@@ -27,6 +27,27 @@ include 'forms/head.php' ?>
                 <div class="col-lg-4 sidebar">
                     <form method="GET" action="all.php" id="filter-product-form">
                         <div class="widgets-container">
+                            <div class="promotion-filter-widget widget-item">
+                                <h3 class="widget-title">Chương trình ưu đãi</h3>
+                                <div class="promo-options">
+                                    <div class="form-check mb-2">
+                                        <input class="form-check-input" type="radio" name="filter_promo" value="all"
+                                            id="promo_all"
+                                            <?= (!isset($_GET['filter_promo']) || $_GET['filter_promo'] == 'all') ? 'checked' : '' ?>>
+                                        <label class="form-check-label" for="promo_all">
+                                            Tất cả sản phẩm
+                                        </label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="filter_promo"
+                                            value="discount" id="promo_discount"
+                                            <?= (isset($_GET['filter_promo']) && $_GET['filter_promo'] == 'discount') ? 'checked' : '' ?>>
+                                        <label class="form-check-label" for="promo_discount">
+                                            Đang giảm giá
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
                             <!-- Product Categories Widget -->
                             <div class="product-categories-widget widget-item">
                                 <h3 class="widget-title">Phân loại</h3>
@@ -47,7 +68,9 @@ include 'forms/head.php' ?>
                                     ?>
                                             <li class="category-item">
                                                 <div class="category-header">
-                                                    <input class="form-check-input" type="checkbox" name="type[]" value="<?= $t['id'] ?>" id="<?= $type_id ?>" <?= in_array($t['id'], $selected_types) ? 'checked' : '' ?>>
+                                                    <input class="form-check-input" type="checkbox" name="type[]"
+                                                        value="<?= $t['id'] ?>" id="<?= $type_id ?>"
+                                                        <?= in_array($t['id'], $selected_types) ? 'checked' : '' ?>>
                                                     <label class="form-check-label" for="<?= $type_id ?>">
                                                         <?= htmlspecialchars($type_name) ?>
                                                     </label>
@@ -181,6 +204,9 @@ include 'forms/head.php' ?>
                                         $main_img  = !empty($images[0]) ? $base_path . trim($images[0]) : 'assets/img/default-1.jpg';
                                         $hover_img = !empty($images[1]) ? $base_path . trim($images[1]) : 'assets/img/default-2.jpg';
 
+                                        // MỚI: Kiểm tra hết hàng
+                                        $is_out_of_stock = ($product['stock_quantity'] <= 0);
+
                                         // 4. Tính toán giá hiển thị
                                         $has_discount = ($product['discount_percent'] > 0);
 
@@ -200,21 +226,23 @@ include 'forms/head.php' ?>
                                             <div class="product-card" data-aos="zoom-in">
                                                 <div class="product-image">
                                                     <a href="product-details.php?id=<?= $product['id'] ?>">
-                                                        <img src="<?= $main_img ?>" class="main-image img-fluid"
+                                                        <img src="<?= $main_img ?>" class="main-image img-fluid <?= $is_out_of_stock ? 'opacity-50' : '' ?>"
                                                             alt="<?= htmlspecialchars($product['product_name']) ?>">
 
                                                         <img src="<?= $hover_img ?>" class="hover-image img-fluid"
                                                             alt="<?= htmlspecialchars($product['product_name']) ?>">
                                                     </a>
 
-                                                    <?php if ($has_discount): ?>
-                                                        <div class="product-badge sale">-<?= round($product['discount_percent']) ?>%
-                                                        </div>
+                                                    <?php if ($is_out_of_stock): ?>
+                                                        <div class="product-badge bg-secondary text-white" style="left: auto; right: 1rem;">Hết hàng</div>
+                                                    <?php elseif ($has_discount): ?>
+                                                        <div class="product-badge sale">-<?= round($product['discount_percent']) ?>%</div>
                                                     <?php endif; ?>
                                                 </div>
 
                                                 <div class="product-details">
-                                                    <div class="product-category"><?= htmlspecialchars($product['category_name']) ?></div>
+                                                    <div class="product-category">
+                                                        <?= htmlspecialchars($product['category_name']) ?></div>
                                                     <h4 class="product-title">
                                                         <a
                                                             href="product-details.php?id=<?= $product['id'] ?>"><?= htmlspecialchars($product['product_name']) ?></a>
@@ -222,11 +250,9 @@ include 'forms/head.php' ?>
                                                     <div class="product-meta">
                                                         <div class="product-price">
                                                             <?= number_format($selling_price, 0, ',', '.') ?> VND
-                                                            <?php if ($has_discount): ?>
-                                                                <span
-                                                                    class="original-price"><?= number_format($original_price, 0, ',', '.') ?>
-                                                                    VND</span>
-                                                            <?php endif; ?>
+                                                                <?php if ($has_discount): ?>
+                                                                    <span class="original-price"><?= number_format($original_price, 0, ',', '.') ?> VND</span>
+                                                                <?php endif; ?>
                                                         </div>
                                                     </div>
                                                     <div class="product-rating"

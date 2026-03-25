@@ -6,7 +6,13 @@ $title = "Quản lý tồn kho";
 require_once(__DIR__ . '/forms/init.php');
 include __DIR__ . "/forms/head.php";
 
-// 3. Khai báo các biến mặc định để Form không báo lỗi "Undefined variable"
+// 3. Lấy Ngưỡng cảnh báo từ Database
+// 3. Lấy Ngưỡng cảnh báo từ Database
+$stmtT = $pdo->query("SELECT setting_value FROM settings WHERE setting_key = 'warning_threshold'");
+$dbThreshold = $stmtT->fetchColumn(); // Lấy giá trị đầu tiên từ kết quả trả về
+$warningThreshold = ($dbThreshold !== false) ? $dbThreshold : 5; // Nếu không có dữ liệu thì lấy mặc định là 5
+
+// 4. Khai báo các biến mặc định để Form không báo lỗi "Undefined variable"
 $targetDate = date('Y-m-d'); // Mặc định là ngày hôm nay
 $searchKeyword = "";
 $filterStatus = "";
@@ -45,7 +51,8 @@ $filterStatus = "";
           </div>
           <div style="display: flex; align-items: center; gap: 10px;">
             <label for="warning-threshold" style="margin-bottom: 0; white-space: nowrap;">Ngưỡng cảnh báo:</label>
-            <input type="number" id="warning-threshold" class="form-control custom-input" value="5" min="0" style="height: 38px; width: 80px;">
+            <input type="number" id="warning-threshold" class="form-control custom-input" 
+       value="<?= htmlspecialchars($warningThreshold) ?>" min="0" style="height: 38px; width: 80px;">
           </div>
           <div class="sort-by-order-status">
             <label for="sort-order">Tình trạng:</label>
