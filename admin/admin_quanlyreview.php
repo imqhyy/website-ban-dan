@@ -14,19 +14,33 @@ if ($action && !empty($_POST['review_id'])) {
     header('Location: admin_quanlyreview.php'); exit;
 }
 
+$search = trim($_GET['search'] ?? '');
+$whereClause = "1=1";
+$params = [];
+
+if ($search !== '') {
+    $whereClause .= " AND (u.fullname LIKE ? OR u.username LIKE ? OR p.product_name LIKE ? OR r.comment LIKE ?)";
+    $likeSearch = "%{$search}%";
+    $params = [$likeSearch, $likeSearch, $likeSearch, $likeSearch];
+}
+
 $page = isset($_GET['page']) ? max(1, (int)$_GET['page']) : 1;
 $limit = 10;
 $offset = ($page - 1) * $limit;
 
-$totalCountRow = getOne("SELECT COUNT(*) as cnt FROM reviews r");
+$totalCountRow = getOne("SELECT COUNT(*) as cnt FROM reviews r 
+                         LEFT JOIN users u ON r.user_id = u.id 
+                         LEFT JOIN products p ON r.product_id = p.id 
+                         WHERE $whereClause", $params);
 $totalReviewsCount = $totalCountRow['cnt'] ?? 0;
 $totalPages = ceil($totalReviewsCount / $limit);
 
-$reviews = getAll("SELECT r.*, u.fullname, p.product_name FROM reviews r
+$reviews = getAll("SELECT r.*, u.fullname, u.username, u.email, p.product_name FROM reviews r
     LEFT JOIN users u ON r.user_id = u.id
     LEFT JOIN products p ON r.product_id = p.id
+    WHERE $whereClause
     ORDER BY r.created_at DESC
-    LIMIT $limit OFFSET $offset");
+    LIMIT $limit OFFSET $offset", $params);
 
 include __DIR__ . "/forms/head.php";
 ?>
@@ -47,7 +61,16 @@ include __DIR__ . "/forms/head.php";
       <div class="container">
         <div class="card">
           <div class="card-body">
-            <h5 class="card-title">Danh sách đánh giá (Tổng số: <?= $totalReviewsCount ?>)</h5>
+            <div class="d-flex justify-content-between align-items-center mb-3">
+              <h5 class="card-title mb-0">Danh sách đánh giá (Tổng số: <?= $totalReviewsCount ?>)</h5>
+              <form action="" method="GET" class="d-flex" style="width: 350px;">
+                <input type="text" name="search" class="form-control me-2" placeholder="Tìm tên, sản phẩm, nội dung..." value="<?= htmlspecialchars($search) ?>">
+                <button type="submit" class="btn btn-primary"><i class="bi bi-search"></i></button>
+                <?php if ($search !== ''): ?>
+                  <a href="admin_quanlyreview.php" class="btn btn-secondary ms-1"><i class="bi bi-x-circle"></i></a>
+                <?php endif; ?>
+              </form>
+            </div>
             <div class="table-responsive">
               <table class="table table-bordered table-hover align-middle">
                 <thead class="table-light">
@@ -61,7 +84,15 @@ include __DIR__ . "/forms/head.php";
                   <?php foreach ($reviews as $rv): ?>
                   <tr>
                     <td><?= $rv['id'] ?></td>
-                    <td><?= htmlspecialchars($rv['fullname'] ?? 'Ẩn danh') ?></td>
+                    <td>
+                      <div class="fw-bold text-primary"><?= htmlspecialchars($rv['fullname'] ?? 'Ẩn danh') ?></div>
+                      <?php if (!empty($rv['username'])): ?>
+                        <div class="text-muted" style="font-size: 12px;">@<?= htmlspecialchars($rv['username']) ?></div>
+                      <?php endif; ?>
+                      <?php if (!empty($rv['email'])): ?>
+                        <div class="text-muted" style="font-size: 12px;"><i class="bi bi-envelope"></i> <?= htmlspecialchars($rv['email']) ?></div>
+                      <?php endif; ?>
+                    </td>
                     <td style="max-width:160px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;"><?= htmlspecialchars($rv['product_name'] ?? '') ?></td>
                     <td>
                       <div><i class="bi bi-star-fill text-warning"></i> <?= $rv['rating'] ?>/5</div>
@@ -118,8 +149,14 @@ include __DIR__ . "/forms/head.php";
               <div class="container">
                 <nav class="d-flex justify-content-center">
                   <ul>
+                    <?php 
+                      $qParams = $_GET;
+                      unset($qParams['page']);
+                      $queryString = http_build_query($qParams);
+                      $baseUrl = "?" . ($queryString ? $queryString . "&" : "");
+                    ?>
                     <?php if ($page > 1): ?>
-                      <li><a href="?page=<?= $page - 1 ?>"><i class="bi bi-arrow-left"></i></a></li>
+                      <li><a href="<?= $baseUrl ?>page=<?= $page - 1 ?>"><i class="bi bi-arrow-left"></i></a></li>
                     <?php endif; ?>
                     
                     <?php 
@@ -128,12 +165,12 @@ include __DIR__ . "/forms/head.php";
                       for ($i = $startP; $i <= $endP; $i++): 
                     ?>
                       <li>
-                        <a href="?page=<?= $i ?>" class="<?= ($i === $page) ? 'active' : '' ?>"><?= $i ?></a>
+                        <a href="<?= $baseUrl ?>page=<?= $i ?>" class="<?= ($i === $page) ? 'active' : '' ?>"><?= $i ?></a>
                       </li>
                     <?php endfor; ?>
                     
                     <?php if ($page < $totalPages): ?>
-                      <li><a href="?page=<?= $page + 1 ?>"><i class="bi bi-arrow-right"></i></a></li>
+                      <li><a href="<?= $baseUrl ?>page=<?= $page + 1 ?>"><i class="bi bi-arrow-right"></i></a></li>
                     <?php endif; ?>
                   </ul>
                 </nav>
