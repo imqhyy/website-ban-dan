@@ -125,7 +125,7 @@ include 'forms/head.php';
           </div>
 
           <div class="floating-elements">
-            <a href="cart.php" class="floating-icon cart" data-aos="fade-up" data-aos-delay="600">
+            <a href="cart.php" class="floating-icon cart" data-aos="fade-up" data-aos-delay="600" hidden>
               <i class="bi bi-cart3"></i>
               <span class="notification-dot cart-item-count-badge"><?= isset($cart_count) ? $cart_count : 0 ?></span>
             </a>

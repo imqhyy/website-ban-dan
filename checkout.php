@@ -47,34 +47,70 @@ $user_info = is_numeric($session_user)
   ? getOne("SELECT * FROM users WHERE id = $session_user")
   : getOne("SELECT * FROM users WHERE username = '$session_user'");
 $user_id = $user_info['id'];
+// NẾU ĐÃ ĐĂNG NHẬP -> CHẠY CODE LẤY DỮ LIỆU DB
+$session_user = is_array($_SESSION['user']) ? $_SESSION['user']['id'] : $_SESSION['user'];
+$user_info = is_numeric($session_user)
+  ? getOne("SELECT * FROM users WHERE id = $session_user")
+  : getOne("SELECT * FROM users WHERE username = '$session_user'");
+$user_id = $user_info['id'];
 
-// Lấy giỏ hàng
-// Bắt danh sách ID trên URL (VD: ?items=2,3)
-$selected_items = $_GET['items'] ?? '';
-if (empty($selected_items)) {
-  echo "<script>window.location.href='cart.php?error=' + encodeURIComponent('Vui lòng chọn sản phẩm cần thanh toán!');</script>";
-  exit();
+// ==================== LẤY DỮ LIỆU SẢN PHẨM ====================
+$is_buy_now = isset($_GET['type']) && $_GET['type'] == 'buynow';
+$cart_items = [];
+$in_clause = '';
+
+if ($is_buy_now && isset($_SESSION['buy_now_item'])) {
+  // 1. LẤY TỪ MUA NGAY (DỮ LIỆU TRONG SESSION)
+  $p_id = (int) $_SESSION['buy_now_item']['product_id'];
+  $p_qty = (int) $_SESSION['buy_now_item']['quantity'];
+
+  $product = getOne("
+        SELECT p.id as product_id, p.product_name, p.selling_price, p.discount_percent, p.product_images, p.stock_quantity, p.status, b.brand_name, cat.category_name
+        FROM products p
+        LEFT JOIN brands b ON p.brand_id = b.id
+        LEFT JOIN categories cat ON p.category_id = cat.id
+        WHERE p.id = $p_id
+    ");
+
+  if (!$product || $product['status'] === 'hidden') {
+    echo "<script>window.location.href='index.php?error=' + encodeURIComponent('Sản phẩm không hợp lệ!');</script>";
+    exit();
+  }
+
+  // Lớp bảo vệ thứ 2: Đề phòng trường hợp lỗi Session, tự ép số lượng về tối đa của kho
+  if ($p_qty > $product['stock_quantity']) {
+    $p_qty = $product['stock_quantity'];
+  }
+
+  $product['quantity'] = $p_qty;
+  $cart_items[] = $product;
+
+} else {
+  // 2. LẤY TỪ GIỎ HÀNG (DỮ LIỆU TỪ DATABASE)
+  $selected_items = $_GET['items'] ?? '';
+  if (empty($selected_items)) {
+    echo "<script>window.location.href='cart.php?error=' + encodeURIComponent('Vui lòng chọn sản phẩm cần thanh toán!');</script>";
+    exit();
+  }
+
+  $item_ids = array_filter(explode(',', $selected_items), 'is_numeric');
+  $in_clause = implode(',', $item_ids);
+
+  $cart_items = getAll("
+        SELECT c.quantity, p.id as product_id, p.product_name, p.selling_price, p.discount_percent, p.product_images, p.stock_quantity, p.status, b.brand_name, cat.category_name
+        FROM cart c
+        JOIN products p ON c.product_id = p.id
+        LEFT JOIN brands b ON p.brand_id = b.id
+        LEFT JOIN categories cat ON p.category_id = cat.id
+        WHERE c.user_id = $user_id AND p.id IN ($in_clause)
+    ");
+
+  if (empty($cart_items)) {
+    echo "<script>window.location.href='cart.php?error=' + encodeURIComponent('Giỏ hàng của bạn đang trống!');</script>";
+    exit();
+  }
 }
-
-// Lọc ID an toàn
-$item_ids = array_filter(explode(',', $selected_items), 'is_numeric');
-$in_clause = implode(',', $item_ids);
-
-// Lấy giỏ hàng (Chỉ lấy các sản phẩm được chọn, THÊM CỘT discount_percent)
-$cart_items = getAll("
-    SELECT c.quantity, p.id as product_id, p.product_name, p.selling_price, p.discount_percent, p.product_images, p.stock_quantity, p.status, b.brand_name, cat.category_name
-    FROM cart c
-    JOIN products p ON c.product_id = p.id
-    LEFT JOIN brands b ON p.brand_id = b.id
-    LEFT JOIN categories cat ON p.category_id = cat.id
-    WHERE c.user_id = $user_id AND p.id IN ($in_clause)
-");
-
-if (empty($cart_items)) {
-  echo "<script>window.location.href='cart.php?error=' + encodeURIComponent('Giỏ hàng của bạn đang trống!');</script>";
-  exit();
-}
-
+// ==============================================================
 $total_cart = 0;
 $total_items = 0;
 $total_savings = 0;
@@ -126,7 +162,10 @@ unset($item);
                   <h3>Thông tin khách hàng</h3>
                 </div>
                 <div class="section-content">
-                  <input type="hidden" name="selected_items" value="<?= htmlspecialchars($in_clause) ?>">
+                  <input type="hidden" name="checkout_type" value="<?= $is_buy_now ? 'buynow' : 'cart' ?>">
+                  <?php if (!$is_buy_now): ?>
+                    <input type="hidden" name="selected_items" value="<?= htmlspecialchars($in_clause) ?>">
+                  <?php endif; ?>
                   <div class="form-group">
                     <label for="name">Họ và tên người nhận</label>
                     <input type="text" value="<?= htmlspecialchars($user_info['fullname'] ?? '') ?>"

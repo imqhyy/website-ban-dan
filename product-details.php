@@ -81,12 +81,12 @@ $accessories_others = '';
 if (!empty($product['accessories'])) {
   $acc = json_decode($product['accessories'], true);
   if (is_array($acc)) {
-      if (!isset($acc['fixed']) && !isset($acc['others'])) {
-          $accessories = $acc; // Chấp nhận mảng phẳng ["Bao đàn", "Capo"]
-      } else {
-          $accessories = $acc['fixed'] ?? [];
-          $accessories_others = $acc['others'] ?? '';
-      }
+    if (!isset($acc['fixed']) && !isset($acc['others'])) {
+      $accessories = $acc; // Chấp nhận mảng phẳng ["Bao đàn", "Capo"]
+    } else {
+      $accessories = $acc['fixed'] ?? [];
+      $accessories_others = $acc['others'] ?? '';
+    }
   }
 }
 
@@ -235,7 +235,6 @@ include 'forms/head.php';
 
               <div class="variant-section"></div>
 
-              <!-- Purchase Options -->
               <div class="purchase-section">
                 <div class="quantity-control">
                   <label class="control-label">Số lượng:</label>
@@ -244,7 +243,8 @@ include 'forms/head.php';
                       <button class="quantity-btn decrease" type="button">
                         <i class="bi bi-dash"></i>
                       </button>
-                      <input type="number" class="quantity-input" id="quantity-input" value="1" min="1" />
+                      <input type="number" class="quantity-input" id="quantity-input" value="1" min="1"
+                        max="<?= $product['stock_quantity'] ?? 99 ?>" />
                       <button class="quantity-btn increase" type="button">
                         <i class="bi bi-plus"></i>
                       </button>
@@ -258,7 +258,8 @@ include 'forms/head.php';
                     <i class="bi bi-bag-plus"></i>
                     Thêm vào giỏ hàng
                   </button>
-                  <button class="btn secondary-action" onclick="window.location.href='cart.php'">
+
+                  <button type="button" class="btn secondary-action" id="btn-buy-now" data-id="<?= $product['id'] ?>">
                     <i class="bi bi-lightning"></i>
                     Mua ngay
                   </button>
@@ -320,23 +321,23 @@ include 'forms/head.php';
                         </div>
                       </div>
 
-                        <div class="col-lg-4">
-                          <div class="package-contents">
-                            <h4>Phụ kiện kèm theo</h4>
-                            <?php if (empty($accessories) && empty($accessories_others)): ?>
-                              <p style="color: #666; font-style: italic; margin-top: 10px;">Chưa có thông tin phụ kiện.</p>
-                            <?php else: ?>
-                              <ul class="contents-list">
-                                <?php foreach ($accessories as $item): ?>
-                                  <li><i class="bi bi-check-circle"></i><?= htmlspecialchars($item) ?></li>
-                                <?php endforeach; ?>
-                                <?php if ($accessories_others): ?>
-                                  <li><i class="bi bi-check-circle"></i><?= htmlspecialchars($accessories_others) ?></li>
-                                <?php endif; ?>
-                              </ul>
-                            <?php endif; ?>
-                          </div>
+                      <div class="col-lg-4">
+                        <div class="package-contents">
+                          <h4>Phụ kiện kèm theo</h4>
+                          <?php if (empty($accessories) && empty($accessories_others)): ?>
+                            <p style="color: #666; font-style: italic; margin-top: 10px;">Chưa có thông tin phụ kiện.</p>
+                          <?php else: ?>
+                            <ul class="contents-list">
+                              <?php foreach ($accessories as $item): ?>
+                                <li><i class="bi bi-check-circle"></i><?= htmlspecialchars($item) ?></li>
+                              <?php endforeach; ?>
+                              <?php if ($accessories_others): ?>
+                                <li><i class="bi bi-check-circle"></i><?= htmlspecialchars($accessories_others) ?></li>
+                              <?php endif; ?>
+                            </ul>
+                          <?php endif; ?>
                         </div>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -566,325 +567,7 @@ include 'forms/head.php';
   <?php include 'forms/footer.php' ?>
   <?php include 'forms/scripts.php' ?>
   <script src="assets/js/products.js"></script>
-  <script>
-    document.addEventListener('DOMContentLoaded', function () {
-
-      // ===== LABELS =====
-      var labels = {
-        sound: { 1: 'Rất tệ', 2: 'Tệ', 3: 'Tạm ổn', 4: 'Hay', 5: 'Tuyệt phẩm' },
-        specs: { 1: 'Rất kém', 2: 'Kém', 3: 'Bình thường', 4: 'Cao cấp', 5: 'Hoàn hảo' }
-      };
-      var generalLabels = { 1: 'Rất Tệ', 2: 'Tệ', 3: 'Bình thường', 4: 'Tốt', 5: 'Tuyệt vời' };
-
-      // ===== HELPER: set color dùng setAttribute để không bị CSS override =====
-      function setColor(el, color) {
-        var current = el.getAttribute('style') || '';
-        // Xoá color cũ nếu có, thêm mới
-        current = current.replace(/color\s*:[^;]+;?/gi, '').trim();
-        el.setAttribute('style', current + ';color:' + color + ';');
-      }
-
-      // ===== GENERAL STARS =====
-      var genContainer = document.getElementById('star-general');
-      var genItems = Array.from(document.querySelectorAll('#star-general .star-item'));
-      var ratingInput = document.getElementById('rating-input');
-
-      console.log('[Review] genItems:', genItems.length, 'ratingInput:', !!ratingInput);
-
-      if (genItems.length && ratingInput) {
-        var curGeneral = 5;
-
-        function paintGeneral(n) {
-          genItems.forEach(function (item) {
-            var icon = item.querySelector('i');
-            if (icon) setColor(icon, parseInt(item.dataset.value) <= n ? '#FBBF24' : '#D1D5DB');
-          });
-        }
-
-        paintGeneral(5);
-
-        genItems.forEach(function (item) {
-          item.addEventListener('mouseover', function () {
-            var v = parseInt(item.dataset.value);
-            console.log('[Review] hover general', v);
-            paintGeneral(v);
-          });
-          item.addEventListener('click', function () {
-            curGeneral = parseInt(item.dataset.value);
-            ratingInput.value = curGeneral;
-            paintGeneral(curGeneral);
-            console.log('[Review] click general', curGeneral);
-          });
-        });
-
-        if (genContainer) {
-          genContainer.addEventListener('mouseleave', function () {
-            paintGeneral(curGeneral);
-          });
-        }
-      }
-
-      // ===== SUB STARS (Sound + Specs) =====
-      ['sound', 'specs'].forEach(function (group) {
-        var container = document.getElementById('star-' + group);
-        var stars = Array.from(document.querySelectorAll('#star-' + group + ' .star-sub'));
-        var input = document.getElementById(group + '-input');
-        var label = document.getElementById(group + '-label');
-        var curSub = 5;
-
-        console.log('[Review] ' + group + ' stars:', stars.length);
-
-        if (!stars.length || !input) return;
-
-        function paintSub(n) {
-          stars.forEach(function (star) {
-            setColor(star, parseInt(star.dataset.value) <= n ? '#FBBF24' : '#D1D5DB');
-          });
-          if (label) label.textContent = labels[group][n] || '';
-          input.value = n;
-        }
-
-        paintSub(5);
-
-        stars.forEach(function (star) {
-          star.addEventListener('mouseover', function () {
-            paintSub(parseInt(star.dataset.value));
-          });
-          star.addEventListener('click', function () {
-            curSub = parseInt(star.dataset.value);
-            paintSub(curSub);
-          });
-        });
-
-        if (container) {
-          container.addEventListener('mouseleave', function () {
-            paintSub(curSub);
-          });
-        }
-      });
-
-    }); // end DOMContentLoaded
-
-
-
-    // ======== Submit Review Form ========
-    document.addEventListener('DOMContentLoaded', function () {
-      const reviewForm = document.getElementById('review-form');
-      if (!reviewForm) return;
-
-      // ===== Multi-image Upload (tối đa 3 ảnh) =====
-      const imagesRow = document.getElementById('review-images-row');
-      const addImgBtn = document.getElementById('review-add-img-btn');
-      const imageInput = document.getElementById('review-image-input');
-      const MAX_IMAGES = 3;
-      var selectedFiles = []; // lưu File objects
-
-      if (imageInput && addImgBtn) {
-        imageInput.addEventListener('change', function () {
-          var file = this.files[0];
-          if (!file || selectedFiles.length >= MAX_IMAGES) return;
-
-          selectedFiles.push(file);
-          this.value = ''; // reset để cho phép chọn lại file giống nhau
-
-          // Tạo thumbnail
-          var idx = selectedFiles.length - 1;
-          var reader = new FileReader();
-          reader.onload = function (e) {
-            var thumb = document.createElement('div');
-            thumb.style.cssText = 'position:relative;display:inline-block;';
-            thumb.dataset.idx = idx;
-
-            var img = document.createElement('img');
-            img.src = e.target.result;
-            img.style.cssText = 'width:90px;height:90px;object-fit:cover;border-radius:8px;border:1px solid #E5E7EB;display:block;';
-
-            var rmBtn = document.createElement('button');
-            rmBtn.type = 'button';
-            rmBtn.textContent = '×';
-            rmBtn.style.cssText = 'position:absolute;top:-8px;right:-8px;background:#ef4444;color:white;border:none;border-radius:50%;width:20px;height:20px;cursor:pointer;font-size:13px;line-height:1;';
-            rmBtn.addEventListener('click', function () {
-              selectedFiles.splice(parseInt(thumb.dataset.idx), 1);
-              // cập nhật lại data-idx cho các thumb còn lại
-              var thumbs = imagesRow.querySelectorAll('[data-idx]');
-              thumbs.forEach(function (t, i) { t.dataset.idx = i; });
-              thumb.remove();
-              // hiện lại nút thêm ảnh nếu < 3
-              if (selectedFiles.length < MAX_IMAGES) addImgBtn.style.display = '';
-            });
-
-            thumb.appendChild(img);
-            thumb.appendChild(rmBtn);
-            // chèn trước nút add
-            imagesRow.insertBefore(thumb, addImgBtn);
-
-            // ẩn nút nếu đã đủ 3
-            if (selectedFiles.length >= MAX_IMAGES) {
-              addImgBtn.style.display = 'none';
-            }
-          };
-          reader.readAsDataURL(file);
-        });
-      }
-
-      // ===== Submit Review =====
-      var isSubmitting = false;
-      reviewForm.addEventListener('submit', function (e) {
-        e.preventDefault();
-        if (isSubmitting) return;
-        var comment = document.getElementById('review-comment').value.trim();
-        if (comment.length < 15) {
-          Toast.fire({ icon: 'warning', title: 'Cảm nhận phải có tối thiểu 15 ký tự!' });
-          return;
-        }
-        var btn = reviewForm.querySelector('button[type=submit]');
-        btn.disabled = true; btn.textContent = 'Đang gửi...';
-        isSubmitting = true;
-
-        var fd = new FormData(reviewForm);
-        // Thêm ảnh thủ công (vì input[type=file] đã bị reset để cho chọn lại)
-        selectedFiles.forEach(function (file) {
-          fd.append('images[]', file);
-        });
-
-        fetch('forms/ajax/ajax_review.php', { method: 'POST', body: fd })
-          .then(function (r) {
-            return r.text(); // đọc text trước để debug
-          })
-          .then(function (text) {
-            console.log('[Review submit raw]', text);
-            var data = JSON.parse(text);
-            if (data.status === 'success') {
-              Toast.fire({ icon: 'success', title: data.message });
-              setTimeout(function () { location.reload(); }, 1500);
-            } else {
-              Toast.fire({ icon: 'error', title: data.message });
-              btn.disabled = false; btn.textContent = 'Gửi đánh giá';
-            }
-          })
-          .catch(function (err) {
-            console.error('[Review submit error]', err);
-            Toast.fire({ icon: 'error', title: 'Lỗi: ' + err.message });
-            btn.disabled = false; btn.textContent = 'Gửi đánh giá';
-            isSubmitting = false;
-          });
-      });
-    });
-  </script>
-
-  <script>
-    document.addEventListener('DOMContentLoaded', function () {
-      const addToCartBtn = document.getElementById('add-to-cart-btn');
-
-      if (addToCartBtn) {
-        addToCartBtn.addEventListener('click', function (e) {
-          e.preventDefault();
-
-          <?php if (!empty($_SESSION['user'])): ?>
-            // 1. Lấy thông tin sản phẩm và số lượng
-            const productId = this.getAttribute('data-product-id');
-            const productName = this.getAttribute('data-product-name');
-            const quantityInput = document.getElementById('quantity-input');
-            let quantity = quantityInput ? parseInt(quantityInput.value) : 1;
-
-            if (quantity < 1) quantity = 1; // Đề phòng lỗi nhập số âm
-
-            // 2. Đóng gói dữ liệu gửi đi
-            const formData = new FormData();
-            formData.append('action', 'add');
-            formData.append('product_id', productId);
-            formData.append('quantity', quantity);
-
-            // 3. Gọi AJAX đến file ajax_cart.php
-            fetch('forms/ajax/ajax_cart.php', {
-              method: 'POST',
-              body: formData
-            })
-              .then(response => response.json())
-              .then(data => {
-                if (data.status === 'success') {
-                  // Hiện thông báo thành công
-                  Toast.fire({
-                    icon: 'success',
-                    title: 'Đã thêm ' + productName + ' vào giỏ!'
-                  });
-
-                  // Cập nhật ngay con số trên icon giỏ hàng ở header
-                  if (data.is_new_item) {
-                    const badge = document.getElementById('cart-badge');
-                    if (badge) {
-                      let currentCount = parseInt(badge.innerText) || 0;
-                      badge.innerText = currentCount + 1;
-                    }
-                  }
-                } else {
-                  // Nếu backend báo lỗi (ví dụ hết hàng, v.v.)
-                  Toast.fire({
-                    icon: 'error',
-                    title: data.message
-                  });
-                }
-              })
-              .catch(error => {
-                console.error('Error:', error);
-                Toast.fire({
-                  icon: 'error',
-                  title: 'Không thể kết nối đến máy chủ!'
-                });
-              });
-
-          <?php else: ?>
-            // Xử lý khi chưa đăng nhập
-            Toast.fire({
-              icon: 'warning',
-              title: 'Vui lòng đăng nhập để thêm sản phẩm vào giỏ!'
-            })
-              .then(() => {
-                window.location.href = 'login.php';
-              });
-          <?php endif; ?>
-        });
-      }
-
-      // ===== AJAX REVIEW FILTERING =====
-      const reviewFilterBtns = document.querySelectorAll('.review-filter-btn');
-      const reviewContainer = document.getElementById('top-comment');
-      const filterProductId = <?= $product['id'] ?>;
-
-      reviewFilterBtns.forEach(btn => {
-        btn.addEventListener('click', function() {
-          // Update active styling
-          reviewFilterBtns.forEach(b => {
-            b.style.background = '#f3f4f6';
-            b.style.color = '#374151';
-          });
-          this.style.background = '#111827';
-          this.style.color = '#fff';
-
-          const filterVal = this.dataset.filter;
-          reviewContainer.innerHTML = '<p style="text-align:center;padding:40px 0; color:#6b7280;"><i class="bi bi-arrow-repeat spin"></i> Đang tải dữ liệu...</p>';
-
-          const formData = new FormData();
-          formData.append('product_id', filterProductId);
-          formData.append('review_filter', filterVal);
-
-          fetch('forms/ajax/ajax_get_reviews.php', {
-            method: 'POST',
-            body: formData
-          })
-          .then(res => res.text())
-          .then(html => {
-            reviewContainer.innerHTML = html;
-          })
-          .catch(err => {
-            console.error('[Review Filter Error]', err);
-            reviewContainer.innerHTML = '<p style="text-align:center;color:#ef4444;padding:40px 0;">Đã xảy ra lỗi khi lọc đánh giá. Vui lòng thử lại sau.</p>';
-          });
-        });
-      });
-
-    });
-  </script>
+  <script src="assets/js/product-details.js"></script>
 </body>
 
 </html>

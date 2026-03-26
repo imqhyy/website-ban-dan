@@ -89,6 +89,32 @@ try {
             echo json_encode(['status' => 'success', 'message' => 'Đã xóa sản phẩm.']);
             break;
 
+        case 'buy_now':
+            // 1. Kiểm tra tồn kho của sản phẩm trước khi cho phép Mua Ngay
+            $stmt_stock = $pdo->prepare("SELECT stock_quantity, product_name, status FROM products WHERE id = ?");
+            $stmt_stock->execute([$product_id]);
+            $product_info = $stmt_stock->fetch();
+
+            if (!$product_info || $product_info['status'] === 'hidden') {
+                echo json_encode(['status' => 'error', 'message' => "Sản phẩm này hiện đang ẩn hoặc ngừng kinh doanh."]);
+                exit();
+            }
+
+            $max_stock = $product_info['stock_quantity'];
+
+            // 2. Chặn ngay nếu khách mua vượt quá số lượng kho
+            if ($quantity > $max_stock) {
+                echo json_encode(['status' => 'error', 'message' => "Rất tiếc, chỉ còn $max_stock sản phẩm '" . $product_info['product_name'] . "' trong kho."]);
+                exit();
+            }
+
+            // 3. Nếu hợp lệ thì mới lưu tạm vào Session
+            $_SESSION['buy_now_item'] = [
+                'product_id' => $product_id,
+                'quantity' => $quantity
+            ];
+            echo json_encode(['status' => 'success']);
+            break;
         default:
             echo json_encode(['status' => 'error', 'message' => 'Hành động không hợp lệ.']);
     }
