@@ -149,7 +149,7 @@ include __DIR__ . "/forms/head.php";
         <div class="row g-4">
 
           <!-- 1. Doanh thu hôm nay -->
-          <div class="col-lg-3 col-md-6">
+          <div class="col-lg-3 col-md-6 hidden">
             <div class="card info-card sales-card">
               <div class="card-body">
                 <h5 class="card-title">Doanh thu <br>
@@ -172,7 +172,7 @@ include __DIR__ . "/forms/head.php";
           </div>
 
           <!-- 2. Đơn hàng mới -->
-          <div class="col-lg-3 col-md-6">
+          <div class="col-lg-3 col-md-6 hidden">
             <div class="card info-card revenue-card">
               <div class="card-body">
                 <h5 class="card-title">Đơn hàng <br>
@@ -196,7 +196,7 @@ include __DIR__ . "/forms/head.php";
           </div>
 
           <!-- 3. Khách hàng mới -->
-          <div class="col-lg-3 col-md-6">
+          <div class="col-lg-3 col-md-6 hidden">
             <div class="card info-card customers-card">
               <div class="card-body">
                 <h5 class="card-title">Khách mới <span>| Tuần này</span></h5>
@@ -213,7 +213,7 @@ include __DIR__ . "/forms/head.php";
             </div>
           </div>
 
-          <div class="col-lg-3 col-md-6">
+          <div class="col-lg-3 col-md-6 hidden">
             <div class="card info-card warning-card h-100">
               <div class="card-body">
                 <h5 class="card-title">Sản phẩm sắp hết hàng</h5>
@@ -244,7 +244,7 @@ include __DIR__ . "/forms/head.php";
 
           <div class="row g-4 mt-2">
 
-            <div class="col-lg-8">
+            <!-- <div class="col-lg-8">
               <div class="card">
                 <div class="card-body">
                   <h5 class="card-title">Doanh thu tùy chỉnh <small class="text-muted">(Triệu VND)</small></h5>
@@ -268,10 +268,10 @@ include __DIR__ . "/forms/head.php";
                   </div>
                 </div>
               </div>
-            </div>
+            </div> -->
 
             <!-- Biểu đồ tròn -->
-            <div class="col-lg-4">
+            <!-- <div class="col-lg-4">
               <div class="card">
                 <div class="card-body">
                   <h5 class="card-title">Tỷ lệ đơn hàng</h5>
@@ -280,7 +280,7 @@ include __DIR__ . "/forms/head.php";
                   </div>
                 </div>
               </div>
-            </div>
+            </div> -->
 
           </div>
 

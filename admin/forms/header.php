@@ -1,6 +1,6 @@
 <header id="header" class="header sticky-top">
   <!-- Top Bar -->
-  <div class="top-bar py-2">
+  <div class="top-bar py-2 hidden">
     <div class="container-fluid container-xl">
       <div class="row align-items-center">
         <div class="col-lg-4 d-none d-lg-flex">
@@ -26,9 +26,9 @@
                 }
               </script>
             <div class="swiper-wrapper">
-              <div class="swiper-slide">🚚 Miễn phí giao hàng cho đơn hàng trên 2.000.000VND</div>
-              <div class="swiper-slide">💰 Đảm bảo hoàn tiền trong 30 ngày.</div>
-              <div class="swiper-slide">🎁 Giảm giá 20% cho đơn hàng đầu tiên</div>
+              <div class="swiper-slide">🚚 Không miễn phí giao hàng cho đơn hàng trên 2.000.000VND</div>
+              <div class="swiper-slide">💰 Không đảm bảo hoàn tiền trong 30 ngày.</div>
+              <div class="swiper-slide">🎁 Không giảm giá 20% cho đơn hàng đầu tiên</div>
             </div>
           </div>
         </div>

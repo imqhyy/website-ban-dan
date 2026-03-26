@@ -25,7 +25,7 @@
                                 "effect": "slide"
                             }
                         </script>
-                        <div class="swiper-wrapper">
+                        <div class="swiper-wrapper hidden">
                             <div class="swiper-slide">
                                 🚚 Không miễn phí giao hàng cho đơn hàng trên 2.000.000VND
                             </div>

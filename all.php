@@ -26,6 +26,21 @@ include 'forms/head.php' ?>
             <div class="row">
                 <div class="col-lg-4 sidebar">
                     <form method="GET" action="all.php" id="filter-product-form">
+
+                        <div class="search-filter-widget widget-item">
+                            <h3 class="widget-title">Tìm kiếm theo tên</h3>
+                            <div class="search-box-sidebar">
+                                <div class="input-group">
+                                    <input type="text" name="search" id="sidebar-search-input" class="form-control"
+                                        placeholder="Nhập tên sản phẩm..."
+                                        value="<?= htmlspecialchars($_GET['search'] ?? '') ?>">
+
+                                    <button type="submit" class="input-group-text" style="background: #fff; cursor: pointer;">
+                                        <i class="bi bi-search"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
                         <div class="widgets-container">
                             <div class="promotion-filter-widget widget-item">
                                 <h3 class="widget-title">Chương trình ưu đãi</h3>
@@ -226,7 +241,8 @@ include 'forms/head.php' ?>
                                             <div class="product-card" data-aos="zoom-in">
                                                 <div class="product-image">
                                                     <a href="product-details.php?id=<?= $product['id'] ?>">
-                                                        <img src="<?= $main_img ?>" class="main-image img-fluid <?= $is_out_of_stock ? 'opacity-50' : '' ?>"
+                                                        <img src="<?= $main_img ?>"
+                                                            class="main-image img-fluid <?= $is_out_of_stock ? 'opacity-50' : '' ?>"
                                                             alt="<?= htmlspecialchars($product['product_name']) ?>">
 
                                                         <img src="<?= $hover_img ?>" class="hover-image img-fluid"
@@ -234,9 +250,11 @@ include 'forms/head.php' ?>
                                                     </a>
 
                                                     <?php if ($is_out_of_stock): ?>
-                                                        <div class="product-badge bg-secondary text-white" style="left: auto; right: 1rem;">Hết hàng</div>
+                                                        <div class="product-badge bg-secondary text-white"
+                                                            style="left: auto; right: 1rem;">Hết hàng</div>
                                                     <?php elseif ($has_discount): ?>
-                                                        <div class="product-badge sale">-<?= round($product['discount_percent']) ?>%</div>
+                                                        <div class="product-badge sale">-<?= round($product['discount_percent']) ?>%
+                                                        </div>
                                                     <?php endif; ?>
                                                 </div>
 
@@ -250,19 +268,23 @@ include 'forms/head.php' ?>
                                                     <div class="product-meta">
                                                         <div class="product-price">
                                                             <?= number_format($selling_price, 0, ',', '.') ?> VND
-                                                                <?php if ($has_discount): ?>
-                                                                    <span class="original-price"><?= number_format($original_price, 0, ',', '.') ?> VND</span>
-                                                                <?php endif; ?>
+                                                            <?php if ($has_discount): ?>
+                                                                <span
+                                                                    class="original-price"><?= number_format($original_price, 0, ',', '.') ?>
+                                                                    VND</span>
+                                                            <?php endif; ?>
                                                         </div>
                                                     </div>
                                                     <div class="product-rating"
                                                         style="display: flex; justify-content: flex-end; align-items:center; gap:4px; font-size:14px;">
                                                         <?php
-                                                          $avg_r = (float)($product['avg_rating'] ?? 0);
-                                                          $tot_r = (int)($product['total_reviews'] ?? 0);
+                                                        $avg_r = (float)($product['avg_rating'] ?? 0);
+                                                        $tot_r = (int)($product['total_reviews'] ?? 0);
                                                         ?>
-                                                        <i class="bi bi-star-fill" style="color:<?= $tot_r > 0 ? '#FBBF24' : '#D1D5DB' ?>;"></i>
-                                                        <span style="font-weight:600;color:<?= $tot_r > 0 ? '#111827' : '#9CA3AF' ?>;"><?= $tot_r > 0 ? number_format($avg_r, 1) : '0.0' ?></span>
+                                                        <i class="bi bi-star-fill"
+                                                            style="color:<?= $tot_r > 0 ? '#FBBF24' : '#D1D5DB' ?>;"></i>
+                                                        <span
+                                                            style="font-weight:600;color:<?= $tot_r > 0 ? '#111827' : '#9CA3AF' ?>;"><?= $tot_r > 0 ? number_format($avg_r, 1) : '0.0' ?></span>
                                                         <span style="color:#9CA3AF;">(<?= $tot_r ?>)</span>
                                                     </div>
                                                 </div>

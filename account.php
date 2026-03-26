@@ -143,7 +143,7 @@ include 'forms/head.php';
                     <div class="header-actions">
                       <div class="search-box">
                         <i class="bi bi-search"></i>
-                        <input type="text" id="order-search-input" placeholder="Tìm kiếm đơn hàng...">
+                        <input type="text" id="order-search-input" placeholder="Tìm kiếm đơn hàng..." value="<?= htmlspecialchars($searchFilter) ?>">
                       </div>
                       <div class="dropdown">
                         <button class="filter-btn" data-bs-toggle="dropdown">
@@ -151,16 +151,11 @@ include 'forms/head.php';
                           <span>Lọc</span>
                         </button>
                         <ul class="dropdown-menu" id="order-filter-menu">
-                          <li><a class="dropdown-item active fw-bold" href="javascript:void(0)" data-status="all">Tất cả
-                              đơn
-                              hàng</a></li>
-                          <li><a class="dropdown-item" href="javascript:void(0)" data-status="processing">Đang xử lý /
-                              Chờ xác nhận</a></li>
-                          <li><a class="dropdown-item" href="javascript:void(0)" data-status="shipped">Đang vận
-                              chuyển</a></li>
-                          <li><a class="dropdown-item" href="javascript:void(0)" data-status="delivered">Đã nhận được
-                              hàng</a></li>
-                          <li><a class="dropdown-item" href="javascript:void(0)" data-status="cancelled">Đã huỷ</a></li>
+                          <li><a class="dropdown-item <?= ($statusFilter == 'all') ? 'active fw-bold' : '' ?>" href="account.php?status=all">Tất cả</a></li>
+                          <li><a class="dropdown-item <?= ($statusFilter == 'newest') ? 'active fw-bold' : '' ?>" href="account.php?status=newest">Mới đặt (Chờ xác nhận)</a></li>
+                          <li><a class="dropdown-item <?= ($statusFilter == 'processed') ? 'active fw-bold' : '' ?>" href="account.php?status=processed">Đã xử lý (Đang giao)</a></li>
+                          <li><a class="dropdown-item <?= ($statusFilter == 'deliveried') ? 'active fw-bold' : '' ?>" href="account.php?status=deliveried">Đã giao hàng</a></li>
+                          <li><a class="dropdown-item <?= ($statusFilter == 'cancel') ? 'active fw-bold' : '' ?>" href="account.php?status=cancel">Đã hủy</a></li>
                         </ul>
                       </div>
                     </div>
@@ -231,7 +226,7 @@ include 'forms/head.php';
                                 if (!empty($images[0]) && isset($guitarimg_direct)) {
                                   $imgSrc = $guitarimg_direct . create_slug($dt['category_name']) . '/' . create_slug($dt['brand_name']) . '/' . create_slug($dt['product_name']) . '/' . trim($images[0]);
                                 }
-                                ?>
+                              ?>
                                 <a href="product-details.php?id=<?= $dt['product_id'] ?>">
                                   <img src="<?= htmlspecialchars($imgSrc) ?>" alt="Product" loading="lazy">
                                 </a>
@@ -298,11 +293,11 @@ include 'forms/head.php';
                                 </div>
 
                                 <div class="timeline-item <?php
-                                if (in_array($order['order_status'], ['processed', 'deliveried']))
-                                  echo 'completed';
-                                elseif ($order['order_status'] == 'cancel')
-                                  echo 'cancelled'; // Thêm class cancelled để hiện màu đỏ
-                                ?>">
+                                                          if (in_array($order['order_status'], ['processed', 'deliveried']))
+                                                            echo 'completed';
+                                                          elseif ($order['order_status'] == 'cancel')
+                                                            echo 'cancelled'; // Thêm class cancelled để hiện màu đỏ
+                                                          ?>">
                                   <div class="timeline-icon">
                                     <i
                                       class="bi <?= ($order['order_status'] == 'cancel') ? 'bi-x-circle-fill' : 'bi-truck' ?>"></i>
@@ -343,7 +338,7 @@ include 'forms/head.php';
                                     if (!empty($images[0]) && isset($guitarimg_direct)) {
                                       $imgSrc = $guitarimg_direct . create_slug($dt['category_name']) . '/' . create_slug($dt['brand_name']) . '/' . create_slug($dt['product_name']) . '/' . trim($images[0]);
                                     }
-                                    ?>
+                                  ?>
                                     <div class="review-product-item mb-4 pb-4 border-bottom">
                                       <div class="d-flex align-items-center mb-3">
                                         <img src="<?= htmlspecialchars($imgSrc) ?>" alt="Product" loading="lazy"
@@ -410,7 +405,7 @@ include 'forms/head.php';
                                     if (!empty($images[0]) && isset($guitarimg_direct)) {
                                       $imgSrc = $guitarimg_direct . create_slug($dt['category_name']) . '/' . create_slug($dt['brand_name']) . '/' . create_slug($dt['product_name']) . '/' . trim($images[0]);
                                     }
-                                    ?>
+                                  ?>
                                     <div class="item">
                                       <a href="product-details.php?id=<?= $dt['product_id'] ?>">
                                         <img src="<?= htmlspecialchars($imgSrc) ?>" alt="Product" loading="lazy">
