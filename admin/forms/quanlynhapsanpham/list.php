@@ -8,11 +8,24 @@ $maxPagination = 4; // Số lượng nút phân trang tối đa hiển thị
 $conditions = [];
 $params = [];
 
-// Lọc theo mã phiếu (Search)
+// Lọc theo mã phiếu HOẶC tên sản phẩm (Search)
 if (!empty($_GET['search'])) {
     $search_safe = trim($_GET['search']);
-    $conditions[] = "receipt_code LIKE ?";
+    // Logic: Tìm mã phiếu trực tiếp HOẶC tìm phiếu có chứa sản phẩm có tên tương ứng
+    $conditions[] = "(receipt_code LIKE ? OR id IN (
+        SELECT receipt_id FROM import_receipt_details ird 
+        JOIN products p ON ird.product_id = p.id 
+        WHERE p.product_name LIKE ?
+    ))";
     $params[] = "%$search_safe%";
+    $params[] = "%$search_safe%";
+}
+
+// Lọc theo ID sản phẩm cụ thể (Khi nhảy từ báo cáo sang)
+if (!empty($_GET['product_id'])) {
+    $p_id = (int)$_GET['product_id'];
+    $conditions[] = "id IN (SELECT receipt_id FROM import_receipt_details WHERE product_id = ?)";
+    $params[] = $p_id;
 }
 
 // Lọc theo khoảng ngày

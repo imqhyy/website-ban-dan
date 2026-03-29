@@ -37,14 +37,14 @@ if ($action === 'get_product_suggestions') {
     $brand_id = (int) ($_GET['brand_id'] ?? 0);
     $query = $_GET['query'] ?? '';
 
-    // Dùng JOIN với bảng categories để lọc chính xác theo tên loại sản phẩm
+    // Nếu query rỗng, ta vẫn lấy sản phẩm để đề xuất khi người dùng click vào ô input
     $sql = "SELECT p.id, p.product_name 
             FROM products p
             JOIN categories c ON p.category_id = c.id
             WHERE c.category_name = " . $pdo->quote($type_name) . " 
             AND p.brand_id = $brand_id 
             AND p.product_name LIKE " . $pdo->quote("%$query%") . " 
-            LIMIT 10";
+            LIMIT 6"; // Giới hạn đúng 6 sản phẩm theo yêu cầu
 
     echo json_encode(getAll($sql));
     exit;

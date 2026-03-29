@@ -46,8 +46,24 @@ include 'forms/head.php';
                         <div class="widgets-container">
                             <!--Đảm bảo khi áp dụng các bộ lọc sẽ không làm mất phân loại sẵn có dành riêng cho trang category_detail-->
                             <input type="hidden" name="product_type" value="<?= htmlspecialchars($_GET['product_type'] ?? '') ?>">
+                            
+                            <div class="search-filter-widget widget-item">
+                                <h3 class="widget-title">Tìm kiếm theo tên</h3>
+                                <div class="search-box-sidebar">
+                                    <div class="input-group">
+                                        <input type="text" name="search" id="sidebar-search-input" class="form-control"
+                                            placeholder="Nhập tên sản phẩm..."
+                                            value="<?= htmlspecialchars($_GET['search'] ?? '') ?>">
+
+                                        <button type="submit" class="input-group-text" style="background: #fff; cursor: pointer;">
+                                            <i class="bi bi-search"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            
                             <!--radio chọn hiển thị tất cả sản phẩm hay đang giảm giá-->
-                            <div class="promotion-filter-widget widget-item">
+                            <div class="promotion-filter-widget widget-item d-none">
                                 <h3 class="widget-title">Chương trình ưu đãi</h3>
                                 <div class="promo-options">
                                     <div class="form-check mb-2">
@@ -186,8 +202,12 @@ include 'forms/head.php';
 
                                         // 3. Xác định 2 ảnh đầu tiên (Sử dụng cấu trúc thư mục phân cấp)
                                         $main_img  = !empty($images[0]) ? $base_path . trim($images[0]) : 'assets/img/default-1.jpg';
-                                        $hover_img = !empty($images[1]) ? $base_path . trim($images[1]) : 'assets/img/default-2.jpg';
-                                        
+
+                                        // Logic mới cho hover_img:
+                                        $hover_img = !empty($images[1])
+                                            ? $base_path . trim($images[1])
+                                            : (!empty($images[0]) ? $main_img : 'assets/img/default-2.jpg');
+
                                         // MỚI: Kiểm tra hết hàng
                                         $is_out_of_stock = ($product['stock_quantity'] <= 0);
                                         // 4. Tính toán giá hiển thị
@@ -233,16 +253,16 @@ include 'forms/head.php';
                                                     <div class="product-meta">
                                                         <div class="product-price">
                                                             <?= number_format($selling_price, 0, ',', '.') ?> VND
-                                                                <?php if ($has_discount): ?>
-                                                                    <span class="original-price"><?= number_format($original_price, 0, ',', '.') ?> VND</span>
-                                                                <?php endif; ?>
+                                                            <?php if ($has_discount): ?>
+                                                                <span class="original-price"><?= number_format($original_price, 0, ',', '.') ?> VND</span>
+                                                            <?php endif; ?>
                                                         </div>
                                                     </div>
                                                     <div class="product-rating"
                                                         style="display: flex; justify-content: flex-end; align-items:center; gap:4px; font-size:14px;">
                                                         <?php
-                                                          $avg_r = (float)($product['avg_rating'] ?? 0);
-                                                          $tot_r = (int)($product['total_reviews'] ?? 0);
+                                                        $avg_r = (float)($product['avg_rating'] ?? 0);
+                                                        $tot_r = (int)($product['total_reviews'] ?? 0);
                                                         ?>
                                                         <i class="bi bi-star-fill" style="color:<?= $tot_r > 0 ? '#FBBF24' : '#D1D5DB' ?>;"></i>
                                                         <span style="font-weight:600;color:<?= $tot_r > 0 ? '#111827' : '#9CA3AF' ?>;"><?= $tot_r > 0 ? number_format($avg_r, 1) : '0.0' ?></span>

@@ -1,6 +1,6 @@
 <header id="header" class="header sticky-top">
   <!-- Top Bar -->
-  <div class="top-bar py-2 hidden">
+  <div class="top-bar py-2 d-none">
     <div class="container-fluid container-xl">
       <div class="row align-items-center">
         <div class="col-lg-4 d-none d-lg-flex">
@@ -15,7 +15,7 @@
           <div class="announcement-slider swiper init-swiper">
             <script type="application/json" class="swiper-config">
                 {
-                  "loop": true,
+                  "loop": false,
                   "speed": 600,
                   "autoplay": {
                     "delay": 5000
@@ -105,7 +105,7 @@
     <div class="container-fluid container-xl position-relative">
       <nav id="navmenu" class="navmenu">
         <ul>
-          <li><a href="admin.php">Trang chủ</a></li>
+          <li><a href="admin.php">Báo cáo nhập - xuất</a></li>
           <li><a href="admin_quanlykhachhang.php">Quản lý khách hàng</a></li>
           <li><a href="admin_quanlyloaisanpham.php">Quản lý loại sản phẩm</a></li>
           <li><a href="admin_danhmucsanpham.php">Quản lý danh mục sản phẩm</a></li>

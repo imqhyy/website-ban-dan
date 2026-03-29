@@ -1,6 +1,6 @@
 <header id="header" class="header sticky-top">
     <!-- Top Bar -->
-    <div class="top-bar py-2">
+    <div class="top-bar py-2 d-none">
         <div class="container-fluid container-xl">
             <div class="row align-items-center">
                 <div class="col-lg-4 d-none d-lg-flex">
@@ -15,7 +15,7 @@
                     <div class="announcement-slider swiper init-swiper">
                         <script type="application/json" class="swiper-config">
                             {
-                                "loop": true,
+                                "loop": false,
                                 "speed": 600,
                                 "autoplay": {
                                     "delay": 5000
@@ -25,7 +25,7 @@
                                 "effect": "slide"
                             }
                         </script>
-                        <div class="swiper-wrapper hidden">
+                        <div class="swiper-wrapper">
                             <div class="swiper-slide">
                                 🚚 Không miễn phí giao hàng cho đơn hàng trên 2.000.000VND
                             </div>

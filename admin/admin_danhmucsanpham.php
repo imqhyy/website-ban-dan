@@ -19,7 +19,7 @@ $filter_categories = getAll("SELECT * FROM categories ORDER BY category_name ASC
                 <h1 class="mb-2 mb-lg-0">Quản lý danh mục sản phẩm</h1>
                 <nav class="breadcrumbs">
                     <ol>
-                        <li><a href="admin.html">Trang chủ</a></li>
+                        
                         <li class="current">Quản lý danh mục sản phẩm</li>
                     </ol>
                 </nav>

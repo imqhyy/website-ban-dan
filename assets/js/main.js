@@ -1146,6 +1146,18 @@ document.addEventListener("DOMContentLoaded", function () {
       let params = new URLSearchParams();
       const formData = new FormData(this);
 
+      // --- THÊM PHẦN NÀY ĐỂ GIỮ LẠI BRAND_NAME (dành riêng cho trang brand.php) ---
+      const brandName = formData.get("brand_name");
+      if (brandName) {
+        params.set("brand_name", brandName);
+      }
+
+      // Lấy giá trị product_type từ input hidden nếu có (dành cho trang category_detail)
+      const productType = formData.get("product_type");
+      if (productType) {
+        params.set("product_type", productType);
+      }
+
       // 2. ƯU TIÊN: Xử lý Tìm kiếm theo tên (Dùng ID để tuyệt đối không nhầm lẫn)
       const sidebarSearch = document.getElementById("sidebar-search-input");
       if (sidebarSearch && sidebarSearch.value.trim() !== "") {

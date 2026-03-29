@@ -27,7 +27,7 @@ $filterStatus = "";
         <h1 class="mb-2 mb-lg-0">Quản lý tồn kho</h1>
         <nav class="breadcrumbs">
           <ol>
-            <li><a href="admin.html">Trang chủ</a></li>
+            
             <li class="current">Quản lý tồn kho</li>
           </ol>
         </nav>

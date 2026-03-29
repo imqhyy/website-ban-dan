@@ -662,34 +662,80 @@ function updateBrandsForProduct(typeSelect) {
 // 1. Cập nhật hàm gợi ý sản phẩm (SỬA LỖI CLOSURE)
 function updateProductDatalist(productContainer) {
   const nameInput = productContainer.querySelector(".product-name-input");
-  const datalist = productContainer.querySelector("datalist"); // Lấy datalist ngay trong container này
 
-  nameInput.oninput = function () {
-    // QUAN TRỌNG: Lấy giá trị HIỆN TẠI bên trong sự kiện oninput
+  // Tìm hoặc tạo hộp gợi ý một cách an toàn
+  const getSuggestionBox = () => {
+    let box = productContainer.querySelector(".custom-suggestion-box");
+    if (!box) {
+      box = document.createElement("div");
+      box.className = "custom-suggestion-box";
+      // Đặt cha là relative để làm mốc tọa độ
+      nameInput.parentNode.style.position = "relative";
+      Object.assign(box.style, {
+        position: "absolute",
+        zIndex: "1000",
+        background: "#fff",
+        left: nameInput.offsetLeft + "px",
+        top: nameInput.offsetTop + nameInput.offsetHeight + "px",
+        width: nameInput.offsetWidth + "px",
+        border: "1px solid #ddd",
+        display: "none",
+        maxHeight: "200px",
+        overflowY: "auto",
+      });
+      nameInput.parentNode.style.position = "relative";
+      nameInput.parentNode.appendChild(box);
+    }
+    return box;
+  };
+
+  const loadData = () => {
     const type = productContainer.querySelector(".manage-product-type").value;
     const brandId = productContainer.querySelector(
       ".manage-product-brands",
     ).value;
-    const query = this.value;
+    const query = nameInput.value;
 
-    if (query.length < 1) {
-      datalist.innerHTML = "";
-      return;
-    }
+    if (!type || !brandId) return;
 
     fetch(
       `forms/quanlynhapsanpham/ajax_handle_import.php?action=get_product_suggestions&type=${encodeURIComponent(type)}&brand_id=${brandId}&query=${encodeURIComponent(query)}`,
     )
       .then((res) => res.json())
       .then((products) => {
-        datalist.innerHTML = products
+        const suggestionBox = getSuggestionBox(); // Lấy box tại thời điểm có dữ liệu
+        suggestionBox.innerHTML = products
           .map(
             (p) =>
-              `<option value="${p.product_name}" data-id="${p.id}"></option>`,
+              `<div class="sug-item" data-id="${p.id}" style="padding: 8px; cursor: pointer; border-bottom: 1px solid #eee;">${p.product_name}</div>`,
           )
           .join("");
+
+        suggestionBox.style.display = products.length ? "block" : "none";
+
+        suggestionBox.querySelectorAll(".sug-item").forEach((item) => {
+          item.onclick = function () {
+            nameInput.value = this.innerText;
+            nameInput.dataset.id = this.getAttribute("data-id"); // Lưu ID để dùng khi lưu
+            suggestionBox.style.display = "none";
+          };
+        });
       });
   };
+
+  nameInput.onfocus = loadData;
+  nameInput.oninput = function () {
+    this.dataset.id = ""; // XÓA SẠCH ID ngay khi người dùng gõ bất kỳ phím nào
+    loadData(); // Sau đó mới gọi hàm hiện gợi ý như bình thường
+  };
+
+  // Đóng menu khi click ra ngoài
+  document.addEventListener("click", (e) => {
+    const box = productContainer.querySelector(".custom-suggestion-box");
+    if (box && !nameInput.contains(e.target) && !box.contains(e.target)) {
+      box.style.display = "none";
+    }
+  });
 }
 
 function formatCurrency(value) {
@@ -775,22 +821,19 @@ document.addEventListener("DOMContentLoaded", function () {
 
       if (productTemplate && actionContainer) {
         const newProductFields = productTemplate.cloneNode(true);
-        const timestamp = Date.now(); // Tạo mã duy nhất
 
-        // Xử lý Datalist để không bị trùng ID
-        const newInput = newProductFields.querySelector(".product-name-input");
-        const newDatalist = newProductFields.querySelector("datalist");
+        // XÓA BỎ đoạn code liên quan đến datalist.id cũ ở đây vì đã dùng custom box
 
-        newDatalist.id = "list_" + timestamp; // Gán ID mới: list_171123...
-        newInput.setAttribute("list", "list_" + timestamp); // Trỏ input vào ID mới này
-
-        // Reset giá trị
+        // Reset giá trị các ô nhập
         newProductFields.querySelectorAll("input, select").forEach((el) => {
           if (el.tagName === "SELECT") el.selectedIndex = 0;
           else el.value = "";
         });
 
-        // Gán lại các sự kiện (Giữ nguyên logic cũ của Huy)
+        // Xóa hộp gợi ý cũ của dòng bị clone (nếu có) để tạo cái mới sạch sẽ
+        const oldBox = newProductFields.querySelector(".custom-suggestion-box");
+        if (oldBox) oldBox.remove();
+
         const removeBtn = newProductFields.querySelector(".remove-product-btn");
         if (removeBtn) {
           removeBtn.style.display = "block";
@@ -803,17 +846,6 @@ document.addEventListener("DOMContentLoaded", function () {
         newTypeSelect.addEventListener("change", function () {
           updateBrandsForProduct(this);
         });
-
-        const newBrandSelect = newProductFields.querySelector(
-          ".manage-product-brands",
-        );
-        newBrandSelect.addEventListener("change", function () {
-          updateProductDatalist(newProductFields);
-        });
-
-        attachPriceFormatter(
-          newProductFields.querySelector(".unit-price-input"),
-        );
 
         importFormContainer.insertBefore(newProductFields, actionContainer);
         updateBrandsForProduct(newTypeSelect);
@@ -904,6 +936,7 @@ document.addEventListener("DOMContentLoaded", function () {
       let productCount = 0;
 
       // Duyệt qua từng dòng sản phẩm để thu thập dữ liệu
+      // Duyệt qua từng dòng sản phẩm để thu thập dữ liệu
       document
         .querySelectorAll(".product-fields-template")
         .forEach((row, index) => {
@@ -912,15 +945,10 @@ document.addEventListener("DOMContentLoaded", function () {
           const priceInput = row.querySelector(".unit-price-input");
 
           if (nameInput.value.trim() !== "") {
-            // Tìm ID sản phẩm từ Datalist
-            const datalist = document.getElementById(
-              nameInput.getAttribute("list"),
-            );
-            const option = Array.from(datalist.options).find(
-              (opt) => opt.value === nameInput.value,
-            );
+            // LẤY TRỰC TIẾP ID từ dataset đã lưu khi bạn click chọn gợi ý
+            const productId = nameInput.dataset.id;
 
-            if (option && option.dataset.id) {
+            if (productId) {
               const qty = parseInt(qtyInput.value) || 0;
               const price =
                 parseInt(priceInput.value.replace(/[^0-9]/g, "")) || 0;
@@ -928,17 +956,18 @@ document.addEventListener("DOMContentLoaded", function () {
               totalAll += qty * price;
               productCount++;
 
-              formData.append(`products[${index}][id]`, option.dataset.id);
+              formData.append(`products[${index}][id]`, productId);
               formData.append(`products[${index}][qty]`, qty);
               formData.append(`products[${index}][price]`, price);
             } else {
-              hasProductError = true; // Có tên nhưng không có trong DB
+              // Trường hợp người dùng gõ tên bừa bãi mà không chọn từ danh sách gợi ý
+              hasProductError = true;
             }
           }
         });
 
       if (productCount === 0) {
-        Swal.fire("Lỗi", "Bạn chưa nhập sản phẩm!", "error");
+        Swal.fire("Lỗi", "Bạn chưa chọn sản phẩm!", "error");
         return;
       }
 
@@ -961,10 +990,15 @@ document.addEventListener("DOMContentLoaded", function () {
         .then((res) => res.text())
         .then((data) => {
           if (data.trim() === "success") {
-            Swal.fire("Thành công", "Đã lưu phiếu nhập thành công!", "success");
+            Swal.fire(
+              "Thành công",
+              "Đã lưu phiếu nhập thành công!",
+              "success",
+            ).then(() => {
+              location.reload(); // Chỉ reload sau khi đã bấm nút OK trên thông báo
+            });
             importModal.style.display = "none";
             resetImportForm();
-            location.reload(); // Tải lại để cập nhật danh sách
           } else {
             Swal.fire("Lỗi Server", data, "error");
           }

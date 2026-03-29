@@ -52,7 +52,8 @@ if ($search !== '') {
     $conditions[] = "(p.product_name LIKE '%$search_safe%' OR p.summary_description LIKE '%$search_safe%')";
 }
 
-// --- BỔ SUNG: Lọc theo chương trình ưu đãi (Tất cả / Giảm giá) ---
+// --- BỔ SUNG: Lọc theo chương trình ưu đãi (Tất cả / Giảm giá)
+// tính năng này hiện đã ẩn bằng d-none
 $filter_promo = isset($_GET['filter_promo']) ? $_GET['filter_promo'] : 'all';
 
 if ($filter_promo === 'discount') {

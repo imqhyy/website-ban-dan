@@ -206,15 +206,18 @@ include 'forms/head.php';
 
               <div class="pricing-section">
                 <div class="price-display">
-                  <span class="sale-price"><?= number_format($selling_price, 0, ',', '.') ?> VND</span>
+                  <span class="sale-price"><?= number_format($selling_price, 0, ',', '.') ?>
+                    VND</span>
 
                   <?php if ($original_price): ?>
-                    <span class="regular-price"><?= number_format($original_price, 0, ',', '.') ?> VND</span>
+                    <span class="regular-price"><?= number_format($original_price, 0, ',', '.') ?>
+                      VND</span>
                   <?php endif; ?>
                 </div>
                 <?php if ($discount > 0): ?>
                   <div class="savings-info">
-                    <span class="save-amount">Tiết kiệm <?= number_format($save_amount, 0, ',', '.') ?> VND</span>
+                    <span class="save-amount">Tiết kiệm <?= number_format($save_amount, 0, ',', '.') ?>
+                      VND</span>
                     <span class="discount-percent">(Giảm <?= $discount ?>%)</span>
                   </div>
                 <?php endif; ?>
@@ -227,9 +230,20 @@ include 'forms/head.php';
               <?php endif; ?>
 
               <div class="availability-status">
-                <div class="stock-indicator">
-                  <i class="bi bi-check-circle-fill"></i>
-                  <span class="stock-text">Còn hàng</span>
+                <?php
+                // Kiểm tra tồn kho
+                $stock_qty = (int)($product['stock_quantity'] ?? 0);
+                $is_out_of_stock = ($stock_qty <= 0);
+                ?>
+
+                <div class="stock-indicator <?= $is_out_of_stock ? 'out-of-stock' : 'in-stock' ?>">
+                  <i class="bi <?= $is_out_of_stock ? 'bi-x-circle-fill' : 'bi-check-circle-fill' ?>"
+                    style="color: <?= $is_out_of_stock ? '#dc2626' : '#16a34a' ?>;"></i>
+
+                  <span class="stock-text"
+                    style="font-weight: 600; color: <?= $is_out_of_stock ? '#dc2626' : '#16a34a' ?>;">
+                    <?= $is_out_of_stock ? 'Hết hàng' : 'Còn hàng' ?>
+                  </span>
                 </div>
               </div>
 
@@ -243,8 +257,8 @@ include 'forms/head.php';
                       <button class="quantity-btn decrease" type="button">
                         <i class="bi bi-dash"></i>
                       </button>
-                      <input type="number" class="quantity-input" id="quantity-input" value="1" min="1"
-                        max="<?= $product['stock_quantity'] ?? 99 ?>" />
+                      <input type="number" class="quantity-input" id="quantity-input" value="1"
+                        min="1" max="<?= $product['stock_quantity'] ?? 99 ?>" />
                       <button class="quantity-btn increase" type="button">
                         <i class="bi bi-plus"></i>
                       </button>
@@ -253,13 +267,15 @@ include 'forms/head.php';
                 </div>
 
                 <div class="action-buttons">
-                  <button class="btn primary-action" id="add-to-cart-btn" data-product-id="<?= $product['id'] ?>"
+                  <button class="btn primary-action" id="add-to-cart-btn"
+                    data-product-id="<?= $product['id'] ?>"
                     data-product-name="<?= htmlspecialchars($product['product_name']) ?>">
                     <i class="bi bi-bag-plus"></i>
                     Thêm vào giỏ hàng
                   </button>
 
-                  <button type="button" class="btn secondary-action" id="btn-buy-now" data-id="<?= $product['id'] ?>">
+                  <button type="button" class="btn secondary-action" id="btn-buy-now"
+                    data-id="<?= $product['id'] ?>">
                     <i class="bi bi-lightning"></i>
                     Mua ngay
                   </button>
@@ -268,10 +284,13 @@ include 'forms/head.php';
 
               <!-- Benefits -->
               <div class="benefits-list">
-                <div class="benefit-item"><i class="bi bi-truck"></i><span>Free ship cho đơn từ 1 triệu đồng</span>
+                <div class="benefit-item"><i class="bi bi-truck"></i><span>Free ship cho đơn từ 1 triệu
+                    đồng</span>
                 </div>
-                <div class="benefit-item"><i class="bi bi-arrow-clockwise"></i><span>45 ngày đổi trả</span></div>
-                <div class="benefit-item"><i class="bi bi-shield-check"></i><span>Bảo hành lên đến 3 năm</span></div>
+                <div class="benefit-item"><i class="bi bi-arrow-clockwise"></i><span>45 ngày đổi
+                    trả</span></div>
+                <div class="benefit-item"><i class="bi bi-shield-check"></i><span>Bảo hành lên đến 3
+                    năm</span></div>
                 <div class="benefit-item"><i class="bi bi-headset"></i><span>Hỗ trợ 24/7</span></div>
               </div>
             </div>
@@ -325,14 +344,19 @@ include 'forms/head.php';
                         <div class="package-contents">
                           <h4>Phụ kiện kèm theo</h4>
                           <?php if (empty($accessories) && empty($accessories_others)): ?>
-                            <p style="color: #666; font-style: italic; margin-top: 10px;">Chưa có thông tin phụ kiện.</p>
+                            <p style="color: #666; font-style: italic; margin-top: 10px;">Chưa
+                              có thông tin phụ kiện.</p>
                           <?php else: ?>
                             <ul class="contents-list">
                               <?php foreach ($accessories as $item): ?>
-                                <li><i class="bi bi-check-circle"></i><?= htmlspecialchars($item) ?></li>
+                                <li><i
+                                    class="bi bi-check-circle"></i><?= htmlspecialchars($item) ?>
+                                </li>
                               <?php endforeach; ?>
                               <?php if ($accessories_others): ?>
-                                <li><i class="bi bi-check-circle"></i><?= htmlspecialchars($accessories_others) ?></li>
+                                <li><i
+                                    class="bi bi-check-circle"></i><?= htmlspecialchars($accessories_others) ?>
+                                </li>
                               <?php endif; ?>
                             </ul>
                           <?php endif; ?>
@@ -351,7 +375,8 @@ include 'forms/head.php';
                     <div class="reviews-header">
                       <div class="rating-overview">
                         <div class="average-score">
-                          <div class="score-display"><?= $totalReviews > 0 ? $avgRating : '—' ?></div>
+                          <div class="score-display">
+                            <?= $totalReviews > 0 ? $avgRating : '—' ?></div>
                           <div class="score-stars">
                             <?php
                             $f = floor($avgRating);
@@ -371,7 +396,7 @@ include 'forms/head.php';
                           <?php foreach ([5, 4, 3, 2, 1] as $star):
                             $cnt = (int) ($reviewStats["r{$star}"] ?? 0);
                             $pct = $totalReviews > 0 ? round($cnt / $totalReviews * 100) : 0;
-                            ?>
+                          ?>
                             <div class="rating-row">
                               <span class="stars-label"><?= $star ?>★</span>
                               <div class="progress-container">
@@ -385,7 +410,8 @@ include 'forms/head.php';
                     </div>
 
                     <!-- 8 bộ lọc -->
-                    <div class="review-filters" style="display:flex;gap:8px;flex-wrap:wrap;margin:20px 0;">
+                    <div class="review-filters"
+                      style="display:flex;gap:8px;flex-wrap:wrap;margin:20px 0;">
                       <?php
                       $filters = [
                         'all' => 'Tất cả (' . $totalReviews . ')',
@@ -399,7 +425,7 @@ include 'forms/head.php';
                       ];
                       foreach ($filters as $key => $label):
                         $active = ($reviewFilter === $key) ? 'background:#111827;color:#fff;' : 'background:#f3f4f6;color:#374151;';
-                        ?>
+                      ?>
                         <button type="button" class="review-filter-btn" data-filter="<?= $key ?>"
                           style="<?= $active ?>padding:6px 14px;border-radius:20px;font-size:13px;border:1px solid #E5E7EB;cursor:pointer; transition: 0.2s;"><?= $label ?></button>
                       <?php endforeach; ?>
@@ -414,7 +440,8 @@ include 'forms/head.php';
                               <?php
                               $avt = !empty($rv['avatar']) ? $rv['avatar'] : 'assets/img/default-avatar.jpg';
                               ?>
-                              <img src="<?= htmlspecialchars($avt) ?>" alt="Avatar" class="profile-pic"
+                              <img src="<?= htmlspecialchars($avt) ?>" alt="Avatar"
+                                class="profile-pic"
                                 style="width:46px;height:46px;border-radius:50%;object-fit:cover;" />
                               <div class="profile-details">
                                 <div class="customer-name" style="font-weight:600;">
@@ -423,7 +450,8 @@ include 'forms/head.php';
                                       style="font-size:11px;background:#dcfce7;color:#16a34a;padding:2px 8px;border-radius:10px;margin-left:6px;">Đã
                                       mua</span><?php endif; ?>
                                 </div>
-                                <div class="review-meta" style="display:flex;align-items:center;gap:10px;margin-top:4px;">
+                                <div class="review-meta"
+                                  style="display:flex;align-items:center;gap:10px;margin-top:4px;">
                                   <div class="review-stars">
                                     <?php for ($s = 1; $s <= 5; $s++)
                                       echo $s <= $rv['rating'] ? '<i class="bi bi-star-fill" style="color:#FBBF24;"></i>' : '<i class="bi bi-star" style="color:#D1D5DB;"></i>'; ?>
@@ -449,16 +477,18 @@ include 'forms/head.php';
                               </div>
                             <?php endif; ?>
                             <!-- Sub-ratings -->
-                            <div style="display:flex;gap:20px;margin-top:10px;font-size:13px;color:#6b7280;">
+                            <div
+                              style="display:flex;gap:20px;margin-top:10px;font-size:13px;color:#6b7280;">
                               <span>Âm thanh: <?php for ($s = 1; $s <= 5; $s++)
-                                echo $s <= $rv['sound_rating'] ? '★' : '☆'; ?></span>
+                                                echo $s <= $rv['sound_rating'] ? '★' : '☆'; ?></span>
                               <span>Cấu hình: <?php for ($s = 1; $s <= 5; $s++)
-                                echo $s <= $rv['specs_rating'] ? '★' : '☆'; ?></span>
+                                                echo $s <= $rv['specs_rating'] ? '★' : '☆'; ?></span>
                             </div>
                           </div>
                         <?php endforeach; ?>
                       <?php else: ?>
-                        <p style="text-align:center;color:#9ca3af;padding:40px 0;">Chưa có đánh giá nào. Hãy là người đầu
+                        <p style="text-align:center;color:#9ca3af;padding:40px 0;">Chưa có đánh giá
+                          nào. Hãy là người đầu
                           tiên!</p>
                       <?php endif; ?>
                     </div>
@@ -468,26 +498,34 @@ include 'forms/head.php';
                       style="margin-top:30px;border-top:1px solid #E5E7EB;padding-top:24px;">
                       <?php if (!$userLoggedIn): ?>
                         <div style="text-align:center;padding:20px;">
-                          <p style="color:#6b7280;margin-bottom:12px;">Đăng nhập để chia sẻ đánh giá của bạn</p>
-                          <a href="login.php" class="btn primary-action" style="display:inline-block;">Đăng nhập ngay</a>
+                          <p style="color:#6b7280;margin-bottom:12px;">Đăng nhập để chia sẻ đánh
+                            giá của bạn</p>
+                          <a href="login.php" class="btn primary-action"
+                            style="display:inline-block;">Đăng nhập ngay</a>
                         </div>
                       <?php elseif ($alreadyReviewed): ?>
-                        <p style="text-align:center;color:#16a34a;padding:20px;"><i class="bi bi-check-circle-fill"></i>
+                        <p style="text-align:center;color:#16a34a;padding:20px;"><i
+                            class="bi bi-check-circle-fill"></i>
                           Bạn đã đánh giá sản phẩm này rồi!</p>
                       <?php else: ?>
-                        <h4 style="font-weight:700;color:#111827;margin-bottom:20px;">Viết đánh giá của bạn</h4>
+                        <h4 style="font-weight:700;color:#111827;margin-bottom:20px;">Viết đánh giá
+                          của bạn</h4>
                         <form id="review-form" enctype="multipart/form-data">
                           <input type="hidden" name="product_id" value="<?= $product['id'] ?>">
 
                           <!-- Phần 1: Đánh giá chung -->
                           <div style="margin-bottom:20px;">
-                            <p style="font-weight:700;color:#111827;margin-bottom:12px;">Đánh giá chung</p>
-                            <div class="star-group" id="star-general" style="display:flex;gap:16px;">
+                            <p style="font-weight:700;color:#111827;margin-bottom:12px;">Đánh
+                              giá chung</p>
+                            <div class="star-group" id="star-general"
+                              style="display:flex;gap:16px;">
                               <?php foreach ([1 => 'Rất Tệ', 2 => 'Tệ', 3 => 'Bình thường', 4 => 'Tốt', 5 => 'Tuyệt vời'] as $v => $lbl): ?>
-                                <div style="text-align:center;cursor:pointer;" class="star-item" data-group="rating"
-                                  data-value="<?= $v ?>">
-                                  <i class="bi bi-star-fill" style="font-size:28px;color:#FBBF24;"></i>
-                                  <div style="font-size:12px;color:#4B5563;margin-top:4px;"><?= $lbl ?></div>
+                                <div style="text-align:center;cursor:pointer;" class="star-item"
+                                  data-group="rating" data-value="<?= $v ?>">
+                                  <i class="bi bi-star-fill"
+                                    style="font-size:28px;color:#FBBF24;"></i>
+                                  <div style="font-size:12px;color:#4B5563;margin-top:4px;">
+                                    <?= $lbl ?></div>
                                 </div>
                               <?php endforeach; ?>
                             </div>
@@ -495,35 +533,44 @@ include 'forms/head.php';
                           </div>
 
                           <!-- Phần 2: Theo trải nghiệm -->
-                          <div style="border-top:1px solid #E5E7EB;padding-top:20px;margin-bottom:20px;">
-                            <p style="font-weight:700;color:#111827;margin-bottom:16px;">Theo trải nghiệm</p>
+                          <div
+                            style="border-top:1px solid #E5E7EB;padding-top:20px;margin-bottom:20px;">
+                            <p style="font-weight:700;color:#111827;margin-bottom:16px;">Theo
+                              trải nghiệm</p>
 
                             <!-- Âm thanh -->
                             <div
                               style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;">
                               <span style="color:#4B5563;min-width:100px;">Âm thanh</span>
-                              <div class="star-group" id="star-sound" style="display:flex;gap:8px;">
+                              <div class="star-group" id="star-sound"
+                                style="display:flex;gap:8px;">
                                 <?php for ($v = 1; $v <= 5; $v++): ?>
-                                  <i class="bi bi-star-fill star-sub" style="font-size:20px;color:#FBBF24;cursor:pointer;"
+                                  <i class="bi bi-star-fill star-sub"
+                                    style="font-size:20px;color:#FBBF24;cursor:pointer;"
                                     data-group="sound" data-value="<?= $v ?>"></i>
                                 <?php endfor; ?>
                               </div>
                               <span id="sound-label"
-                                style="color:#4B5563;min-width:90px;text-align:right;font-size:13px;">Tuyệt phẩm</span>
+                                style="color:#4B5563;min-width:90px;text-align:right;font-size:13px;">Tuyệt
+                                phẩm</span>
                             </div>
                             <input type="hidden" name="sound_rating" id="sound-input" value="5">
 
                             <!-- Cấu hình đàn -->
-                            <div style="display:flex;align-items:center;justify-content:space-between;">
+                            <div
+                              style="display:flex;align-items:center;justify-content:space-between;">
                               <span style="color:#4B5563;min-width:100px;">Cấu hình đàn</span>
-                              <div class="star-group" id="star-specs" style="display:flex;gap:8px;">
+                              <div class="star-group" id="star-specs"
+                                style="display:flex;gap:8px;">
                                 <?php for ($v = 1; $v <= 5; $v++): ?>
-                                  <i class="bi bi-star-fill star-sub" style="font-size:20px;color:#FBBF24;cursor:pointer;"
+                                  <i class="bi bi-star-fill star-sub"
+                                    style="font-size:20px;color:#FBBF24;cursor:pointer;"
                                     data-group="specs" data-value="<?= $v ?>"></i>
                                 <?php endfor; ?>
                               </div>
                               <span id="specs-label"
-                                style="color:#4B5563;min-width:90px;text-align:right;font-size:13px;">Hoàn hảo</span>
+                                style="color:#4B5563;min-width:90px;text-align:right;font-size:13px;">Hoàn
+                                hảo</span>
                             </div>
                             <input type="hidden" name="specs_rating" id="specs-input" value="5">
                           </div>
@@ -541,12 +588,14 @@ include 'forms/head.php';
                               <label id="review-add-img-btn"
                                 style="cursor:pointer;color:#6b7280;font-size:13px;border:1px dashed #D1D5DB;padding:8px 14px;border-radius:8px;display:flex;align-items:center;gap:6px;white-space:nowrap;">
                                 <i class="bi bi-image"></i> Thêm ảnh
-                                <input type="file" id="review-image-input" accept="image/*" style="display:none;">
+                                <input type="file" id="review-image-input" accept="image/*"
+                                  style="display:none;">
                               </label>
                             </div>
 
                             <div style="display:flex;justify-content:flex-end;margin-top:12px;">
-                              <button type="submit" class="btn primary-action">Gửi đánh giá</button>
+                              <button type="submit" class="btn primary-action">Gửi đánh
+                                giá</button>
                             </div>
                           </div>
                         </form>

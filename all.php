@@ -27,22 +27,24 @@ include 'forms/head.php' ?>
                 <div class="col-lg-4 sidebar">
                     <form method="GET" action="all.php" id="filter-product-form">
 
-                        <div class="search-filter-widget widget-item">
-                            <h3 class="widget-title">Tìm kiếm theo tên</h3>
-                            <div class="search-box-sidebar">
-                                <div class="input-group">
-                                    <input type="text" name="search" id="sidebar-search-input" class="form-control"
-                                        placeholder="Nhập tên sản phẩm..."
-                                        value="<?= htmlspecialchars($_GET['search'] ?? '') ?>">
 
-                                    <button type="submit" class="input-group-text" style="background: #fff; cursor: pointer;">
-                                        <i class="bi bi-search"></i>
-                                    </button>
+                        <div class="widgets-container">
+                            <div class="search-filter-widget widget-item">
+                                <h3 class="widget-title">Tìm kiếm theo tên</h3>
+                                <div class="search-box-sidebar">
+                                    <div class="input-group">
+                                        <input type="text" name="search" id="sidebar-search-input" class="form-control"
+                                            placeholder="Nhập tên sản phẩm..."
+                                            value="<?= htmlspecialchars($_GET['search'] ?? '') ?>">
+
+                                        <button type="submit" class="input-group-text" style="background: #fff; cursor: pointer;">
+                                            <i class="bi bi-search"></i>
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="widgets-container">
-                            <div class="promotion-filter-widget widget-item">
+                            
+                            <div class="promotion-filter-widget widget-item d-none">
                                 <h3 class="widget-title">Chương trình ưu đãi</h3>
                                 <div class="promo-options">
                                     <div class="form-check mb-2">
@@ -217,7 +219,11 @@ include 'forms/head.php' ?>
 
                                         // 3. Xác định 2 ảnh đầu tiên (Sử dụng cấu trúc thư mục phân cấp)
                                         $main_img  = !empty($images[0]) ? $base_path . trim($images[0]) : 'assets/img/default-1.jpg';
-                                        $hover_img = !empty($images[1]) ? $base_path . trim($images[1]) : 'assets/img/default-2.jpg';
+
+                                        // Logic mới cho hover_img:
+                                        $hover_img = !empty($images[1])
+                                            ? $base_path . trim($images[1])
+                                            : (!empty($images[0]) ? $main_img : 'assets/img/default-2.jpg');
 
                                         // MỚI: Kiểm tra hết hàng
                                         $is_out_of_stock = ($product['stock_quantity'] <= 0);

@@ -37,7 +37,7 @@ include __DIR__ . "/forms/head.php";
         <h1 class="mb-2 mb-lg-0">Tài khoản</h1>
         <nav class="breadcrumbs">
           <ol>
-            <li><a href="index.php">Trang chủ</a></li>
+            
             <li class="current">Tài khoản</li>
           </ol>
         </nav>

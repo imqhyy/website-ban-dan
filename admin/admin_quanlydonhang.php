@@ -13,7 +13,7 @@ include __DIR__ . "/forms/head.php";
         <h1 class="mb-2 mb-lg-0">Quản lý đơn hàng</h1>
         <nav class="breadcrumbs">
           <ol>
-            <li><a href="admin.php">Trang chủ</a></li>
+
             <li class="current">Quản lý đơn hàng</li>
           </ol>
         </nav>
@@ -65,6 +65,18 @@ include __DIR__ . "/forms/head.php";
       </form>
       <hr>
 
+      <?php if (!empty($_GET['product_id'])):
+        // Lấy tên sản phẩm để hiện thông báo cho pro
+        $product_name = getOne("SELECT product_name FROM products WHERE id = ?", [$_GET['product_id']])['product_name'] ?? 'Sản phẩm ID: ' . $_GET['product_id'];
+        ?>
+        <div class="alert alert-warning py-2 d-flex justify-content-between align-items-center mt-3">
+          <span>Đang lọc đơn hàng có sản phẩm: <strong>
+              <?= htmlspecialchars($product_name) ?>
+            </strong></span>
+          <a href="admin_quanlydonhang.php" class="btn btn-sm btn-outline-dark">Xóa lọc</a>
+        </div>
+      <?php endif; ?>
+      
       <?php if (!empty($orders)): ?>
         <?php foreach ($orders as $o):
           $statusMap = ['newest' => 'Mới đặt', 'processed' => 'Đã xử lý', 'deliveried' => 'Đã giao', 'cancel' => 'Huỷ'];
@@ -145,7 +157,7 @@ include __DIR__ . "/forms/head.php";
       ward: "<?= htmlspecialchars($_GET['ward'] ?? '') ?>"
     };
   </script>
-  <script src="../assets/js/admin2.js"></script>
+  <script src="./assets/js/quanlydonhang.js"></script>
 </body>
 
 
