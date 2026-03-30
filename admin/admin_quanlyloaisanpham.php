@@ -279,6 +279,7 @@ include __DIR__ . "/forms/head.php";
     <?php
     require_once __DIR__ . "/forms/scripts.php"
     ?>
+    <script src="./assets/js/quanlyphanloai.js"></script>
 </body>
 
 

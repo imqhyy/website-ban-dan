@@ -9,7 +9,7 @@
 
 <!-- Main JS File -->
 <script src="../assets/js/main.js"></script>
-<script src="../assets/js/admin.js"></script>
+
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
     // Sử dụng window.Toast để tránh lỗi "Already declared" vĩnh viễn

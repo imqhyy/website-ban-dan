@@ -463,6 +463,7 @@ $filter_categories = getAll("SELECT * FROM categories ORDER BY category_name ASC
     <?php
     require_once __DIR__ . "/forms/scripts.php"
         ?>
+    <script src="./assets/js/quanlydanhmucsanpham.js"></script>
 
 </body>
 
