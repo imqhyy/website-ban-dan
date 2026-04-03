@@ -134,22 +134,44 @@ function formatCurrency(value) {
 function attachPriceFormatter(inputElement) {
   if (!inputElement) return;
 
-  const handleFormatting = function () {
-    const currentValue = this.value.replace(/[^0-9]/g, "");
-    this.value = currentValue ? formatCurrency(currentValue) : "";
-  };
+  inputElement.addEventListener("input", function (e) {
+    // 1. Lấy giá trị số thuần túy
+    let value = this.value.replace(/[^0-9]/g, "");
+    
+    // 2. Nếu trống thì không hiển thị gì
+    if (!value) {
+      this.value = "";
+      return;
+    }
 
-  inputElement.addEventListener("blur", handleFormatting);
-  inputElement.addEventListener("keydown", function (e) {
-    if (e.key === "Enter") {
-      e.preventDefault();
-      handleFormatting.call(this);
-      this.blur();
+    // 3. Định dạng số với dấu chấm
+    let formattedValue = value.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+    
+    // 4. Gán lại giá trị kèm đuôi VND
+    this.value = formattedValue + " VND";
+
+    // 5. Đưa con trỏ chuột về trước chữ " VND" để người dùng gõ tiếp không bị lỗi
+    // (Khoảng cách là 4 ký tự tính từ cuối: " VND")
+    const cursorPosition = this.value.length - 4;
+    this.setSelectionRange(cursorPosition, cursorPosition);
+  });
+
+  // Chặn trường hợp người dùng click chuột vào sau chữ VND rồi gõ tiếp
+  inputElement.addEventListener("click", function() {
+    const cursorPosition = this.value.length - 4;
+    if (this.selectionStart > cursorPosition) {
+        this.setSelectionRange(cursorPosition, cursorPosition);
     }
   });
 
-  inputElement.addEventListener("focus", function () {
-    this.value = this.value.replace(/[^0-9]/g, "");
+  // Khi xóa, nếu chạm vào chữ VND thì xóa luôn số cuối cùng
+  inputElement.addEventListener("keydown", function(e) {
+    if (e.key === "Backspace" || e.key === "Delete") {
+        let value = this.value.replace(/[^0-9]/g, "");
+        if (value.length > 0) {
+            // Cho phép xóa bình thường bằng cách xử lý ở sự kiện 'input'
+        }
+    }
   });
 }
 
@@ -216,6 +238,9 @@ document.addEventListener("DOMContentLoaded", function () {
           if (el.tagName === "SELECT") el.selectedIndex = 0;
           else el.value = "";
         });
+
+        const newPriceInput = newProductFields.querySelector(".unit-price-input");
+        attachPriceFormatter(newPriceInput); // Thêm dòng này để dòng mới cũng tự format khi gõ
 
         // Xóa hộp gợi ý cũ của dòng bị clone (nếu có) để tạo cái mới sạch sẽ
         const oldBox = newProductFields.querySelector(".custom-suggestion-box");

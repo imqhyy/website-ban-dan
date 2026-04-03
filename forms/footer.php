@@ -24,7 +24,7 @@
               </div>
             </div>
 
-            <div class="col-lg-2 col-md-6 col-sm-6">
+            <div class="col-lg-2 col-md-6 col-sm-6 d-none">
               <div class="footer-widget">
                 <h4>Sản phẩm</h4>
                 <ul class="footer-links">
@@ -85,7 +85,7 @@
                 <p>© <span>Copyright</span> <strong class="sitename">Guitar Xì Gòn</strong>. All Rights Reserved.</p>
               </div>
               <div class="credits mt-1">
-                Designed by <span>Quốc Huy - Hồng Nhân - Xuân Tâm</span>
+                Designed by <span>Quốc Huy - Hồng Nhân - Xuân Tâm - Tấn Phát</span>
               </div>
             </div>
             <div class="col-lg-6 col-md-12">

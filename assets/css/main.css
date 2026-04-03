@@ -1518,7 +1518,7 @@ h6 {
   padding-left: 15px;
 }
 
-.footer .footer-main .footer-links li:before {
+/* .footer .footer-main .footer-links li:before {
   content: "→";
   position: absolute;
   left: 0;
@@ -1526,7 +1526,7 @@ h6 {
   color: var(--accent-color);
   font-size: 14px;
   transition: all 0.3s ease;
-}
+} */
 
 .footer .footer-main .footer-links a {
   color: color-mix(in srgb, var(--default-color), transparent 30%);
@@ -1689,7 +1689,7 @@ h6 {
   }
 
   .footer .footer-main .footer-links li:before {
-    display: none;
+    
   }
 
   .footer .footer-main .app-buttons {

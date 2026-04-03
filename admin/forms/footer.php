@@ -23,7 +23,7 @@
             </div>
           </div>
 
-          <div class="col-lg-2 col-md-6 col-sm-6">
+          <div class="col-lg-2 col-md-6 col-sm-6 d-none">
             <div class="footer-widget">
               <h4>Sản phẩm</h4>
               <ul class="footer-links">

@@ -239,9 +239,9 @@ function updateCartIcon(itemCount) {
     decreaseButtons.forEach((btn) => {
       btn.addEventListener("click", function () {
         const selector = btn.closest(".quantity-selector");
-        
+
         // KIỂM TRA AN TOÀN: Nếu trang không có giỏ hàng (selector = null), thoát hàm ngay
-        if (!selector) return; 
+        if (!selector) return;
 
         const quantityInput = selector.querySelector(".quantity-input");
         if (!quantityInput) return;
@@ -258,7 +258,7 @@ function updateCartIcon(itemCount) {
     increaseButtons.forEach((btn) => {
       btn.addEventListener("click", function () {
         const selector = btn.closest(".quantity-selector");
-        
+
         // KIỂM TRA AN TOÀN: Ngăn lỗi "Cannot read property of null"
         if (!selector) return;
 
@@ -1122,7 +1122,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // Biến cờ để kiểm tra xem người dùng có thực sự đụng vào filter giá không
   let paramsCheck = new URLSearchParams(window.location.search);
-  let isPriceTouched = paramsCheck.has('min_price') || paramsCheck.has('max_price');
+  let isPriceTouched =
+    paramsCheck.has("min_price") || paramsCheck.has("max_price");
 
   if (filterForm) {
     const minInput = filterForm.querySelector(".min-price-input");
@@ -1158,10 +1159,22 @@ document.addEventListener("DOMContentLoaded", function () {
         params.set("product_type", productType);
       }
 
-      // 2. ƯU TIÊN: Xử lý Tìm kiếm theo tên (Dùng ID để tuyệt đối không nhầm lẫn)
+      // 2. ƯU TIÊN: Xử lý Tìm kiếm theo tên
+      let searchVal = "";
       const sidebarSearch = document.getElementById("sidebar-search-input");
-      if (sidebarSearch && sidebarSearch.value.trim() !== "") {
-        params.set("search", sidebarSearch.value.trim());
+
+      // Nếu ô nhập ở sidebar tồn tại, ta lấy trực tiếp giá trị của nó (Primary Source)
+      if (sidebarSearch) {
+        searchVal = sidebarSearch.value.trim();
+      }
+
+      // Nếu có giá trị (kể cả khi người dùng xóa trắng để tìm tất cả), ta set vào params
+      // Lưu ý: Nếu bạn muốn xóa tìm kiếm khi ô input trống, hãy để params.delete("search")
+      if (searchVal !== "") {
+        params.set("search", searchVal);
+      } else {
+        // Nếu người dùng xóa trắng ô search và nhấn enter, ta bỏ tham số search khỏi URL
+        params.delete("search");
       }
 
       // 3. Xử lý Thương hiệu & Phân loại (Checkbox)
