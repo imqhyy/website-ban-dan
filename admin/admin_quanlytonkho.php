@@ -38,7 +38,7 @@ $filterStatus = "";
       <div id="inventory-filter-form">
         <div class="search-container">
           <input type="text" id="search-input" name="search"
-            placeholder="Tra cứu số lượng tồn của sản phẩm"
+            placeholder="Tra cứu số lượng tồn theo tên sản phẩm"
             value="<?= htmlspecialchars($searchKeyword) ?>">
           <button type="submit" id="search-button"><i class="fa fa-search"></i> Tìm kiếm</button>
         </div>

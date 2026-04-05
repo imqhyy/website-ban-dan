@@ -12,7 +12,26 @@ $check_brand = getOne("SELECT * FROM brands WHERE (id = ? OR brand_name = ?) AND
 
 // 3. Nếu thương hiệu không tồn tại hoặc bị ẩn (hidden), chuyển hướng ngay
 if (!$check_brand) {
-    header('Location: all.php');
+    header('Location: 404.php');
+    exit();
+}
+
+// Kiểm tra nếu có lọc theo loại sản phẩm
+if (!empty($_GET['type'])) {
+    $type_ids = (array)$_GET['type'];
+    foreach ($type_ids as $t_id) {
+        // Giả sử bạn có hàm check tồn tại hoặc dùng getAll/getOne
+        $check_type = getOne("SELECT id FROM categories WHERE id = ? AND status = 'visible'", [(int)$t_id]);
+        if (!$check_type) {
+            header('Location: 404.php');
+            exit();
+        }
+    }
+}
+
+// Tại đầu file brand.php, sau khi lấy được $check_brand
+if ($brand_name_url !== $check_brand['brand_name']) {
+    header('Location: 404.php');
     exit();
 }
 
@@ -27,7 +46,7 @@ include 'forms/head.php';
         <div class="page-title light-background">
             <div class="container d-lg-flex justify-content-between align-items-center">
                 <?php
-                $current_brand = $_GET['brand_name'];
+                $display_brand_name = $check_brand['brand_name'];
                 ?>
                 <h1 class="mb-2 mb-lg-0">Thương hiệu: <?= $current_brand ?></h1>
                 <nav class="breadcrumbs">

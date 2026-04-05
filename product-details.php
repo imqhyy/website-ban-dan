@@ -48,8 +48,9 @@ $product = $stmt->fetch();
 
 // Nếu không tìm thấy hoặc bất kỳ cấp nào bị ẩn, sản phẩm sẽ không được truy vấn ra
 if (!$product) {
-  header('Location: all.php');
-  exit();
+    http_response_code(404); // Thiết lập mã trạng thái HTTP là 404
+    include '404.php';       // Hiển thị nội dung trang 404
+    exit();                  // Dừng thực thi các code bên dưới
 }
 
 // Tạo đường dẫn ảnh theo đúng công thức của all.php

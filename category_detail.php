@@ -7,11 +7,12 @@ $check_cat = getOne("SELECT * FROM categories WHERE category_name = ? AND status
 
 // Nếu phân loại không tồn tại hoặc bị ẩn (hidden), chuyển hướng về trang all
 if (!$check_cat) {
-    header('Location: all.php');
+    header('Location: 404.php');
     exit();
 }
 
 $current_type = $check_cat['category_name'];
+
 
 // 2. Gọi file logic lấy danh sách sản phẩm (list.php sẽ xử lý lọc theo product_type)
 require_once "forms/modules/products/list.php";
@@ -28,7 +29,7 @@ include 'forms/head.php';
             <div class="container d-lg-flex justify-content-between align-items-center">
                 <?php
                 // Lấy loại sản phẩm hiện tại từ URL
-                $current_type = $_GET['product_type'] ?? '';
+                $current_type = $check_cat['category_name'];
                 ?>
                 <h1 class="mb-2 mb-lg-0">Phân loại: <?= urldecode($current_type) ?></h1>
                 <nav class="breadcrumbs">
@@ -126,7 +127,7 @@ include 'forms/head.php';
                             <div class="brand-filter-widget widget-item">
                                 <h3 class="widget-title">Lọc theo thương hiệu</h3>
                                 <div class="brand-filter-content">
-                                    <div class="brand-search">
+                                    <div class="brand-search d-none">
                                         <input type="text" class="form-control" placeholder="Tìm kiếm thương hiệu...">
                                         <i class="bi bi-search"></i>
                                     </div>

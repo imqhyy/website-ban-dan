@@ -1,24 +1,35 @@
 <?php require_once('forms/init.php'); ?>
 <?php
-// Lấy 1 Sản phẩm nổi bật ngẫu nhiên
+
+// Lấy 1 Sản phẩm có doanh số bán ra cao nhất
 $heroStmt = $pdo->prepare("SELECT p.*, c.category_name, b.brand_name,
                            (SELECT AVG(rating) FROM reviews WHERE product_id = p.id AND status = 'visible') as avg_rating,
-                           (SELECT COUNT(id) FROM reviews WHERE product_id = p.id AND status = 'visible') as total_reviews
+                           (SELECT COUNT(id) FROM reviews WHERE product_id = p.id AND status = 'visible') as total_reviews,
+                           IFNULL(SUM(od.quantity), 0) as total_sold
                            FROM products p 
                            LEFT JOIN categories c ON p.category_id = c.id
                            LEFT JOIN brands b ON p.brand_id = b.id
-                           WHERE p.status = 'visible' ORDER BY RAND() LIMIT 1");
+                           LEFT JOIN order_details od ON p.id = od.product_id
+                           WHERE p.status = 'visible' 
+                           GROUP BY p.id
+                           ORDER BY total_sold DESC, p.id DESC 
+                           LIMIT 1");
 $heroStmt->execute();
 $heroProduct = $heroStmt->fetch();
 
-// Lấy 4 Sản phẩm bán chạy (ID order)
+// Lấy 4 Sản phẩm bán chạy nhất dựa trên số lượng đã bán
 $bestSellersStmt = $pdo->prepare("SELECT p.*, c.category_name, b.brand_name,
                                   (SELECT AVG(rating) FROM reviews WHERE product_id = p.id AND status = 'visible') as avg_rating,
-                                  (SELECT COUNT(id) FROM reviews WHERE product_id = p.id AND status = 'visible') as total_reviews
+                                  (SELECT COUNT(id) FROM reviews WHERE product_id = p.id AND status = 'visible') as total_reviews,
+                                  SUM(IFNULL(od.quantity, 0)) as total_sold
                                   FROM products p 
                                   LEFT JOIN categories c ON p.category_id = c.id
                                   LEFT JOIN brands b ON p.brand_id = b.id
-                                  WHERE p.status = 'visible' LIMIT 4");
+                                  LEFT JOIN order_details od ON p.id = od.product_id
+                                  WHERE p.status = 'visible'
+                                  GROUP BY p.id
+                                  ORDER BY total_sold DESC
+                                  LIMIT 4");
 $bestSellersStmt->execute();
 $bestSellers = $bestSellersStmt->fetchAll();
 

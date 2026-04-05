@@ -149,7 +149,7 @@ include 'forms/head.php' ?>
                             <div class="brand-filter-widget widget-item">
                                 <h3 class="widget-title">Lọc theo thương hiệu</h3>
                                 <div class="brand-filter-content">
-                                    <div class="brand-search">
+                                    <div class="brand-search d-none">
                                         <input type="text" class="form-control" placeholder="Tìm kiếm thương hiệu...">
                                         <i class="bi bi-search"></i>
                                     </div>
