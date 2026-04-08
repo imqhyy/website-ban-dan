@@ -167,7 +167,6 @@ include __DIR__ . "/forms/head.php";
                     'address'       => trim(implode(', ', array_filter([
                       $user['address'] ?? '',
                       $user['ward'] ?? '',
-                      $user['district'] ?? '',
                       $user['city'] ?? '',
                     ]))),
                     'is_locked'     => (int)$user['is_locked'],
