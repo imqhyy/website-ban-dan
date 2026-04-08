@@ -239,17 +239,12 @@ unset($item);
                     <label class="mb-2 fw-bold text-dark">Thêm địa chỉ giao hàng mới</label>
 
                     <div class="row g-2 mb-2">
-                      <div class="col-md-4">
+                      <div class="col-md-6">
                         <select class="form-select" id="new-city">
                           <option value="">-- Chọn Tỉnh/Thành --</option>
                         </select>
                       </div>
-                      <div class="col-md-4">
-                        <select class="form-select" id="new-district" disabled>
-                          <option value="">-- Chọn Quận/Huyện --</option>
-                        </select>
-                      </div>
-                      <div class="col-md-4">
+                      <div class="col-md-6">
                         <select class="form-select" id="new-ward" disabled>
                           <option value="">-- Chọn Phường/Xã --</option>
                         </select>

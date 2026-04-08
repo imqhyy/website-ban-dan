@@ -4,7 +4,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   header('Content-Type: application/json');
   $fullname = $_POST['fullname'];
   $username = $_POST['username'];
-  $email = $_POST['email'];
+  $email = trim($_POST['email']);
+  if ($email !== '' && !preg_match('/@gmail\.com$/i', $email)) {
+    $localPart = preg_replace('/@.*$/', '', $email);
+    $email = $localPart . '@gmail.com';
+  }
   $phone = $_POST['phone'];
   $password = $_POST['password'];
   $confirmPassword = $_POST['confirmPassword'];
@@ -194,7 +198,7 @@ include 'forms/head.php';
 
   <?php include 'forms/footer.php';
   include 'forms/scripts.php' ?>
-  <script src="assets/js/register.js"></script>
+  <script src="assets/js/register.js?v=<?= filemtime('assets/js/register.js') ?>"></script>
 </body>
 
 </html>

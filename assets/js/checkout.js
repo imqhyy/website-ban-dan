@@ -34,7 +34,6 @@ document.addEventListener("DOMContentLoaded", function () {
   // Các phần tử trong khối nhập địa chỉ mới
   const newAddressGroup = document.getElementById("new-address-group");
   const citySelect = document.getElementById("new-city");
-  const districtSelect = document.getElementById("new-district");
   const wardSelect = document.getElementById("new-ward");
   const streetInput = document.getElementById("new-street");
   const btnApplyAddress = document.getElementById("btn-apply-address");
@@ -56,66 +55,45 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 
-  // Khi chọn Tỉnh/Thành -> Load Quận/Huyện
-  if (citySelect) {
-    citySelect.addEventListener("change", function () {
-      // Reset tuyến dưới
-      districtSelect.innerHTML = '<option value="">-- Chọn Quận/Huyện --</option>';
-      wardSelect.innerHTML = '<option value="">-- Chọn Phường/Xã --</option>';
-      districtSelect.disabled = true;
-      wardSelect.disabled = true;
-      resetApplyState();
+  function getWardsByCity(selectedCity) {
+    const cityData = addressData[selectedCity];
+    if (!cityData) {
+      return [];
+    }
 
-      const distContainer = districtSelect.closest('.col-md-6') || districtSelect.parentElement;
-      const selectedCity = this.value;
-      if (selectedCity && addressData[selectedCity]) {
-        if (Array.isArray(addressData[selectedCity])) {
-          // Mô hình phẳng 2 cấp -> Ẩn khối Quận/Huyện, điền trực tiếp list Phường vào wardSelect
-          if (distContainer) distContainer.style.display = 'none';
+    if (Array.isArray(cityData)) {
+      return cityData;
+    }
 
-          addressData[selectedCity].forEach(ward => {
-            let option = document.createElement("option");
-            option.value = ward;
-            option.textContent = ward;
-            wardSelect.appendChild(option);
-          });
-          wardSelect.disabled = false;
-        } else {
-          // Mô hình 3 cấp (như Hà Nội) -> Hiện lại khối Quận/Huyện
-          if (distContainer) distContainer.style.display = 'block';
-
-          Object.keys(addressData[selectedCity]).forEach(district => {
-            let option = document.createElement("option");
-            option.value = district;
-            option.textContent = district;
-            districtSelect.appendChild(option);
-          });
-          districtSelect.disabled = false; // Mở khóa ô Quận/Huyện
-        }
-      } else {
-        if (distContainer) distContainer.style.display = 'block';
+    // Hỗ trợ cả dữ liệu 3 cấp bằng cách gộp toàn bộ phường của các quận.
+    const wards = [];
+    Object.keys(cityData).forEach(districtKey => {
+      const districtWards = cityData[districtKey];
+      if (Array.isArray(districtWards)) {
+        wards.push(...districtWards);
       }
     });
+    return [...new Set(wards)];
   }
 
-  // Khi chọn Quận/Huyện -> Load Phường/Xã
-  if (districtSelect) {
-    districtSelect.addEventListener("change", function () {
+  // Khi chọn Tỉnh/Thành -> Load trực tiếp danh sách Phường/Xã
+  if (citySelect) {
+    citySelect.addEventListener("change", function () {
       wardSelect.innerHTML = '<option value="">-- Chọn Phường/Xã --</option>';
       wardSelect.disabled = true;
       resetApplyState();
 
-      const selectedCity = citySelect.value;
-      const selectedDistrict = this.value;
+      const selectedCity = this.value;
+      const wards = getWardsByCity(selectedCity);
 
-      if (selectedCity && selectedDistrict && addressData[selectedCity][selectedDistrict]) {
-        addressData[selectedCity][selectedDistrict].forEach(ward => {
+      if (selectedCity && wards.length > 0) {
+        wards.forEach(ward => {
           let option = document.createElement("option");
           option.value = ward;
           option.textContent = ward;
           wardSelect.appendChild(option);
         });
-        wardSelect.disabled = false; // Mở khóa ô Phường/Xã
+        wardSelect.disabled = false;
       }
     });
   }
@@ -159,10 +137,8 @@ document.addEventListener("DOMContentLoaded", function () {
   if (btnApplyAddress) {
     btnApplyAddress.addEventListener("click", function () {
       const city = citySelect.value;
-      const district = districtSelect.value;
       const ward = wardSelect.value;
       const street = streetInput.value.trim();
-      const distContainer = districtSelect.closest('.col-md-6') || districtSelect.parentElement;
 
       // Validate cơ bản
       if (!city || !ward || !street) {
@@ -170,17 +146,8 @@ document.addEventListener("DOMContentLoaded", function () {
         return;
       }
 
-      // Validate riêng Quận/Huyện (chỉ áp dụng nếu khối này đang hiển thị)
-      if (distContainer && distContainer.style.display !== 'none' && !district) {
-        Swal.fire('Opps!', 'Vui lòng chọn Quận/Huyện!', 'warning');
-        return;
-      }
-
       // Ghép chuỗi gửi xuống DB
       const addressParts = [street, ward];
-      if (distContainer && distContainer.style.display !== 'none' && district) {
-        addressParts.push(district);
-      }
       addressParts.push(city);
 
       const fullNewAddress = addressParts.join(", ");

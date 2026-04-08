@@ -577,6 +577,12 @@ ALTER TABLE `reviews`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
 
 --
+-- AUTO_INCREMENT cho bảng `users`
+--
+ALTER TABLE `users`
+   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
+
+--
 -- Các ràng buộc cho các bảng đã đổ
 --
 
