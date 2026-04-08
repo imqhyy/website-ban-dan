@@ -129,7 +129,7 @@ include 'forms/head.php';
                     </div>
                 </div>
 
-                <div class="form-check mb-4" style="margin-left: 20px;">
+                <div class="form-check mb-4 d-none" style="margin-left: 20px;">
                   <input class="form-check-input" type="checkbox" id="termsCheck" name="termsCheck">
                   <label class="form-check-label" for="termsCheck">
                     Tôi đồng ý với <a href="tos.php">Điều khoản dịch vụ</a> và <a href="privacy.php">Chính sách bảo
@@ -137,7 +137,7 @@ include 'forms/head.php';
                   </label>
                 </div>
 
-                <div class="form-check mb-4" style="margin-left: 20px;">
+                <div class="form-check mb-4 d-none" style="margin-left: 20px;">
                   <input class="form-check-input" type="checkbox" id="marketingCheck" name="marketingCheck">
                   <label class="form-check-label" for="marketingCheck">
                     Tôi muốn nhận các thông báo/thư tiếp thị về sản phẩm, dịch vụ và các chương trình khuyến mãi
