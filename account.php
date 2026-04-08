@@ -667,7 +667,7 @@ include 'forms/head.php';
                           <p class="address-text">
                             <?= htmlspecialchars($user['address']) ?><br>
                             <?= htmlspecialchars($user['ward']) ?><br>
-                            <?= htmlspecialchars($user['district']) ?><br>
+
                             <?= htmlspecialchars($user['city']) ?><br>
                             Việt Nam
                           </p>
@@ -737,27 +737,27 @@ include 'forms/head.php';
                               value="<?php echo htmlspecialchars($user['phone']); ?>">
                           </div>
 
-                          <div class="col-md-4">
+                          <div class="col-md-6">
                             <label for="city" class="form-label">Tỉnh / Thành phố</label>
-                            <input type="text" class="form-control" id="city" name="city"
-                              value="<?php echo htmlspecialchars($user['city'] ?? ''); ?>">
+                            <select class="form-select" id="city" name="city" data-current="<?= htmlspecialchars($user['city'] ?? '') ?>">
+                              <option value="">-- Chọn Tỉnh/Thành --</option>
+                            </select>
                           </div>
-                          <div class="col-md-4">
-                            <label for="district" class="form-label">Quận / Huyện</label>
-                            <input type="text" class="form-control" id="district" name="district"
-                              value="<?php echo htmlspecialchars($user['district'] ?? ''); ?>">
-                          </div>
-                          <div class="col-md-4">
+
+                          <div class="col-md-6">
                             <label for="ward" class="form-label">Phường / Xã</label>
-                            <input type="text" class="form-control" id="ward" name="ward"
-                              value="<?php echo htmlspecialchars($user['ward'] ?? ''); ?>">
+                            <select class="form-select" id="ward" name="ward" data-current="<?= htmlspecialchars($user['ward'] ?? '') ?>" disabled>
+                              <option value="">-- Chọn Phường/Xã --</option>
+                            </select>
                           </div>
+
                           <div class="col-md-12">
-                            <label for="address" class="form-label">Địa chỉ cụ thể (Số nhà,
-                              tên đường)</label>
+                            <label for="address" class="form-label">Địa chỉ cụ thể (Số nhà, tên đường)</label>
                             <input type="text" class="form-control" id="address" name="address"
-                              value="<?php echo htmlspecialchars($user['address'] ?? ''); ?>">
+                              value="<?php echo htmlspecialchars($user['address'] ?? ''); ?>" placeholder="VD: 123 Đường ABC...">
                           </div>
+
+
                           <div class="col-md-12 input-new-avatar-image">
                             <label for="profilePicture" class="form-label">Ảnh đại
                               diện</label>

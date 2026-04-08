@@ -15,7 +15,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $email = trim($_POST['email'] ?? '');
     $phone = trim($_POST['phone'] ?? '');
     $city = !empty(trim($_POST['city'])) ? trim($_POST['city']) : null;
-    $district = !empty(trim($_POST['district'])) ? trim($_POST['district']) : null;
+    
     $ward = !empty(trim($_POST['ward'])) ? trim($_POST['ward']) : null;
     $address = !empty(trim($_POST['address'])) ? trim($_POST['address']) : null;
 
@@ -70,12 +70,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     try {
         if ($avatarPath) {
             // Trường hợp 1: Có cập nhật ảnh đại diện
-            $stmt = $pdo->prepare("UPDATE users SET fullname = ?, email = ?, phone = ?, city = ?, district = ?, ward = ?, address = ?, avatar = ? WHERE username = ?");
-            $stmt->execute([$fullname, $email, $phone, $city, $district, $ward, $address, $avatarPath, $username]);
+            $stmt = $pdo->prepare("UPDATE users SET fullname = ?, email = ?, phone = ?, city = ?, ward = ?, address = ?, avatar = ? WHERE username = ?");
+            $stmt->execute([$fullname, $email, $phone, $city, $ward, $address, $avatarPath, $username]);
         } else {
             // Trường hợp 2: Chỉ cập nhật chữ, giữ nguyên ảnh cũ
-            $stmt = $pdo->prepare("UPDATE users SET fullname = ?, email = ?, phone = ?, city = ?, district = ?, ward = ?, address = ? WHERE username = ?");
-            $stmt->execute([$fullname, $email, $phone, $city, $district, $ward, $address, $username]);
+            $stmt = $pdo->prepare("UPDATE users SET fullname = ?, email = ?, phone = ?, city = ?, ward = ?, address = ? WHERE username = ?");
+            $stmt->execute([$fullname, $email, $phone, $city, $ward, $address, $username]);
         }
 
         // Cập nhật lại biến Session (Để thanh Header tự động đổi tên hiển thị ngay lập tức)

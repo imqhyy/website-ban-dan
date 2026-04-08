@@ -96,7 +96,7 @@ include 'forms/head.php' ?>
       </section><!-- /About 2 Section -->
 
       <!-- Stats Section -->
-      <section id="stats" class="stats section light-background">
+      <section id="stats" class="stats section light-background d-none">
 
         <div class="container" data-aos="fade-up" data-aos-delay="100">
 

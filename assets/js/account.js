@@ -494,15 +494,16 @@ document.addEventListener("DOMContentLoaded", function () {
       if (e.key === "Enter") {
         const searchTerm = this.value.trim();
         const urlParams = new URLSearchParams(window.location.search);
-        
+
         if (searchTerm) {
-          urlParams.set('search', searchTerm);
+          urlParams.set("search", searchTerm);
         } else {
-          urlParams.delete('search');
+          urlParams.delete("search");
         }
-        
-        urlParams.delete('page'); // Tìm mới thì phải về trang 1
-        window.location.href = "account.php?" + urlParams.toString() + "#orders";
+
+        urlParams.delete("page"); // Tìm mới thì phải về trang 1
+        window.location.href =
+          "account.php?" + urlParams.toString() + "#orders";
       }
     });
   }
@@ -894,4 +895,148 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // Lưu ý: Không dùng e.preventDefault() cho các link lọc (status)
   // để trình duyệt tự động chuyển hướng kèm tham số ?status=...
+
+  // Thêm đoạn này vào trong sự kiện document.addEventListener("DOMContentLoaded", function () { ... }) của account.js
+
+  const addressData = {
+    "Thành phố Hồ Chí Minh": [
+      "Phường Bến Nghé",
+      "Phường Bến Thành",
+      "Phường Đa Kao",
+      "Phường Nguyễn Thái Bình",
+      "Phường Phạm Ngũ Lão",
+      "Phường Nguyễn Cư Trinh",
+      "Phường Cô Giang",
+      "Phường Cầu Kho",
+      "Phường Tân Định",
+      "Phường Võ Thị Sáu",
+      "Phường 14",
+      "Phường 1",
+      "Phường 2",
+      "Phường 4",
+      "Phường 5",
+      "Phường 9",
+      "Phường 12",
+      "Phường 6",
+      "Phường 13",
+      "Phường 15",
+      "Phường 16",
+      "Phường 18",
+      "Phường 7",
+      "Phường Bình Thuận",
+      "Phường Phú Mỹ",
+      "Phường Phú Thuận",
+      "Phường Tân Hưng",
+      "Phường Tân Kiểng",
+      "Phường Tân Phong",
+      "Phường Tân Phú",
+      "Phường Tân Quy",
+      "Phường Tân Thuận Đông",
+      "Phường Tân Thuận Tây",
+      "Phường 8",
+      "Phường 10",
+      "Phường 11",
+      "Phường 3",
+      "Phường 17",
+      "Phường 19",
+      "Phường 21",
+      "Phường 22",
+      "Phường 24",
+      "Phường 25",
+      "Phường 26",
+      "Phường 27",
+      "Phường 28",
+    ],
+    "Thành phố Đà Nẵng": [
+      "Phường Hải Châu I",
+      "Phường Hải Châu II",
+      "Phường Thạch Thang",
+      "Phường Nam Dương",
+      "Phường Phước Ninh",
+      "Phường Bình Hiên",
+      "Phường Bình Thuận",
+      "Phường Hòa Thuận Đông",
+      "Phường Hòa Thuận Tây",
+      "Phường Hòa Cường Bắc",
+      "Phường Hòa Cường Nam",
+      "Phường Thọ Quang",
+      "Phường Nại Hiên Đông",
+      "Phường Mân Thái",
+      "Phường An Hải Bắc",
+      "Phường Phước Mỹ",
+      "Phường An Hải Tây",
+      "Phường An Hải Đông",
+      "Phường Mỹ An",
+      "Phường Khuê Mỹ",
+      "Phường Hòa Hải",
+      "Phường Hòa Quý",
+      "Phường Thanh Bình",
+      "Phường Thuận Phước",
+      "Phường Thạc Gián",
+      "Phường Chính Gián",
+      "Phường Vĩnh Trung",
+      "Phường Tân Chính",
+      "Phường Xuân Hà",
+      "Phường Tam Thuận",
+      "Phường Thanh Khê Đông",
+      "Phường Thanh Khê Tây",
+      "Phường An Khê",
+      "Phường Hòa Khê",
+      "Phường Hòa Minh",
+      "Phường Hòa Khánh Nam",
+      "Phường Hòa Khánh Bắc",
+      "Phường Hòa Hiệp Nam",
+      "Phường Hòa Hiệp Bắc",
+      "Phường Khuê Trung",
+      "Phường Hòa Thọ Đông",
+      "Phường Hòa Thọ Tây",
+      "Phường Hòa Phát",
+      "Phường Hòa An",
+      "Phường Hòa Xuân",
+    ],
+  };
+
+  const citySelect = document.getElementById("city");
+  const wardSelect = document.getElementById("ward");
+
+  if (citySelect && wardSelect) {
+    const currentCity = citySelect.getAttribute("data-current");
+    const currentWard = wardSelect.getAttribute("data-current");
+
+    // 1. Đổ dữ liệu Tỉnh/Thành
+    Object.keys(addressData).forEach((city) => {
+      let option = document.createElement("option");
+      option.value = city;
+      option.textContent = city;
+      if (city === currentCity) option.selected = true;
+      citySelect.appendChild(option);
+    });
+
+    // Hàm load Phường/Xã
+    const loadWards = (city, selectedWard = "") => {
+      wardSelect.innerHTML = '<option value="">-- Chọn Phường/Xã --</option>';
+      if (city && addressData[city]) {
+        addressData[city].forEach((ward) => {
+          let option = document.createElement("option");
+          option.value = ward;
+          option.textContent = ward;
+          if (ward === selectedWard) option.selected = true;
+          wardSelect.appendChild(option);
+        });
+        wardSelect.disabled = false;
+      } else {
+        wardSelect.disabled = true;
+      }
+    };
+
+    // 2. Load Phường mặc định nếu đã có City
+    if (currentCity) {
+      loadWards(currentCity, currentWard);
+    }
+
+    // 3. Sự kiện khi thay đổi Tỉnh/Thành
+    citySelect.addEventListener("change", function () {
+      loadWards(this.value);
+    });
+  }
 });
