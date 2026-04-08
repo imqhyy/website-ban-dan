@@ -47,12 +47,6 @@ $user_info = is_numeric($session_user)
   ? getOne("SELECT * FROM users WHERE id = $session_user")
   : getOne("SELECT * FROM users WHERE username = '$session_user'");
 $user_id = $user_info['id'];
-// NẾU ĐÃ ĐĂNG NHẬP -> CHẠY CODE LẤY DỮ LIỆU DB
-$session_user = is_array($_SESSION['user']) ? $_SESSION['user']['id'] : $_SESSION['user'];
-$user_info = is_numeric($session_user)
-  ? getOne("SELECT * FROM users WHERE id = $session_user")
-  : getOne("SELECT * FROM users WHERE username = '$session_user'");
-$user_id = $user_info['id'];
 
 // ==================== LẤY DỮ LIỆU SẢN PHẨM ====================
 $is_buy_now = isset($_GET['type']) && $_GET['type'] == 'buynow';
@@ -195,8 +189,6 @@ unset($item);
                 $address_parts[] = $user_info['address'];
               if (!empty($user_info['ward']))
                 $address_parts[] = $user_info['ward'];
-              if (!empty($user_info['district']))
-                $address_parts[] = $user_info['district'];
               if (!empty($user_info['city']))
                 $address_parts[] = $user_info['city'];
 
