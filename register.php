@@ -1,5 +1,5 @@
 <?php
-require_once 'forms/init.php'; 
+require_once 'forms/init.php';
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
   header('Content-Type: application/json');
   $fullname = $_POST['fullname'];
@@ -93,7 +93,7 @@ include 'forms/head.php';
                   <form method="POST" action="register.php" id="register-form">
                     <div class="form-floating mb-3">
                       <input type="text" class="form-control" id="fullname" name="fullname" placeholder="Họ và Tên"
-                         autocomplete="name">
+                        autocomplete="name">
                       <label for="fullName">Họ và Tên</label>
                     </div>
                     <div class="form-floating mb-3">
@@ -115,14 +115,14 @@ include 'forms/head.php';
                       <div class="col-md-12">
                         <div class="form-floating">
                           <input type="password" class="form-control" id="password" name="password"
-                            placeholder="Password"  minlength="1" autocomplete="new-password">
+                            placeholder="Password" minlength="1" autocomplete="new-password">
                           <label for="password">Mật khẩu</label>
                         </div>
                       </div>
                       <div class="full-width-container">
                         <div class="form-floating">
                           <input type="password" class="form-control" id="confirmPassword" name="confirmPassword"
-                            placeholder="Confirm Password"  minlength="1" autocomplete="new-password">
+                            placeholder="Confirm Password" minlength="1" autocomplete="new-password">
                           <label for="confirmPassword">Xác nhận lại mật khẩu</label>
                         </div>
                       </div>
@@ -130,7 +130,7 @@ include 'forms/head.php';
                 </div>
 
                 <div class="form-check mb-4" style="margin-left: 20px;">
-                  <input class="form-check-input" type="checkbox" id="termsCheck" name="termsCheck" >
+                  <input class="form-check-input" type="checkbox" id="termsCheck" name="termsCheck">
                   <label class="form-check-label" for="termsCheck">
                     Tôi đồng ý với <a href="tos.php">Điều khoản dịch vụ</a> và <a href="privacy.php">Chính sách bảo
                       mật</a>
