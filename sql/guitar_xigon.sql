@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th4 08, 2026 lúc 07:45 PM
+-- Thời gian đã tạo: Th4 06, 2026 lúc 09:45 AM
 -- Phiên bản máy phục vụ: 10.4.32-MariaDB
 -- Phiên bản PHP: 8.2.12
 
@@ -393,6 +393,7 @@ CREATE TABLE `users` (
   `phone` varchar(20) DEFAULT NULL,
   `address` varchar(255) DEFAULT NULL,
   `city` varchar(100) DEFAULT NULL,
+  `district` varchar(100) DEFAULT NULL,
   `ward` varchar(100) DEFAULT NULL,
   `avatar` varchar(255) DEFAULT 'assets/img/person/images.jpg',
   `is_locked` tinyint(1) NOT NULL DEFAULT 0,
@@ -403,20 +404,20 @@ CREATE TABLE `users` (
 -- Đang đổ dữ liệu cho bảng `users`
 --
 
-INSERT INTO `users` (`id`, `username`, `password`, `created_at`, `fullname`, `email`, `phone`, `address`, `city`, `ward`, `avatar`, `is_locked`, `locked_reason`) VALUES
-(1, 'rpt.mckkk', 'mck', '2026-03-23 18:27:11', 'Nghiêm Vũ Hoàng Long', 'nghiemtong@gmail.com', '(012) 345-6789', 'Nhà của MCK', 'Thành phố Hồ Chí Minh', 'Phường Bến Nghé', 'assets/img/person/mckhutthuocbangchan.jpeg', 0, NULL),
-(22, 'wxrdie', 'wxrdie', '2026-03-23 18:27:11', 'Phạm Nam Hải', 'wrxdie@gmail.com', '(012) 345-1111', 'Nhà của MCK', 'Thành phố Hồ Chí Minh', 'Phường Bến Nghé', 'assets/img/avatars/1774078406_wxrdie.jpg', 0, NULL),
-(23, 'tlinh', 'tlinh', '2026-03-23 18:27:11', 'Nguyễn Thảo Linh', 'tlinh@gmail.com', '(012) 345-2222', 'aaa', 'Thành phố Hồ Chí Minh', 'Phường Bến Nghé', 'assets/img/avatars/1774079282_tlinhdautroc.jpg', 0, NULL),
-(24, 'longchimloi', 'long123', '2026-03-23 18:27:11', 'Nguyễn Hoàng Long', 'longchimloi@gmail.com', '0912345678', '12 Nguyễn Trãi', 'Thành phố Hồ Chí Minh', 'Phường Bến Nghé', 'assets/img/person/longchimloi.jpg', 1, 'Nghi ngờ gian lận / lừa đảo'),
-(25, 'wxrdie2', 'wxr123', '2026-03-23 18:27:11', 'Trần Minh Khoa', 'minhkhoa@gmail.com', '0923456789', '45 Lê Lợi', 'Thành phố Hồ Chí Minh', 'Phường Bến Nghé', 'assets/img/person/wxrdie.jpg', 0, NULL),
-(26, 'gdragon_vn', 'gd123', '2026-03-23 18:27:11', 'Kwon Ji Young', 'gdragon@gmail.com', '0934567890', '7 Phạm Ngũ Lão', 'Thành phố Hồ Chí Minh', 'Phường Bến Nghé', 'assets/img/person/gdragon.png', 0, NULL),
-(27, 'jackj97', 'jack123', '2026-03-23 18:27:11', 'Trịnh Trần Phương Tuấn', 'jackj97@gmail.com', '0945678901', '99 Cách Mạng Tháng 8', 'Thành phố Hồ Chí Minh', 'Phường Bến Nghé', 'assets/img/person/jack.png', 0, NULL),
-(28, 'soicodoc2', 'soi123', '2026-03-23 18:27:11', 'Nguyễn Văn Sói', 'soicodoc@gmail.com', '0956789012', '33 Đinh Tiên Hoàng', 'Thành phố Hồ Chí Minh', 'Phường Bến Nghé', 'assets/img/person/soicodoc.jpg', 0, NULL),
-(29, 'namperfect2', 'nam123', '2026-03-23 18:27:11', 'Trần Nam Perfect', 'namperfect@gmail.com', '0967890123', '88 Bà Triệu', 'Thành phố Hồ Chí Minh', 'Phường Bến Nghé', 'assets/img/person/namperfect.jpg', 0, NULL),
-(30, 'datvantay2', 'dat123', '2026-03-23 18:27:11', 'Nguyễn Đạt Văn Tây', 'datvantay@gmail.com', '0978901234', '15 Nguyễn Huệ', 'Thành phố Hồ Chí Minh', 'Phường Bến Nghé', 'assets/img/person/datvantay.jpg', 0, NULL),
-(31, 'dangrangcom', 'dang123', '2026-03-23 18:27:11', 'Đặng Rang Cơm', 'dangrangcom@gmail.com', '0989012345', '22 Trần Phú', 'Thành phố Hồ Chí Minh', 'Phường Bến Nghé', 'assets/img/person/dangrangcom.jpg', 0, NULL),
-(32, 'anhnhancobap', 'anh123', '2026-03-23 18:27:11', 'Lê Văn Nhân', 'anhnhancobap@gmail.com', '0990123456', '56 Hùng Vương', 'Thành phố Hồ Chí Minh', 'Phường Bến Nghé', 'assets/img/person/anhnhancobap.jpg', 0, NULL),
-(33, 'chautinhtri2', 'chau123', '2026-03-23 18:27:11', 'Châu Tinh Trì Fan', 'chautinhtri@gmail.com', '0901234567', '100 Võ Văn Tần', 'Thành phố Hồ Chí Minh', 'Phường Bến Nghé', 'assets/img/person/chautinhtri.jpg', 0, NULL);
+INSERT INTO `users` (`id`, `username`, `password`, `created_at`, `fullname`, `email`, `phone`, `address`, `city`, `district`, `ward`, `avatar`, `is_locked`, `locked_reason`) VALUES
+(1, 'rpt.mckkk', 'mck', '2026-03-23 18:27:11', 'Nghiêm Vũ Hoàng Long', 'nghiemtong@gmail.com', '(012) 345-6789', 'Nhà của MCK', 'Hà Nội', 'Phố Quan Hoa', 'Cầu Giấy', 'assets/img/person/mckhutthuocbangchan.jpeg', 0, NULL),
+(22, 'wxrdie', 'wxrdie', '2026-03-23 18:27:11', 'Phạm Nam Hải', 'wrxdie@gmail.com', '(012) 345-1111', 'Nhà của MCK', 'Hà Nội', 'Phố Quan Hoa', 'Cầu Giấy', 'assets/img/avatars/1774078406_wxrdie.jpg', 0, NULL),
+(23, 'tlinh', 'tlinh', '2026-03-23 18:27:11', 'Nguyễn Thảo Linh', 'tlinh@gmail.com', '(012) 345-2222', NULL, NULL, NULL, NULL, 'assets/img/avatars/1774079282_tlinhdautroc.jpg', 0, NULL),
+(24, 'longchimloi', 'long123', '2026-03-23 18:27:11', 'Nguyễn Hoàng Long', 'longchimloi@gmail.com', '0912345678', '12 Nguyễn Trãi', 'Hồ Chí Minh', 'Quận 1', 'Phường Bến Thành', 'assets/img/person/longchimloi.jpg', 1, 'Nghi ngờ gian lận / lừa đảo'),
+(25, 'wxrdie2', 'wxr123', '2026-03-23 18:27:11', 'Trần Minh Khoa', 'minhkhoa@gmail.com', '0923456789', '45 Lê Lợi', 'Hồ Chí Minh', 'Quận 3', 'Phường 6', 'assets/img/person/wxrdie.jpg', 0, NULL),
+(26, 'gdragon_vn', 'gd123', '2026-03-23 18:27:11', 'Kwon Ji Young', 'gdragon@gmail.com', '0934567890', '7 Phạm Ngũ Lão', 'Hồ Chí Minh', 'Quận 1', 'Phường Phạm Ngũ Lão', 'assets/img/person/gdragon.png', 0, NULL),
+(27, 'jackj97', 'jack123', '2026-03-23 18:27:11', 'Trịnh Trần Phương Tuấn', 'jackj97@gmail.com', '0945678901', '99 Cách Mạng Tháng 8', 'Hồ Chí Minh', 'Quận 10', 'Phường 5', 'assets/img/person/jack.png', 0, NULL),
+(28, 'soicodoc2', 'soi123', '2026-03-23 18:27:11', 'Nguyễn Văn Sói', 'soicodoc@gmail.com', '0956789012', '33 Đinh Tiên Hoàng', 'Hà Nội', 'Hoàn Kiếm', 'Phường Tràng Tiền', 'assets/img/person/soicodoc.jpg', 0, NULL),
+(29, 'namperfect2', 'nam123', '2026-03-23 18:27:11', 'Trần Nam Perfect', 'namperfect@gmail.com', '0967890123', '88 Bà Triệu', 'Hà Nội', 'Hai Bà Trưng', 'Phường Bùi Thị Xuân', 'assets/img/person/namperfect.jpg', 0, NULL),
+(30, 'datvantay2', 'dat123', '2026-03-23 18:27:11', 'Nguyễn Đạt Văn Tây', 'datvantay@gmail.com', '0978901234', '15 Nguyễn Huệ', 'Đà Nẵng', 'Hải Châu', 'Phường Thạch Thang', 'assets/img/person/datvantay.jpg', 0, NULL),
+(31, 'dangrangcom', 'dang123', '2026-03-23 18:27:11', 'Đặng Rang Cơm', 'dangrangcom@gmail.com', '0989012345', '22 Trần Phú', 'Đà Nẵng', 'Hải Châu', 'Phường Nam Dương', 'assets/img/person/dangrangcom.jpg', 0, NULL),
+(32, 'anhnhancobap', 'anh123', '2026-03-23 18:27:11', 'Lê Văn Nhân', 'anhnhancobap@gmail.com', '0990123456', '56 Hùng Vương', 'Cần Thơ', 'Ninh Kiều', 'Phường Tân An', 'assets/img/person/anhnhancobap.jpg', 0, NULL),
+(33, 'chautinhtri2', 'chau123', '2026-03-23 18:27:11', 'Châu Tinh Trì Fan', 'chautinhtri@gmail.com', '0901234567', '100 Võ Văn Tần', 'Hồ Chí Minh', 'Quận 3', 'Phường 6', 'assets/img/person/chautinhtri.jpg', 0, NULL);
 
 --
 -- Chỉ mục cho các bảng đã đổ
@@ -574,12 +575,6 @@ ALTER TABLE `products`
 --
 ALTER TABLE `reviews`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
-
---
--- AUTO_INCREMENT cho bảng `users`
---
-ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
 
 --
 -- Các ràng buộc cho các bảng đã đổ
