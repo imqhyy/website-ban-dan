@@ -1,6 +1,6 @@
 <?php
 // admin/forms/ajax_admin_update.php
-require_once(__DIR__ . '/init.php');
+require_once(__DIR__ . '/../init.php');
 
 header('Content-Type: application/json');
 
@@ -60,7 +60,6 @@ if ($action === 'update_password') {
     } catch (PDOException $e) {
         echo json_encode(['status' => 'error', 'message' => 'Lỗi DB: ' . $e->getMessage()]);
     }
-
 } elseif ($action === 'update_profile') {
 
     $fullname = $_POST['fullname'] ?? '';
@@ -69,19 +68,21 @@ if ($action === 'update_password') {
 
     $avatarPath = null;
     if (isset($_FILES['avatar']) && $_FILES['avatar']['error'] === UPLOAD_ERR_OK) {
-        
+
         $allowedTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
         if (!in_array($_FILES['avatar']['type'], $allowedTypes)) {
             echo json_encode(['status' => 'error', 'message' => 'Chỉ chấp nhận file ảnh định dạng JPG, PNG, GIF, WEBP.']);
             exit;
         }
-        
+
         if ($_FILES['avatar']['size'] > 2 * 1024 * 1024) {
-             echo json_encode(['status' => 'error', 'message' => 'Kích thước ảnh tối đa là 2MB. Vui lòng nén lại ảnh.']);
-             exit;
+            echo json_encode(['status' => 'error', 'message' => 'Kích thước ảnh tối đa là 2MB. Vui lòng nén lại ảnh.']);
+            exit;
         }
 
-        $uploadDir = __DIR__ . '/../../assets/img/users/';
+        $uploadDir = __DIR__ . '/../../../assets/img/avatars/';
+
+        // 2. Kiểm tra và tạo thư mục nếu chưa có
         if (!is_dir($uploadDir)) {
             mkdir($uploadDir, 0777, true);
         }
@@ -112,4 +113,3 @@ if ($action === 'update_password') {
 } else {
     echo json_encode(['status' => 'error', 'message' => 'Lệnh xử lý không tồn tại!']);
 }
-?>

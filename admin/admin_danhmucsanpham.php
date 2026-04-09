@@ -19,7 +19,7 @@ $filter_categories = getAll("SELECT * FROM categories ORDER BY category_name ASC
                 <h1 class="mb-2 mb-lg-0">Quản lý danh mục sản phẩm</h1>
                 <nav class="breadcrumbs">
                     <ol>
-                        
+
                         <li class="current">Quản lý danh mục sản phẩm</li>
                     </ol>
                 </nav>
@@ -179,7 +179,7 @@ $filter_categories = getAll("SELECT * FROM categories ORDER BY category_name ASC
                         </div>
 
                         <div class="modal-footer-admin d-flex justify-content-between mt-4">
-                            <button type="button" class="btn btn-secondary" id="cancel-add-product">Hủy bỏ</button>
+                            <button type="button" class="btn btn-secondary" style="visibility: hidden;" id="cancel-add-product">Hủy bỏ</button>
                             <button type="submit" class="save-all-brands-btn">Lưu sản phẩm</button>
                         </div>
                     </form>
@@ -204,10 +204,16 @@ $filter_categories = getAll("SELECT * FROM categories ORDER BY category_name ASC
                                 <div class="row">
                                     <div class="col-md-6 mb-3">
                                         <label class="form-label fw-bold">Phân loại:</label>
-                                        <select class="form-select custom-input" id="edit-product-type"
-                                            name="product_type">
-                                            <option value="1">Guitar Acoustic</option>
-                                            <option value="2">Guitar Classic</option>
+                                        <select class="form-select custom-input" id="edit-product-type" name="product_type">
+                                            <option value="" disabled>-- Chọn phân loại --</option>
+                                            <?php
+                                            // Sử dụng lại biến $filter_categories đã lấy ở đầu file
+                                            foreach ($filter_categories as $cat):
+                                            ?>
+                                                <option value="<?= $cat['id'] ?>">
+                                                    <?= htmlspecialchars($cat['category_name']) ?>
+                                                </option>
+                                            <?php endforeach; ?>
                                         </select>
                                     </div>
                                     <div class="col-md-6 mb-3">
@@ -315,7 +321,7 @@ $filter_categories = getAll("SELECT * FROM categories ORDER BY category_name ASC
                                 rows="3"></textarea>
                         </div>
                         <div class="modal-footer-admin d-flex justify-content-between mt-4">
-                            <button type="button" class="btn btn-secondary" id="cancel-edit-product">Hủy bỏ</button>
+                            <button type="button" class="btn btn-secondary" style="visibility: hidden;" id="cancel-edit-product">Hủy bỏ</button>
                             <button type="submit" class="save-all-brands-btn">Lưu thay đổi</button>
                         </div>
 
@@ -393,7 +399,7 @@ $filter_categories = getAll("SELECT * FROM categories ORDER BY category_name ASC
                                         $is_visible = ($product['status'] === 'visible');
                                         $statusIcon = $is_visible ? 'bi-eye' : 'bi-eye-slash text-secondary';
                                         $statusTitle = $is_visible ? 'Đang hiện - Bấm để ẩn' : 'Đang ẩn - Bấm để hiện';
-                                        ?>
+                                    ?>
                                         <tr>
                                             <td><?= htmlspecialchars($product['id']) ?></td>
                                             <td><?= htmlspecialchars($product['product_name']) ?></td>
@@ -462,7 +468,7 @@ $filter_categories = getAll("SELECT * FROM categories ORDER BY category_name ASC
 
     <?php
     require_once __DIR__ . "/forms/scripts.php"
-        ?>
+    ?>
     <script src="./assets/js/quanlydanhmucsanpham.js"></script>
 
 </body>

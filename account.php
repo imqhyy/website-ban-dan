@@ -649,7 +649,7 @@ include 'forms/head.php';
                   <div class="section-header" data-aos="fade-up">
                     <h2>Địa chỉ giao hàng</h2>
                     <div class="header-actions">
-                      <button type="button" class="btn-add-new">
+                      <button type="button" class="btn-add-new d-none">
                         <i class="bi bi-plus-lg"></i>
                         Thêm địa chỉ mới
                       </button>

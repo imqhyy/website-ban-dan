@@ -198,9 +198,18 @@ document.addEventListener("DOMContentLoaded", function () {
           .then((res) => res.json())
           .then((p) => {
             Swal.close();
+            // 1. Điền các thông tin cơ bản
             document.getElementById("edit-product-id").value = p.id;
             document.getElementById("edit-product-name").value = p.product_name;
-            document.getElementById("edit-product-type").value = p.category_id; // SỬA TẠI ĐÂY
+
+            // 2. CHỌN PHÂN LOẠI: Gán ID phân loại từ database vào select
+            // Lưu ý: Select này trong HTML phải được đổ dữ liệu bằng PHP trước (như mình đã hướng dẫn ở câu trước)
+            document.getElementById("edit-product-type").value = p.category_id;
+
+            // 3. CHỌN THƯƠNG HIỆU: Gọi hàm nạp Brand theo Category vừa chọn
+            // Chúng ta truyền p.category_id để biết lấy Brand của loại nào,
+            // và p.brand_id để hàm biết cần "selected" vào cái nào.
+            loadBrandsForEdit(p.category_id, p.brand_id);
             document.getElementById("edit-product-summary").value =
               p.summary_description;
             document.getElementById("edit-product-overview").value =

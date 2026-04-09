@@ -17,6 +17,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     echo json_encode(['status' => 'error', 'message' => 'Mật khẩu không khớp', 'field' => 'confirmPassword']);
     exit;
   }
+  $address = $_POST['address'] ?? '';
+  $city = $_POST['city'] ?? '';
+  $ward = $_POST['ward'] ?? '';
 
   // 2. Kiểm tra xem username hoặc email đã tồn tại trong database chưa
   $checkStmt = $pdo->prepare("SELECT username, email FROM users WHERE username = ? OR email = ?");
@@ -39,11 +42,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   //Nếu không trùng, tiến hành lưu vào database
   $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
   $stmt = $pdo->prepare("
-        INSERT INTO users (fullname, username, email, phone, password)
-        VALUES (?, ?, ?, ?, ?)
+        INSERT INTO users (fullname, username, email, phone, password, address, city, ward)
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?)
     ");
 
-  if ($stmt->execute([$fullname, $username, $email, $phone, $password])) {
+  if ($stmt->execute([$fullname, $username, $email, $phone, $password, $address, $city, $ward])) {
     echo json_encode(['status' => 'success', 'message' => 'Đăng ký thành công']);
   } else {
     echo json_encode(['status' => 'error', 'message' => 'Có lỗi xảy ra khi đăng ký']);
@@ -126,6 +129,32 @@ include 'forms/head.php';
                           <label for="confirmPassword">Xác nhận lại mật khẩu</label>
                         </div>
                       </div>
+                    </div>
+                    <hr class="my-4">
+                    <h5 class="fw-bold mb-3"><i class="bi bi-geo-alt"></i> Địa chỉ mặc định (Để nhận hàng nhanh hơn)</h5>
+
+                    <div class="row g-3 mb-3">
+                      <div class="col-md-6">
+                        <div class="form-floating">
+                          <select class="form-select" id="city" name="city">
+                            <option value="">-- Chọn Tỉnh/Thành --</option>
+                          </select>
+                          <label for="city">Tỉnh / Thành phố</label>
+                        </div>
+                      </div>
+                      <div class="col-md-6">
+                        <div class="form-floating">
+                          <select class="form-select" id="ward" name="ward" disabled>
+                            <option value="">-- Chọn Phường/Xã --</option>
+                          </select>
+                          <label for="ward">Phường / Xã</label>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="form-floating mb-3">
+                      <input type="text" class="form-control" id="address" name="address" placeholder="Số nhà, tên đường">
+                      <label for="address">Số nhà, tên đường</label>
                     </div>
                 </div>
 

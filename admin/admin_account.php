@@ -21,8 +21,9 @@ $email = !empty($admin['email']) ? $admin['email'] : 'Chưa cập nhật';
 $phone = !empty($admin['phone']) ? $admin['phone'] : 'Chưa cập nhật';
 $role = !empty($admin['role']) ? $admin['role'] : 'admin';
 $status = !empty($admin['status']) ? $admin['status'] : 'active';
-$avatarPath = !empty($admin['avatar']) ? '../assets/img/users/' . $admin['avatar'] : 'assets/img/person/mckhutthuocbangchan.jpeg';
-
+$avatarPath = !empty($admin['avatar']) 
+    ? '../assets/img/avatars/' . $admin['avatar'] 
+    : '../assets/img/person/mckhutthuocbangchan.jpeg';
 include __DIR__ . "/forms/head.php";
 ?>
 
